@@ -3,13 +3,12 @@ import logo from "./logo.svg";
 import "./App.scss";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import TopNavBar from './components/TopNavBar';
 
 function App() {
   return (
     <Router>
       <div>
-        <TopNavBar/>
+        {/* <TopNavBar/> */}
         <nav>
           <ul>
             <li>
