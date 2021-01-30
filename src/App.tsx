@@ -6,8 +6,12 @@ import "./tailwind.css";
 import Onboard from "./components/Onboard";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import authTypes from "store/reducers/auth/authTypes";
 
 function App() {
+
+
   return (
     <Router>
       {/* A <Switch> looks through its children <Route>s and
@@ -22,7 +26,6 @@ function App() {
       </Switch>
     </Router>
   );
-
 
   function Dashboard() {
     return <h1>Dashboard</h1>;

@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import "firebase/auth";
 import { createEmitAndSemanticDiagnosticsBuilderProgram } from "typescript";
+import { callbackify } from "util";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -16,6 +17,7 @@ const firebaseConfig = {
 var fireInstance = firebase.initializeApp(firebaseConfig);
 var fireStore = fireInstance.firestore();
 var fireAuth = firebase.auth();
+
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({
@@ -44,12 +46,15 @@ export function signUpWithEmail(email: string, password: string) {
     });
 }
 
-export function signInWithEmail(email: string, password: string) {
-  firebase
+export function signInWithEmail(email: string, password: string): Promise<any> {
+  return firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
       // Signed in
+      return new Promise(function (resolve, reject) {
+        resolve(user);
+      });
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -57,6 +62,9 @@ export function signInWithEmail(email: string, password: string) {
       alert(errorMessage);
     });
 }
+
+export const auth = fireInstance.auth();
+export default fireInstance;
 
 // Firebase functions
 export function fireIncrement(val: number) {
