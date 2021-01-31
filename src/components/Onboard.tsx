@@ -45,11 +45,11 @@ function Onboard() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  if (currentUser !== null) {
-    console.log("logged in user");
-    console.log(currentUser);
-    //   change route to dashboard
-    history.push('/dashboard')
+  try {
+    const uid = currentUser.user.uid
+    history.push("/dashboard");
+  } catch(e) {
+
   }
 
   function dispatchLogin(user: any) {
