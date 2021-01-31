@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "../assets/styles.scss";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import { getUserData } from "FireConfig";
+import { createUserDocument, getUserData } from "FireConfig";
 import { forEachChild } from "typescript";
+import { registerUser } from "FireAdmin";
 
 export default function RegisterUsers() {
-  const [numForms, setForms]: [number, any] = useState(1);
+  const [numForms, setForms]: [number, any] = useState(0);
   const [emails, setEmails]: [string[], any] = useState([]);
 
   function addForm() {
@@ -18,10 +19,6 @@ export default function RegisterUsers() {
     let oldEmails = [...emails];
     oldEmails[index] = newValue;
     setEmails(oldEmails);
-  }
-
-  function registerUsers() {
-    
   }
 
   const currentUser = useSelector((state: any) => state.auth.currentUser);
@@ -41,6 +38,18 @@ export default function RegisterUsers() {
     // alert(e);
     history.push("/?redirect=registerUsers");
   }
+
+  function registerUsers() {
+    emails.forEach((email) => {
+      registerUser(currentUser.uid, email).then((user) => {
+        // alert(user.data().uid)
+        console.log("results");
+        console.log(user);
+        createUserDocument(user.user.uid, user.user.email, "User");
+      });
+    });
+  }
+
   return (
     <div className="h-screen">
       <div className="floatingCard cardLarge">
@@ -54,7 +63,9 @@ export default function RegisterUsers() {
             {Array.from({ length: numForms }, (x, i) => i).map((i) => (
               <input
                 key={i}
-                onChange={(event) => {updateEmail(i, event.target.value)}}
+                onChange={(event) => {
+                  updateEmail(i, event.target.value);
+                }}
                 className="simpleInput"
                 type="email"
                 placeholder="email"

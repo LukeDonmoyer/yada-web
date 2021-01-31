@@ -102,6 +102,19 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
     });
 }
 
+export function createUserDocument(
+  uid: string,
+  email: string,
+  userGroup: string
+) {
+  fireStore.collection("Users").doc(uid).set({
+    defaults: true,
+    email: email,
+    phoneNumber: null,
+    userGroup: userGroup,
+  });
+}
+
 // Firebase functions
 export function fireIncrement(val: number) {
   return firebase.firestore.FieldValue.increment(val);
