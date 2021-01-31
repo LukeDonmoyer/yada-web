@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import authTypes from "store/reducers/auth/authTypes";
-import { signInWithEmail } from "../FireConfig";
+import { signInWithEmail, getUserData } from "../FireConfig";
 
 import "../assets/styles.scss";
 
@@ -46,11 +46,16 @@ function Onboard() {
   const history = useHistory();
 
   try {
-    const uid = currentUser.user.uid
-    history.push("/dashboard");
-  } catch(e) {
-
-  }
+    const uid = currentUser.user.uid;
+    getUserData(uid).then((userData) => {
+      if (userData.defaults) {
+        history.push("/changePassword");
+      } else {
+        history.push("/dashboard");
+      }
+    });
+    // check
+  } catch (e) {}
 
   function dispatchLogin(user: any) {
     dispatch({
@@ -103,8 +108,10 @@ function Onboard() {
             id="password"
             placeholder="password"
           />
-          <a href="" className="requestLink">Request an account</a>
-          <Button type="submit" value="Submit">
+          <a href="" className="requestLink">
+            Request an account
+          </a>
+          <Button type="submit" value="Submit" className="primaryButton">
             Sign In
           </Button>
         </Form>

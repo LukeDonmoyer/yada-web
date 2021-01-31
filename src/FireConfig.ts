@@ -18,11 +18,56 @@ var fireInstance = firebase.initializeApp(firebaseConfig);
 var fireStore = fireInstance.firestore();
 var fireAuth = firebase.auth();
 
-
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({
   // custom parameters
 });
+
+export function changePassword(newPassword: string): Promise<any> | undefined {
+  return fireAuth.currentUser?.updatePassword(newPassword).then(
+    () => {
+      // Update successful.
+      return fireStore
+        .collection("Users")
+        .doc(fireAuth.currentUser?.uid)
+        .update({
+          defaults: false,
+        })
+        .then(() => {
+          return new Promise((resolve, reject) => {
+            resolve(true);
+          });
+        });
+    },
+    (error) => {
+      // An error happened.
+      return new Promise((resolve, reject) => {
+        reject(error);
+      });
+    }
+  );
+}
+
+export function getUserData(uid: string): Promise<any> {
+  return fireStore
+    .collection("Users")
+    .doc(uid)
+    .get()
+    .then(function (doc) {
+      if (doc.exists) {
+        console.log("found the document");
+        return new Promise((resolve, reject) => {
+          resolve(doc.data());
+        });
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    })
+    .catch(function (error) {
+      console.log("Error getting document:", error);
+    });
+}
 
 export function signInWithGoogle() {
   fireAuth.signInWithPopup(googleProvider);
@@ -32,7 +77,7 @@ export function fireAuthSignOut(): Promise<any> {
   return fireAuth.signOut().then(() => {
     return new Promise(function (resolve, reject) {
       resolve(null);
-    })
+    });
   });
 }
 
