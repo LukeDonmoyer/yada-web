@@ -42,11 +42,11 @@ function Footer() {
 
 function Onboard() {
   const currentUser = useSelector((state: any) => state.auth.currentUser);
-  const dispatch = useDispatch();
   const history = useHistory();
 
   try {
-    const uid = currentUser.user.uid;
+    const uid = currentUser.uid;
+    console.log("user uid found");
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
         history.push("/changePassword");
@@ -55,13 +55,8 @@ function Onboard() {
       }
     });
     // check
-  } catch (e) {}
-
-  function dispatchLogin(user: any) {
-    dispatch({
-      type: authTypes.SET_CURRENT_USER,
-      payload: user,
-    });
+  } catch (e) {
+    console.log("no user uid found");
   }
 
   return (
@@ -87,7 +82,6 @@ function Onboard() {
       const email = event.target[0].value;
       const password = event.target[1].value;
       signInWithEmail(email, password).then((user) => {
-        dispatchLogin(user);
       });
     };
     return (

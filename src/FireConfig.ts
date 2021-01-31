@@ -16,12 +16,7 @@ const firebaseConfig = {
 
 var fireInstance = firebase.initializeApp(firebaseConfig);
 var fireStore = fireInstance.firestore();
-var fireAuth = firebase.auth();
-
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-googleProvider.setCustomParameters({
-  // custom parameters
-});
+export var fireAuth = firebase.auth();
 
 export function changePassword(newPassword: string): Promise<any> | undefined {
   return fireAuth.currentUser?.updatePassword(newPassword).then(
@@ -69,10 +64,6 @@ export function getUserData(uid: string): Promise<any> {
     });
 }
 
-export function signInWithGoogle() {
-  fireAuth.signInWithPopup(googleProvider);
-}
-
 export function fireAuthSignOut(): Promise<any> {
   return fireAuth.signOut().then(() => {
     return new Promise(function (resolve, reject) {
@@ -96,8 +87,7 @@ export function signUpWithEmail(email: string, password: string) {
 }
 
 export function signInWithEmail(email: string, password: string): Promise<any> {
-  return firebase
-    .auth()
+  return fireAuth
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
       // Signed in
@@ -111,9 +101,6 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
       alert(errorMessage);
     });
 }
-
-export const auth = fireInstance.auth();
-export default fireInstance;
 
 // Firebase functions
 export function fireIncrement(val: number) {

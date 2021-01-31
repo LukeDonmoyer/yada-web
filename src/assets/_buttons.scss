@@ -8,11 +8,17 @@
   border-width: 1px;
   border-color: $companyName;
   transition: all 0.2s ease-in-out;
+  text-align: center;
 
   &:hover {
     background-color: $companyName;
     color: white;
     transform: scale(0.9, 0.9);
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
   }
+}
+
+.smallButton {
+  width: 200px;
 }

@@ -12,7 +12,7 @@ export default function ChangePassword() {
   const history = useHistory();
 
   try {
-    const uid = currentUser.user.uid;
+    const uid = currentUser.uid;
     // check
   } catch (e) {
     console.log("no logged in user, redirecting home");
@@ -54,7 +54,7 @@ export default function ChangePassword() {
             id="confirmPassword"
             placeholder="confirm password"
           />
-          <Button type="submit" value="Submit">
+          <Button type="submit" value="Submit" className="primaryButton">
             Submit
           </Button>
         </form>

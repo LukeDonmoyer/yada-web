@@ -32,7 +32,7 @@ export default function Dashboard() {
       <h1>Dashboard: </h1>
       <p>logged in user: </p>
       <p>{JSON.stringify(currentUser)}</p>
-      <div className="text-white bg-blue-700 p-3 rounded-lg w-40 text-center select-none cursor-pointer" onClick={() => {signoutHandler();}} >
+      <div className="primaryButton smallButton" onClick={() => {signoutHandler();}} >
           sign out
       </div>
     </div>
