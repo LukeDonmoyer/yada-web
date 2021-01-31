@@ -103,7 +103,7 @@ function Onboard() {
             id="password"
             placeholder="password"
           />
-          <a href="">Request an account</a>
+          <a href="" className="requestLink">Request an account</a>
           <Button type="submit" value="Submit">
             Sign In
           </Button>
