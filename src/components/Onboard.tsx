@@ -40,7 +40,7 @@ function Footer() {
   return <div></div>;
 }
 
-function Onboard() {
+function Onboard(props: any) {
   const currentUser = useSelector((state: any) => state.auth.currentUser);
   const history = useHistory();
 
@@ -51,7 +51,13 @@ function Onboard() {
       if (userData.defaults) {
         history.push("/changePassword");
       } else {
-        history.push("/dashboard");
+        let properties = props.location.search.split("=")
+        if (properties[0].includes("redirect") && ["changePassword", "registerUsers"].includes(properties[1])) {
+          let address = "/" + properties[1];
+          history.push(address);
+        } else {
+          history.push("/dashboard");
+        }
       }
     });
     // check
@@ -81,8 +87,7 @@ function Onboard() {
       event.preventDefault();
       const email = event.target[0].value;
       const password = event.target[1].value;
-      signInWithEmail(email, password).then((user) => {
-      });
+      signInWithEmail(email, password).then((user) => {});
     };
     return (
       <div className="signIn w-full h-full">

@@ -10,13 +10,13 @@ export default function ChangePassword() {
   const currentUser = useSelector((state: any) => state.auth.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
-
+  let uid: any = null;
   try {
-    const uid = currentUser.uid;
+    uid = currentUser.uid;
     // check
   } catch (e) {
     console.log("no logged in user, redirecting home");
-    history.push("/");
+    history.push("/?redirect=changePassword");
   }
 
   const handleResetPassword = (event: any) => {
@@ -24,14 +24,22 @@ export default function ChangePassword() {
     const password1 = event.target[0].value;
     const password2 = event.target[1].value;
     if (password1 !== password2) {
-        alert("passwords must match");
-    }
-    else {
-        changePassword(password1)?.then(() => {
-            history.push("/dashboard");
-        }, (error) => {
-            alert(error);
-        })
+      alert("passwords must match");
+    } else {
+      changePassword(password1)?.then(
+        () => {
+          getUserData(uid).then((userData) => {
+            if (userData.userGroup === "Owner") {
+              history.push("/registerUsers");
+            } else {
+              history.push("/dashboard");
+            }
+          });
+        },
+        (error) => {
+          alert(error);
+        }
+      );
     }
   };
 
