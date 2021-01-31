@@ -49,6 +49,7 @@ export default function ChangePassword() {
         <h1>Change Your Password</h1>
         <form onSubmit={handleResetPassword}>
           <Input
+            className="styledPrimaryInput"
             required
             type="password"
             name="password"
@@ -56,6 +57,7 @@ export default function ChangePassword() {
             placeholder="new password"
           />
           <Input
+            className="styledPrimaryInput"
             required
             type="password"
             name="confirmPassword"

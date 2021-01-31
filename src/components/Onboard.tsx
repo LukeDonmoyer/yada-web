@@ -94,6 +94,7 @@ function Onboard(props: any) {
         <h1>Sign In</h1>
         <Form onSubmit={handleLogin}>
           <Input
+            className="styledPrimaryInput"
             required
             type="email"
             name="email"
@@ -101,6 +102,7 @@ function Onboard(props: any) {
             placeholder="email"
           />
           <Input
+            className="styledPrimaryInput"
             required
             type="password"
             name="password"

@@ -17,26 +17,6 @@ h1 {
   margin-top: 50px;
 }
 
-input {
-  display: block;
-  border-width: 2px;
-  border-color: $lightGray;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 20px;
-  outline: 0px;
-  width: 100%;
-  font-family: "Lato", sans-serif;
-  color: $darkGray;
-
-  &:required:valid {
-    border-bottom-color: $lightGreen;
-  }
-
-  &:required:invalid {
-    border-bottom-color: $lightRed;
-  }
-}
 
 .requestLink {
     display: block;
