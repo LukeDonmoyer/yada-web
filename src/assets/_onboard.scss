@@ -56,3 +56,11 @@ button {
     transition: all 0.2s ease-in-out;
   }
 }
+
+a {
+    display: block;
+    color: $companyName;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    float: right;
+}

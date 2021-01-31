@@ -28,8 +28,12 @@ export function signInWithGoogle() {
   fireAuth.signInWithPopup(googleProvider);
 }
 
-export function fireAuthSignOut() {
-  fireAuth.signOut();
+export function fireAuthSignOut(): Promise<any> {
+  return fireAuth.signOut().then(() => {
+    return new Promise(function (resolve, reject) {
+      resolve(null);
+    })
+  });
 }
 
 export function signUpWithEmail(email: string, password: string) {

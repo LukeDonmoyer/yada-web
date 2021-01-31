@@ -4,6 +4,7 @@ import "./App.scss";
 import "./tailwind.css";
 
 import Onboard from "./components/Onboard";
+import Dashboard from './components/Dashboard';
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,10 +27,6 @@ function App() {
       </Switch>
     </Router>
   );
-
-  function Dashboard() {
-    return <h1>Dashboard</h1>;
-  }
 }
 
 export default App;

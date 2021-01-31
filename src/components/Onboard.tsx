@@ -1,6 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import authTypes from "store/reducers/auth/authTypes";
 import { signInWithEmail } from "../FireConfig";
@@ -35,13 +41,21 @@ function Footer() {
 }
 
 function Onboard() {
-  const currentUser = useSelector((state: any) => state.currentUser);
+  const currentUser = useSelector((state: any) => state.auth.currentUser);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  if (currentUser !== null) {
+    console.log("logged in user");
+    console.log(currentUser);
+    //   change route to dashboard
+    history.push('/dashboard')
+  }
 
   function dispatchLogin(user: any) {
     dispatch({
       type: authTypes.SET_CURRENT_USER,
-      user: user,
+      payload: user,
     });
   }
 
@@ -55,7 +69,7 @@ function Onboard() {
 
   function Body() {
     return (
-      <div className="grid grid-cols-3 content">
+      <div className="grid grid-cols-2 content">
         <Carousel />
         <SignInForm />
       </div>
@@ -89,11 +103,11 @@ function Onboard() {
             id="password"
             placeholder="password"
           />
+          <a href="">Request an account</a>
           <Button type="submit" value="Submit">
             Sign In
           </Button>
         </Form>
-        <p>Current user: {currentUser}</p>
       </div>
     );
   }

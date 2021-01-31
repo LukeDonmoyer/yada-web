@@ -1,4 +1,4 @@
-import authTypes from './authTypes';
+import authTypes from "./authTypes";
 
 // We have to find out a way to store the user object we retrieve from firebase in our store.
 // To do that we have to dispatch an action after every auth change
@@ -6,21 +6,22 @@ import authTypes from './authTypes';
 // And on every change, we dispatch an action to set the user
 
 const initialState = {
-  currentUser: {'uid': 'shaun'}
+  currentUser: null,
 };
 
 const authReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case authTypes.SET_CURRENT_USER:
+    case authTypes.SET_CURRENT_USER: {
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
       };
+    }
 
     case authTypes.CLEAR_CURRENT_USER:
       return {
         ...state,
-        currentUser: null
+        currentUser: null,
       };
 
     default:
