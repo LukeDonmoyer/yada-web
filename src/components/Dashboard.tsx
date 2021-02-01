@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import authTypes from "store/reducers/auth/authTypes";
 import { fireAuthSignOut } from '../FireConfig';
+import store from '../store/store';
+import authSlice from '../store/FireActions';
 
 export default function Dashboard() {
   const currentUser = useSelector((state: any) => state.auth.currentUser);
@@ -10,16 +11,9 @@ export default function Dashboard() {
   const history = useHistory();
 
   
-  function dispatchLogout() {
-    dispatch({
-      type: authTypes.CLEAR_CURRENT_USER,
-      payload: null
-    });
-  }
-
   function signoutHandler() {
     fireAuthSignOut().then(() => {
-        dispatchLogout();
+      store.dispatch(authSlice.actions.logout());
     })
   }
 

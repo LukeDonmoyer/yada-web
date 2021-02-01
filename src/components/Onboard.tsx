@@ -8,7 +8,6 @@ import {
   useHistory,
 } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import authTypes from "store/reducers/auth/authTypes";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
 import "../assets/styles.scss";

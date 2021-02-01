@@ -9,24 +9,19 @@ import Dashboard from "./components/Dashboard";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import authTypes from "store/reducers/auth/authTypes";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
 
+import authSlice from 'store/FireActions';
+import store from './store/store';
+
 function App() {
   const currentUser = useSelector((state: any) => state.auth.currentUser);
-  const dispatch = useDispatch();
-  function dispatchLogin(user: any) {
-    dispatch({
-      type: authTypes.SET_CURRENT_USER,
-      payload: user,
-    });
-  }
 
   fireAuth.onAuthStateChanged((userAuth) => {
     console.log("FIREBASE STATE CHANGE");
     console.log(userAuth);
-    dispatchLogin(userAuth);
+    store.dispatch(authSlice.actions.login(userAuth));
   });
 
   return (

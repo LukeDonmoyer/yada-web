@@ -1,13 +1,18 @@
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { logger } from 'redux-logger';
-import rootReducer from './reducers/rootReducer';
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import rootReducer from "./rootReducer";
 
-const middlewares = [logger];
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      // Ignore these action types
+      ignoredActions: ['login', 'logout'],
+      // Ignore these field paths in all actions
+      ignoredActionPaths: ["meta.arg", "payload.timestamp"],
+      // Ignore these paths in the state
+      ignoredPaths: ["items.dates"],
+    },
+  }),
+});
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middlewares))
-);
-
-export default store;
+export default store
