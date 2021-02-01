@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+ul {
+  vertical-align: middle;
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+li {
+  float: left;
+  padding-left: 30px;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  color: #4B4B4B;
+}
+
+.navbar {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10%;
+  padding-right: 10%;
+  position: relative;
+}
+
+.compName {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  color: #2292A4;
+}
+
+.focus {
+  color: #2292A4;
+}
+
+.content {
+  height: 100%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.signIn {
+  padding-left: 10%;
+}
+
+h1 {
+  font-size: 45px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #4B4B4B;
+  margin-bottom: 40px;
+  margin-top: 50px;
+}
+
+input {
+  display: block;
+  border-width: 2px;
+  border-color: #E5E5E5;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  outline: 0px;
+  width: 100%;
+  font-family: "Lato", sans-serif;
+  color: #4B4B4B;
+}
+input:required:valid {
+  border-bottom-color: #6FCF97;
+}
+input:required:invalid {
+  border-bottom-color: #EB5757;
+}
+
+button {
+  font-family: "Lato";
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #2292A4;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #2292A4;
+  transition: all 0.2s ease-in-out;
+}
+button:hover {
+  background-color: #2292A4;
+  color: white;
+  transform: scale(0.9, 0.9);
+  transition: all 0.2s ease-in-out;
+}
+
+* {
+  overflow: hidden;
+}
+
+/*# sourceMappingURL=styles.css.map */

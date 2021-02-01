@@ -1,3 +1,5 @@
+import "assets/scss/paper-kit.scss"
+
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
