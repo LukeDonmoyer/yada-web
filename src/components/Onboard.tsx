@@ -1,17 +1,22 @@
+/**
+ * Onboarding component
+ * author: Shaun Jorstad
+ *
+ * route: '/'
+ * purpose: home page with an info carousel that provides the login form and some links to resources.
+ */
+
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-} from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
 import "../assets/styles.scss";
 
+/**
+ * Navbar component
+ */
 function Navbar() {
   return (
     <div className="navbar">
@@ -31,27 +36,34 @@ function Navbar() {
   );
 }
 
+/**
+ * component placeholder for the carousel
+ */
 function Carousel() {
   return <div className="bg-red-400 w-full h-full"></div>;
 }
 
-function Footer() {
-  return <div></div>;
-}
-
+/**
+ * Onboard
+ * @param props
+ */
 function Onboard(props: any) {
-  const currentUser = useSelector((state: any) => state.auth.currentUser);
+  // current user uid, null or undefined if not logged in
+  const currentUser = useSelector((state: any) => state.auth.userUID);
   const history = useHistory();
 
-  try {
-    const uid = currentUser.uid;
-    console.log("user uid found");
+  // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
+  if (![null, undefined].includes(currentUser)) {
+    const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
         history.push("/changePassword");
       } else {
-        let properties = props.location.search.split("=")
-        if (properties[0].includes("redirect") && ["changePassword", "registerUsers"].includes(properties[1])) {
+        let properties = props.location.search.split("=");
+        if (
+          properties[0].includes("redirect") &&
+          ["changePassword", "registerUsers"].includes(properties[1])
+        ) {
           let address = "/" + properties[1];
           history.push(address);
         } else {
@@ -59,16 +71,12 @@ function Onboard(props: any) {
         }
       }
     });
-    // check
-  } catch (e) {
-    console.log("no user uid found");
   }
 
   return (
     <div className="h-screen">
       <Navbar />
       <Body />
-      <Footer />
     </div>
   );
 
@@ -82,6 +90,10 @@ function Onboard(props: any) {
   }
 
   function SignInForm() {
+    /**
+     * handles user login
+     * @param event synthetic event
+     */
     const handleLogin = (event: any) => {
       event.preventDefault();
       const email = event.target[0].value;
@@ -108,6 +120,7 @@ function Onboard(props: any) {
             id="password"
             placeholder="password"
           />
+          {/* todo: link the following to a form */}
           <a href="" className="requestLink">
             Request an account
           </a>

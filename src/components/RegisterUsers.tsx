@@ -1,52 +1,69 @@
-import React, { useState } from "react";
+/**
+ * RegisterUsers component
+ * author: Shaun Jorstad
+ *
+ * route: '/registerUsers'
+ * access: Owners exclusively
+ *
+ * purpose: gui with a table and a plus button to add rows to the table. Any email input into the table will be given an account. Currently all accounts are created with User level permissions but can be extended in the future to have a userGroup selection
+ */
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import "../assets/styles.scss";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { createUserDocument, getUserData } from "FireConfig";
-import { forEachChild } from "typescript";
 import { registerUser } from "FireAdmin";
+import "../assets/styles.scss";
 
 export default function RegisterUsers() {
+  // number of forms to display
   const [numForms, setForms]: [number, any] = useState(0);
+  // emails edited by the user
   const [emails, setEmails]: [string[], any] = useState([]);
 
+  // increases the number of forms to display
   function addForm() {
     setForms(numForms + 1);
   }
 
+  /**
+   * onChange handler for the input fields to update the emails stored in the state
+   * @param index index of the input field
+   * @param newValue updated string in the input field
+   */
   function updateEmail(index: number, newValue: string) {
     let oldEmails = [...emails];
     oldEmails[index] = newValue;
     setEmails(oldEmails);
   }
 
-  const currentUser = useSelector((state: any) => state.auth.currentUser);
-  const dispatch = useDispatch();
+  // current user id
+  const currentUser = useSelector((state: any) => state.auth.userUID);
   const history = useHistory();
-  try {
-    let uid = currentUser.uid;
-    // alert(uid)
-    getUserData(uid).then((data) => {
+
+  // if no user is logged in, they are redirected home
+  if (![null, undefined].includes(currentUser)) {
+    getUserData(currentUser).then((data) => {
+      // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
         alert("innappropriate permissions. Please log in as administrator.");
         history.push("/dashboard");
       }
     });
-    // check
-  } catch (e) {
-    // alert(e);
+  } else {
     history.push("/?redirect=registerUsers");
   }
 
+  /**
+   * creates an account for every email in the table then redirects to the dashboard
+   */
   function registerUsers() {
     emails.forEach((email) => {
-      registerUser(currentUser.uid, email).then((user) => {
-        // alert(user.data().uid)
-        console.log("results");
-        console.log(user);
+      // authorizes the email for logon with the default password
+      registerUser(currentUser, email).then((user) => {
+        // creates the user document
         createUserDocument(user.user.uid, user.user.email, "User");
       });
+      history.push("/dashboard");
     });
   }
 

@@ -1,3 +1,9 @@
+/**
+ * Firestore administrative functions
+ * author: Shaun Jorstad
+ * 
+ * description: this creates a second connection to the firestore, which allows the owner accounts to authorize users via the '/registerUsers' route
+ */
 import firebase from "firebase";
 import "firebase/auth";
 
@@ -16,6 +22,14 @@ var adminInstance = firebase.initializeApp(firebaseConfig, "secondary");
 var adminStore = adminInstance.firestore();
 var adminAuth = adminInstance.auth();
 
+/**
+ * registers the email and default password for user
+ * todo: send emails with information
+ * @param adminUID uid of the administrator authorizing this action
+ * @param userEmail email of the new user
+ * 
+ * returns a promise that is resolved with the user authentication object
+ */
 export function registerUser(
   adminUID: string,
   userEmail: string,

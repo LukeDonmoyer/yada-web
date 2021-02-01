@@ -19,8 +19,36 @@
   }
 }
 
+.dangerousButton {
+  font-family: "Lato";
+  padding: 9px;
+  padding-left: 19px;
+  padding-right: 19px;
+  color: $lightRed;
+  border-radius: 9px;
+  border-width: 1px;
+  border-color: $lightRed;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+
+  &:hover {
+    background-color: $lightRed;
+    color: white;
+    transform: scale(0.9, 0.9);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+  }
+}
+
 .smallButton {
-  width: 200px;
+  width: 100px;
+}
+
+.splitButton {
+  width: 45%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  display: inline;
 }
 
 .registerUsersButton {

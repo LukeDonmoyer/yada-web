@@ -1,7 +1,10 @@
+/**
+ * Firestore connection for all non-administrative firestore queries
+ * author: Shaun Jorstad
+ * 
+ */
 import firebase from "firebase";
 import "firebase/auth";
-import { createEmitAndSemanticDiagnosticsBuilderProgram } from "typescript";
-import { callbackify } from "util";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -18,6 +21,11 @@ var fireInstance = firebase.initializeApp(firebaseConfig);
 var fireStore = fireInstance.firestore();
 export var fireAuth = firebase.auth();
 
+/**
+ * Changes the password for the logged in user
+ * @param newPassword 
+ * returns a promise resolved with nothing
+ */
 export function changePassword(newPassword: string): Promise<any> | undefined {
   return fireAuth.currentUser?.updatePassword(newPassword).then(
     () => {
@@ -43,6 +51,12 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
   );
 }
 
+/**
+ * Fetches the User document specified
+ * @param uid 
+ * 
+ * returns a promise that resolves with the user document
+ */
 export function getUserData(uid: string): Promise<any> {
   return fireStore
     .collection("Users")
@@ -50,7 +64,6 @@ export function getUserData(uid: string): Promise<any> {
     .get()
     .then(function (doc) {
       if (doc.exists) {
-        console.log("found the document");
         return new Promise((resolve, reject) => {
           resolve(doc.data());
         });
@@ -64,28 +77,21 @@ export function getUserData(uid: string): Promise<any> {
     });
 }
 
+/**
+ * signs out the current user
+ * returns a promise that resolves without arguments
+ */
 export function fireAuthSignOut(): Promise<any> {
-  return fireAuth.signOut().then(() => {
-    return new Promise(function (resolve, reject) {
-      resolve(null);
-    });
-  });
+  return fireAuth.signOut();
 }
 
-export function signUpWithEmail(email: string, password: string) {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((user) => {
-      // Signed in
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      alert(errorMessage);
-    });
-}
-
+/**
+ * attemps to sign in the user
+ * @param email 
+ * @param password 
+ * 
+ * returns a promise that resolves with the successfully signed in user document
+ */
 export function signInWithEmail(email: string, password: string): Promise<any> {
   return fireAuth
     .signInWithEmailAndPassword(email, password)
@@ -102,6 +108,12 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
     });
 }
 
+/**
+ * Creates the user document associated with accounts
+ * @param uid 
+ * @param email 
+ * @param userGroup 
+ */
 export function createUserDocument(
   uid: string,
   email: string,
@@ -115,7 +127,7 @@ export function createUserDocument(
   });
 }
 
-// Firebase functions
+// userful firestore functions that will be used later in development
 export function fireIncrement(val: number) {
   return firebase.firestore.FieldValue.increment(val);
 }
