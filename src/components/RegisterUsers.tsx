@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import { createUserDocument, getUserData } from "FireConfig";
 import { registerUser } from "FireAdmin";
 import "../assets/styles.scss";
+import { RootState } from "../store/rootReducer";
 
 export default function RegisterUsers() {
   // number of forms to display
@@ -37,11 +38,11 @@ export default function RegisterUsers() {
   }
 
   // current user id
-  const currentUser = useSelector((state: any) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
   // if no user is logged in, they are redirected home
-  if (![null, undefined].includes(currentUser)) {
+  if (!(currentUser === null || currentUser === undefined)) {
     getUserData(currentUser).then((data) => {
       // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
@@ -59,7 +60,7 @@ export default function RegisterUsers() {
   function registerUsers() {
     emails.forEach((email) => {
       // authorizes the email for logon with the default password
-      registerUser(currentUser, email).then((user) => {
+      registerUser(currentUser as string, email).then((user) => {
         // creates the user document
         createUserDocument(user.user.uid, user.user.email, "User");
       });

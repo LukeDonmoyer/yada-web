@@ -8,11 +8,12 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
 import "../assets/styles.scss";
+import { RootState } from "../store/rootReducer";
 
 /**
  * Navbar component
@@ -47,13 +48,13 @@ function Carousel() {
  * Onboard
  * @param props
  */
-function Onboard(props: any) {
+function Onboard(props: RouteComponentProps) {
   // current user uid, null or undefined if not logged in
-  const currentUser = useSelector((state: any) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
   // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
-  if (![null, undefined].includes(currentUser)) {
+  if (!(currentUser === null || currentUser === undefined)) {
     const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {

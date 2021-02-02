@@ -14,9 +14,10 @@ import RegisterUsers from "components/RegisterUsers";
 
 import authSlice from 'store/FireActions';
 import store from './store/store';
+import { RootState } from "store/rootReducer";
 
 function App() {
-  const currentUser = useSelector((state: any) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
   fireAuth.onAuthStateChanged((userAuth) => {

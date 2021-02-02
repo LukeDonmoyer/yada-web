@@ -8,16 +8,17 @@ import { changePassword, getUserData } from "FireConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button, Input } from "reactstrap";
+import { RootState } from "../store/rootReducer";
 
 import "../assets/styles.scss";
 
 export default function ChangePassword() {
   // the UID for the currently logged in user
-  const currentUser = useSelector((state: any) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState ) => state.auth.userUID);
   const history = useHistory();
 
   // If no account is logged in the user is redirected to the home page
-  if ([null, undefined].includes(currentUser)) {
+  if (currentUser === null || currentUser === undefined) {
     // redirect flag redirects the user to the change password page after logging in
     history.push("/?redirect=changePassword");
   }
@@ -37,7 +38,7 @@ export default function ChangePassword() {
     } else {
       changePassword(password1)?.then(
         () => {
-          getUserData(currentUser).then((userData) => {
+          getUserData(currentUser as string).then((userData) => {
             // if the current user is the Owner, they are directed to the register users page, otherwise the dashboard
             if (userData.userGroup === "Owner") {
               history.push("/registerUsers");

@@ -8,10 +8,11 @@
 
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { RootState } from "../store/rootReducer";
 import { fireAuthSignOut } from "../FireConfig";
 
 export default function Dashboard() {
-  const currentUser = useSelector((state: any) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
   /**
