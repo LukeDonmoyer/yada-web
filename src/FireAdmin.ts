@@ -1,0 +1,54 @@
+/**
+ * Firestore administrative functions
+ * author: Shaun Jorstad
+ * 
+ * description: this creates a second connection to the firestore, which allows the owner accounts to authorize users via the '/registerUsers' route
+ */
+import firebase from "firebase";
+import "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
+  authDomain: "yada-comp451.firebaseapp.com",
+  databaseURL: "https://yada-comp451.firebaseio.com",
+  projectId: "yada-comp451",
+  storageBucket: "yada-comp451.appspot.com",
+  messagingSenderId: "584848197896",
+  appId: "1:584848197896:web:5bc77aad841c51c9b844bd",
+  measurementId: "G-CYXQ4Q1RG2",
+};
+
+var adminInstance = firebase.initializeApp(firebaseConfig, "secondary");
+var adminStore = adminInstance.firestore();
+var adminAuth = adminInstance.auth();
+
+/**
+ * registers the email and default password for user
+ * todo: send emails with information
+ * @param adminUID uid of the administrator authorizing this action
+ * @param userEmail email of the new user
+ * 
+ * returns a promise that is resolved with the user authentication object
+ */
+export function registerUser(
+  adminUID: string,
+  userEmail: string,
+): Promise<any> {
+  return adminStore
+    .collection("Users")
+    .doc(adminUID)
+    .get()
+    .then((user) => {
+      if (user.exists) {
+        if (user.data()?.userGroup === "Owner") {
+            return adminAuth.createUserWithEmailAndPassword(userEmail, 'yadaDefault').then((user) => {
+                return new Promise((resolve, reject) => {
+                    resolve(user);
+                })
+            })
+        } else {
+          alert("innapropriate user permissions for this action");
+        }
+      }
+    });
+}
