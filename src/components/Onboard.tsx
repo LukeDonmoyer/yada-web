@@ -25,7 +25,7 @@ function Navbar() {
       <ul>
         <li className="focus">Sign in</li>
         <li>
-          <a href="">Contact Us</a>
+          <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">Contact Us</a>
         </li>
         <li>
           <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
@@ -122,7 +122,7 @@ function Onboard(props: RouteComponentProps) {
             placeholder="password"
           />
           {/* todo: link the following to a form */}
-          <a href="" className="requestLink">
+          <a href="https://github.com/Yet-Another-Data-Aggregator" className="requestLink">
             Request an account
           </a>
           <Button type="submit" value="Submit" className="primaryButton">

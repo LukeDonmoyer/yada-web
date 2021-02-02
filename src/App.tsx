@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.scss";
 import "./tailwind.css";
 import { fireAuth, fireAuthSignOut } from "./FireConfig";
@@ -7,17 +6,14 @@ import { fireAuth, fireAuthSignOut } from "./FireConfig";
 import Onboard from "./components/Onboard";
 import Dashboard from "./components/Dashboard";
 
-import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
 
 import authSlice from 'store/FireActions';
 import store from './store/store';
-import { RootState } from "store/rootReducer";
 
 function App() {
-  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
   fireAuth.onAuthStateChanged((userAuth) => {

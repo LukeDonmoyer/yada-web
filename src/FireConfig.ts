@@ -102,7 +102,6 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
       });
     })
     .catch((error) => {
-      var errorCode = error.code;
       var errorMessage = error.message;
       alert(errorMessage);
     });
