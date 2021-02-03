@@ -1,7 +1,7 @@
 /**
  * Firestore connection for all non-administrative firestore queries
  * author: Shaun Jorstad
- * 
+ *
  */
 import firebase from "firebase";
 import "firebase/auth";
@@ -23,7 +23,7 @@ export var fireAuth = firebase.auth();
 
 /**
  * Changes the password for the logged in user
- * @param newPassword 
+ * @param newPassword
  * returns a promise resolved with nothing
  */
 export function changePassword(newPassword: string): Promise<any> | undefined {
@@ -53,8 +53,8 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
 
 /**
  * Fetches the User document specified
- * @param uid 
- * 
+ * @param uid
+ *
  * returns a promise that resolves with the user document
  */
 export function getUserData(uid: string): Promise<any> {
@@ -85,15 +85,15 @@ export function fireAuthSignOut(): Promise<any> {
   return fireAuth.signOut().then(() => {
     return new Promise((resolve, reject) => {
       resolve(null);
-    })
+    });
   });
 }
 
 /**
  * attemps to sign in the user
- * @param email 
- * @param password 
- * 
+ * @param email
+ * @param password
+ *
  * returns a promise that resolves with the successfully signed in user document
  */
 export function signInWithEmail(email: string, password: string): Promise<any> {
@@ -113,9 +113,9 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
 
 /**
  * Creates the user document associated with accounts
- * @param uid 
- * @param email 
- * @param userGroup 
+ * @param uid
+ * @param email
+ * @param userGroup
  */
 export function createUserDocument(
   uid: string,
@@ -128,6 +128,24 @@ export function createUserDocument(
     phoneNumber: null,
     userGroup: userGroup,
   });
+}
+
+/**
+ * Sends the authorization email (via the password reset template)
+ * @param address address to reset
+ */
+export function sendAuthorizationEmail(address: string) {
+  fireAuth
+    .sendPasswordResetEmail(address)
+    .then(function () {
+      // Email sent.
+      console.log("email sent");
+    })
+    .catch(function (error) {
+      // An error happened.
+      console.log("email failed");
+      console.log(error);
+    });
 }
 
 // userful firestore functions that will be used later in development

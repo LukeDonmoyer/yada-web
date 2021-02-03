@@ -10,7 +10,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createUserDocument, getUserData } from "FireConfig";
+import { createUserDocument, getUserData, sendAuthorizationEmail } from "FireConfig";
 import { registerUser } from "FireAdmin";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
@@ -65,6 +65,7 @@ export default function RegisterUsers() {
       registerUser(currentUser as string, email).then((user) => {
         // creates the user document
         createUserDocument(user.user.uid, user.user.email, "User");
+        sendAuthorizationEmail(user.user.email);
       });
       history.push("/dashboard");
     });
