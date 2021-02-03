@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
 import "../assets/styles.scss";
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Carousel from "./carousel";
+import CustomCarousel from "./carousel";
 
 function Navbar() {
   return (
@@ -26,7 +25,7 @@ function Navbar() {
 }
 
 function CardCarousel() {
-  return (<div><Carousel/></div>);
+  return (<div><CustomCarousel/></div>);
 }
 
 function SignInForm() {
