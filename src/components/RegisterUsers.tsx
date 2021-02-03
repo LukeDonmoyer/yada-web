@@ -7,13 +7,14 @@
  *
  * purpose: gui with a table and a plus button to add rows to the table. Any email input into the table will be given an account. Currently all accounts are created with User level permissions but can be extended in the future to have a userGroup selection
  */
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createUserDocument, getUserData } from "FireConfig";
 import { registerUser } from "FireAdmin";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
+import AuthCheck from './AuthCheck';
 
 export default function RegisterUsers() {
   // number of forms to display
@@ -51,7 +52,8 @@ export default function RegisterUsers() {
       }
     });
   } else {
-    history.push("/?redirect=registerUsers");
+    return <AuthCheck/>
+    // history.push("/?redirect=registerUsers");
   }
 
   /**

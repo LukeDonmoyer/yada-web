@@ -82,7 +82,11 @@ export function getUserData(uid: string): Promise<any> {
  * returns a promise that resolves without arguments
  */
 export function fireAuthSignOut(): Promise<any> {
-  return fireAuth.signOut();
+  return fireAuth.signOut().then(() => {
+    return new Promise((resolve, reject) => {
+      resolve(null);
+    })
+  });
 }
 
 /**

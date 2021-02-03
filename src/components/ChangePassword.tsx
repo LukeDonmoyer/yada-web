@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button, Input } from "reactstrap";
 import { RootState } from "../store/rootReducer";
+import AuthCheck from './AuthCheck';
 
 import "../assets/styles.scss";
 
@@ -20,7 +21,8 @@ export default function ChangePassword() {
   // If no account is logged in the user is redirected to the home page
   if (currentUser === null || currentUser === undefined) {
     // redirect flag redirects the user to the change password page after logging in
-    history.push("/?redirect=changePassword");
+    return <AuthCheck/>
+    // history.push("/?redirect=changePassword");
   }
 
   /**

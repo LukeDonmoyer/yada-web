@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "../store/rootReducer";
 import { fireAuthSignOut } from "../FireConfig";
+import AuthCheck from './AuthCheck';
 
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -26,7 +27,8 @@ export default function Dashboard() {
 
   // if there is no logged in user redirect home
   if (currentUser === null || currentUser === undefined) {
-    history.push("/");
+    return <AuthCheck/>
+    // history.push("/");
   }
 
   return (
