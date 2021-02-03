@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
 import "../assets/styles.scss";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Carousel from "./carousel";
 
 function Navbar() {
   return (
@@ -23,8 +25,8 @@ function Navbar() {
   );
 }
 
-function Carousel() {
-  return <div className="bg-red-400 w-full h-full"></div>;
+function CardCarousel() {
+  return (<div><Carousel/></div>);
 }
 
 function SignInForm() {
@@ -58,7 +60,7 @@ function SignInForm() {
 function Body() {
   return (
     <div className="grid grid-cols-2 content">
-      <Carousel />
+      <CardCarousel />
       <SignInForm />
     </div>
   );
