@@ -10,11 +10,16 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { createUserDocument, getUserData, sendAuthorizationEmail } from "FireConfig";
+import {
+  createUserDocument,
+  getUserData,
+  sendAuthorizationEmail,
+} from "FireConfig";
 import { registerUser } from "FireAdmin";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
-import AuthCheck from './AuthCheck';
+import AuthCheck from "./AuthCheck";
+import { Animated } from "react-animated-css";
 
 export default function RegisterUsers() {
   // number of forms to display
@@ -52,7 +57,7 @@ export default function RegisterUsers() {
       }
     });
   } else {
-    return <AuthCheck/>
+    return <AuthCheck />;
     // history.push("/?redirect=registerUsers");
   }
 
@@ -72,35 +77,37 @@ export default function RegisterUsers() {
   }
 
   return (
-    <div className="h-screen">
-      <div className="floatingCard cardLarge">
-        <h1>Register users</h1>
-        <div className="userForms">
-          <h3 className="float-left">Emails:</h3>
-          <div onClick={addForm} className="primaryButton  float-right">
-            +
-          </div>
-          <div className="registerUsersTable">
-            {Array.from({ length: numForms }, (x, i) => i).map((i) => (
-              <input
-                key={i}
-                onChange={(event) => {
-                  updateEmail(i, event.target.value);
-                }}
-                className="simpleInput"
-                type="email"
-                placeholder="email"
-              />
-            ))}
-          </div>
-          <div
-            className="primaryButton registerUsersButton"
-            onClick={registerUsers}
-          >
-            register and email
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div className="h-screen">
+        <div className="floatingCard cardLarge">
+          <h1>Register users</h1>
+          <div className="userForms">
+            <h3 className="float-left">Emails:</h3>
+            <div onClick={addForm} className="primaryButton  float-right">
+              +
+            </div>
+            <div className="registerUsersTable">
+              {Array.from({ length: numForms }, (x, i) => i).map((i) => (
+                <input
+                  key={i}
+                  onChange={(event) => {
+                    updateEmail(i, event.target.value);
+                  }}
+                  className="simpleInput"
+                  type="email"
+                  placeholder="email"
+                />
+              ))}
+            </div>
+            <div
+              className="primaryButton registerUsersButton"
+              onClick={registerUsers}
+            >
+              register and email
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Animated>
   );
 }
