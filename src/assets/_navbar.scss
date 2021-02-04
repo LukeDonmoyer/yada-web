@@ -1,40 +1,57 @@
-ul {
-  vertical-align: middle;
-  position: absolute;
-  right: 10%;
-  top: 50%;
-  transform: translateY(-50%);
-}
+.custom {
+  input {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  ul {
+    vertical-align: middle;
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
-li {
-  float: left;
-  padding-left: 30px;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  cursor: pointer;
-  user-select: none; 
-  color: $darkGray;
-}
+  li {
+    float: left;
+    padding-left: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+    color: $darkGray;
+  }
 
-.navbar {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 10%;
-  padding-right: 10%;
-  position: relative;
-}
+  .navbar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10%;
+    padding-right: 10%;
+    position: relative;
 
-body {
-}
+    a {
+      color: $darkGray;
+      transition: all 0.1s ease-in-out;
 
-.compName {
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-size: 40px;
-  color: $companyName;
-}
+      &:hover {
+        text-decoration: none;
+        color: $companyName;
+        transition: all 0.1s ease-in-out;
+      }
+    }
+  }
 
-.focus {
-  color: $companyName;
+  body {
+  }
+
+  .compName {
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    color: $companyName;
+  }
+
+  .focus {
+    color: $companyName;
+  }
 }
