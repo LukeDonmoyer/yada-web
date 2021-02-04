@@ -14,45 +14,14 @@ h1 {
   font-weight: 700;
   color: $darkGray;
   margin-bottom: 40px;
-  margin-top: 50px;
+  // margin-top: 50px;
 }
 
-input {
-  display: block;
-  border-width: 2px;
-  border-color: $lightGray;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 20px;
-  outline: 0px;
-  width: 100%;
-  font-family: "Lato", sans-serif;
-  color: $darkGray;
 
-  &:required:valid {
-    border-bottom-color: $lightGreen;
-  }
-
-  &:required:invalid {
-    border-bottom-color: $lightRed;
-  }
-}
-
-button {
-  font-family: "Lato";
-  padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  color: $companyName;
-  border-radius: 10px;
-  border-width: 2px;
-  border-color: $companyName;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    background-color: $companyName;
-    color: white;
-    transform: scale(0.9, 0.9);
-    transition: all 0.2s ease-in-out;
-  }
+.requestLink {
+    display: block;
+    color: $companyName;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    float: right;
 }

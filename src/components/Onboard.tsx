@@ -1,9 +1,23 @@
+/**
+ * Onboarding component
+ * author: Shaun Jorstad
+ *
+ * route: '/'
+ * purpose: home page with an info carousel that provides the login form and some links to resources.
+ */
+
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { useSelector } from "react-redux";
+import { RouteComponentProps, useHistory } from "react-router-dom";
+import { Button, Form, Input } from "reactstrap";
+import { signInWithEmail, getUserData } from "../FireConfig";
 
 import "../assets/styles.scss";
+import { RootState } from "../store/rootReducer";
 
+/**
+ * Navbar component
+ */
 function Navbar() {
   return (
     <div className="navbar">
@@ -11,7 +25,7 @@ function Navbar() {
       <ul>
         <li className="focus">Sign in</li>
         <li>
-          <a href="">Contact Us</a>
+          <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">Contact Us</a>
         </li>
         <li>
           <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
@@ -23,59 +37,101 @@ function Navbar() {
   );
 }
 
+/**
+ * component placeholder for the carousel
+ */
 function Carousel() {
   return <div className="bg-red-400 w-full h-full"></div>;
 }
 
-function SignInForm() {
-  const handleLogin = (event: any) => {
-    event.preventDefault();
-  };
-  return (
-    <div className="signIn w-full h-full">
-      <h1>Sign In</h1>
-      <Form onSubmit={handleLogin}>
-        <Input
-          required
-          type="email"
-          name="email"
-          id="email"
-          placeholder="email"
-        />
-        <Input
-          required
-          type="password"
-          name="password"
-          id="password"
-          placeholder="password"
-        />
-        <Button>Sign In</Button>
-      </Form>
-    </div>
-  );
-}
+/**
+ * Onboard
+ * @param props
+ */
+function Onboard(props: RouteComponentProps) {
+  // current user uid, null or undefined if not logged in
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
+  const history = useHistory();
 
-function Body() {
-  return (
-    <div className="grid grid-cols-2 content">
-      <Carousel />
-      <SignInForm />
-    </div>
-  );
-}
+  // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
+  if (!(currentUser === null || currentUser === undefined)) {
+    const uid = currentUser;
+    getUserData(uid).then((userData) => {
+      if (userData.defaults) {
+        history.push("/changePassword");
+      } else {
+        let properties = props.location.search.split("=");
+        if (
+          properties[0].includes("redirect") &&
+          ["changePassword", "registerUsers"].includes(properties[1])
+        ) {
+          let address = "/" + properties[1];
+          history.push(address);
+        } else {
+          history.push("/dashboard");
+        }
+      }
+    });
+  }
 
-function Footer() {
-  return <div></div>;
-}
-
-function Onboard() {
   return (
     <div className="h-screen">
       <Navbar />
       <Body />
-      <Footer />
     </div>
   );
+
+  function Body() {
+    return (
+      <div className="grid grid-cols-2 content">
+        <Carousel />
+        <SignInForm />
+      </div>
+    );
+  }
+
+  function SignInForm() {
+    /**
+     * handles user login
+     * @param event synthetic event
+     */
+    const handleLogin = (event: any) => {
+      event.preventDefault();
+      const email = event.target[0].value;
+      const password = event.target[1].value;
+      signInWithEmail(email, password).then((user) => {});
+    };
+    return (
+      <div className="signIn w-full h-full">
+        <h1>Sign In</h1>
+        <Form onSubmit={handleLogin}>
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="email"
+            name="email"
+            id="email"
+            placeholder="email"
+          />
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+          />
+          {/* todo: link the following to a form */}
+          <a href="https://github.com/Yet-Another-Data-Aggregator" className="requestLink">
+            Request an account
+          </a>
+          <Button type="submit" value="Submit" className="primaryButton">
+            Sign In
+          </Button>
+        </Form>
+      </div>
+    );
+  }
 }
 
 export default Onboard;

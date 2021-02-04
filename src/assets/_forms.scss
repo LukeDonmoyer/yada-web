@@ -1,0 +1,32 @@
+.styledPrimaryInput {
+  display: block;
+  border-width: 2px;
+  border-color: $lightGray;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+  outline: 0px;
+  width: 100%;
+  font-family: "Lato", sans-serif;
+  color: $darkGray;
+
+  &:required:valid {
+    border-bottom-color: $lightGreen;
+  }
+
+  &:required:invalid {
+    border-bottom-color: $lightRed;
+  }
+}
+
+.simpleInput {
+  width: 100%;
+  padding: 5px;
+  font-family: "Lato", sans-serif;
+  color: $darkGray;
+  margin-bottom: 2px;
+}
+
+.userForms {
+  height: 100%;
+}
