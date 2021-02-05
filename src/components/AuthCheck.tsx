@@ -1,19 +1,18 @@
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { RootState } from "../store/rootReducer";
+/**
+ * Auth verification form component
+ * author: Shaun Jorstad
+ * 
+ * fullscreen component to request signin from the user
+ */
 import { Button, Form, Input } from "reactstrap";
-import { signInWithEmail, getUserData } from "../FireConfig";
+import { signInWithEmail } from "../FireConfig";
 import { Animated } from "react-animated-css";
 
-interface AuthProp {
-  required: string;
-}
-
 export default function AuthCheck() {
-  const currentUser = useSelector((state: RootState) => state.auth.userUID);
-
-  const history = useHistory();
-
+  /**
+   * Attempts to authenticate with the provided parameters
+   * @param event Synthetic event
+   */
   const handleLogin = (event: any) => {
     event.preventDefault();
     const email = event.target[0].value;
