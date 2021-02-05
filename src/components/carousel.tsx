@@ -9,6 +9,7 @@ import {
 import "lib/paper-pro-react/bootstrap.min.css";
 
 // Images and alt-text for carousel
+// TODO: Custom images
 const items = [
   {
     src:
