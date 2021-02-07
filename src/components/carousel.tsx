@@ -6,7 +6,7 @@ import {
   CarouselIndicators,
   CarouselCaption,
 } from "reactstrap";
-import "lib/paper-pro-react/bootstrap.min.css";
+import "../assets/bootstrap.scss";
 
 // Images and alt-text for carousel
 // TODO: Custom images
@@ -75,7 +75,7 @@ const CustomCarousel = (props: any) => {
 
   // Return the custom component
   return (
-    <div className="paperKit">
+    <div className="bootStrapStyles">
       <Carousel activeIndex={activeIndex} next={next} previous={previous}>
         <CarouselIndicators
           items={items}

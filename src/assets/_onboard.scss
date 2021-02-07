@@ -9,13 +9,23 @@
     padding-left: 10%;
   }
 
+  .onboardForm {
+    margin-top: 10%;
+  }
+
   h1 {
-    font-size: 45px;
+    font-size: 50px;
     font-family: "Lato", sans-serif;
     font-weight: 700;
-    color: $darkGray;
-    margin-bottom: 40px;
+    color: $companyName;
     margin-top: 50px;
+  }
+
+  p {
+    padding-bottom: 70px;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    opacity: 0.6;
   }
 
   input {
@@ -23,12 +33,14 @@
     border-width: 2px;
     border-color: $lightGray;
     border-radius: 10px;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 20px;
     outline: 0px;
     width: 100%;
     font-family: "Lato", sans-serif;
+    font-weight: 400;
     color: $darkGray;
+    opacity: 0.9;
 
     &:required:valid {
       border-bottom-color: $lightGreen;
@@ -44,19 +56,34 @@
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    color: $companyName;
+    background-color: $companyName;
+    color: white;
     border-radius: 10px;
     border-width: 2px;
     border-color: $companyName;
-    background-color: white;
     transition: all 0.2s ease-in-out;
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+    margin-top: 80px;
 
     &:hover {
-      background-color: $companyName;
-      color: white;
+      background-color: white;
+      color: $companyName;
       border-color: $companyName;
       transform: scale(0.9, 0.9);
       transition: all 0.2s ease-in-out;
     }
+  }
+
+  .requestLink {
+    font-family: "Lato", sans-serif;
+    color: $companyName;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    cursor: pointer;
+    user-select: none; 
   }
 }
