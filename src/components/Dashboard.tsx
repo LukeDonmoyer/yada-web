@@ -12,7 +12,7 @@ import { RootState } from "../store/rootReducer";
 import { fireAuthSignOut, getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
 import { Animated } from "react-animated-css";
-import SideNavbar from "./SideNavbar";
+import SideNavbar, { defaultNavItems } from "./SideNavbar";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -47,6 +47,7 @@ export default function Dashboard() {
           roundRightCorners={true}
           currentPrivilege={userPrivilege}
           activeRoute={"/dashboard"}
+          items={defaultNavItems}
         />
         <div className="contentContainer">
           <h1>Dashboard: </h1>

@@ -1,6 +1,6 @@
 /**
  * Side navbar component
- * 
+ *
  * creates navbar component that can be developed further to implement both levels of the dynamic side navbar
  */
 
@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 /**
  * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
  * roundRightCornser: if true, all 4 corners of the navbar are rounded. if false on the left two are. This will need to be expanded upon later if this component is used to create multiple levels of navbars
- * currentPrivilege: privilege of the current user 
+ * currentPrivilege: privilege of the current user
  * active route: the active route
  */
 interface navbarProps {
@@ -18,6 +18,16 @@ interface navbarProps {
   roundRightCorners: Boolean;
   currentPrivilege: string;
   activeRoute: string;
+  items: NavItems[];
+}
+
+/**
+ * props for each nav item. This is different from navItemProp because the currentRoute and currentPermission are supplied from the navbarProps
+ */
+interface NavItems {
+  name: string;
+  route: string;
+  requiredPermissions: string[];
 }
 
 /**
@@ -37,7 +47,7 @@ interface navItemProp {
 
 /**
  * Navigation item
- * @param props 
+ * @param props
  */
 function NavItem(props: navItemProp) {
   const history = useHistory();
@@ -54,7 +64,9 @@ function NavItem(props: navItemProp) {
    */
   return props.requiredPermissions.includes(props.currentPermission) ? (
     <div
-      onClick={() => {navigate()}}
+      onClick={() => {
+        navigate();
+      }}
       className={`navItem ${
         props.route === props.currentRoute ? "active" : "inactive"
       }`}
@@ -69,52 +81,36 @@ function NavItem(props: navItemProp) {
 
 /**
  * Side navbar
- * @param props 
+ * @param props
  */
 export default function SideNavbar(props: navbarProps) {
+  let navItems = [];
+  for (let item of props.items) {
+    navItems.push(
+      <NavItem
+        key={item.route}
+        name={item.name}
+        route={item.route}
+        currentRoute={props.activeRoute}
+        requiredPermissions={item.requiredPermissions}
+        currentPermission={props.currentPrivilege}
+      />
+    );
+  }
   return (
     <div className="navContainer">
-      <div className={`navPadding ${!props.autoCollapse? 'noCollapse' : ''} ${props.roundRightCorners? 'roundAllCorners' : 'roundLeftCorners'}`}>
-        <div className={`navLinks `}>
-          <NavItem
-            name={"home"}
-            route={"/dashboard"}
-            currentRoute={props.activeRoute}
-            requiredPermissions={["Owner", "Admin", "Power", "User"]}
-            currentPermission={props.currentPrivilege}
-          />
-
-          <NavItem
-            name={"sites"}
-            route={"/sites"}
-            currentRoute={props.activeRoute}
-            requiredPermissions={["Owner", "Admin", "Power", "User"]}
-            currentPermission={props.currentPrivilege}
-          />
-          <NavItem
-            name={"profiles"}
-            route={"/profiles"}
-            currentRoute={props.activeRoute}
-            requiredPermissions={["Owner", "Admin", "Power", "User"]}
-            currentPermission={props.currentPrivilege}
-          />
-          <NavItem
-            name={"adminManagement"}
-            route={"/adminManagement"}
-            currentRoute={props.activeRoute}
-            requiredPermissions={["Owner", "Admin"]}
-            currentPermission={props.currentPrivilege}
-          />
-          <NavItem
-            name={"settings"}
-            route={"/settings"}
-            currentRoute={props.activeRoute}
-            requiredPermissions={["Owner", "Admin", "Power", "User"]}
-            currentPermission={props.currentPrivilege}
-          />
-        </div>
-
-        <div className={`navItem inactive logoutItem`} onClick={() => {fireAuthSignOut();}}>
+      <div
+        className={`navPadding ${!props.autoCollapse ? "noCollapse" : ""} ${
+          props.roundRightCorners ? "roundAllCorners" : "roundLeftCorners"
+        }`}
+      >
+        <div className={`navLinks `}>{navItems}</div>
+        <div
+          className={`navItem inactive logoutItem`}
+          onClick={() => {
+            fireAuthSignOut();
+          }}
+        >
           <div className={`navIcon logout`}></div>
           <div className="navTitle">logout</div>
         </div>
@@ -122,3 +118,32 @@ export default function SideNavbar(props: navbarProps) {
     </div>
   );
 }
+
+let defaultNavItems: NavItems[] = [
+  {
+    name: "home",
+    route: "/dashboard",
+    requiredPermissions: ["Owner", "Admin", "Power", "User"],
+  },
+  {
+    name: "sites",
+    route: "/sites",
+    requiredPermissions: ["Owner", "Admin", "Power", "User"],
+  },
+  {
+    name: "profiles",
+    route: "/profiles",
+    requiredPermissions: ["Owner", "Admin", "Power", "User"],
+  },
+  {
+    name: "adminManagement",
+    route: "/adminManagement",
+    requiredPermissions: ["Owner", "Admin"],
+  },
+  {
+    name: "settings",
+    route: "settings",
+    requiredPermissions: ["Owner", "Admin", "Power", "User"],
+  },
+];
+export { defaultNavItems };
