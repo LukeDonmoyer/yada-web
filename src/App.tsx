@@ -6,12 +6,17 @@ import { fireAuth, fireAuthSignOut } from "./FireConfig";
 import Onboard from "./components/Onboard";
 import Dashboard from "./components/Dashboard";
 
-import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
 
-import authSlice from 'store/FireActions';
-import store from './store/store';
+import authSlice from "store/FireActions";
+import store from "./store/store";
 
 function App() {
   const history = useHistory();
@@ -23,10 +28,10 @@ function App() {
 
   function Logout() {
     fireAuthSignOut().then((result) => {
-      history.push("/"); 
-    })
+      history.push("/");
+    });
 
-    return (<div>logging out</div>)
+    return <div>logging out</div>;
   }
 
   return (
@@ -47,7 +52,19 @@ function App() {
           <RegisterUsers />
         </Route>
         <Route path="/logout">
-            <Logout/>
+          <Logout />
+        </Route>
+        <Route path="/sites">
+          <div></div>
+        </Route>
+        <Route path="/profiles">
+          <div></div>
+        </Route>
+        <Route path="/adminManagement">
+          <div></div>
+        </Route>
+        <Route path="/settings">
+          <div></div>
         </Route>
       </Switch>
     </Router>
