@@ -1,10 +1,18 @@
 /**
  * Side navbar component
+ * 
+ * creates navbar component that can be developed further to implement both levels of the dynamic side navbar
  */
 
-import { changePassword, fireAuth, fireAuthSignOut } from "FireConfig";
+import { fireAuthSignOut } from "FireConfig";
 import { useHistory } from "react-router-dom";
 
+/**
+ * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
+ * roundRightCornser: if true, all 4 corners of the navbar are rounded. if false on the left two are. This will need to be expanded upon later if this component is used to create multiple levels of navbars
+ * currentPrivilege: privilege of the current user 
+ * active route: the active route
+ */
 interface navbarProps {
   autoCollapse: Boolean;
   roundRightCorners: Boolean;
@@ -12,6 +20,13 @@ interface navbarProps {
   activeRoute: string;
 }
 
+/**
+ * name: text to display on the nav item
+ * route: the route switched to upon clicking the nav item
+ * currentRoute: the current route the user is on (used to highlight the current route)
+ * requiredPermissions: permissions required to navigate to this route
+ * currentPermission: permission level of the current user
+ */
 interface navItemProp {
   name: string;
   route: string;
@@ -20,13 +35,23 @@ interface navItemProp {
   currentPermission: string;
 }
 
+/**
+ * Navigation item
+ * @param props 
+ */
 function NavItem(props: navItemProp) {
   const history = useHistory();
 
+  /**
+   * click handler than navigates to the new route
+   */
   function navigate() {
     history.push(props.route);
   }
 
+  /**
+   * returns empty div if the permissions are not met
+   */
   return props.requiredPermissions.includes(props.currentPermission) ? (
     <div
       onClick={() => {navigate()}}
@@ -42,6 +67,10 @@ function NavItem(props: navItemProp) {
   );
 }
 
+/**
+ * Side navbar
+ * @param props 
+ */
 export default function SideNavbar(props: navbarProps) {
   return (
     <div className="navContainer">
