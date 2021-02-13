@@ -3,6 +3,7 @@
  */
 
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getUserPrivilege } from "FireConfig";
 
 export const login_action = createAction("login");
 export const logout_action = createAction("logout");
