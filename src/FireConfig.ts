@@ -77,6 +77,11 @@ export function getUserData(uid: string): Promise<any> {
     });
 }
 
+/**
+* Fetches the user permission level of the currently authenticated user. (this is stored in /Users/{uid}/userGroup)
+* 
+* returns a promise that resolves with a string. The string will be one of the following 'Owner', 'Admin', 'Power', 'User'
+*/
 export function getUserPrivilege(): Promise<any> {
   return fireStore
     .collection("Users")
