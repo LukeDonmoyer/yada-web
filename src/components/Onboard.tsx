@@ -1,34 +1,27 @@
+/**
+ * Onboarding component
+ * author: Shaun Jorstad
+ *
+ * route: '/'
+ * purpose: home page with an info carousel that provides the login form and some links to resources.
+ */
+
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { useSelector } from "react-redux";
+import { RouteComponentProps, useHistory } from "react-router-dom";
+import { Button, Form, Input } from "reactstrap";
+import { signInWithEmail, getUserData } from "../FireConfig";
 
 import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
-
-function Navbar() {
-  return (
-    <div className="custom">
-      <div className="navbar">
-        <span className="compName">Company Name</span>
-        <ul>
-          <li className="focus">Sign in</li>
-          <li>
-            <a href="">Contact Us</a>
-          </li>
-          <li>
-            <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
-              Open Source Code
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
+import { RootState } from "../store/rootReducer";
 
 function SignInForm() {
   const handleLogin = (event: any) => {
     event.preventDefault();
+    const email = event.target[0].value;
+    const password = event.target[1].value;
+    signInWithEmail(email, password).then((user) => {});
   };
   return (
     <div className="onboardForm">
@@ -61,27 +54,44 @@ function SignInForm() {
   );
 }
 
-function Body() {
-  return (
-    <div className="custom">
-      <div className="grid grid-cols-2 content">
-        <CustomCarousel />
-        <SignInForm />
-      </div>
-    </div>
-  );
-}
+/**
+ * Onboard
+ * @param props
+ */
+function Onboard(props: RouteComponentProps) {
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
+  const history = useHistory();
 
-function Onboard() {
+  // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
+  if (!(currentUser === null || currentUser === undefined)) {
+    const uid = currentUser;
+    getUserData(uid).then((userData) => {
+      if (userData.defaults) {
+        history.push("/changePassword");
+      } else {
+        let properties = props.location.search.split("=");
+        if (
+          properties[0].includes("redirect") &&
+          ["changePassword", "registerUsers"].includes(properties[1])
+        ) {
+          let address = "/" + properties[1];
+          history.push(address);
+        } else {
+          history.push("/dashboard");
+        }
+      }
+    });
+  }
+
   return (
     <div className="h-screen split md:grid md:grid-cols-2">
       <div className="leftSection  hidden md:block ">
         <div className="coloredBlock">
           <h1 className="w-full text-center">Company Name</h1>
-          <CustomCarousel/>
+          <CustomCarousel />
         </div>
       </div>
-      <div className="rightSection custom">
+      <div className="rightSection custom onboard">
         <div className="">
           <ul>
             <li>
