@@ -67,7 +67,7 @@ export default function RegisterUsers() {
   function registerUsers() {
     emails.forEach((email) => {
       // authorizes the email for logon with the default password
-      registerUser(currentUser as string, email).then((user) => {
+      registerUser(email).then((user) => {
         // creates the user document
         createUserDocument(user.user.uid, user.user.email, "User");
         sendAuthorizationEmail(user.user.email);
