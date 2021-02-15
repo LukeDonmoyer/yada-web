@@ -24,7 +24,7 @@ interface navbarProps {
 /**
  * props for each nav item. This is different from navItemProp because the currentRoute and currentPermission are supplied from the navbarProps
  */
-interface NavItems {
+export interface NavItems {
   name: string;
   route: string;
   requiredPermissions: string[];
@@ -142,8 +142,8 @@ let defaultNavItems: NavItems[] = [
   },
   {
     name: "settings",
-    route: "settings",
+    route: "/settings",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
 ];
-export { defaultNavItems };
+export { defaultNavItems,};

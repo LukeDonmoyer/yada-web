@@ -2,8 +2,8 @@
  * Dashboard component
  * author: Shaun Jorstad
  *
- * route: '/dashboard'
- * purpose: currently displays the logged in user's UID and provides a button to log out
+ * route: '/profiles'
+ * purpose: page that wiill provide access to manage sites
  */
 
 import { useSelector } from "react-redux";
@@ -14,7 +14,7 @@ import { defaultNavItems } from "./SideNavbar";
 import { useState } from "react";
 import { ContentWithTopLevelNavbar } from "./Sections";
 
-export default function Dashboard() {
+export default function Profiles() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
 
@@ -31,12 +31,10 @@ export default function Dashboard() {
     <ContentWithTopLevelNavbar
       navItems={defaultNavItems}
       privilege={userPrivilege}
-      currentRoute={"/dashboard"}
+      currentRoute={"/profiles"}
       children={
         <div className="contentContainer">
-          <h1>Dashboard: </h1>
-          <p>logged in user: </p>
-          <p>{JSON.stringify(currentUser)}</p>
+          <h1>Profiles: </h1>
         </div>
       }
     />
