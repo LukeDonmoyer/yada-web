@@ -8,7 +8,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
@@ -25,7 +25,7 @@ function Navbar() {
       <ul>
         <li className="focus">Sign in</li>
         <li>
-          <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">Contact Us</a>
+          <Link to='/contact-us'>Contact Us</Link>
         </li>
         <li>
           <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
@@ -58,7 +58,7 @@ function Onboard(props: RouteComponentProps) {
     const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
-        history.push("/changePassword");
+        history.push("/change-password");
       } else {
         let properties = props.location.search.split("=");
         if (
@@ -121,10 +121,7 @@ function Onboard(props: RouteComponentProps) {
             id="password"
             placeholder="password"
           />
-          {/* todo: link the following to a form */}
-          <a href="https://github.com/Yet-Another-Data-Aggregator" className="requestLink">
-            Request an account
-          </a>
+          <Link to="/request-account" className="requestLink">Request Account</Link>
           <Button type="submit" value="Submit" className="primaryButton">
             Sign In
           </Button>

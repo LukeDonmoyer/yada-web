@@ -9,6 +9,8 @@ import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Switch, Route, useHistory } from "react-router-dom";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
+import ContactUs from "components/ContactUs";
+import RequestAccount from "components/RequestAccount";
 
 import authSlice from 'store/FireActions';
 import store from './store/store';
@@ -40,14 +42,20 @@ function App() {
         <Route path="/dashboard">
           <Dashboard />
         </Route>
-        <Route path="/changePassword">
+        <Route path="/change-password">
           <ChangePassword />
         </Route>
-        <Route path="/registerUsers">
+        <Route path="/register-users">
           <RegisterUsers />
         </Route>
         <Route path="/logout">
             <Logout/>
+        </Route>
+        <Route path="/contact-us">
+            <ContactUs />
+        </Route>
+        <Route path="/request-account">
+            <RequestAccount />
         </Route>
       </Switch>
     </Router>

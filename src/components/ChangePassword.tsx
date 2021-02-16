@@ -2,7 +2,7 @@
  * Change Password component
  * Author: Shaun Jorstad
  *
- * Description: form component that upon submission changes the password for the currently authenticated account. This component is available to all users at the route of '/changePassword'. The form submission is required upon the first user login
+ * Description: form component that upon submission changes the password for the currently authenticated account. This component is available to all users at the route of '/change-password'. The form submission is required upon the first user login
  */
 import { changePassword, getUserData } from "FireConfig";
 import { useSelector } from "react-redux";
@@ -30,7 +30,7 @@ export default function ChangePassword() {
    * handleResetPassword
    * @param event synthetic event
    *
-   * verifies the two inputfields match before resetting the password
+   * verifies the two input fields match before resetting the password
    */
   const handleResetPassword = (event: any) => {
     event.preventDefault(); // prevents default form submission
@@ -44,7 +44,7 @@ export default function ChangePassword() {
           getUserData(currentUser as string).then((userData) => {
             // if the current user is the Owner, they are directed to the register users page, otherwise the dashboard
             if (userData.userGroup === "Owner") {
-              history.push("/registerUsers");
+              history.push("/register-users");
             } else {
               history.push("/dashboard");
             }
