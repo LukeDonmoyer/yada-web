@@ -5,14 +5,14 @@
 import { useState } from "react";
 import { Button, Form, Input, Alert } from "reactstrap";
 import { createEmailDocument } from "../FireConfig";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "../assets/styles.scss";
 
 export default function ContactUs(){
 
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
-  const history = useHistory();
+  let [submitted, setSubmitted] = useState(false);
 
   function handleEvent(func: any){
     return (event: any) => {
@@ -22,12 +22,13 @@ export default function ContactUs(){
   }
 
   const sendEmail = (event: any) => {
-    createEmailDocument(email, message);
-    alert("Email sent!"); // Replace with Reactstrap alert
-    history.push("/");
+    createEmailDocument(email, message, "YADA Contact Us");
+    alert("Email sent!"); // Replace with Reactstrap alert?
+    setSubmitted(true);
   };
 
   return (
+    submitted ? <Redirect push to="/" /> :
     <div className="px-80 py-8">
       <h1>Contact Us</h1>
       <Form onSubmit={sendEmail}>

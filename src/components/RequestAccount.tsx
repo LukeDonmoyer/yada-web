@@ -3,16 +3,20 @@
  * Author: Brendan Ortmann
  */
 import { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
+import { createEmailDocument } from "FireConfig";
 import "../assets/styles.scss";
 
 export default function RequestAccount(){
 
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
+  let [submitted, setSubmitted] = useState(false);
 
   function handleEvent(func: any){
     return (event: any) => {
+      event.preventDefault();
       func(event.target.value);
     };
   }
@@ -23,10 +27,13 @@ export default function RequestAccount(){
    * @param event 
    */
   const sendEmail = (event: any) => {
-    event.preventDefault();
+    createEmailDocument(email, message, "YADA Request Account");
+    alert("Email sent!"); // Replace with Reactstrap alert
+    setSubmitted(true);
   };
 
   return(
+    submitted ? <Redirect push to="/"/> :
     <div>
       <h1>Request Account</h1>
       <Form onSubmit={sendEmail}>

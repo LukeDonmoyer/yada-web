@@ -137,11 +137,12 @@ export function createUserDocument(
  */
 export function createEmailDocument(
   email: string,
-  message: string
+  message: string,
+  subject: string
 ){
   fireStore.collection("Emails").add({
     email: email,
-    subject: "YADA Contact Us",
+    subject: subject,
     message: message
   });
 }
