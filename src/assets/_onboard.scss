@@ -86,4 +86,8 @@
     cursor: pointer;
     user-select: none; 
   }
+
+  .rotate {
+    animation: rotation 2s infinite linear;
+  }
 }

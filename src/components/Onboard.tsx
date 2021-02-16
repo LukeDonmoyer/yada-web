@@ -88,7 +88,8 @@ function Onboard(props: RouteComponentProps) {
       <div className="leftSection  hidden md:block ">
         <div className="coloredBlock">
           <h1 className="w-full text-center">Company Name</h1>
-          <CustomCarousel />
+          {/* <CustomCarousel /> */}
+          <img src="../logo.svg" alt="YADA Logo" width="100" height="100"/>
         </div>
       </div>
       <div className="rightSection custom onboard">
