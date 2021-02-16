@@ -1,11 +1,18 @@
+/**
+ * Contact Us page component
+ * Author: Brendan Ortmann
+ */
 import { useState } from "react";
-import { Button, Form, Input } from "reactstrap";
+import { Button, Form, Input, Alert } from "reactstrap";
+import { createEmailDocument } from "../FireConfig";
+import { Redirect, useHistory } from "react-router-dom";
 import "../assets/styles.scss";
 
 export default function ContactUs(){
 
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
+  const history = useHistory();
 
   function handleEvent(func: any){
     return (event: any) => {
@@ -15,7 +22,9 @@ export default function ContactUs(){
   }
 
   const sendEmail = (event: any) => {
-    event.preventDefault();
+    createEmailDocument(email, message);
+    alert("Email sent!"); // Replace with Reactstrap alert
+    history.push("/");
   };
 
   return (

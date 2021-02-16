@@ -1,3 +1,7 @@
+/**
+ * Request Account page component
+ * Author: Brendan Ortmann
+ */
 import { useState } from "react";
 import { Button, Form, Input } from "reactstrap";
 import "../assets/styles.scss";
