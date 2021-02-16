@@ -12,6 +12,8 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
+import { ReactComponent as Logo } from "../assets/images/icon.svg"
+
 import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
@@ -89,7 +91,7 @@ function Onboard(props: RouteComponentProps) {
         <div className="coloredBlock">
           <h1 className="w-full text-center">Company Name</h1>
           {/* <CustomCarousel /> */}
-          <img src="../logo.svg" alt="YADA Logo" width="100" height="100"/>
+          <Logo className="mx-auto my-20"/>
         </div>
       </div>
       <div className="rightSection custom onboard">
