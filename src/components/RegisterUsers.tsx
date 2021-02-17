@@ -78,7 +78,7 @@ export default function RegisterUsers() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardLarge">
           <h1>Register users</h1>
           <div className="userForms">

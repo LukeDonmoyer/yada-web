@@ -33,7 +33,7 @@ export default function AdminManagement() {
       privilege={userPrivilege}
       currentRoute={"/adminManagement"}
       children={
-        <div className="contentContainer">
+        <div className="custom">
           <h1>Account Management: </h1>
         </div>
       }

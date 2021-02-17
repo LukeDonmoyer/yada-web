@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
+import ContactUs from "components/ContactUs";
+import RequestAccount from "components/RequestAccount";
 
 import authSlice from "store/FireActions";
 import store from "./store/store";
@@ -69,6 +71,12 @@ function App() {
         </Route>
         <Route path="/settings">
           <Settings/>
+        </Route>
+        <Route path="/contactUs">
+            <ContactUs />
+        </Route>
+        <Route path="/requestAccount">
+            <RequestAccount />
         </Route>
       </Switch>
     </Router>

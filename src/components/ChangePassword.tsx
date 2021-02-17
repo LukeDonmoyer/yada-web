@@ -30,7 +30,7 @@ export default function ChangePassword() {
    * handleResetPassword
    * @param event synthetic event
    *
-   * verifies the two inputfields match before resetting the password
+   * verifies the two input fields match before resetting the password
    */
   const handleResetPassword = (event: any) => {
     event.preventDefault(); // prevents default form submission
@@ -59,7 +59,7 @@ export default function ChangePassword() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardSmall">
           <h1 className="text-center">Change Your Password</h1>
           <form onSubmit={handleResetPassword}>

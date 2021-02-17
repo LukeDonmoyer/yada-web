@@ -33,7 +33,7 @@ export default function Sites() {
       privilege={userPrivilege}
       currentRoute={"/sites"}
       children={
-        <div className="contentContainer">
+        <div className="custom">
           <h1>Sites: </h1>
         </div>
       }

@@ -157,6 +157,23 @@ export function createUserDocument(
 }
 
 /**
+ * Creates an email document which will be later sent to admins and then deleted
+ * @param email 
+ * @param message 
+ */
+export function createEmailDocument(
+  email: string,
+  message: string,
+  subject: string
+){
+  fireStore.collection("Emails").add({
+    email: email,
+    subject: subject,
+    message: message
+  });
+}
+
+/**
  * Sends the authorization email (via the password reset template)
  * @param address address to reset
  */
@@ -174,7 +191,7 @@ export function sendAuthorizationEmail(address: string) {
     });
 }
 
-// userful firestore functions that will be used later in development
+// useful firestore functions that will be used later in development
 export function fireIncrement(val: number) {
   return firebase.firestore.FieldValue.increment(val);
 }

@@ -33,7 +33,7 @@ export default function Dashboard() {
       privilege={userPrivilege}
       currentRoute={"/dashboard"}
       children={
-        <div className="contentContainer">
+        <div className="custom">
           <h1>Dashboard: </h1>
           <p>logged in user: </p>
           <p>{JSON.stringify(currentUser)}</p>

@@ -33,7 +33,7 @@ export default function Settings() {
       privilege={userPrivilege}
       currentRoute={"/settings"}
       children={
-        <div className="contentContainer">
+        <div className="custom">
           <h1>Settings: </h1>
         </div>
       }

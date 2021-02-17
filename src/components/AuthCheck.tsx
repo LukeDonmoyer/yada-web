@@ -7,6 +7,8 @@
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail } from "../FireConfig";
 import { Animated } from "react-animated-css";
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function AuthCheck() {
   /**
@@ -26,7 +28,7 @@ export default function AuthCheck() {
       animationOut="fadeOut"
       isVisible={true}
     >
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardSmall">
           <h1>Sign In</h1>
           <Form onSubmit={handleLogin}>
@@ -46,13 +48,7 @@ export default function AuthCheck() {
               id="password"
               placeholder="password"
             />
-            {/* todo: link the following to a form */}
-            <a
-              href="https://github.com/Yet-Another-Data-Aggregator"
-              className="requestLink"
-            >
-              Request an account
-            </a>
+            <Link to="/requestAccount" className="requestLink">Request Account</Link>
             <Button type="submit" value="Submit" className="primaryButton">
               Sign In
             </Button>

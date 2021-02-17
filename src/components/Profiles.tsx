@@ -33,7 +33,7 @@ export default function Profiles() {
       privilege={userPrivilege}
       currentRoute={"/profiles"}
       children={
-        <div className="contentContainer">
+        <div className="custom">
           <h1>Profiles: </h1>
         </div>
       }
