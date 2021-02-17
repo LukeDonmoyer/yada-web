@@ -49,7 +49,7 @@ function SignInForm() {
         />
         <Button>Sign In</Button>
         <span className="requestLink">
-          <Link to="/requestAccount" className="requestButton">Request Account</Link>
+          <Link to="/requestAccount" className="requestLink">Request Account</Link>
         </span>
       </Form>
     </div>
