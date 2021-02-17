@@ -67,7 +67,7 @@ export default function RegisterUsers() {
   function registerUsers() {
     emails.forEach((email) => {
       // authorizes the email for logon with the default password
-      registerUser(currentUser as string, email).then((user) => {
+      registerUser(email).then((user) => {
         // creates the user document
         createUserDocument(user.user.uid, user.user.email, "User");
         sendAuthorizationEmail(user.user.email);
@@ -78,7 +78,7 @@ export default function RegisterUsers() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardLarge">
           <h1>Register users</h1>
           <div className="userForms">

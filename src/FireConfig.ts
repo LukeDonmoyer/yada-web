@@ -78,6 +78,32 @@ export function getUserData(uid: string): Promise<any> {
 }
 
 /**
+* Fetches the user permission level of the currently authenticated user. (this is stored in /Users/{uid}/userGroup)
+* 
+* returns a promise that resolves with a string. The string will be one of the following 'Owner', 'Admin', 'Power', 'User'
+*/
+export function getUserPrivilege(): Promise<any> {
+  return fireStore
+    .collection("Users")
+    .doc(fireAuth.currentUser?.uid)
+    .get()
+    .then(function (doc) {
+      if (doc.exists) {
+        return new Promise((resolve, reject) => {
+          resolve(doc.data()?.userGroup);
+        });
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    })
+    .catch(function (error) {
+      console.log("Error getting document:", error);
+    });
+
+}
+
+/**
  * signs out the current user
  * returns a promise that resolves without arguments
  */

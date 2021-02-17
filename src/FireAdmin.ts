@@ -1,11 +1,12 @@
 /**
  * Firestore administrative functions
  * author: Shaun Jorstad
- * 
+ *
  * description: this creates a second connection to the firestore, which allows the owner accounts to authorize users via the '/registerUsers' route
  */
 import firebase from "firebase";
 import "firebase/auth";
+import { getUserPrivilege } from "FireConfig";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -25,30 +26,24 @@ var adminAuth = adminInstance.auth();
 /**
  * registers the email and default password for user
  * todo: send emails with information
- * @param adminUID uid of the administrator authorizing this action
  * @param userEmail email of the new user
- * 
+ *
  * returns a promise that is resolved with the user authentication object
  */
 export function registerUser(
-  adminUID: string,
-  userEmail: string,
+  userEmail: string
 ): Promise<any> {
-  return adminStore
-    .collection("Users")
-    .doc(adminUID)
-    .get()
-    .then((user) => {
-      if (user.exists) {
-        if (user.data()?.userGroup === "Owner") {
-            return adminAuth.createUserWithEmailAndPassword(userEmail, 'yadaDefault').then((user) => {
-                return new Promise((resolve, reject) => {
-                    resolve(user);
-                })
-            })
-        } else {
-          alert("innapropriate user permissions for this action");
-        }
-      }
-    });
+  return getUserPrivilege().then((privilege) => {
+    if (["Owner", "Admin"].includes(privilege)) {
+      return adminAuth
+        .createUserWithEmailAndPassword(userEmail, "yadaDefault")
+        .then((user) => {
+          return new Promise((resolve, reject) => {
+            resolve(user);
+          });
+        });
+    } else {
+      alert("innappropriate user permissions for this action")
+    }
+  });
 }

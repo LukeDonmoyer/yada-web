@@ -9,13 +9,20 @@
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "../store/rootReducer";
-import { fireAuthSignOut } from "../FireConfig";
+import { fireAuthSignOut, getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
 import { Animated } from "react-animated-css";
+import SideNavbar, { defaultNavItems } from "./SideNavbar";
+import { useState } from "react";
 
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
+  const [userPrivilege, setPrivilege] = useState("User");
   const history = useHistory();
+
+  getUserPrivilege().then((privilege) => {
+    setPrivilege(privilege);
+  });
 
   /**
    * signs out the user and then redirects to the home page
@@ -33,22 +40,27 @@ export default function Dashboard() {
   }
 
   return (
-    <Animated
-      animationIn="fadeIn"
-      animationOut="fadeOut"
-      isVisible={true}
-    >
-      <div>
-        <h1>Dashboard: </h1>
-        <p>logged in user: </p>
-        <p>{JSON.stringify(currentUser)}</p>
-        <div
-          className="primaryButton smallButton"
-          onClick={() => {
-            signoutHandler();
-          }}
-        >
-          sign out
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div className="withSideNavbar custom">
+        <SideNavbar
+          autoCollapse={true}
+          roundRightCorners={true}
+          currentPrivilege={userPrivilege}
+          activeRoute={"/dashboard"}
+          items={defaultNavItems}
+        />
+        <div className="contentContainer">
+          <h1>Dashboard: </h1>
+          <p>logged in user: </p>
+          <p>{JSON.stringify(currentUser)}</p>
+          <div
+            className="primaryButton smallButton"
+            onClick={() => {
+              signoutHandler();
+            }}
+          >
+            sign out
+          </div>
         </div>
       </div>
     </Animated>

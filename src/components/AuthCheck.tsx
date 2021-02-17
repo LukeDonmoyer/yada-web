@@ -26,7 +26,7 @@ export default function AuthCheck() {
       animationOut="fadeOut"
       isVisible={true}
     >
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardSmall">
           <h1>Sign In</h1>
           <Form onSubmit={handleLogin}>
