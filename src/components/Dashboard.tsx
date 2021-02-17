@@ -41,7 +41,7 @@ export default function Dashboard() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="withSideNavbar">
+      <div className="withSideNavbar custom">
         <SideNavbar
           autoCollapse={true}
           roundRightCorners={true}

@@ -59,7 +59,7 @@ export default function ChangePassword() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen">
+      <div className="h-screen custom">
         <div className="floatingCard cardSmall">
           <h1 className="text-center">Change Your Password</h1>
           <form onSubmit={handleResetPassword}>

@@ -12,36 +12,48 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
+import { ReactComponent as Logo } from "../assets/images/icon.svg"
+
+import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
 
-/**
- * Navbar component
- */
-function Navbar() {
+function SignInForm() {
+  const handleLogin = (event: any) => {
+    event.preventDefault();
+    const email = event.target[0].value;
+    const password = event.target[1].value;
+    signInWithEmail(email, password).then((user) => {});
+  };
   return (
-    <div className="navbar">
-      <span className="compName">Company Name</span>
-      <ul>
-        <li className="focus">Sign in</li>
-        <li>
-          <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">Contact Us</a>
-        </li>
-        <li>
-          <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
-            Open Source Code
-          </a>
-        </li>
-      </ul>
+    <div className="onboardForm">
+      <h1>Sign In</h1>
+      <p>
+        Sign in with your pre-assigned credentials. Request an account from the
+        adnimistrator with the link below.
+      </p>
+      <Form onSubmit={handleLogin}>
+        <Input
+          required
+          type="email"
+          name="email"
+          id="email"
+          placeholder="email"
+        />
+        <Input
+          required
+          type="password"
+          name="password"
+          id="password"
+          placeholder="password"
+        />
+        <Button>Sign In</Button>
+        <span className="requestLink" onClick={() => {}}>
+          Request Account
+        </span>
+      </Form>
     </div>
   );
-}
-
-/**
- * component placeholder for the carousel
- */
-function Carousel() {
-  return <div className="bg-red-400 w-full h-full"></div>;
 }
 
 /**
@@ -49,7 +61,6 @@ function Carousel() {
  * @param props
  */
 function Onboard(props: RouteComponentProps) {
-  // current user uid, null or undefined if not logged in
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
 
@@ -75,63 +86,32 @@ function Onboard(props: RouteComponentProps) {
   }
 
   return (
-    <div className="h-screen">
-      <Navbar />
-      <Body />
-    </div>
-  );
+    <div className="h-screen split md:grid md:grid-cols-2">
+      <div className="leftSection  hidden md:block ">
+        <div className="coloredBlock">
+          <h1 className="w-full text-center">Company Name</h1>
+          {/* <CustomCarousel /> */}
+          <Logo className="mx-auto my-20"/>
+        </div>
+      </div>
+      <div className="rightSection custom onboard">
+        <div className="">
+          <ul>
+            <li>
+              <a href="">Contact Us</a>
+            </li>
+            <li>
+              <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
+                Open Source Code
+              </a>
+            </li>
+          </ul>
+        </div>
 
-  function Body() {
-    return (
-      <div className="grid grid-cols-2 content">
-        <Carousel />
         <SignInForm />
       </div>
-    );
-  }
-
-  function SignInForm() {
-    /**
-     * handles user login
-     * @param event synthetic event
-     */
-    const handleLogin = (event: any) => {
-      event.preventDefault();
-      const email = event.target[0].value;
-      const password = event.target[1].value;
-      signInWithEmail(email, password).then((user) => {});
-    };
-    return (
-      <div className="signIn w-full h-full">
-        <h1>Sign In</h1>
-        <Form onSubmit={handleLogin}>
-          <Input
-            className="styledPrimaryInput"
-            required
-            type="email"
-            name="email"
-            id="email"
-            placeholder="email"
-          />
-          <Input
-            className="styledPrimaryInput"
-            required
-            type="password"
-            name="password"
-            id="password"
-            placeholder="password"
-          />
-          {/* todo: link the following to a form */}
-          <a href="https://github.com/Yet-Another-Data-Aggregator" className="requestLink">
-            Request an account
-          </a>
-          <Button type="submit" value="Submit" className="primaryButton">
-            Sign In
-          </Button>
-        </Form>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Onboard;
