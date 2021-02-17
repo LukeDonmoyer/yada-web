@@ -34,9 +34,9 @@ export default function RequestAccount(){
 
   return(
     submitted ? <Redirect push to="/"/> :
-    <div>
+    <div className="px-80 py-8 custom">
       <h1>Request Account</h1>
-      <Form onSubmit={sendEmail}>
+      <Form onSubmit={sendEmail} className="py-8">
         <Input
           className="styledPrimaryInput"
           required

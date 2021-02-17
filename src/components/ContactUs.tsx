@@ -29,9 +29,9 @@ export default function ContactUs(){
 
   return (
     submitted ? <Redirect push to="/" /> :
-    <div className="px-80 py-8">
+    <div className="px-80 py-8 custom">
       <h1>Contact Us</h1>
-      <Form onSubmit={sendEmail}>
+      <Form onSubmit={sendEmail} className="py-8">
         <Input
           className="styledPrimaryInput"
           required

@@ -48,8 +48,8 @@ function SignInForm() {
           placeholder="password"
         />
         <Button>Sign In</Button>
-        <span className="requestLink" onClick={() => {}}>
-          Request Account
+        <span className="requestLink">
+          <Link to="/request-account" className="requestButton">Request Account</Link>
         </span>
       </Form>
     </div>
@@ -98,7 +98,7 @@ function Onboard(props: RouteComponentProps) {
         <div className="">
           <ul>
             <li>
-              <a href="">Contact Us</a>
+              <Link to='/contact-us'>Contact Us</Link>
             </li>
             <li>
               <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
