@@ -8,7 +8,7 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
@@ -48,8 +48,8 @@ function SignInForm() {
           placeholder="password"
         />
         <Button>Sign In</Button>
-        <span className="requestLink" onClick={() => {}}>
-          Request Account
+        <span className="requestLink">
+          <Link to="/requestAccount" className="requestLink">Request Account</Link>
         </span>
       </Form>
     </div>
@@ -98,7 +98,7 @@ function Onboard(props: RouteComponentProps) {
         <div className="">
           <ul>
             <li>
-              <a href="">Contact Us</a>
+              <Link to='/contactUs'>Contact Us</Link>
             </li>
             <li>
               <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">

@@ -30,7 +30,7 @@ export default function ChangePassword() {
    * handleResetPassword
    * @param event synthetic event
    *
-   * verifies the two inputfields match before resetting the password
+   * verifies the two input fields match before resetting the password
    */
   const handleResetPassword = (event: any) => {
     event.preventDefault(); // prevents default form submission
