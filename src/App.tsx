@@ -47,10 +47,10 @@ function App() {
         <Route path="/dashboard">
           <Dashboard />
         </Route>
-        <Route path="/change-password">
+        <Route path="/changePassword">
           <ChangePassword />
         </Route>
-        <Route path="/register-users">
+        <Route path="/registerUsers">
           <RegisterUsers />
         </Route>
         <Route path="/logout">
@@ -68,10 +68,10 @@ function App() {
         <Route path="/settings">
           <div></div>
         </Route>
-        <Route path="/contact-us">
+        <Route path="/contactUs">
             <ContactUs />
         </Route>
-        <Route path="/request-account">
+        <Route path="/requestAccount">
             <RequestAccount />
         </Route>
       </Switch>

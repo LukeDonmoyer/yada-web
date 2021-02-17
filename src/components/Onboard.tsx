@@ -49,7 +49,7 @@ function SignInForm() {
         />
         <Button>Sign In</Button>
         <span className="requestLink">
-          <Link to="/request-account" className="requestButton">Request Account</Link>
+          <Link to="/requestAccount" className="requestButton">Request Account</Link>
         </span>
       </Form>
     </div>
@@ -69,7 +69,7 @@ function Onboard(props: RouteComponentProps) {
     const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
-        history.push("/change-password");
+        history.push("/changePassword");
       } else {
         let properties = props.location.search.split("=");
         if (
@@ -98,7 +98,7 @@ function Onboard(props: RouteComponentProps) {
         <div className="">
           <ul>
             <li>
-              <Link to='/contact-us'>Contact Us</Link>
+              <Link to='/contactUs'>Contact Us</Link>
             </li>
             <li>
               <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">

@@ -2,7 +2,7 @@
  * RegisterUsers component
  * author: Shaun Jorstad
  *
- * route: '/register-users'
+ * route: '/registerUsers'
  * access: Owners exclusively
  *
  * purpose: gui with a table and a plus button to add rows to the table. Any email input into the table will be given an account. Currently all accounts are created with User level permissions but can be extended in the future to have a userGroup selection
