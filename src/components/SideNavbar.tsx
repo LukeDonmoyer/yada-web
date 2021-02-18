@@ -136,8 +136,8 @@ let defaultNavItems: NavItems[] = [
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
-    name: "adminManagement",
-    route: "/adminManagement",
+    name: "user-management",
+    route: "/user-management",
     requiredPermissions: ["Owner", "Admin"],
   },
   {

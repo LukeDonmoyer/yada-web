@@ -8,11 +8,16 @@
 
 import React from "react";
 import { useSelector } from "react-redux";
-import { RouteComponentProps, useHistory, Link } from "react-router-dom";
+import {
+  RouteComponentProps,
+  useHistory,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
-import { ReactComponent as Logo } from "../assets/images/icon.svg"
+import { ReactComponent as Logo } from "../assets/images/icon.svg";
 
 import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
@@ -49,7 +54,9 @@ function SignInForm() {
         />
         <Button>Sign In</Button>
         <span className="requestLink">
-          <Link to="/requestAccount" className="requestLink">Request Account</Link>
+          <Link to="/requestAccount" className="requestLink">
+            Request Account
+          </Link>
         </span>
       </Form>
     </div>
@@ -63,18 +70,17 @@ function SignInForm() {
 function Onboard(props: RouteComponentProps) {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const history = useHistory();
-
   // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
-  if (!(currentUser === null || currentUser === undefined)) {
+    if (!(currentUser === null || currentUser === undefined)) {
     const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
-        history.push("/changePassword");
+        history.push("/change-password");
       } else {
         let properties = props.location.search.split("=");
         if (
           properties[0].includes("redirect") &&
-          ["changePassword", "registerUsers"].includes(properties[1])
+          ["change-password", "register-users"].includes(properties[1])
         ) {
           let address = "/" + properties[1];
           history.push(address);
@@ -85,20 +91,21 @@ function Onboard(props: RouteComponentProps) {
     });
   }
 
+
   return (
     <div className="h-screen split md:grid md:grid-cols-2">
       <div className="leftSection  hidden md:block ">
         <div className="coloredBlock">
           <h1 className="w-full text-center">Company Name</h1>
           {/* <CustomCarousel /> */}
-          <Logo className="mx-auto my-20"/>
+          <Logo className="mx-auto my-20" />
         </div>
       </div>
       <div className="rightSection custom onboard">
         <div className="">
           <ul>
             <li>
-              <Link to='/contactUs'>Contact Us</Link>
+              <Link to="/contactUs">Contact Us</Link>
             </li>
             <li>
               <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
