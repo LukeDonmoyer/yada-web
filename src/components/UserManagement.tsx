@@ -28,15 +28,8 @@ export default function UserManagement() {
   }
 
   return (
-    <ContentWithTopLevelNavbar
-      navItems={defaultNavItems}
-      privilege={userPrivilege}
-      currentRoute={"/"}
-      children={
-        <div className="custom">
-          <h1>Account Management: </h1>
-        </div>
-      }
-    />
+    <div className="custom">
+      <h1>User Management: </h1>
+    </div>
   );
 }

@@ -5,7 +5,8 @@
  */
 
 import { fireAuthSignOut } from "FireConfig";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
 
 /**
  * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
@@ -17,7 +18,6 @@ interface navbarProps {
   autoCollapse: Boolean;
   roundRightCorners: Boolean;
   currentPrivilege: string;
-  activeRoute: string;
   items: NavItems[];
 }
 
@@ -40,7 +40,8 @@ export interface NavItems {
 interface navItemProp {
   name: string;
   route: string;
-  currentRoute: string;
+  activeRoute: string;
+  setActiveRoute: any;
   requiredPermissions: string[];
   currentPermission: string;
 }
@@ -50,30 +51,22 @@ interface navItemProp {
  * @param props
  */
 function NavItem(props: navItemProp) {
-  const history = useHistory();
-
-  /**
-   * click handler than navigates to the new route
-   */
-  function navigate() {
-    history.push(props.route);
-  }
 
   /**
    * returns empty div if the permissions are not met
    */
   return props.requiredPermissions.includes(props.currentPermission) ? (
-    <div
-      onClick={() => {
-        navigate();
-      }}
-      className={`navItem ${
-        props.route === props.currentRoute ? "active" : "inactive"
-      }`}
-    >
-      <div className={`navIcon ${props.name}`}></div>
-      <div className="navTitle">{props.name}</div>
-    </div>
+    <Link to={props.route} >
+      <div
+        onClick={() => {
+          props.setActiveRoute(props.route)
+        }}
+        className={`navItem ${props.activeRoute===props.route ? "active" : "inactive"}`}
+      >
+        <div className={`navIcon ${props.name}`}></div>
+        <div className="navTitle">{props.name}</div>
+      </div>
+    </Link>
   ) : (
     <div></div>
   );
@@ -85,13 +78,15 @@ function NavItem(props: navItemProp) {
  */
 export default function SideNavbar(props: navbarProps) {
   let navItems = [];
+  const [activeRoute, setActiveRoute] = useState('/dashboard');
   for (let item of props.items) {
     navItems.push(
       <NavItem
         key={item.route}
         name={item.name}
         route={item.route}
-        currentRoute={props.activeRoute}
+        activeRoute={activeRoute}
+        setActiveRoute={setActiveRoute}
         requiredPermissions={item.requiredPermissions}
         currentPermission={props.currentPrivilege}
       />
@@ -127,23 +122,23 @@ let defaultNavItems: NavItems[] = [
   },
   {
     name: "sites",
-    route: "/sites",
+    route: "/dashboard/sites",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
     name: "profiles",
-    route: "/profiles",
+    route: "/dashboard/profiles",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
     name: "user-management",
-    route: "/user-management",
+    route: "/dashboard/user-management",
     requiredPermissions: ["Owner", "Admin"],
   },
   {
     name: "settings",
-    route: "/settings",
+    route: "/dashboard/settings",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
 ];
-export { defaultNavItems,};
+export { defaultNavItems };

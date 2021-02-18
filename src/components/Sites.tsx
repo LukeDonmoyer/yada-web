@@ -28,15 +28,15 @@ export default function Sites() {
   }
 
   return (
-    <ContentWithTopLevelNavbar
-      navItems={defaultNavItems}
-      privilege={userPrivilege}
-      currentRoute={"/sites"}
-      children={
+    // <ContentWithTopLevelNavbar
+    //   navItems={defaultNavItems}
+    //   privilege={userPrivilege}
+    //   currentRoute={"/sites"}
+    //   children={
         <div className="custom">
           <h1>Sites: </h1>
         </div>
-      }
-    />
+      // }
+    // />
   );
 }

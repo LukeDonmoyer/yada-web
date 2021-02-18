@@ -23,7 +23,6 @@ function ContentWithTopLevelNavbar(props: topLevelProps) {
           autoCollapse={true}
           roundRightCorners={true}
           currentPrivilege={props.privilege}
-          activeRoute={props.currentRoute}
           items={props.navItems}
         />
         {props.children} 

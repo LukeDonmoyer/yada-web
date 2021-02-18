@@ -21,7 +21,6 @@ import authSlice from "store/FireActions";
 import store from "./store/store";
 import Sites from "components/Sites";
 import Profiles from "components/Profiles";
-import AdminManagement from "components/AdminManagement";
 import Settings from "components/Settings";
 
 function App() {
@@ -66,9 +65,9 @@ function App() {
         <Route path="/profiles">
           <Profiles />
         </Route>
-        <Route path="/user-management">
+        {/* <Route path="/user-management">
           <AdminManagement />
-        </Route>
+        </Route> */}
         <Route path="/settings">
           <Settings />
         </Route>

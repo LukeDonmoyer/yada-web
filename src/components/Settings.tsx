@@ -28,15 +28,8 @@ export default function Settings() {
   }
 
   return (
-    <ContentWithTopLevelNavbar
-      navItems={defaultNavItems}
-      privilege={userPrivilege}
-      currentRoute={"/settings"}
-      children={
-        <div className="custom">
-          <h1>Settings: </h1>
-        </div>
-      }
-    />
+    <div className="custom">
+      <h1>Settings: </h1>
+    </div>
   );
 }

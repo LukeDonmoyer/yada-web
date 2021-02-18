@@ -28,15 +28,8 @@ export default function Profiles() {
   }
 
   return (
-    <ContentWithTopLevelNavbar
-      navItems={defaultNavItems}
-      privilege={userPrivilege}
-      currentRoute={"/profiles"}
-      children={
-        <div className="custom">
-          <h1>Profiles: </h1>
-        </div>
-      }
-    />
+    <div className="custom">
+      <h1>Profiles: </h1>
+    </div>
   );
 }
