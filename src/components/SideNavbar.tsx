@@ -6,7 +6,7 @@
 
 import { fireAuthSignOut } from "FireConfig";
 import React, { useState } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 
 /**
  * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
@@ -78,7 +78,8 @@ function NavItem(props: navItemProp) {
  */
 export default function SideNavbar(props: navbarProps) {
   let navItems = [];
-  const [activeRoute, setActiveRoute] = useState('/dashboard');
+  const location = useLocation();
+  const [activeRoute, setActiveRoute] = useState(location.pathname);
   for (let item of props.items) {
     navItems.push(
       <NavItem
