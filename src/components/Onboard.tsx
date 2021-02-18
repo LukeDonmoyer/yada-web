@@ -85,7 +85,7 @@ function Onboard(props: RouteComponentProps) {
           let address = "/" + properties[1];
           history.push(address);
         } else {
-          history.push("/dashboard");
+          history.push("/app/");
         }
       }
     });

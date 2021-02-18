@@ -19,9 +19,6 @@ import RequestAccount from "components/RequestAccount";
 
 import authSlice from "store/FireActions";
 import store from "./store/store";
-import Sites from "components/Sites";
-import Profiles from "components/Profiles";
-import Settings from "components/Settings";
 
 function App() {
   const history = useHistory();
@@ -47,7 +44,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Onboard}>
         </Route>
-        <Route path="/dashboard">
+        <Route path="/app/">
           <Dashboard />
         </Route>
         <Route path="/change-password">
@@ -58,18 +55,6 @@ function App() {
         </Route>
         <Route path="/logout">
           <Logout />
-        </Route>
-        <Route path="/sites">
-          <Sites />
-        </Route>
-        <Route path="/profiles">
-          <Profiles />
-        </Route>
-        {/* <Route path="/user-management">
-          <AdminManagement />
-        </Route> */}
-        <Route path="/settings">
-          <Settings />
         </Route>
         <Route path="/contact-us">
           <ContactUs />

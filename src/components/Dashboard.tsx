@@ -16,7 +16,7 @@ import { ContentWithTopLevelNavbar } from "./Sections";
 import { Animated } from "react-animated-css";
 import { Route } from "react-router-dom";
 import Sites from "./Sites";
-import Profiles from "./Profiles";
+import ChannelTemplates from "./ChannelTemplates";
 import UserManagement from "./UserManagement";
 import Settings from "./Settings";
 
@@ -42,17 +42,17 @@ export default function Dashboard() {
           currentPrivilege={userPrivilege}
           items={defaultNavItems}
         />
-        <Route exact path="/dashboard/">
+        <Route exact path="/app/">
           <div className="custom">
             <h1>Dashboard: </h1>
             <p>logged in user: </p>
             <p>{JSON.stringify(currentUser)}</p>
           </div>
         </Route>
-        <Route exact path="/dashboard/sites"  component={Sites}/>
-        <Route exact path="/dashboard/profiles"  component={Profiles}/>
-        <Route exact path="/dashboard/user-management"  component={UserManagement}/>
-        <Route exact path="/dashboard/settings"  component={Settings}/>
+        <Route exact path="/app/sites"  component={Sites}/>
+        <Route exact path="/app/channel-templates"  component={ChannelTemplates}/>
+        <Route exact path="/app/user-management"  component={UserManagement}/>
+        <Route exact path="/app/settings"  component={Settings}/>
       </div>
     </Animated>
   );

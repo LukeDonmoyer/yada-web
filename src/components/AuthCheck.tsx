@@ -10,7 +10,11 @@ import { Animated } from "react-animated-css";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function AuthCheck() {
+interface AuthCheckProps {
+  additionalMessage?: string;
+}
+
+export default function AuthCheck(props: AuthCheckProps) {
   /**
    * Attempts to authenticate with the provided parameters
    * @param event Synthetic event
@@ -31,6 +35,7 @@ export default function AuthCheck() {
       <div className="h-screen custom">
         <div className="floatingCard cardSmall">
           <h1>Sign In</h1>
+          {props.additionalMessage? <p>{props.additionalMessage}</p> : <p></p>}
           <Form onSubmit={handleLogin}>
             <Input
               className="styledPrimaryInput"

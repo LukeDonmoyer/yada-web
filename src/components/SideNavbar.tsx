@@ -118,27 +118,27 @@ export default function SideNavbar(props: navbarProps) {
 let defaultNavItems: NavItems[] = [
   {
     name: "home",
-    route: "/dashboard",
+    route: "/app/",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
     name: "sites",
-    route: "/dashboard/sites",
+    route: "/app/sites",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
-    name: "profiles",
-    route: "/dashboard/profiles",
+    name: "channel-templates",
+    route: "/app/channel-templates",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
   {
     name: "user-management",
-    route: "/dashboard/user-management",
+    route: "/app/user-management",
     requiredPermissions: ["Owner", "Admin"],
   },
   {
     name: "settings",
-    route: "/dashboard/settings",
+    route: "/app/settings",
     requiredPermissions: ["Owner", "Admin", "Power", "User"],
   },
 ];

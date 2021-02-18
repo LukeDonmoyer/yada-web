@@ -14,7 +14,7 @@ import { defaultNavItems } from "./SideNavbar";
 import { useState } from "react";
 import { ContentWithTopLevelNavbar } from "./Sections";
 
-export default function Profiles() {
+export default function ChannelTemplates() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
 
