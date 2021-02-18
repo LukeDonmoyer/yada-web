@@ -6,11 +6,10 @@
  * purpose: home page with an info carousel that provides the login form and some links to resources.
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import {
   RouteComponentProps,
-  useHistory,
   Link,
   Redirect,
 } from "react-router-dom";
@@ -19,7 +18,6 @@ import { signInWithEmail, getUserData } from "../FireConfig";
 
 import { ReactComponent as Logo } from "../assets/images/icon.svg";
 
-import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
 
@@ -69,13 +67,13 @@ function SignInForm() {
  */
 function Onboard(props: RouteComponentProps) {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
-  const history = useHistory();
+  const [redirectDestination, setRedirect] = useState("/");
   // if the user is logged in, they are redirected to changing their password on initial login, or are directed to the location specified by the ?redirect flag, or are directed to the dashboard
-    if (!(currentUser === null || currentUser === undefined)) {
+  if (!(currentUser === null || currentUser === undefined)) {
     const uid = currentUser;
     getUserData(uid).then((userData) => {
       if (userData.defaults) {
-        history.push("/change-password");
+        setRedirect("/change-password");
       } else {
         let properties = props.location.search.split("=");
         if (
@@ -83,40 +81,44 @@ function Onboard(props: RouteComponentProps) {
           ["change-password", "register-users"].includes(properties[1])
         ) {
           let address = "/" + properties[1];
-          history.push(address);
+          setRedirect(address);
         } else {
-          history.push("/app/");
+          setRedirect("/app/");
         }
       }
     });
   }
 
-
   return (
-    <div className="h-screen split md:grid md:grid-cols-2">
-      <div className="leftSection  hidden md:block ">
-        <div className="coloredBlock">
-          <h1 className="w-full text-center">Company Name</h1>
-          {/* <CustomCarousel /> */}
-          <Logo className="mx-auto my-20" />
+    <div>
+      {!(currentUser === null || currentUser === undefined) ? (
+        <Redirect to={redirectDestination} />
+      ) : (
+        <div className="h-screen split md:grid md:grid-cols-2">
+          <div className="leftSection  hidden md:block ">
+            <div className="coloredBlock">
+              <h1 className="w-full text-center">Company Name</h1>
+              {/* <CustomCarousel /> */}
+              <Logo className="mx-auto my-20" />
+            </div>
+          </div>
+          <div className="rightSection custom onboard">
+            <div className="">
+              <ul>
+                <li>
+                  <Link to="/contactUs">Contact Us</Link>
+                </li>
+                <li>
+                  <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
+                    Open Source Code
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <SignInForm />
+          </div>
         </div>
-      </div>
-      <div className="rightSection custom onboard">
-        <div className="">
-          <ul>
-            <li>
-              <Link to="/contactUs">Contact Us</Link>
-            </li>
-            <li>
-              <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
-                Open Source Code
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <SignInForm />
-      </div>
+      )}
     </div>
   );
 }

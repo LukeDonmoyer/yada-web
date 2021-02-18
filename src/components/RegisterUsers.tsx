@@ -53,7 +53,7 @@ export default function RegisterUsers() {
       // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
         alert("innappropriate permissions. Please log in as administrator.");
-        history.push("/dashboard");
+        history.push("/app/");
       }
     });
   } else {
@@ -65,7 +65,7 @@ export default function RegisterUsers() {
    * creates an account for every email in the table then redirects to the dashboard
    */
   function registerUsers() {
-    history.push("/dashboard")
+    history.push("/app/")
     emails.forEach((email) => {
       // authorizes the email for logon with the default password
       registerUser(email).then((user) => {

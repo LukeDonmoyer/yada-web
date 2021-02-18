@@ -2,27 +2,15 @@
  * Dashboard component
  * author: Shaun Jorstad
  *
- * route: '/user-management'
- * purpose: page that wiill provide access to manage sites
+ * route: '/app/user-management'
+ * purpose: page that wiill provide access to manage users
  */
 
-import { useSelector } from "react-redux";
-import { RootState } from "../store/rootReducer";
 import { getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
-import { defaultNavItems } from "./SideNavbar";
 import React, { useState } from "react";
-import { ContentWithTopLevelNavbar } from "./Sections";
-import { Redirect } from "react-router-dom";
-
 export default function UserManagement() {
-  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [authorized, setAuthorization] = useState(false);
-
-  // if there is no logged in user redirect home
-  if (currentUser === null || currentUser === undefined) {
-    return <AuthCheck />;
-  }
 
   getUserPrivilege().then((privilege) => {
     if (privilege === "Owner" || privilege === "Admin") {
@@ -31,9 +19,9 @@ export default function UserManagement() {
   });
 
   return (
-    <div className="">
+    <div className="custom w-full">
       {authorized ? (
-        <div className="custom">
+        <div className="">
           <h1>User Management: </h1>
         </div>
       ) : (
