@@ -8,13 +8,12 @@ import { createEmailDocument } from "../FireConfig";
 import { Redirect } from "react-router-dom";
 import "../assets/styles.scss";
 
-export default function ContactUs(){
-
+export default function ContactUs() {
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
   let [submitted, setSubmitted] = useState(false);
 
-  function handleEvent(func: any){
+  function handleEvent(func: any) {
     return (event: any) => {
       event.preventDefault();
       func(event.target.value);
@@ -27,36 +26,39 @@ export default function ContactUs(){
     setSubmitted(true);
   };
 
-  return (
-    submitted ? <Redirect push to="/" /> :
-    <div className="px-80 py-8 custom">
-      <h1>Contact Us</h1>
-      <Form onSubmit={sendEmail} className="py-8">
-        <Input
-          className="styledPrimaryInput"
-          required
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEvent(setEmail)}
-        />
-        <Input
-          className="styledPrimaryInput"
-          required
-          type="textarea"
-          name="textarea"
-          id="textarea"
-          rows="4"
-          placeholder="Message"
-          value={message}
-          onChange={handleEvent(setMessage)}
-        />
-        <Button type="submit" value="Submit" className="primaryButton">
-          Contact Us
-        </Button>
-      </Form>
+  return submitted ? (
+    <Redirect push to="/" />
+  ) : (
+    <div className="custom h-screen">
+      <div className="floatingCard cardLarge">
+        <h1>Contact Us</h1>
+        <Form onSubmit={sendEmail} className="py-8">
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleEvent(setEmail)}
+          />
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="textarea"
+            name="textarea"
+            id="textarea"
+            rows="4"
+            placeholder="Message"
+            value={message}
+            onChange={handleEvent(setMessage)}
+          />
+          <Button type="submit" value="Submit" className="primaryButton">
+            Contact Us
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }
