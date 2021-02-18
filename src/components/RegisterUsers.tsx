@@ -9,7 +9,7 @@
  */
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import {
   createUserDocument,
   getUserData,
@@ -65,7 +65,6 @@ export default function RegisterUsers() {
    * creates an account for every email in the table then redirects to the dashboard
    */
   function registerUsers() {
-    history.push("/app/")
     emails.forEach((email) => {
       // authorizes the email for logon with the default password
       registerUser(email).then((user) => {
@@ -74,6 +73,7 @@ export default function RegisterUsers() {
         sendAuthorizationEmail(user.user.email);
       });
     });
+    alert("Users were registered and will receive an email");
   }
 
   return (
@@ -105,6 +105,7 @@ export default function RegisterUsers() {
             >
               register and email
             </div>
+            <Link to="/app/"><div className="dashboardLink">--go to dashboard--</div></Link>
           </div>
         </div>
       </div>

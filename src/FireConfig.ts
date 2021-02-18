@@ -156,6 +156,7 @@ export function createUserDocument(
   });
 }
 
+
 /**
  * Creates an email document which will be later sent to admins and then deleted
  * @param email 
@@ -172,6 +173,7 @@ export function createEmailDocument(
     message: message
   });
 }
+
 
 /**
  * Sends the authorization email (via the password reset template)
