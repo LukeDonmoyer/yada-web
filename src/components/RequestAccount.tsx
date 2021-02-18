@@ -8,13 +8,12 @@ import { Button, Form, Input } from "reactstrap";
 import { createEmailDocument } from "FireConfig";
 import "../assets/styles.scss";
 
-export default function RequestAccount(){
-
+export default function RequestAccount() {
   let [email, setEmail] = useState("");
   let [message, setMessage] = useState("");
   let [submitted, setSubmitted] = useState(false);
 
-  function handleEvent(func: any){
+  function handleEvent(func: any) {
     return (event: any) => {
       event.preventDefault();
       func(event.target.value);
@@ -24,7 +23,7 @@ export default function RequestAccount(){
   /**
    * This function should attempt to send the message and email from the form
    * to all admin and owner emails.
-   * @param event 
+   * @param event
    */
   const sendEmail = (event: any) => {
     createEmailDocument(email, message, "YADA Request Account");
@@ -32,36 +31,39 @@ export default function RequestAccount(){
     setSubmitted(true);
   };
 
-  return(
-    submitted ? <Redirect push to="/"/> :
-    <div className="px-80 py-8 custom">
-      <h1>Request Account</h1>
-      <Form onSubmit={sendEmail} className="py-8">
-        <Input
-          className="styledPrimaryInput"
-          required
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleEvent(setEmail)}
-        />
-        <Input
-          className="styledPrimaryInput"
-          required
-          type="textarea"
-          name="textarea"
-          id="textarea"
-          rows="4"
-          placeholder="Message"
-          value={message}
-          onChange={handleEvent(setMessage)}
-        />
-        <Button type="submit" value="Submit" className="primaryButton">
-          Request Account
-        </Button>
-      </Form>
+  return submitted ? (
+    <Redirect push to="/" />
+  ) : (
+    <div className="custom h-screen">
+      <div className="floatingCard cardLarge">
+        <h1>Request Account</h1>
+        <Form onSubmit={sendEmail} className="py-8">
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleEvent(setEmail)}
+          />
+          <Input
+            className="styledPrimaryInput"
+            required
+            type="textarea"
+            name="textarea"
+            id="textarea"
+            rows="4"
+            placeholder="Message"
+            value={message}
+            onChange={handleEvent(setMessage)}
+          />
+          <Button type="submit" value="Submit" className="primaryButton">
+            Request Account
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }
