@@ -8,7 +8,7 @@
 
 export default function Settings() {
   return (
-    <div className="custom">
+    <div className="settings">
       <h1>Settings: </h1>
     </div>
   );

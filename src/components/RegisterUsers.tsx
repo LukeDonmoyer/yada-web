@@ -78,12 +78,12 @@ export default function RegisterUsers() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen custom">
-        <div className="floatingCard cardLarge">
+      <div className="h-screen registerUsers">
+        <div className="card">
           <h1>Register users</h1>
           <div className="userForms">
-            <h3 className="float-left">Emails:</h3>
-            <div onClick={addForm} className="primaryButton  float-right">
+            <h2 className="float-left">Emails:</h2>
+            <div onClick={addForm} className="addEmailButton">
               +
             </div>
             <div className="registerUsersTable">
@@ -99,10 +99,7 @@ export default function RegisterUsers() {
                 />
               ))}
             </div>
-            <div
-              className="primaryButton registerUsersButton"
-              onClick={registerUsers}
-            >
+            <div className="registerUsersButton" onClick={registerUsers}>
               register and email
             </div>
             <Link to="/app/">

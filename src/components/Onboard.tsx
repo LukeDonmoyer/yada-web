@@ -98,7 +98,7 @@ function Onboard(props: RouteComponentProps) {
               <Logo className="mx-auto my-20" />
             </div>
           </div>
-          <div className="rightSection custom onboard">
+          <div className="rightSection onboard">
             <div className="">
               <ul>
                 <li>

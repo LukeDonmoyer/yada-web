@@ -1,0 +1,47 @@
+.onboard {
+  .content {
+    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .signIn {
+    padding-left: 10%;
+  }
+
+  .onboardForm {
+    margin-top: 10%;
+  }
+
+  h1 {
+    @include largeTitle;
+    margin-top: 30px;
+    color: $companyName;
+  }
+
+  p {
+    @include lightParagraph;
+    padding-bottom: 70px;
+  }
+
+  input {
+    @include wideInput;
+  }
+
+  button {
+    // @include filledPrimaryButton;
+    @include filledPrimaryButton;
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+    margin-top: 80px;
+  }
+
+  .requestLink {
+    @include link;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+  }
+}

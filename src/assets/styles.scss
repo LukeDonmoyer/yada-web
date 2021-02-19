@@ -1,11 +1,24 @@
-@import "_variables";
-@import "_sections";
-@import "_buttons";
-@import "_forms";
-@import "_navbar";
-@import "_onboard";
-@import "_cards";
-@import "_tables";
+@import "/designLanguage/_variables";
+@import "/designLanguage/_types";
+@import "/designLanguage/_sections";
+@import "/designLanguage/_buttons";
+@import "/designLanguage/_forms";
+@import "/designLanguage/_cards";
+@import "/designLanguage/_tables";
+
+@import "/components/_contactUs";
+@import "/components/_requestAccount";
+@import "/components/_navbar";
+@import "/components/_onboard";
+@import "/components/_authCheck";
+
+@import "/components/_dashboard";
+@import "/components/_sites";
+@import "/components/_channelTemplates";
+@import "/components/_userManagement";
+@import "/components/_settings";
+@import "/components/_changePassword";
+@import "/components/_registerUsers";
 
 * {
   overflow: hidden;

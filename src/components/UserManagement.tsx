@@ -19,7 +19,7 @@ export default function UserManagement() {
   });
 
   return (
-    <div className="custom w-full">
+    <div className="userManagement w-full">
       {authorized ? (
         <div className="">
           <h1>User Management: </h1>

@@ -28,13 +28,12 @@ export default function AuthCheck(props: AuthCheckProps) {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen custom">
-        <div className="floatingCard cardSmall">
+      <div className="h-screen authCheck">
+        <div className="card">
           <h1>Sign In</h1>
           {props.additionalMessage ? <p>{props.additionalMessage}</p> : <p></p>}
           <Form onSubmit={handleLogin}>
             <Input
-              className="styledPrimaryInput"
               required
               type="email"
               name="email"
@@ -42,19 +41,18 @@ export default function AuthCheck(props: AuthCheckProps) {
               placeholder="email"
             />
             <Input
-              className="styledPrimaryInput"
               required
               type="password"
               name="password"
               id="password"
               placeholder="password"
             />
+            <Button type="submit" value="Submit">
+              Sign In
+            </Button>
             <Link to="/request-account" className="requestLink">
               Request Account
             </Link>
-            <Button type="submit" value="Submit" className="primaryButton">
-              Sign In
-            </Button>
           </Form>
         </div>
       </div>

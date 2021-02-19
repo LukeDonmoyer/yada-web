@@ -43,7 +43,7 @@ export default function Dashboard() {
           items={defaultNavItems}
         />
         <Route exact path="/app/">
-          <div className="custom">
+          <div className="dashboard">
             <h1>Dashboard: </h1>
             <p>logged in user: </p>
             <p>{JSON.stringify(currentUser)}</p>

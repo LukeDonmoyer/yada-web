@@ -8,7 +8,7 @@
 
 export default function ChannelTemplates() {
   return (
-    <div className="custom">
+    <div className="channelTemplates">
       <h1>Channel Templates: </h1>
     </div>
   );

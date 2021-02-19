@@ -1,0 +1,45 @@
+@mixin filledPrimaryButton {
+  font-family: "Lato";
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: $companyName;
+  color: white;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: $companyName;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    color: $companyName;
+    border-color: $companyName;
+    transform: scale(0.9, 0.9);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+@mixin borderedPrimaryButton {
+  font-family: "Lato";
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: white;
+  color: $companyName;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: $companyName;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $companyName;
+    color: white;
+    border-color: $companyName;
+    transform: scale(0.9, 0.9);
+    transition: all 0.2s ease-in-out;
+  }
+}
