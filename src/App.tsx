@@ -23,6 +23,7 @@ import Sites from "components/Sites";
 import Profiles from "components/Profiles";
 import AdminManagement from "components/AdminManagement";
 import Settings from "components/Settings";
+import NotFound from "components/NotFound";
 
 function App() {
   const history = useHistory();
@@ -78,6 +79,7 @@ function App() {
         <Route path="/requestAccount">
             <RequestAccount />
         </Route>
+        <Route component={NotFound}/>
       </Switch>
     </Router>
   );
