@@ -12,7 +12,7 @@ import { RouteComponentProps, useHistory, Link } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../FireConfig";
 
-import { ReactComponent as Logo } from "../assets/images/icon.svg"
+import { ReactComponent as Logo } from "../assets/images/icon.svg";
 
 import CustomCarousel from "./carousel";
 import "../assets/styles.scss";
@@ -48,9 +48,9 @@ function SignInForm() {
           placeholder="password"
         />
         <Button>Sign In</Button>
-        <span className="requestLink">
-          <Link to="/requestAccount" className="requestLink">Request Account</Link>
-        </span>
+        <Link to="/requestAccount" className="requestLink">
+          Request Account
+        </Link>
       </Form>
     </div>
   );
@@ -91,14 +91,14 @@ function Onboard(props: RouteComponentProps) {
         <div className="coloredBlock">
           <h1 className="w-full text-center">Company Name</h1>
           {/* <CustomCarousel /> */}
-          <Logo className="mx-auto my-20"/>
+          <Logo className="mx-auto my-20" />
         </div>
       </div>
       <div className="rightSection custom onboard">
         <div className="">
           <ul>
             <li>
-              <Link to='/contactUs'>Contact Us</Link>
+              <Link to="/contactUs">Contact Us</Link>
             </li>
             <li>
               <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">

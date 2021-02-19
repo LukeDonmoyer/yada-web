@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 import "../assets/styles.scss";
+import { Link } from "react-router-dom";
 
-export default function NotFound(){
+export default function NotFound() {
   return (
     <div className="custom h-screen">
       <div className="floatingCard cardLarge">
-        <h1>404 - Not Found!</h1>
-        <Link to="/" className="requestLink">
-          Return to Sign In
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <Link to="/">
+          <Button> Return to Sign In </Button>
         </Link>
       </div>
     </div>
