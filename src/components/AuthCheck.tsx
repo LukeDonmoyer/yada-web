@@ -49,7 +49,7 @@ export default function AuthCheck(props: AuthCheckProps) {
               id="password"
               placeholder="password"
             />
-            <Link to="/requestAccount" className="requestLink">
+            <Link to="/request-account" className="requestLink">
               Request Account
             </Link>
             <Button type="submit" value="Submit" className="primaryButton">
