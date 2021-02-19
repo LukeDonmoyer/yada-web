@@ -34,12 +34,11 @@ export default function RequestAccount() {
   return submitted ? (
     <Redirect push to="/" />
   ) : (
-    <div className="custom h-screen">
-      <div className="floatingCard cardLarge">
+    <div className="requestAccount h-screen">
+      <div className="card">
         <h1>Request Account</h1>
         <Form onSubmit={sendEmail} className="py-8">
           <Input
-            className="styledPrimaryInput"
             required
             type="email"
             name="email"
@@ -49,7 +48,6 @@ export default function RequestAccount() {
             onChange={handleEvent(setEmail)}
           />
           <Input
-            className="styledPrimaryInput"
             required
             type="textarea"
             name="textarea"

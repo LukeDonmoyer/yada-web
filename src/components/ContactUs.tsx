@@ -29,12 +29,11 @@ export default function ContactUs() {
   return submitted ? (
     <Redirect push to="/" />
   ) : (
-    <div className="custom h-screen">
-      <div className="floatingCard cardLarge">
+    <div className="contactUs h-screen">
+      <div className="card">
         <h1>Contact Us</h1>
         <Form onSubmit={sendEmail} className="py-8">
           <Input
-            className="styledPrimaryInput"
             required
             type="email"
             name="email"
@@ -44,7 +43,6 @@ export default function ContactUs() {
             onChange={handleEvent(setEmail)}
           />
           <Input
-            className="styledPrimaryInput"
             required
             type="textarea"
             name="textarea"
@@ -54,7 +52,7 @@ export default function ContactUs() {
             value={message}
             onChange={handleEvent(setMessage)}
           />
-          <Button type="submit" value="Submit" className="primaryButton">
+          <Button type="submit" value="Submit">
             Contact Us
           </Button>
         </Form>

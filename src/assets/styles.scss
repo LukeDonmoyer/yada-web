@@ -6,9 +6,19 @@
 @import "/designLanguage/_cards";
 @import "/designLanguage/_tables";
 
+@import "/components/_contactUs";
+@import "/components/_requestAccount";
 @import "/components/_navbar";
 @import "/components/_onboard";
 @import "/components/_authCheck";
+
+@import "/components/_dashboard";
+@import "/components/_sites";
+@import "/components/_channelTemplates";
+@import "/components/_userManagement";
+@import "/components/_settings";
+@import "/components/_changePassword";
+@import "/components/_registerUsers";
 
 * {
   overflow: hidden;

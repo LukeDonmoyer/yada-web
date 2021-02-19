@@ -8,7 +8,7 @@
 
 export default function Sites() {
   return (
-    <div className="custom">
+    <div className="sites">
       <h1>Sites: </h1>
     </div>
   );

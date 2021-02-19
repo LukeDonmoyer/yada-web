@@ -50,7 +50,7 @@ export default function AuthCheck(props: AuthCheckProps) {
             <Button type="submit" value="Submit">
               Sign In
             </Button>
-            <Link to="/requestAccount" className="requestLink">
+            <Link to="/request-account" className="requestLink">
               Request Account
             </Link>
           </Form>
