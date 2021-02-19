@@ -1,11 +1,14 @@
-@import "_variables";
-@import "_sections";
-@import "_buttons";
-@import "_forms";
-@import "_navbar";
-@import "_onboard";
-@import "_cards";
-@import "_tables";
+@import "/designLanguage/_variables";
+@import "/designLanguage/_types";
+@import "/designLanguage/_sections";
+@import "/designLanguage/_buttons";
+@import "/designLanguage/_forms";
+@import "/designLanguage/_cards";
+@import "/designLanguage/_tables";
+
+@import "/components/_navbar";
+@import "/components/_onboard";
+@import "/components/_authCheck";
 
 * {
   overflow: hidden;
