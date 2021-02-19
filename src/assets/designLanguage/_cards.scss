@@ -1,4 +1,4 @@
-.floatingCard {
+@mixin floatingCard {
   background: #ffffff;
   box-shadow: 0px 13px 13px 8px rgba(0, 0, 0, 0.25);
   border-radius: 53px;
@@ -6,13 +6,13 @@
   margin-top: 50px;
 }
 
-.cardSmall {
+@mixin cardSmall {
   width: 40%;
   // height: 70%;
   padding: 3%;
 }
 
-.cardLarge {
+@mixin cardLarge {
   width: 70%;
   // height: 90%;
   padding: 3%;

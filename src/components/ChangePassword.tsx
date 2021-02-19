@@ -44,9 +44,9 @@ export default function ChangePassword() {
           getUserData(currentUser as string).then((userData) => {
             // if the current user is the Owner, they are directed to the register users page, otherwise the dashboard
             if (userData.userGroup === "Owner") {
-              history.push("/registerUsers");
+              history.push("/register-users");
             } else {
-              history.push("/dashboard");
+              history.push("/app/");
             }
           });
         },
@@ -59,12 +59,11 @@ export default function ChangePassword() {
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen custom">
-        <div className="floatingCard cardSmall">
+      <div className="h-screen changePassword">
+        <div className="card">
           <h1 className="text-center">Change Your Password</h1>
           <form onSubmit={handleResetPassword}>
             <Input
-              className="styledPrimaryInput"
               required
               type="password"
               name="password"
@@ -72,14 +71,13 @@ export default function ChangePassword() {
               placeholder="new password"
             />
             <Input
-              className="styledPrimaryInput"
               required
               type="password"
               name="confirmPassword"
               id="confirmPassword"
               placeholder="confirm password"
             />
-            <Button type="submit" value="Submit" className="primaryButton">
+            <Button type="submit" value="Submit">
               Submit
             </Button>
           </form>

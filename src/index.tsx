@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "tailwind.css";
 import { Provider } from "react-redux";
-import store from './store/store';
+import store from "./store/store";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -10,9 +10,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
-import { defaultNavItems } from "./SideNavbar";
-import { useState } from "react";
+import SideNavbar, { defaultNavItems } from "./SideNavbar";
+import React, { useState } from "react";
 import { ContentWithTopLevelNavbar } from "./Sections";
+import { Animated } from "react-animated-css";
+import { Route } from "react-router-dom";
+import Sites from "./Sites";
+import ChannelTemplates from "./ChannelTemplates";
+import UserManagement from "./UserManagement";
+import Settings from "./Settings";
 
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -28,17 +34,30 @@ export default function Dashboard() {
   }
 
   return (
-    <ContentWithTopLevelNavbar
-      navItems={defaultNavItems}
-      privilege={userPrivilege}
-      currentRoute={"/dashboard"}
-      children={
-        <div className="custom">
-          <h1>Dashboard: </h1>
-          <p>logged in user: </p>
-          <p>{JSON.stringify(currentUser)}</p>
-        </div>
-      }
-    />
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div className="withSideNavbar">
+        <SideNavbar
+          autoCollapse={true}
+          roundRightCorners={true}
+          currentPrivilege={userPrivilege}
+          items={defaultNavItems}
+        />
+        <Route exact path="/app/">
+          <div className="dashboard">
+            <h1>Dashboard: </h1>
+            <p>logged in user: </p>
+            <p>{JSON.stringify(currentUser)}</p>
+          </div>
+        </Route>
+        <Route exact path="/app/sites" component={Sites} />
+        <Route
+          exact
+          path="/app/channel-templates"
+          component={ChannelTemplates}
+        />
+        <Route exact path="/app/user-management" component={UserManagement} />
+        <Route exact path="/app/settings" component={Settings} />
+      </div>
+    </Animated>
   );
 }

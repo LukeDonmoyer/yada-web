@@ -9,7 +9,7 @@
  */
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import {
   createUserDocument,
   getUserData,
@@ -53,7 +53,7 @@ export default function RegisterUsers() {
       // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
         alert("innappropriate permissions. Please log in as administrator.");
-        history.push("/dashboard");
+        history.push("/app/");
       }
     });
   } else {
@@ -72,18 +72,18 @@ export default function RegisterUsers() {
         createUserDocument(user.user.uid, user.user.email, "User");
         sendAuthorizationEmail(user.user.email);
       });
-      history.push("/dashboard");
     });
+    alert("Users were registered and will receive an email");
   }
 
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
-      <div className="h-screen custom">
-        <div className="floatingCard cardLarge">
+      <div className="h-screen registerUsers">
+        <div className="card">
           <h1>Register users</h1>
           <div className="userForms">
-            <h3 className="float-left">Emails:</h3>
-            <div onClick={addForm} className="primaryButton  float-right">
+            <h2 className="float-left">Emails:</h2>
+            <div onClick={addForm} className="addEmailButton">
               +
             </div>
             <div className="registerUsersTable">
@@ -99,12 +99,12 @@ export default function RegisterUsers() {
                 />
               ))}
             </div>
-            <div
-              className="primaryButton registerUsersButton"
-              onClick={registerUsers}
-            >
+            <div className="registerUsersButton" onClick={registerUsers}>
               register and email
             </div>
+            <Link to="/app/">
+              <div className="dashboardLink">--go to dashboard--</div>
+            </Link>
           </div>
         </div>
       </div>

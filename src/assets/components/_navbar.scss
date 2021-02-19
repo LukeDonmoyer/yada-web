@@ -39,13 +39,18 @@
   height: 100vh;
   width: 100%;
 
+  a {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
   .navContainer {
     &:hover {
       .navTitle {
-        max-width: 240px;
+        max-width: 350px;
         transition: all 0.5s ease-in-out;
         padding-left: 15px;
-        padding-right: 15px;
+        padding-right: 45px;
       }
     }
 
@@ -125,27 +130,27 @@
       background-size: 24px;
     }
     .home {
-      background-image: url("./icons/home.svg");
+      background-image: url("../icons/home.svg");
     }
 
     .sites {
-      background-image: url("./icons/site.svg");
+      background-image: url("../icons/site.svg");
     }
 
-    .profiles {
-      background-image: url("./icons/hvac.svg");
+    .channel-templates {
+      background-image: url("../icons/hvac.svg");
     }
 
-    .adminManagement {
-      background-image: url("./icons/accountManagement.svg");
+    .user-management {
+      background-image: url("../icons/accountManagement.svg");
     }
 
     .settings {
-      background-image: url("./icons/settings.svg");
+      background-image: url("../icons/settings.svg");
     }
 
     .logout {
-      background-image: url("./icons/logout.svg");
+      background-image: url("../icons/logout.svg");
     }
 
     .logoutItem {

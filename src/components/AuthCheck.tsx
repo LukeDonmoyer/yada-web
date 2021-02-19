@@ -1,7 +1,7 @@
 /**
  * Auth verification form component
  * author: Shaun Jorstad
- * 
+ *
  * fullscreen component to request signin from the user
  */
 import { Button, Form, Input } from "reactstrap";
@@ -10,7 +10,11 @@ import { Animated } from "react-animated-css";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function AuthCheck() {
+interface AuthCheckProps {
+  additionalMessage?: string;
+}
+
+export default function AuthCheck(props: AuthCheckProps) {
   /**
    * Attempts to authenticate with the provided parameters
    * @param event Synthetic event
@@ -23,17 +27,13 @@ export default function AuthCheck() {
   };
 
   return (
-    <Animated
-      animationIn="fadeIn"
-      animationOut="fadeOut"
-      isVisible={true}
-    >
-      <div className="h-screen custom">
-        <div className="floatingCard cardSmall">
+    <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
+      <div className="h-screen authCheck">
+        <div className="card">
           <h1>Sign In</h1>
+          {props.additionalMessage ? <p>{props.additionalMessage}</p> : <p></p>}
           <Form onSubmit={handleLogin}>
             <Input
-              className="styledPrimaryInput"
               required
               type="email"
               name="email"
@@ -41,17 +41,18 @@ export default function AuthCheck() {
               placeholder="email"
             />
             <Input
-              className="styledPrimaryInput"
               required
               type="password"
               name="password"
               id="password"
               placeholder="password"
             />
-            <Link to="/requestAccount" className="requestLink">Request Account</Link>
-            <Button type="submit" value="Submit" className="primaryButton">
+            <Button type="submit" value="Submit">
               Sign In
             </Button>
+            <Link to="/request-account" className="requestLink">
+              Request Account
+            </Link>
           </Form>
         </div>
       </div>

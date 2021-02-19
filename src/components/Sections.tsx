@@ -8,14 +8,13 @@ import AuthCheck from "./AuthCheck";
 import SideNavbar, { NavItems } from "./SideNavbar";
 
 interface topLevelProps {
-    privilege: string,
-    currentRoute: string,
-    navItems: NavItems[],
-    children: any
+  privilege: string;
+  currentRoute: string;
+  navItems: NavItems[];
+  children: any;
 }
 
 function ContentWithTopLevelNavbar(props: topLevelProps) {
-
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
       <div className="withSideNavbar">
@@ -23,10 +22,9 @@ function ContentWithTopLevelNavbar(props: topLevelProps) {
           autoCollapse={true}
           roundRightCorners={true}
           currentPrivilege={props.privilege}
-          activeRoute={props.currentRoute}
           items={props.navItems}
         />
-        {props.children} 
+        {props.children}
       </div>
     </Animated>
   );
