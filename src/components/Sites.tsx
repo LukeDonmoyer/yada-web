@@ -6,7 +6,6 @@
  * purpose: page that wiill provide access to manage sites
  */
 
-
 export default function Sites() {
   return (
     <div className="custom">

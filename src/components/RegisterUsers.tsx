@@ -105,7 +105,9 @@ export default function RegisterUsers() {
             >
               register and email
             </div>
-            <Link to="/app/"><div className="dashboardLink">--go to dashboard--</div></Link>
+            <Link to="/app/">
+              <div className="dashboardLink">--go to dashboard--</div>
+            </Link>
           </div>
         </div>
       </div>

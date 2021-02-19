@@ -42,8 +42,7 @@ function App() {
             renders the first one that matches the current URL. */}
       {/* {!(currentUser === null || currentUser === undefined)? {} : {}} */}
       <Switch>
-        <Route exact path="/" component={Onboard}>
-        </Route>
+        <Route exact path="/" component={Onboard}></Route>
         <Route path="/app/">
           <Dashboard />
         </Route>

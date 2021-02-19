@@ -49,10 +49,14 @@ export default function Dashboard() {
             <p>{JSON.stringify(currentUser)}</p>
           </div>
         </Route>
-        <Route exact path="/app/sites"  component={Sites}/>
-        <Route exact path="/app/channel-templates"  component={ChannelTemplates}/>
-        <Route exact path="/app/user-management"  component={UserManagement}/>
-        <Route exact path="/app/settings"  component={Settings}/>
+        <Route exact path="/app/sites" component={Sites} />
+        <Route
+          exact
+          path="/app/channel-templates"
+          component={ChannelTemplates}
+        />
+        <Route exact path="/app/user-management" component={UserManagement} />
+        <Route exact path="/app/settings" component={Settings} />
       </div>
     </Animated>
   );

@@ -25,7 +25,11 @@ export default function UserManagement() {
           <h1>User Management: </h1>
         </div>
       ) : (
-        <AuthCheck additionalMessage={"You do not have proper authentication for this page. Please log in as an admin, or contact your admin for access."}/> 
+        <AuthCheck
+          additionalMessage={
+            "You do not have proper authentication for this page. Please log in as an admin, or contact your admin for access."
+          }
+        />
       )}
     </div>
   );

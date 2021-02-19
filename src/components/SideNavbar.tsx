@@ -51,17 +51,18 @@ interface navItemProp {
  * @param props
  */
 function NavItem(props: navItemProp) {
-
   /**
    * returns empty div if the permissions are not met
    */
   return props.requiredPermissions.includes(props.currentPermission) ? (
-    <Link to={props.route} >
+    <Link to={props.route}>
       <div
         onClick={() => {
-          props.setActiveRoute(props.route)
+          props.setActiveRoute(props.route);
         }}
-        className={`navItem ${props.activeRoute===props.route ? "active" : "inactive"}`}
+        className={`navItem ${
+          props.activeRoute === props.route ? "active" : "inactive"
+        }`}
       >
         <div className={`navIcon ${props.name}`}></div>
         <div className="navTitle">{props.name}</div>

@@ -6,7 +6,6 @@
  * purpose: page that wiill provide access to manage channel templates
  */
 
-
 export default function ChannelTemplates() {
   return (
     <div className="custom">

@@ -30,9 +30,7 @@ var adminAuth = adminInstance.auth();
  *
  * returns a promise that is resolved with the user authentication object
  */
-export function registerUser(
-  userEmail: string
-): Promise<any> {
+export function registerUser(userEmail: string): Promise<any> {
   return getUserPrivilege().then((privilege) => {
     if (["Owner", "Admin"].includes(privilege)) {
       return adminAuth
@@ -43,7 +41,7 @@ export function registerUser(
           });
         });
     } else {
-      alert("innappropriate user permissions for this action")
+      alert("innappropriate user permissions for this action");
     }
   });
 }
