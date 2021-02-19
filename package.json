@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.1.0",
     "@reduxjs/toolkit": "^1.5.0",
-    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@tailwindcss/postcss7-compat": "npm:@tailwindcss/postcss7-compat",
     "@testing-library/dom": "^7.21.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -73,5 +73,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }

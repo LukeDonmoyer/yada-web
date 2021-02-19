@@ -19,10 +19,6 @@ import RequestAccount from "components/RequestAccount";
 
 import authSlice from "store/FireActions";
 import store from "./store/store";
-import Sites from "components/Sites";
-import Profiles from "components/Profiles";
-import AdminManagement from "components/AdminManagement";
-import Settings from "components/Settings";
 
 function App() {
   const history = useHistory();
@@ -44,39 +40,26 @@ function App() {
     <Router>
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
+      {/* {!(currentUser === null || currentUser === undefined)? {} : {}} */}
       <Switch>
-        <Route exact path="/" component={Onboard}>
-          {/* <Onboard /> */}
-        </Route>
-        <Route path="/dashboard">
+        <Route exact path="/" component={Onboard}></Route>
+        <Route path="/app/">
           <Dashboard />
         </Route>
-        <Route path="/changePassword">
+        <Route path="/change-password">
           <ChangePassword />
         </Route>
-        <Route path="/registerUsers">
+        <Route path="/register-users">
           <RegisterUsers />
         </Route>
         <Route path="/logout">
           <Logout />
         </Route>
-        <Route path="/sites">
-          <Sites />
+        <Route path="/contact-us">
+          <ContactUs />
         </Route>
-        <Route path="/profiles">
-          <Profiles/>
-        </Route>
-        <Route path="/adminManagement">
-          <AdminManagement/>
-        </Route>
-        <Route path="/settings">
-          <Settings/>
-        </Route>
-        <Route path="/contactUs">
-            <ContactUs />
-        </Route>
-        <Route path="/requestAccount">
-            <RequestAccount />
+        <Route path="/request-account">
+          <RequestAccount />
         </Route>
       </Switch>
     </Router>

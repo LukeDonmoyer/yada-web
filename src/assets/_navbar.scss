@@ -39,13 +39,18 @@
   height: 100vh;
   width: 100%;
 
+  a {
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
   .navContainer {
     &:hover {
       .navTitle {
-        max-width: 240px;
+        max-width: 350px;
         transition: all 0.5s ease-in-out;
         padding-left: 15px;
-        padding-right: 15px;
+        padding-right: 45px;
       }
     }
 
@@ -132,11 +137,11 @@
       background-image: url("./icons/site.svg");
     }
 
-    .profiles {
+    .channel-templates {
       background-image: url("./icons/hvac.svg");
     }
 
-    .adminManagement {
+    .user-management {
       background-image: url("./icons/accountManagement.svg");
     }
 

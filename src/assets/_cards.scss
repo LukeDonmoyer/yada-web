@@ -7,14 +7,21 @@
 }
 
 .cardSmall {
-    width: 40%;
-    // height: 70%;
-    padding: 3%;
+  width: 40%;
+  // height: 70%;
+  padding: 3%;
 }
 
-
 .cardLarge {
-    width: 70%;
-    // height: 90%;
-    padding: 3%;
+  width: 70%;
+  // height: 90%;
+  padding: 3%;
+}
+
+.dashboardLink {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  color: $companyName;
+  font-family: "lato", sans-serif;
 }

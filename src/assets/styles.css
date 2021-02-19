@@ -15,7 +15,7 @@ li {
   font-size: 20px;
   cursor: pointer;
   user-select: none;
-  color: #4B4B4B;
+  color: #4b4b4b;
 }
 
 .navbar {
@@ -30,11 +30,11 @@ li {
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-size: 40px;
-  color: #2292A4;
+  color: #2292a4;
 }
 
 .focus {
-  color: #2292A4;
+  color: #2292a4;
 }
 
 .content {
@@ -51,7 +51,7 @@ h1 {
   font-size: 45px;
   font-family: "Lato", sans-serif;
   font-weight: 700;
-  color: #4B4B4B;
+  color: #4b4b4b;
   margin-bottom: 40px;
   margin-top: 50px;
 }
@@ -59,20 +59,20 @@ h1 {
 input {
   display: block;
   border-width: 2px;
-  border-color: #E5E5E5;
+  border-color: #e5e5e5;
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 20px;
   outline: 0px;
   width: 100%;
   font-family: "Lato", sans-serif;
-  color: #4B4B4B;
+  color: #4b4b4b;
 }
 input:required:valid {
-  border-bottom-color: #6FCF97;
+  border-bottom-color: #6fcf97;
 }
 input:required:invalid {
-  border-bottom-color: #EB5757;
+  border-bottom-color: #eb5757;
 }
 
 button {
@@ -80,14 +80,14 @@ button {
   padding: 10px;
   padding-left: 20px;
   padding-right: 20px;
-  color: #2292A4;
+  color: #2292a4;
   border-radius: 10px;
   border-width: 2px;
-  border-color: #2292A4;
+  border-color: #2292a4;
   transition: all 0.2s ease-in-out;
 }
 button:hover {
-  background-color: #2292A4;
+  background-color: #2292a4;
   color: white;
   transform: scale(0.9, 0.9);
   transition: all 0.2s ease-in-out;

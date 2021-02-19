@@ -78,10 +78,10 @@ export function getUserData(uid: string): Promise<any> {
 }
 
 /**
-* Fetches the user permission level of the currently authenticated user. (this is stored in /Users/{uid}/userGroup)
-* 
-* returns a promise that resolves with a string. The string will be one of the following 'Owner', 'Admin', 'Power', 'User'
-*/
+ * Fetches the user permission level of the currently authenticated user. (this is stored in /Users/{uid}/userGroup)
+ *
+ * returns a promise that resolves with a string. The string will be one of the following 'Owner', 'Admin', 'Power', 'User'
+ */
 export function getUserPrivilege(): Promise<any> {
   return fireStore
     .collection("Users")
@@ -100,7 +100,6 @@ export function getUserPrivilege(): Promise<any> {
     .catch(function (error) {
       console.log("Error getting document:", error);
     });
-
 }
 
 /**
@@ -158,18 +157,18 @@ export function createUserDocument(
 
 /**
  * Creates an email document which will be later sent to admins and then deleted
- * @param email 
- * @param message 
+ * @param email
+ * @param message
  */
 export function createEmailDocument(
   email: string,
   message: string,
   subject: string
-){
+) {
   fireStore.collection("Emails").add({
     email: email,
     subject: subject,
-    message: message
+    message: message,
   });
 }
 
