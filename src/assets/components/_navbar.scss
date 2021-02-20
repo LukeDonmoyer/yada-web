@@ -51,6 +51,7 @@
         transition: all 0.5s ease-in-out;
         padding-left: 15px;
         padding-right: 45px;
+        opacity: 1;
       }
     }
 
@@ -97,16 +98,17 @@
     }
 
     .navItem {
-      display: flex;
       color: white;
       margin-top: 5px;
       margin-bottom: 5px;
+      max-height: 44px;
       cursor: pointer;
       user-select: none;
     }
 
     .navTitle {
       max-width: 0px;
+      opacity: 0;
       transition: all 0.5s ease-in-out;
       white-space: nowrap;
       padding-left: 0px;
@@ -126,9 +128,10 @@
     }
 
     .navIcon {
-      width: 24px;
-      height: 24px;
-      background-size: 24px;
+      width: 24px !important;
+      height: 24px !important;
+      float: left;
+      // background-size: 24px;
     }
     .dashboard {
       background-image: url("../icons/home.svg");

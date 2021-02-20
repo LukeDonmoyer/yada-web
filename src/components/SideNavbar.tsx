@@ -31,6 +31,7 @@ interface navbarProps {
 interface navItemProp {
   name: string;
   route: string;
+  icon: any;
   requiredPermissions: string[];
   currentPermission: string;
 }
@@ -51,7 +52,10 @@ export function NavItem(props: navItemProp) {
           currentRoute.pathname === props.route ? "active" : "inactive"
         }`}
       >
-        <div className={`navIcon ${props.name}`}></div>
+        {/* <div className={`navIcon ${props.name}`}></div> */}
+        <div className="navIcon">
+          <img src={props.icon} />
+        </div>
         <div className="navTitle">{props.name}</div>
       </div>
     </Link>

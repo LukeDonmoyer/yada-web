@@ -20,6 +20,13 @@ import UserManagement from "./UserManagement";
 import Settings from "./Settings";
 import Content from "./Content";
 
+// import iconts
+import homeIcon from "../assets/icons/home.svg";
+import sitesIcon from "../assets/icons/site.svg";
+import templatesIcon from "../assets/icons/hvac.svg";
+import settingsIcon from "../assets/icons/settings.svg";
+import usersIcon from "../assets/icons/accountManagement.svg";
+
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
@@ -41,12 +48,14 @@ export default function Dashboard() {
       key={"/"}
       name={"dashboard"}
       route={"/app"}
+      icon={homeIcon}
       requiredPermissions={anyUser}
       currentPermission={userPrivilege}
     />,
     <NavItem
       key={"/sites"}
       name={"sites"}
+      icon={sitesIcon}
       route={"/app/sites"}
       requiredPermissions={anyUser}
       currentPermission={userPrivilege}
@@ -54,6 +63,7 @@ export default function Dashboard() {
     <NavItem
       key={"/templates"}
       name={"templates"}
+      icon={templatesIcon}
       route={"/app/channel-templates"}
       requiredPermissions={anyUser}
       currentPermission={userPrivilege}
@@ -61,6 +71,7 @@ export default function Dashboard() {
     <NavItem
       key={"/users"}
       name={"users"}
+      icon={usersIcon}
       route={"/app/user-management"}
       requiredPermissions={restricted}
       currentPermission={userPrivilege}
@@ -68,6 +79,7 @@ export default function Dashboard() {
     <NavItem
       key={"/settings"}
       name={"settings"}
+      icon={settingsIcon}
       route={"/app/settings"}
       requiredPermissions={anyUser}
       currentPermission={userPrivilege}
