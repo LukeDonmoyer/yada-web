@@ -17,7 +17,7 @@ export default function Sites() {
           <h1>Sites: </h1>
         </div>
       }
-      body={<div></div>}
+      body={<div className="sites"></div>}
     />
   );
 }
