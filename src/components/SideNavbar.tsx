@@ -65,11 +65,15 @@ export function NavItem(props: navItemProp) {
  * @param props
  */
 export default function SideNavbar(props: navbarProps) {
+  let location = useLocation();
+  console.log(location.pathname);
   return (
     <div className="navContainer">
       <div
         className={`navPadding ${!props.autoCollapse ? "noCollapse" : ""} ${
-          props.roundRightCorners ? "roundAllCorners" : "roundLeftCorners"
+          props.roundRightCorners && !location.pathname.startsWith("/app/site")
+            ? "roundAllCorners"
+            : "roundLeftCorners"
         }`}
       >
         <div className={`navLinks `}>{props.items}</div>
