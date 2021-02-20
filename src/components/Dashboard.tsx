@@ -10,9 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
-import SideNavbar, { defaultNavItems } from "./SideNavbar";
+import SideNavbar, { NavItem } from "./SideNavbar";
 import React, { useState } from "react";
-import { ContentWithTopLevelNavbar } from "./Sections";
 import { Animated } from "react-animated-css";
 import { Route } from "react-router-dom";
 import Sites from "./Sites";
@@ -34,6 +33,47 @@ export default function Dashboard() {
     return <AuthCheck />;
   }
 
+  const anyUser = ["Owner", "Admin", "Power", "User"];
+  const restricted = ["Owner", "Admin"];
+
+  let navItems: any[] = [
+    <NavItem
+      key={"/"}
+      name={"dashboard"}
+      route={"/app"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/sites"}
+      name={"sites"}
+      route={"/app/sites"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/templates"}
+      name={"templates"}
+      route={"/app/channel-templates"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/users"}
+      name={"users"}
+      route={"/app/user-management"}
+      requiredPermissions={restricted}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/settings"}
+      name={"settings"}
+      route={"/app/settings"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+  ];
+
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
       <div className="withSideNavbar">
@@ -41,7 +81,7 @@ export default function Dashboard() {
           autoCollapse={true}
           roundRightCorners={true}
           currentPrivilege={userPrivilege}
-          items={defaultNavItems}
+          items={navItems}
         />
         <Route exact path="/app/">
           <Content
