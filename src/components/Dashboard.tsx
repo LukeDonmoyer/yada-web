@@ -19,6 +19,7 @@ import Sites from "./Sites";
 import ChannelTemplates from "./ChannelTemplates";
 import UserManagement from "./UserManagement";
 import Settings from "./Settings";
+import Content from "./Content";
 
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -43,11 +44,19 @@ export default function Dashboard() {
           items={defaultNavItems}
         />
         <Route exact path="/app/">
-          <div className="dashboard">
-            <h1>Dashboard: </h1>
-            <p>logged in user: </p>
-            <p>{JSON.stringify(currentUser)}</p>
-          </div>
+          <Content
+            head={
+              <div className="dashboard">
+                <h1>Dashboard: </h1>
+              </div>
+            }
+            body={
+              <div className="dashboard">
+                <p>logged in user: </p>
+                <p>{JSON.stringify(currentUser)}</p>
+              </div>
+            }
+          />
         </Route>
         <Route exact path="/app/sites" component={Sites} />
         <Route

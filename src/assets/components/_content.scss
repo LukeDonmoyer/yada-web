@@ -1,0 +1,26 @@
+.content {
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-right: 0.5%;
+  width: 100%;
+  display: flex;
+
+  .navbarSection {
+    height: 100%;
+  }
+
+  .rightSection {
+    width: 100%;
+    height: 100%;
+  }
+
+  .headSection {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .bodySection {
+    width: 100%;
+    height: 100%;
+  }
+}

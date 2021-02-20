@@ -6,10 +6,18 @@
  * purpose: page that wiill provide access to manage channel templates
  */
 
+import React from "react";
+import Content from "./Content";
+
 export default function ChannelTemplates() {
   return (
-    <div className="channelTemplates">
-      <h1>Channel Templates: </h1>
-    </div>
+    <Content
+      head={
+        <div className="channelTemplates">
+          <h1>Channel Templates: </h1>
+        </div>
+      }
+      body={<div></div>}
+    />
   );
 }
