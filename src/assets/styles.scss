@@ -1,6 +1,5 @@
 @import "/designLanguage/_variables";
 @import "/designLanguage/_types";
-@import "/designLanguage/_sections";
 @import "/designLanguage/_buttons";
 @import "/designLanguage/_forms";
 @import "/designLanguage/_cards";
@@ -9,8 +8,10 @@
 @import "/components/_contactUs";
 @import "/components/_requestAccount";
 @import "/components/_navbar";
+@import "/components/_dynamicNavbar";
 @import "/components/_onboard";
 @import "/components/_authCheck";
+@import "/components/_content";
 
 @import "/components/_dashboard";
 @import "/components/_sites";

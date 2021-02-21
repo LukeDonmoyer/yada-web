@@ -10,15 +10,22 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
 import { getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
-import SideNavbar, { defaultNavItems } from "./SideNavbar";
+import SideNavbar, { NavItem } from "./SideNavbar";
 import React, { useState } from "react";
-import { ContentWithTopLevelNavbar } from "./Sections";
 import { Animated } from "react-animated-css";
 import { Route } from "react-router-dom";
 import Sites from "./Sites";
 import ChannelTemplates from "./ChannelTemplates";
 import UserManagement from "./UserManagement";
 import Settings from "./Settings";
+import Content from "./Content";
+
+// import iconts
+import homeIcon from "../assets/icons/home.svg";
+import sitesIcon from "../assets/icons/site.svg";
+import templatesIcon from "../assets/icons/hvac.svg";
+import settingsIcon from "../assets/icons/settings.svg";
+import usersIcon from "../assets/icons/accountManagement.svg";
 
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -33,6 +40,52 @@ export default function Dashboard() {
     return <AuthCheck />;
   }
 
+  const anyUser = ["Owner", "Admin", "Power", "User"];
+  const restricted = ["Owner", "Admin"];
+
+  let navItems: any[] = [
+    <NavItem
+      key={"/"}
+      name={"dashboard"}
+      route={"/app"}
+      icon={homeIcon}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/sites"}
+      name={"sites"}
+      icon={sitesIcon}
+      route={"/app/sites"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/templates"}
+      name={"templates"}
+      icon={templatesIcon}
+      route={"/app/channel-templates"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/users"}
+      name={"users"}
+      icon={usersIcon}
+      route={"/app/user-management"}
+      requiredPermissions={restricted}
+      currentPermission={userPrivilege}
+    />,
+    <NavItem
+      key={"/settings"}
+      name={"settings"}
+      icon={settingsIcon}
+      route={"/app/settings"}
+      requiredPermissions={anyUser}
+      currentPermission={userPrivilege}
+    />,
+  ];
+
   return (
     <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
       <div className="withSideNavbar">
@@ -40,14 +93,22 @@ export default function Dashboard() {
           autoCollapse={true}
           roundRightCorners={true}
           currentPrivilege={userPrivilege}
-          items={defaultNavItems}
+          items={navItems}
         />
         <Route exact path="/app/">
-          <div className="dashboard">
-            <h1>Dashboard: </h1>
-            <p>logged in user: </p>
-            <p>{JSON.stringify(currentUser)}</p>
-          </div>
+          <Content
+            head={
+              <div className="dashboard">
+                <h1>Dashboard: </h1>
+              </div>
+            }
+            body={
+              <div className="dashboard">
+                <p>logged in user: </p>
+                <p>{JSON.stringify(currentUser)}</p>
+              </div>
+            }
+          />
         </Route>
         <Route exact path="/app/sites" component={Sites} />
         <Route

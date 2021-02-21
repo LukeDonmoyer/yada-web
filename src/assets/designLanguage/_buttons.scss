@@ -43,3 +43,25 @@
     transition: all 0.2s ease-in-out;
   }
 }
+
+@mixin addButton {
+  background-color: $lightOrange;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+  user-select: none;
+  cursor: pointer;
+  font-family: "Lato", sans-serif;
+  font-size: 30px;
+  text-align: center;
+  line-height: 40px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1, 1.1);
+    transition: all 0.2s ease-in-out;
+    box-shadow: rgba(180, 101, 28, 0.25) 0px 30px 60px -12px inset,
+      rgba(216, 125, 6, 0.705) 0px 18px 36px -18px inset;
+  }
+}

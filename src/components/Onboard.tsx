@@ -86,7 +86,7 @@ function Onboard(props: RouteComponentProps) {
   }
 
   return (
-    <div>
+    <div className="onboard">
       {!(currentUser === null || currentUser === undefined) ? (
         <Redirect to={redirectDestination} />
       ) : (
