@@ -45,9 +45,9 @@ export default function Dashboard() {
 
   let navItems: any[] = [
     <NavItem
-      key={"/"}
+      key={"/dashboard"}
       name={"dashboard"}
-      route={"/app"}
+      route={"/app/dashboard"}
       icon={homeIcon}
       requiredPermissions={anyUser}
       currentPermission={userPrivilege}
@@ -95,7 +95,7 @@ export default function Dashboard() {
           currentPrivilege={userPrivilege}
           items={navItems}
         />
-        <Route exact path="/app/">
+        <Route exact path="/app/dashboard">
           <Content
             head={
               <div className="dashboard">
@@ -110,7 +110,7 @@ export default function Dashboard() {
             }
           />
         </Route>
-        <Route exact path="/app/sites" component={Sites} />
+        <Route path="/app/sites" component={Sites} />
         <Route
           exact
           path="/app/channel-templates"

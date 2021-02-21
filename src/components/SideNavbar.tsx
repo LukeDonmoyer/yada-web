@@ -49,7 +49,7 @@ export function NavItem(props: navItemProp) {
     <Link to={props.route}>
       <div
         className={`navItem ${
-          currentRoute.pathname === props.route ? "active" : "inactive"
+          currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
         }`}
       >
         {/* <div className={`navIcon ${props.name}`}></div> */}
