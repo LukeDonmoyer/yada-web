@@ -1,7 +1,11 @@
 import React from "react";
 import "./App.scss";
 import "./tailwind.css";
-import { fireAuth, fireAuthSignOut } from "./FireConfig";
+import {
+  fireAuth,
+  fireAuthSignOut,
+  initializeSitesListener,
+} from "./FireConfig";
 
 import Onboard from "./components/Onboard";
 import Dashboard from "./components/Dashboard";
@@ -22,6 +26,7 @@ import store from "./store/store";
 
 function App() {
   const history = useHistory();
+  initializeSitesListener();
 
   fireAuth.onAuthStateChanged((userAuth) => {
     console.log("FIREBASE STATE CHANGE");
