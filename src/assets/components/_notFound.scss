@@ -1,7 +1,7 @@
 .notFound {
   .card {
     @include floatingCard;
-    @include cardLarge;
+    @include cardSmall;
   }
 
   h1 {
@@ -9,10 +9,19 @@
     color: $companyName;
   }
 
+  h2 {
+    @include smallTitle;
+    opacity: 0.7;
+  }
+
   button {
     @include filledPrimaryButton;
     width: 70%;
     margin: 0 auto;
     display: block;
+  }
+
+  li {
+    @include link;
   }
 }
