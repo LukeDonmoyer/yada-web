@@ -70,7 +70,6 @@ export function NavItem(props: navItemProp) {
  */
 export default function SideNavbar(props: navbarProps) {
   let location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="navContainer">
       <div
