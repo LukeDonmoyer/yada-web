@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "reactstrap";
 import "../assets/styles.scss";
 import { Link } from "react-router-dom";
 
@@ -18,7 +17,7 @@ export default function NotFound() {
             <Link to="/">Sign In</Link>
           </li>
           <li>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/app">Dashboard</Link>
           </li>
           <li>
             <Link to="/contact-us">Contact Us</Link>
