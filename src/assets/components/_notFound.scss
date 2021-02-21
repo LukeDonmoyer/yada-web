@@ -1,0 +1,18 @@
+.notFound {
+  .card {
+    @include floatingCard;
+    @include cardLarge;
+  }
+
+  h1 {
+    @include largeTitle;
+    color: $companyName;
+  }
+
+  button {
+    @include filledPrimaryButton;
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+  }
+}
