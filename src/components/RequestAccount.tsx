@@ -1,6 +1,9 @@
 /**
  * Request Account page component
  * Author: Brendan Ortmann
+ *
+ * This component returns a page containing a form that allows the user to send a message
+ * requesting an account, along with an email address, to the administrators/owners of the database.
  */
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
@@ -13,6 +16,10 @@ export default function RequestAccount() {
   let [message, setMessage] = useState("");
   let [submitted, setSubmitted] = useState(false);
 
+  /**
+   * Handles state changes on the page.
+   * @param func is the function which updates the associated stateful value.
+   */
   function handleEvent(func: any) {
     return (event: any) => {
       event.preventDefault();
@@ -21,8 +28,7 @@ export default function RequestAccount() {
   }
 
   /**
-   * This function should attempt to send the message and email from the form
-   * to all admin and owner emails.
+   * Adds an Email document to the Firestore database.
    * @param event
    */
   const sendEmail = (event: any) => {
@@ -31,6 +37,9 @@ export default function RequestAccount() {
     setSubmitted(true);
   };
 
+  /**
+   * Redirects to the Sign In page if the form has been submitted, otherwise serves the page again.
+   */
   return submitted ? (
     <Redirect push to="/" />
   ) : (

@@ -1,3 +1,10 @@
+/**
+ * Edited Reactstrap Carousel component
+ * Author: Brendan Ortmann
+ *
+ * This is the Carousel component for the Sign In page which displays screenshots of our app.
+ */
+
 import React, { useState } from "react";
 import {
   Carousel,
@@ -8,7 +15,9 @@ import {
 } from "reactstrap";
 import "../assets/bootstrap.scss";
 
-// Images and alt-text for carousel
+/**
+ * Images and alt-text for carousel
+ */
 // TODO: Custom images
 const items = [
   {
@@ -31,7 +40,10 @@ const items = [
   },
 ];
 
-// Create custom carousel component
+/**
+ * Custom Carousel component.
+ * @param props
+ */
 const CustomCarousel = (props: any) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
