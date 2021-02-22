@@ -37,11 +37,11 @@
 .withSideNavbar {
   display: flex;
   height: 100vh;
-  width: 100%;
+  // width: 100%;
 
   a {
-    padding: 0px !important;
-    margin: 0px !important;
+    padding: 0px;
+    margin: 0px;
   }
 
   .navContainer {
@@ -51,6 +51,7 @@
         transition: all 0.5s ease-in-out;
         padding-left: 15px;
         padding-right: 45px;
+        opacity: 1;
       }
     }
 
@@ -70,6 +71,7 @@
 
     height: 100%;
     padding: 0.5%;
+    padding-right: 0;
 
     .navLinks {
       display: flex;
@@ -96,23 +98,24 @@
     }
 
     .navItem {
-      display: flex;
       color: white;
       margin-top: 5px;
       margin-bottom: 5px;
+      max-height: 44px;
       cursor: pointer;
       user-select: none;
     }
 
     .navTitle {
       max-width: 0px;
+      opacity: 0;
       transition: all 0.5s ease-in-out;
       white-space: nowrap;
       padding-left: 0px;
       padding-right: 0px;
       vertical-align: middle;
       font-family: "Lato", sans-serif;
-      font-weight: 300 !important;
+      font-weight: 300;
       letter-spacing: 1px;
     }
 
@@ -127,9 +130,10 @@
     .navIcon {
       width: 24px;
       height: 24px;
-      background-size: 24px;
+      float: left;
+      // background-size: 24px;
     }
-    .home {
+    .dashboard {
       background-image: url("../icons/home.svg");
     }
 
@@ -137,11 +141,11 @@
       background-image: url("../icons/site.svg");
     }
 
-    .channel-templates {
+    .templates {
       background-image: url("../icons/hvac.svg");
     }
 
-    .user-management {
+    .users {
       background-image: url("../icons/accountManagement.svg");
     }
 

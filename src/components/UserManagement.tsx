@@ -9,6 +9,7 @@
 import { getUserPrivilege } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
 import React, { useState } from "react";
+import Content from "./Content";
 export default function UserManagement() {
   const [authorized, setAuthorization] = useState(false);
 
@@ -21,9 +22,7 @@ export default function UserManagement() {
   return (
     <div className="userManagement w-full">
       {authorized ? (
-        <div className="">
-          <h1>User Management: </h1>
-        </div>
+        <Content head={<h1>User Management</h1>} body={<div></div>} />
       ) : (
         <AuthCheck
           additionalMessage={
