@@ -53,7 +53,7 @@ export default function RegisterUsers() {
       // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
         alert("innappropriate permissions. Please log in as administrator.");
-        history.push("/app/");
+        history.push("/app/dashboard");
       }
     });
   } else {
