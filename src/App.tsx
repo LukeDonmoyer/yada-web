@@ -43,12 +43,14 @@ import settingsIcon from "assets/icons/settings.svg";
 import usersIcon from "assets/icons/accountManagement.svg";
 
 function App() {
-  initializeSitesListener();
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
 
   fireAuth.onAuthStateChanged((userAuth) => {
     store.dispatch(authSlice.actions.login(userAuth?.uid));
+    if (userAuth != null && userAuth != undefined) {
+      initializeSitesListener();
+    }
   });
 
   getUserPrivilege().then((privilege) => {
