@@ -5,8 +5,8 @@
  */
 
 import { fireAuthSignOut } from "FireConfig";
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { ReactElement } from "react";
+import { Link, Route, useLocation } from "react-router-dom";
 
 /**
  * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
@@ -18,7 +18,7 @@ interface navbarProps {
   autoCollapse: Boolean;
   roundRightCorners: Boolean;
   currentPrivilege: string;
-  items: any[];
+  children: ReactElement | ReactElement[];
 }
 
 /**
@@ -28,39 +28,36 @@ interface navbarProps {
  * requiredPermissions: permissions required to navigate to this route
  * currentPermission: permission level of the current user
  */
-interface navItemProp {
-  name: string;
+interface StaticNavItemProp {
+  label: string;
   route: string;
   icon: any;
-  requiredPermissions: string[];
-  currentPermission: string;
+  children: ReactElement;
 }
 
 /**
  * Navigation item
  * @param props
  */
-export function StaticNavItem(props: navItemProp) {
+export function StaticNavItem(props: StaticNavItemProp) {
   let currentRoute = useLocation();
+
   /**
    * returns empty div if the permissions are not met
    */
-  return props.requiredPermissions.includes(props.currentPermission) ? (
+  return (
     <Link to={props.route}>
       <div
         className={`navItem ${
           currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
         }`}
       >
-        {/* <div className={`navIcon ${props.name}`}></div> */}
         <div className="navIcon">
-          <img src={props.icon} />
+          <img src={props.icon} alt={props.route} />
         </div>
-        <div className="navTitle">{props.name}</div>
+        <div className="navTitle">{props.label}</div>
       </div>
     </Link>
-  ) : (
-    <div></div>
   );
 }
 
@@ -70,26 +67,37 @@ export function StaticNavItem(props: navItemProp) {
  */
 export default function StaticNavbar(props: navbarProps) {
   let location = useLocation();
+
+  function createRoute(child: ReactElement) {
+    return <Route path={child.props.route}>{child.props.children}</Route>;
+  }
+
   return (
-    <div className="staticNavbar">
-      <div
-        className={`navPadding ${!props.autoCollapse ? "noCollapse" : ""} ${
-          props.roundRightCorners && !location.pathname.startsWith("/app/site")
-            ? "roundAllCorners"
-            : "roundLeftCorners"
-        }`}
-      >
-        <div className={`navLinks `}>{props.items}</div>
+    <>
+      <div className="staticNavbar">
         <div
-          className={`navItem inactive logoutItem`}
-          onClick={() => {
-            fireAuthSignOut();
-          }}
+          className={`navPadding ${!props.autoCollapse ? "noCollapse" : ""} ${
+            props.roundRightCorners &&
+            !location.pathname.startsWith("/app/site")
+              ? "roundAllCorners"
+              : "roundLeftCorners"
+          }`}
         >
-          <div className={`navIcon logout`}></div>
-          <div className="navTitle">logout</div>
+          <div className={`navLinks `}>{props.children}</div>
+          <div
+            className={`navItem inactive logoutItem`}
+            onClick={() => {
+              fireAuthSignOut();
+            }}
+          >
+            <div className={`navIcon logout`}></div>
+            <div className="navTitle">logout</div>
+          </div>
         </div>
       </div>
-    </div>
+      <div className="routes">
+        {React.Children.map(props.children, createRoute)}
+      </div>
+    </>
   );
 }
