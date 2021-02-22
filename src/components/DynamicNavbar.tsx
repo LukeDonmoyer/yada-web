@@ -19,7 +19,7 @@ export function DynamicNavLink(props: dynamicNavLink) {
     <Link to={props.route}>
       <div
         className={`navItem ${
-          currentRoute.pathname === props.route ? "active" : "inactive"
+          currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
         }`}
       >
         {props.name}
