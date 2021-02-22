@@ -28,6 +28,8 @@
 
   .links {
     margin-top: 25px;
+    height: 100%;
+    @include scrollWithoutScrollbar;
   }
 
   .navItem {

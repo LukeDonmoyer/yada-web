@@ -11,7 +11,7 @@
 
   .rightSection {
     height: 100%;
-    overflow-y: scroll;
+    @include scrollWithoutScrollbar;
     position: relative;
   }
 
