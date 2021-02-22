@@ -10,11 +10,11 @@ repos:
     hooks:
       - id: prettier
   - repo: git://github.com/elidupuis/mirrors-sass-lint
-    rev: ""
+    rev: "5cc45653263b423398e4af2561fae362903dd45d"
     hooks:
       - id: sass-lint
   - repo: git://github.com/awebdeveloper/pre-commit-tslint/
-    rev: v0.0.2
+    rev: 0.0.2
     hooks:
       - id: tslint
         additional_dependencies: ["tslint@5.0.0"]
