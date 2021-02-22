@@ -47,11 +47,9 @@ function SignInForm() {
           placeholder="password"
         />
         <Button>Sign In</Button>
-        <span className="requestLink">
-          <Link to="/request-account" className="requestLink">
-            Request Account
-          </Link>
-        </span>
+        <Link to="/requestAccount" className="requestLink">
+          Request Account
+        </Link>
       </Form>
     </div>
   );
