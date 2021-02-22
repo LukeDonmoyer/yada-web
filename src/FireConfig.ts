@@ -190,6 +190,27 @@ export function sendAuthorizationEmail(address: string) {
     });
 }
 
+/**
+ * creates a new empty site document
+ */
+export function createNewSite() {
+  fireStore
+    .collection("Sites")
+    .add({
+      name: "new site",
+      notes: "",
+      address: "",
+      userNotifications: {},
+      equipmentUnits: {},
+    })
+    .then(() => {
+      console.log("Document successfully written!");
+    })
+    .catch((error) => {
+      console.error("Error writing document: ", error);
+    });
+}
+
 // useful firestore functions that will be used later in development
 export function fireIncrement(val: number) {
   return firebase.firestore.FieldValue.increment(val);
