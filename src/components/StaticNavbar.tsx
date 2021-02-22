@@ -40,7 +40,7 @@ interface navItemProp {
  * Navigation item
  * @param props
  */
-export function NavItem(props: navItemProp) {
+export function StaticNavItem(props: navItemProp) {
   let currentRoute = useLocation();
   /**
    * returns empty div if the permissions are not met
@@ -68,10 +68,10 @@ export function NavItem(props: navItemProp) {
  * Side navbar
  * @param props
  */
-export default function SideNavbar(props: navbarProps) {
+export default function StaticNavbar(props: navbarProps) {
   let location = useLocation();
   return (
-    <div className="navContainer">
+    <div className="staticNavbar">
       <div
         className={`navPadding ${!props.autoCollapse ? "noCollapse" : ""} ${
           props.roundRightCorners && !location.pathname.startsWith("/app/site")
