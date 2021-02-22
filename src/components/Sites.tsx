@@ -32,13 +32,16 @@ export default function Sites() {
 
   return (
     <div className="sites">
-      <DynamicNavbar
-        title={"Sites"}
-        buttonAction={createNewSite}
-        defaultChild={<p>Select a site</p>}
-        defaultRoute={"/app/sites"}
-      >
+      <DynamicNavbar title={"Sites"} buttonAction={createNewSite}>
         {navLinks}
+        <DynamicNavLink
+          route={"/app/sites/"}
+          key={"default"}
+          name={"default route"}
+          blockLinkRender={true}
+        >
+          <p>Please select a site</p>
+        </DynamicNavLink>
       </DynamicNavbar>
     </div>
   );

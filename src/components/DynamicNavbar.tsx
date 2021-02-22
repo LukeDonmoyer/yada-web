@@ -5,10 +5,15 @@ interface dynamicNavLink {
   route: string;
   name: string;
   children: ReactElement;
+  blockLinkRender?: boolean;
 }
 
 export function DynamicNavLink(props: dynamicNavLink) {
   let currentRoute = useLocation();
+
+  if (props.blockLinkRender) {
+    return <></>;
+  }
 
   return (
     <Link to={props.route}>
@@ -27,12 +32,17 @@ interface DynamicNavBarProps {
   title: string;
   buttonAction: any;
   children: ReactElement | ReactElement[];
-  defaultChild?: ReactElement;
-  defaultRoute?: string;
 }
 
 export default function DynamicNavbar(props: DynamicNavBarProps) {
   function createRoute(child: ReactElement) {
+    if (child.props.blockLinkRender) {
+      return (
+        <Route exact path={child.props.route}>
+          {child.props.children}
+        </Route>
+      );
+    }
     return <Route path={child.props.route}>{child.props.children}</Route>;
   }
 
@@ -49,13 +59,6 @@ export default function DynamicNavbar(props: DynamicNavBarProps) {
       </div>
       <div className="routes">
         {React.Children.map(props.children, createRoute)}
-        {props.defaultChild ? (
-          <Route exact path={props.defaultRoute}>
-            {props.defaultChild}
-          </Route>
-        ) : (
-          <></>
-        )}
       </div>
     </>
   );

@@ -83,7 +83,7 @@ export default function StaticNavbar(props: navbarProps) {
               : "roundLeftCorners"
           }`}
         >
-          <div className={`navLinks `}>{props.children}</div>
+          <div className={`navLinks`}>{props.children}</div>
           <div
             className={`navItem inactive logoutItem`}
             onClick={() => {
