@@ -52,6 +52,7 @@ export default function Sites() {
         />
       }
       head={
+        // TODO: this will change to be a Header component
         <div className="sites">
           <h1>{getSiteName()}</h1>
         </div>
