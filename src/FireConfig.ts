@@ -190,6 +190,9 @@ export function sendAuthorizationEmail(address: string) {
     });
 }
 
+/**
+ * creates a new empty site document
+ */
 export function createNewSite() {
   fireStore
     .collection("Sites")
