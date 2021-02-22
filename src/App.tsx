@@ -4,7 +4,6 @@ import "./tailwind.css";
 import { fireAuth, fireAuthSignOut } from "./FireConfig";
 
 import Onboard from "./components/Onboard";
-import Dashboard from "./components/Dashboard";
 
 import {
   BrowserRouter as Router,
@@ -24,6 +23,7 @@ import Sites from "components/Sites";
 // import AdminManagement from "components/AdminManagement";
 import Settings from "components/Settings";
 import NotFound from "components/NotFound";
+import TopRoutes from "components/TopRoutes";
 
 function App() {
   const history = useHistory();
@@ -49,7 +49,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Onboard}></Route>
         <Route path="/app/">
-          <Dashboard />
+          <TopRoutes />
         </Route>
         <Route path="/change-password">
           <ChangePassword />

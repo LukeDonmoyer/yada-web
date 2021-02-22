@@ -46,7 +46,7 @@ export default function ChangePassword() {
             if (userData.userGroup === "Owner") {
               history.push("/register-users");
             } else {
-              history.push("/app/");
+              history.push("/app/dashboard");
             }
           });
         },
