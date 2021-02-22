@@ -6,16 +6,13 @@
  * purpose: page that wiill provide access to manage sites
  */
 
+import { createNewSite } from "FireConfig";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import Content from "./Content";
 import DynamicNavbar, { DynamicNavLink } from "./DynamicNavbar";
 
 export default function Sites() {
-  function testAction() {
-    alert("this function will create a new site");
-  }
-
   let testLinks = [
     <DynamicNavLink route="/app/sites" name="test" />,
     <DynamicNavLink route="/app/error/" name="not active" />,
@@ -26,7 +23,7 @@ export default function Sites() {
       navbar={
         <DynamicNavbar
           title="Sites"
-          buttonAction={testAction}
+          buttonAction={createNewSite}
           links={testLinks}
         />
       }
