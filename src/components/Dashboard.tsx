@@ -8,7 +8,7 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
-import { getUserPrivilege } from "../FireConfig";
+import { getUserPrivilege, initializeSitesListener } from "../FireConfig";
 import AuthCheck from "./AuthCheck";
 import SideNavbar, { NavItem } from "./SideNavbar";
 import React, { useState } from "react";
@@ -30,6 +30,10 @@ import usersIcon from "../assets/icons/accountManagement.svg";
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
+
+  if (currentUser != null && currentUser != undefined) {
+    initializeSitesListener();
+  }
 
   getUserPrivilege().then((privilege) => {
     setPrivilege(privilege);
