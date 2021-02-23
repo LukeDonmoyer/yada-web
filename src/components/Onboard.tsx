@@ -47,11 +47,9 @@ function SignInForm() {
           placeholder="password"
         />
         <Button>Sign In</Button>
-        <span className="requestLink">
-          <Link to="/request-account" className="requestLink">
-            Request Account
-          </Link>
-        </span>
+        <Link to="/requestAccount" className="requestLink">
+          Request Account
+        </Link>
       </Form>
     </div>
   );
@@ -79,7 +77,7 @@ function Onboard(props: RouteComponentProps) {
           let address = "/" + properties[1];
           setRedirect(address);
         } else {
-          setRedirect("/app/");
+          setRedirect("/app/dashboard");
         }
       }
     });

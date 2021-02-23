@@ -5,6 +5,8 @@
  */
 import firebase from "firebase";
 import "firebase/auth";
+import updateSitesSlice from "store/SiteActions";
+import store from "store/store";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -209,6 +211,18 @@ export function createNewSite() {
     .catch((error) => {
       console.error("Error writing document: ", error);
     });
+}
+
+export function initializeSitesListener() {
+  console.log("initializing sites listener");
+  fireStore.collection("Sites").onSnapshot((querySnapshot) => {
+    var sites: any = {};
+    querySnapshot.forEach((doc) => {
+      sites[doc.id] = doc.data();
+    });
+    // call reducer to store each site
+    store.dispatch(updateSitesSlice.actions.updateSites(sites));
+  });
 }
 
 // useful firestore functions that will be used later in development

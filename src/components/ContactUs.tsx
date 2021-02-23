@@ -1,6 +1,9 @@
 /**
  * Contact Us page component
  * Author: Brendan Ortmann
+ *
+ * This component returns a page containing a form that allows the user to send a message along with an email address
+ * to the administrators/owners of the database.
  */
 import { useState } from "react";
 import { Button, Form, Input, Alert } from "reactstrap";
@@ -13,6 +16,10 @@ export default function ContactUs() {
   let [message, setMessage] = useState("");
   let [submitted, setSubmitted] = useState(false);
 
+  /**
+   * Handles state changes on the page.
+   * @param func is the function which updates the associated stateful value.
+   */
   function handleEvent(func: any) {
     return (event: any) => {
       event.preventDefault();
@@ -20,12 +27,19 @@ export default function ContactUs() {
     };
   }
 
+  /**
+   * Adds an Email document to the Firestore database.
+   * @param event
+   */
   const sendEmail = (event: any) => {
     createEmailDocument(email, message, "YADA Contact Us");
-    alert("Email sent!"); // Replace with Reactstrap alert?
+    alert("Email sent!"); // TODO: Replace with Reactstrap alert?
     setSubmitted(true);
   };
 
+  /**
+   * Redirects to the Sign In page if the form has been submitted, otherwise serves the page again.
+   */
   return submitted ? (
     <Redirect push to="/" />
   ) : (
