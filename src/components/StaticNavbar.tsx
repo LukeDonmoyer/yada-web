@@ -50,7 +50,7 @@ export function StaticNavItem(props: StaticNavItemProp) {
     <Link to={`${url}/${props.route}`}>
       <div
         className={`navItem ${
-          currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
+          currentRoute.pathname.startsWith(`${url}/${props.route}`) ? "active" : "inactive"
         }`}
       >
         <div className="navIcon">
