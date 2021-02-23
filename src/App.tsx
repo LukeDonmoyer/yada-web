@@ -26,7 +26,7 @@ import store from "./store/store";
 import Sites from "components/Sites";
 // import Profiles from "components/Profiles";
 // import AdminManagement from "components/AdminManagement";
-import Settings from "components/Settings";
+import UserSettings from "components/UserSettings";
 import NotFound from "components/NotFound";
 import { RootState } from "store/rootReducer";
 import { useSelector } from "react-redux";
@@ -116,7 +116,7 @@ function App() {
                     route="/app/settings"
                     icon={settingsIcon}
                   >
-                    <Settings />
+                    <UserSettings />
                   </StaticNavItem>
                 </StaticNavbar>
               </div>
