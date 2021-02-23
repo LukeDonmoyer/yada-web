@@ -1,8 +1,6 @@
 .tab-view {
-  padding-left: 8px;
-  padding-right: 8px;
-  margin-left: 32px;
-  margin-right: 32px;
+  padding: 0 8px;
+  margin: 8px 32px;
 
   border-bottom: 1px solid $lightGray;
 }
@@ -10,8 +8,7 @@
 .tab-item {
   font-size: 14pt;
 
-  margin-left: 16px;
-  margin-right: 16px;
+  margin: 0 16px;
 }
 
 .tab-item:hover {
