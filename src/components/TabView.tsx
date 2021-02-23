@@ -10,6 +10,8 @@ interface TabViewProps {
  * Creates a tab view with the given child components.
  */
 export default function TabView({ children }: TabViewProps): ReactElement {
+  const {path, url} = useRouteMatch();
+
   /**
    * Creates a NavLink from the provided TabViewItem. If the given element is not a TabViewItem, it will
    * just return the element.
@@ -21,7 +23,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
 
     return (
       <NavLink
-        to={child.props.route}
+        to={`${url}/${child.props.route}`}
         exact={child.props.exact}
         className={"tab-item"}
         activeClassName={"tab-item-selected"}
@@ -40,7 +42,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
     if ((child.type as any).name !== "TabViewItem") return;
 
     return (
-      <Route exact={child.props.exact} path={child.props.route}>
+      <Route exact={child.props.exact} path={`${path}/${child.props.route}`}>
         {child}
       </Route>
     );
