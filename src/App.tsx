@@ -23,7 +23,7 @@ import RequestAccount from "components/RequestAccount";
 
 import authSlice from "store/FireActions";
 import store from "./store/store";
-import Sites from "components/Sites";
+import Sites from "components/Site/Sites";
 // import Profiles from "components/Profiles";
 // import AdminManagement from "components/AdminManagement";
 import Settings from "components/Settings";

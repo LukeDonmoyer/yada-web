@@ -4,7 +4,7 @@ import updateSitesSlice from "./SiteActions";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  updateSites: updateSitesSlice.reducer,
+  sites: updateSitesSlice.reducer,
 });
 
 export default rootReducer;
