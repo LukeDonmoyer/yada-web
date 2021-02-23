@@ -5,7 +5,10 @@ import {
   fireAuth,
   fireAuthSignOut,
   getUserPrivilege,
+  initializeChannelTemplatesListener,
   initializeSitesListener,
+  initializeUsersListener,
+  resetRedux,
 } from "./scripts/FireConfig";
 
 import Onboard from "./components/Onboard";
@@ -41,6 +44,7 @@ import sitesIcon from "assets/icons/site.svg";
 import templatesIcon from "assets/icons/hvac.svg";
 import settingsIcon from "assets/icons/settings.svg";
 import usersIcon from "assets/icons/accountManagement.svg";
+import updateUsersSlice from "store/UserAction";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -48,8 +52,12 @@ function App() {
 
   fireAuth.onAuthStateChanged((userAuth) => {
     store.dispatch(authSlice.actions.login(userAuth?.uid));
-    if (userAuth != null && userAuth != undefined) {
+    if (userAuth != null && userAuth !== undefined) {
       initializeSitesListener();
+      initializeUsersListener();
+      initializeChannelTemplatesListener();
+    } else {
+      resetRedux();
     }
   });
 
