@@ -1,0 +1,21 @@
+.tab-view {
+  padding: 0 8px;
+  margin: 8px 32px;
+
+  border-bottom: 1px solid $lightGray;
+}
+
+.tab-item {
+  font-size: 14pt;
+
+  margin: 0 16px;
+}
+
+.tab-item:hover {
+  color: $lightOrange;
+}
+
+.tab-item-selected {
+  color: $lightOrange;
+  border-bottom: 2px solid $lightOrange;
+}
