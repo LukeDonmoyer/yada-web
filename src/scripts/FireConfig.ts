@@ -5,8 +5,10 @@
  */
 import firebase from "firebase";
 import "firebase/auth";
+import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
 import updateSitesSlice from "store/SiteActions";
 import store from "store/store";
+import updateUsersSlice from "store/UserAction";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -223,6 +225,55 @@ export function initializeSitesListener() {
     // call reducer to store each site
     store.dispatch(updateSitesSlice.actions.updateSites(sites));
   });
+}
+
+export function initializeUsersListener() {
+  getUserPrivilege().then((privilege) => {
+    if (["Owner", "Admin"].includes(privilege)) {
+      // listen to entire users collection
+      fireStore.collection("Users").onSnapshot((querySnapshot) => {
+        var users: any = {};
+        querySnapshot.forEach((doc) => {
+          users[doc.id] = doc.data();
+        });
+        // call reducer to store each site
+        store.dispatch(updateUsersSlice.actions.updateUsers(users));
+      });
+    } else {
+      // listen only to current user document
+      fireStore
+        .collection("Users")
+        .doc(fireAuth.currentUser?.uid)
+        .onSnapshot((doc) => {
+          var users: any = {};
+          users[doc.id] = doc.data();
+          // call reducer to store each site
+          store.dispatch(updateUsersSlice.actions.updateUsers(users));
+        });
+    }
+  });
+}
+
+export function initializeChannelTemplatesListener() {
+  console.log("initializing channel templates listener");
+  fireStore.collection("ChannelTemplates").onSnapshot((querySnapshot) => {
+    var templates: any = {};
+    querySnapshot.forEach((doc) => {
+      templates[doc.id] = doc.data();
+    });
+    // call reducer to store each site
+    store.dispatch(
+      updateChannelTemplatesSlice.actions.updateChannelTemplates(templates)
+    );
+  });
+}
+
+export function resetRedux() {
+  store.dispatch(updateUsersSlice.actions.updateUsers({}));
+  store.dispatch(updateSitesSlice.actions.updateSites({}));
+  store.dispatch(
+    updateChannelTemplatesSlice.actions.updateChannelTemplates({})
+  );
 }
 
 // useful firestore functions that will be used later in development
