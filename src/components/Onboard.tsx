@@ -77,7 +77,7 @@ function Onboard(props: RouteComponentProps) {
           let address = "/" + properties[1];
           setRedirect(address);
         } else {
-          setRedirect("/app/");
+          setRedirect("/app/dashboard");
         }
       }
     });

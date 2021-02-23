@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import "tailwind.css";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
 ReactDOM.render(
   <React.StrictMode>
