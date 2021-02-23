@@ -6,36 +6,43 @@
  * purpose: page that wiill provide access to manage sites
  */
 
+import { createNewSite, initializeSitesListener } from "FireConfig";
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Redirect, Route, useLocation } from "react-router-dom";
+import { SiteObject } from "store/FirestoreInterfaces";
+import { RootState } from "store/rootReducer";
 import Content from "./Content";
 import DynamicNavbar, { DynamicNavLink } from "./DynamicNavbar";
 
 export default function Sites() {
-  function testAction() {
-    alert("this function will create a new site");
+  const sites = useSelector((state: RootState) => state.updateSites.sites);
+  let location = useLocation();
+
+  let navLinks: any = [];
+
+  for (const [id, siteData] of Object.entries(sites)) {
+    const data = siteData as SiteObject;
+    navLinks.push(
+      <DynamicNavLink route={`/app/sites/${id}`} key={id} name={data.name}>
+        <p>{JSON.stringify(data)}</p>
+      </DynamicNavLink>
+    );
   }
 
-  let testLinks = [
-    <DynamicNavLink route="/app/sites" name="test" />,
-    <DynamicNavLink route="/app/error/" name="not active" />,
-  ];
-
   return (
-    <Content
-      navbar={
-        <DynamicNavbar
-          title="Sites"
-          buttonAction={testAction}
-          links={testLinks}
-        />
-      }
-      head={
-        <div className="sites">
-          <h1>Slippery Rock: </h1>
-        </div>
-      }
-      body={<div className="sites"></div>}
-    />
+    <div className="sites">
+      <DynamicNavbar title={"Sites"} buttonAction={createNewSite}>
+        {navLinks}
+        <DynamicNavLink
+          route={"/app/sites/"}
+          key={"default"}
+          name={"default route"}
+          blockLinkRender={true}
+        >
+          <p>Please select a site</p>
+        </DynamicNavLink>
+      </DynamicNavbar>
+    </div>
   );
 }

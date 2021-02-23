@@ -7,12 +7,13 @@
 
 @import "/components/_contactUs";
 @import "/components/_requestAccount";
-@import "/components/_navbar";
+@import "/components/_staticNavbar";
 @import "/components/_dynamicNavbar";
 @import "/components/_onboard";
 @import "/components/_authCheck";
+@import "/components/_notFound";
 @import "/components/_content";
-
+@import "/components/_topRoutes";
 @import "/components/_dashboard";
 @import "/components/_sites";
 @import "/components/_channelTemplates";
@@ -20,6 +21,8 @@
 @import "/components/_settings";
 @import "/components/_changePassword";
 @import "/components/_registerUsers";
+@import "/components/_routes";
+@import "/components/_app";
 
 @import "/components/_tabview";
 

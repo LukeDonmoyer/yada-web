@@ -53,7 +53,7 @@ export default function RegisterUsers() {
       // if the logged in user is not an Owner they are redirected to the dashboard
       if (data.userGroup === "Power" || data.userGroup === "User") {
         alert("innappropriate permissions. Please log in as administrator.");
-        history.push("/app/");
+        history.push("/app/dashboard");
       }
     });
   } else {
@@ -102,7 +102,7 @@ export default function RegisterUsers() {
             <div className="registerUsersButton" onClick={registerUsers}>
               register and email
             </div>
-            <Link to="/app/">
+            <Link to="/app/dashboard">
               <div className="dashboardLink">--go to dashboard--</div>
             </Link>
           </div>
