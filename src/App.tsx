@@ -67,12 +67,9 @@ function App() {
 
   return (
     <Router>
-      {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-      {/* {!(currentUser === null || currentUser === undefined)? {} : {}} */}
       <Switch>
-        <Route exact path="/" component={Onboard}></Route>
-        <Route path="/app/">
+        <Route exact path="/" component={Onboard}/>
+        <Route path="/app">
           {currentUser === null || currentUser === undefined ? (
             <AuthCheck />
           ) : (
@@ -89,21 +86,21 @@ function App() {
                 >
                   <StaticNavItem
                     label={"dashboard"}
-                    route={"/app/dashboard"}
+                    route={"dashboard"}
                     icon={homeIcon}
                   >
                     <Dashboard />
                   </StaticNavItem>
                   <StaticNavItem
                     label={"sites"}
-                    route={"/app/sites"}
+                    route={"sites"}
                     icon={sitesIcon}
                   >
                     <Sites />
                   </StaticNavItem>
                   <StaticNavItem
                     label={"channel templates"}
-                    route={"/app/channel-templates"}
+                    route={"channel-templates"}
                     icon={templatesIcon}
                   >
                     <ChannelTemplates />
@@ -111,7 +108,7 @@ function App() {
                   {["Owner", "Admin"].includes(userPrivilege) ? (
                     <StaticNavItem
                       label="user management"
-                      route="/app/usermanagement"
+                      route="usermanagement"
                       icon={usersIcon}
                     >
                       <UserManagement />
@@ -121,7 +118,7 @@ function App() {
                   )}
                   <StaticNavItem
                     label="settings"
-                    route="/app/settings"
+                    route="settings"
                     icon={settingsIcon}
                   >
                     <Settings />
@@ -143,7 +140,7 @@ function App() {
         <Route path="/request-account">
           <RequestAccount />
         </Route>
-        <Route component={NotFound} />
+        <Route path={"*"} component={NotFound} />
       </Switch>
     </Router>
   );

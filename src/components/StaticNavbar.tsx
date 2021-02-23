@@ -6,7 +6,7 @@
 
 import { fireAuthSignOut } from "scripts/FireConfig";
 import React, { ReactElement } from "react";
-import { Link, Route, useLocation } from "react-router-dom";
+import {Link, Route, useLocation, useRouteMatch} from "react-router-dom";
 
 /**
  * autoCollapse: if true, the navbar compresses itself and expands when hovered. Ideal if icons are used
@@ -41,15 +41,16 @@ interface StaticNavItemProp {
  */
 export function StaticNavItem(props: StaticNavItemProp) {
   let currentRoute = useLocation();
+  const {url} = useRouteMatch();
 
   /**
    * returns empty div if the permissions are not met
    */
   return (
-    <Link to={props.route}>
+    <Link to={`${url}/${props.route}`}>
       <div
         className={`navItem ${
-          currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
+          currentRoute.pathname.startsWith(`${url}/${props.route}`) ? "active" : "inactive"
         }`}
       >
         <div className="navIcon">
@@ -67,9 +68,10 @@ export function StaticNavItem(props: StaticNavItemProp) {
  */
 export default function StaticNavbar(props: navbarProps) {
   let location = useLocation();
+  const {path} = useRouteMatch();
 
   function createRoute(child: ReactElement) {
-    return <Route path={child.props.route}>{child.props.children}</Route>;
+    return <Route path={`${path}/${child.props.route}`}>{child.props.children}</Route>;
   }
 
   return (
