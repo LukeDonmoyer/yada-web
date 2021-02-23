@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import "tailwind.css";
+import reportWebVitals from "./scripts/reportWebVitals";
+import "assets/tailwind.css";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
