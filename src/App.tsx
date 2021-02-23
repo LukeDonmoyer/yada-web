@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./App.scss";
-import "./tailwind.css";
+import "assets/App.scss";
+import "assets/tailwind.css";
 import {
   fireAuth,
   fireAuthSignOut,
   getUserPrivilege,
   initializeSitesListener,
-} from "./FireConfig";
+} from "./scripts/FireConfig";
 
 import Onboard from "./components/Onboard";
 

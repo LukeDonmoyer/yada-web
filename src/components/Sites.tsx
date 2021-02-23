@@ -6,7 +6,7 @@
  * purpose: page that wiill provide access to manage sites
  */
 
-import { createNewSite, initializeSitesListener } from "FireConfig";
+import { createNewSite, initializeSitesListener } from "scripts/FireConfig";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, useLocation } from "react-router-dom";

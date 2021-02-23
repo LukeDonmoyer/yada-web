@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
-import { createEmailDocument } from "FireConfig";
+import { createEmailDocument } from "scripts/FireConfig";
 import "../assets/styles.scss";
 
 export default function RequestAccount() {

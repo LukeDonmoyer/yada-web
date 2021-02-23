@@ -14,8 +14,8 @@ import {
   createUserDocument,
   getUserData,
   sendAuthorizationEmail,
-} from "FireConfig";
-import { registerUser } from "FireAdmin";
+} from "scripts/FireConfig";
+import { registerUser } from "scripts/FireAdmin";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
 import AuthCheck from "./AuthCheck";
