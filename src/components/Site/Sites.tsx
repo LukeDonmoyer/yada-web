@@ -22,33 +22,35 @@ export default function Sites() {
   for (const [id, siteData] of Object.entries(sites)) {
     const data = siteData as SiteObject;
     navLinks.push(
-      <DynamicNavLink route={`/app/sites/${id}`} key={id} name={data.name}>
+      <DynamicNavLink route={id} key={id} name={data.name}>
         <>
           <p>{JSON.stringify(data)}</p>
-          <Link to={`/app/sites/${id}/equipment`}>Equipment</Link>
+          <Link to={`${id}/equipment`}>Equipment</Link>
         </>
       </DynamicNavLink>
     );
   }
 
   return (
-    <div className="sites">
+    <>
       <Route path={"/app/sites/:siteId/equipment"}>
         <SiteEquipment />
       </Route>
-      <Route path={"/app/sites/"}>
-        <DynamicNavbar title={"Sites"} buttonAction={createNewSite}>
-          {navLinks}
-          <DynamicNavLink
-            route={"/app/sites/"}
-            key={"default"}
-            name={"default route"}
-            blockLinkRender={true}
-          >
-            <p>Please select a site</p>
-          </DynamicNavLink>
-        </DynamicNavbar>
+      <Route path={"/app/sites"}>
+        <div className="sites">
+          <DynamicNavbar title={"Sites"} buttonAction={createNewSite}>
+            {navLinks}
+            <DynamicNavLink
+              route={""}
+              key={"default"}
+              name={"default route"}
+              blockLinkRender={true}
+            >
+              <p>Please select a site</p>
+            </DynamicNavLink>
+          </DynamicNavbar>
+        </div>
       </Route>
-    </div>
+    </>
   );
 }

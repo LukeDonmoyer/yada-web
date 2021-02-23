@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/rootReducer";
 import DynamicNavbar, { DynamicNavLink } from "../DynamicNavbar";
-import { useParams, useRouteMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { EquipmentUnit, SiteObject } from "../../store/FirestoreInterfaces";
 import { SiteEquipmentContent } from "./SiteEquipmentContent";
 
@@ -23,7 +23,6 @@ function addEquipment(event: any) {
  */
 export default function SiteEquipment(): ReactElement {
   const { siteId }: any = useParams();
-  const { url } = useRouteMatch();
   const site: SiteObject = useSelector(
     (state: RootState) => state.sites[siteId]
   );
@@ -36,7 +35,7 @@ export default function SiteEquipment(): ReactElement {
   function createEquipmentLink(unit: EquipmentUnit): ReactElement {
     return (
       <DynamicNavLink
-        route={`${url}/${unit.name.replace(" ", "-")}`}
+        route={unit.name.replace(" ", "-")}
         key={unit.name}
         name={unit.name}
       >
@@ -48,7 +47,7 @@ export default function SiteEquipment(): ReactElement {
   return (
     <DynamicNavbar title={"Equipment"} buttonAction={addEquipment}>
       <DynamicNavLink
-        route={url}
+        route={""}
         key={"default"}
         name={"default route"}
         blockLinkRender={true}
