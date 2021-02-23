@@ -4,7 +4,7 @@
  *
  * Description: form component that upon submission changes the password for the currently authenticated account. This component is available to all users at the route of '/changePassword'. The form submission is required upon the first user login
  */
-import { changePassword, getUserData } from "FireConfig";
+import { changePassword, getUserData } from "scripts/FireConfig";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Button, Input } from "reactstrap";

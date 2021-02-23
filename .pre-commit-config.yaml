@@ -13,8 +13,9 @@ repos:
     rev: "5cc45653263b423398e4af2561fae362903dd45d"
     hooks:
       - id: sass-lint
-  - repo: git://github.com/awebdeveloper/pre-commit-tslint/
-    rev: 0.0.2
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "v7.20.0" # Use the sha / tag you want to point at
     hooks:
-      - id: tslint
-        additional_dependencies: ["tslint@5.0.0"]
+      - id: eslint
+        files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
+        types: [file]

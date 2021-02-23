@@ -5,7 +5,7 @@
  * fullscreen component to request signin from the user
  */
 import { Button, Form, Input } from "reactstrap";
-import { signInWithEmail } from "../FireConfig";
+import { signInWithEmail } from "../scripts/FireConfig";
 import { Animated } from "react-animated-css";
 import React from "react";
 import { Link } from "react-router-dom";
