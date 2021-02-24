@@ -3,7 +3,7 @@ import { ReactComponent as LogoBox } from "../assets/images/logo-box.svg";
 
 export default function AnimatedLogo() {
   return (
-    <div className="logoContainer">
+    <div className="animatedLogo">
       <LogoBox className="logoBox" />
       <LogoBlades className="logoBlades" />
     </div>
