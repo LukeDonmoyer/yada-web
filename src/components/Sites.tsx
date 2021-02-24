@@ -6,7 +6,7 @@
  * purpose: page that wiill provide access to manage sites
  */
 
-import { createNewSite, initializeSitesListener } from "FireConfig";
+import { createNewSite, initializeSitesListener } from "scripts/FireConfig";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, useLocation } from "react-router-dom";
@@ -24,7 +24,7 @@ export default function Sites() {
   for (const [id, siteData] of Object.entries(sites)) {
     const data = siteData as SiteObject;
     navLinks.push(
-      <DynamicNavLink route={`/app/sites/${id}`} key={id} name={data.name}>
+      <DynamicNavLink route={`${id}`} key={id} name={data.name}>
         <p>{JSON.stringify(data)}</p>
       </DynamicNavLink>
     );
@@ -35,7 +35,7 @@ export default function Sites() {
       <DynamicNavbar title={"Sites"} buttonAction={createNewSite}>
         {navLinks}
         <DynamicNavLink
-          route={"/app/sites/"}
+          route={""}
           key={"default"}
           name={"default route"}
           blockLinkRender={true}

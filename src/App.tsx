@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import "./App.scss";
-import "./tailwind.css";
+import "assets/App.scss";
+import "assets/tailwind.css";
 import {
   fireAuth,
   fireAuthSignOut,
   getUserPrivilege,
+  initializeChannelTemplatesListener,
   initializeSitesListener,
-} from "./FireConfig";
+  initializeUsersListener,
+  resetRedux,
+} from "./scripts/FireConfig";
 
 import Onboard from "./components/Onboard";
 
@@ -41,6 +44,7 @@ import sitesIcon from "assets/icons/site.svg";
 import templatesIcon from "assets/icons/hvac.svg";
 import settingsIcon from "assets/icons/settings.svg";
 import usersIcon from "assets/icons/accountManagement.svg";
+import updateUsersSlice from "store/UserAction";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -48,8 +52,12 @@ function App() {
 
   fireAuth.onAuthStateChanged((userAuth) => {
     store.dispatch(authSlice.actions.login(userAuth?.uid));
-    if (userAuth != null && userAuth != undefined) {
+    if (userAuth != null && userAuth !== undefined) {
       initializeSitesListener();
+      initializeUsersListener();
+      initializeChannelTemplatesListener();
+    } else {
+      resetRedux();
     }
   });
 
@@ -59,12 +67,9 @@ function App() {
 
   return (
     <Router>
-      {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-      {/* {!(currentUser === null || currentUser === undefined)? {} : {}} */}
       <Switch>
-        <Route exact path="/" component={Onboard}></Route>
-        <Route path="/app/">
+        <Route exact path="/" component={Onboard}/>
+        <Route path="/app">
           {currentUser === null || currentUser === undefined ? (
             <AuthCheck />
           ) : (
@@ -81,21 +86,21 @@ function App() {
                 >
                   <StaticNavItem
                     label={"dashboard"}
-                    route={"/app/dashboard"}
+                    route={"dashboard"}
                     icon={homeIcon}
                   >
                     <Dashboard />
                   </StaticNavItem>
                   <StaticNavItem
                     label={"sites"}
-                    route={"/app/sites"}
+                    route={"sites"}
                     icon={sitesIcon}
                   >
                     <Sites />
                   </StaticNavItem>
                   <StaticNavItem
                     label={"channel templates"}
-                    route={"/app/channel-templates"}
+                    route={"channel-templates"}
                     icon={templatesIcon}
                   >
                     <ChannelTemplates />
@@ -103,7 +108,7 @@ function App() {
                   {["Owner", "Admin"].includes(userPrivilege) ? (
                     <StaticNavItem
                       label="user management"
-                      route="/app/usermanagement"
+                      route="usermanagement"
                       icon={usersIcon}
                     >
                       <UserManagement />
@@ -113,7 +118,7 @@ function App() {
                   )}
                   <StaticNavItem
                     label="settings"
-                    route="/app/settings"
+                    route="settings"
                     icon={settingsIcon}
                   >
                     <UserSettings />
@@ -135,7 +140,7 @@ function App() {
         <Route path="/request-account">
           <RequestAccount />
         </Route>
-        <Route component={NotFound} />
+        <Route path={"*"} component={NotFound} />
       </Switch>
     </Router>
   );

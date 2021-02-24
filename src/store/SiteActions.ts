@@ -1,6 +1,6 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export const login_action = createAction("updateSites");
+export const updateSites_action = createAction("updateSites");
 
 const initialState = {
   sites: {},
