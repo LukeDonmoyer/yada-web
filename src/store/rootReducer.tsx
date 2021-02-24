@@ -6,7 +6,7 @@ import updateChannelTemplatesSlice from "./ChannelTemplateActions";
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
-  updateSites: updateSitesSlice.reducer,
+  sites: updateSitesSlice.reducer,
   updateUsers: updateUsersSlice.reducer,
   updateChannelTemplates: updateChannelTemplatesSlice.reducer,
 });

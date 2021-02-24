@@ -10,7 +10,7 @@ interface dynamicNavLink {
 
 export function DynamicNavLink(props: dynamicNavLink) {
   let currentRoute = useLocation();
-  const {url} = useRouteMatch();
+  const { url } = useRouteMatch();
 
   if (props.blockLinkRender) {
     return <></>;
@@ -20,7 +20,9 @@ export function DynamicNavLink(props: dynamicNavLink) {
     <Link to={`${url}/${props.route}`}>
       <div
         className={`navItem ${
-          currentRoute.pathname.startsWith(props.route) ? "active" : "inactive"
+          currentRoute.pathname.startsWith(`${url}/${props.route}`)
+            ? "active"
+            : "inactive"
         }`}
       >
         {props.name}
@@ -36,7 +38,7 @@ interface DynamicNavBarProps {
 }
 
 export default function DynamicNavbar(props: DynamicNavBarProps) {
-  const {path} = useRouteMatch();
+  const { path } = useRouteMatch();
 
   function createRoute(child: ReactElement) {
     if (child.props.blockLinkRender) {
@@ -46,7 +48,11 @@ export default function DynamicNavbar(props: DynamicNavBarProps) {
         </Route>
       );
     }
-    return <Route path={`${path}/${child.props.route}`}>{child.props.children}</Route>;
+    return (
+      <Route path={`${path}/${child.props.route}`}>
+        {child.props.children}
+      </Route>
+    );
   }
 
   return (
