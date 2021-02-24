@@ -79,7 +79,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
         <TabViewItem label={"Faults"} route={"faults"}>
           <FaultsTab />
         </TabViewItem>
-        <TabViewItem label={"Config"} exact route={"config"}>
+        <TabViewItem label={"Config"} route={"config"}>
           <ConfigTab />
         </TabViewItem>
       </TabView>
