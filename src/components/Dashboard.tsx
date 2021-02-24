@@ -14,18 +14,14 @@ import Content from "./Content";
 export default function Dashboard() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   return (
-    <Content
-      head={
-        <div className="dashboard">
-          <h1>Dashboard: </h1>
+    <div className={"dashboard"}>
+      <h1>Site Overview</h1>
+      <div className={"search-bar"}>Hello World</div>
+      <div className={"card-container"}>
+        <div className={"card"}>
+          <h3>Hello</h3>
         </div>
-      }
-      body={
-        <div className="dashboard">
-          <p>logged in user: </p>
-          <p>{JSON.stringify(currentUser)}</p>
-        </div>
-      }
-    />
+      </div>
+    </div>
   );
 }
