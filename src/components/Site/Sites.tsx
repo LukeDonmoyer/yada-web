@@ -24,20 +24,7 @@ export default function Sites() {
     const data = siteData as SiteObject;
     navLinks.push(
       <DynamicNavLink route={id} key={id} name={data.name}>
-        <div className={"sites"}>
-          <h1>{sites[id].name}</h1>
-          <TabView>
-            <TabViewItem label={"Equipment"} exact default>
-              <EquipmentTab />
-            </TabViewItem>
-            <TabViewItem label={"Faults"} route={"faults"}>
-              <FaultsTab />
-            </TabViewItem>
-            <TabViewItem label={"Config"} exact route={"config"}>
-              <ConfigTab />
-            </TabViewItem>
-          </TabView>
-        </div>
+        <SiteContent site={sites[id]} />
       </DynamicNavLink>
     );
   }
@@ -70,7 +57,7 @@ interface SiteContentProps {
 
 function SiteContent({ site }: SiteContentProps): ReactElement {
   return (
-    <>
+    <div className={"sites"}>
       <h1>{site.name}</h1>
       <TabView>
         <TabViewItem label={"Equipment"} exact default>
@@ -83,7 +70,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
           <ConfigTab />
         </TabViewItem>
       </TabView>
-    </>
+    </div>
   );
 }
 
