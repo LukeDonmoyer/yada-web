@@ -113,8 +113,9 @@ function EquipmentTab(): ReactElement {
     });
 
   function handleRowClick(row: any) {
-    alert(`navigating to ${row.row.name} unit`);
-    changeRedirect("/app/sites/");
+    // alert(`navigating to ${row.row.name} unit`);
+    let equipmentName = row.row.name.replace(" ", "-");
+    changeRedirect(`/app/sites/${siteID}/equipment/${equipmentName}`);
   }
 
   if (redirect != "") {
