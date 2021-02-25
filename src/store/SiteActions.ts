@@ -1,20 +1,22 @@
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  PayloadAction,
+  SliceCaseReducers,
+} from "@reduxjs/toolkit";
+import { SiteCollection } from "./FirestoreInterfaces";
 
-export const updateSites_action = createAction("updateSites");
-
-const initialState = {
-  sites: {},
-};
-
-const updateSitesSlice = createSlice({
-  name: "updateSites",
-  initialState,
+const sitesSlice = createSlice<
+  SiteCollection,
+  SliceCaseReducers<SiteCollection>
+>({
+  name: "sites",
+  initialState: {},
   reducers: {
-    updateSites(state, action: PayloadAction<any>) {
-      state.sites = action.payload;
+    updateSites(state, action: PayloadAction<SiteCollection>) {
+      return action.payload;
     },
   },
 });
 
-export const { updateSites } = updateSitesSlice.actions;
-export default updateSitesSlice;
+export const { updateSites } = sitesSlice.actions;
+export default sitesSlice;

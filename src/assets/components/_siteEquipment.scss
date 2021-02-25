@@ -1,0 +1,31 @@
+.site-equipment {
+  height: 100%;
+
+  margin: 8px 24px;
+
+  .message {
+    @include mediumSmallTitle;
+
+    width: 50%;
+
+    margin: 64px auto;
+
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+
+    color: $companyName;
+  }
+
+  .site-equipment-back-button {
+    margin: 0 0 8px 0;
+
+    font-size: 14pt;
+    display: flex;
+  }
+
+  .site-equipment-back-button:hover {
+    color: $lightOrange;
+    fill: $lightOrange;
+  }
+}
