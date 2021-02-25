@@ -22,7 +22,7 @@ const firebaseConfig = {
 };
 
 var fireInstance = firebase.initializeApp(firebaseConfig);
-var fireStore = fireInstance.firestore();
+export var fireStore = fireInstance.firestore();
 export var fireAuth = firebase.auth();
 
 /**
@@ -236,7 +236,7 @@ export function initializeUsersListener() {
         querySnapshot.forEach((doc) => {
           users[doc.id] = doc.data();
         });
-        // call reducer to store each site
+        // call reducer to store each user
         store.dispatch(updateUsersSlice.actions.updateUsers(users));
       });
     } else {
@@ -247,7 +247,7 @@ export function initializeUsersListener() {
         .onSnapshot((doc) => {
           var users: any = {};
           users[doc.id] = doc.data();
-          // call reducer to store each site
+          // call reducer to store this user
           store.dispatch(updateUsersSlice.actions.updateUsers(users));
         });
     }
@@ -261,7 +261,7 @@ export function initializeChannelTemplatesListener() {
     querySnapshot.forEach((doc) => {
       templates[doc.id] = doc.data();
     });
-    // call reducer to store each site
+    // call reducer to store each channel template
     store.dispatch(
       updateChannelTemplatesSlice.actions.updateChannelTemplates(templates)
     );
