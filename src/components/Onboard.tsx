@@ -13,6 +13,7 @@ import { Button, Form, Input } from "reactstrap";
 import { signInWithEmail, getUserData } from "../scripts/FireConfig";
 
 import { ReactComponent as Logo } from "../assets/images/icon.svg";
+import AnimatedLogo from "./AnimatedLogo";
 
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";
@@ -93,7 +94,7 @@ function Onboard(props: RouteComponentProps) {
             <div className="coloredBlock">
               <h1 className="w-full text-center">Company Name</h1>
               {/* <CustomCarousel /> */}
-              <Logo className="mx-auto my-20" />
+              <AnimatedLogo />
             </div>
           </div>
           <div className="rightSection onboard">
