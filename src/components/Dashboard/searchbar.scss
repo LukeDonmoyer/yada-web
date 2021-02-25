@@ -1,0 +1,38 @@
+@import "src/assets/designLanguage/variables";
+
+.searchbar {
+  display: flex;
+
+  filter: drop-shadow(2px 2px 1px $shadow);
+  border-radius: 8px;
+  border: 1px solid $lightGray;
+  background-color: $offWhite;
+
+  svg {
+    margin: 8px;
+
+    fill: $turqois;
+  }
+
+  input {
+    margin: 0;
+    padding: 8px 8px 8px 0;
+
+    width: 100%;
+
+    background-color: transparent;
+    outline: none;
+  }
+
+  .hint {
+    position: absolute;
+    margin: 8px 8px 8px 40px;
+    z-index: -1;
+
+    color: $turqois;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
