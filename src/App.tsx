@@ -68,7 +68,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Onboard}/>
+        <Route exact path="/" component={Onboard} />
         <Route path="/app">
           {currentUser === null || currentUser === undefined ? (
             <AuthCheck />
@@ -139,6 +139,9 @@ function App() {
         </Route>
         <Route path="/request-account">
           <RequestAccount />
+        </Route>
+        <Route path="/user-settings">
+          <UserSettings />
         </Route>
         <Route path={"*"} component={NotFound} />
       </Switch>

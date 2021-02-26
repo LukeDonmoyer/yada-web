@@ -3,8 +3,10 @@
  */
 
 import React from "react";
-import { Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Content from "./Content";
+import "../assets/styles.scss";
+import "../assets/bootstrap.scss";
 
 /**
  * Use uncontrolled React form components.
@@ -16,28 +18,46 @@ import Content from "./Content";
 
 export default function UserSettings() {
   return (
-    <Content
-      head={
-        <div className="userSettings">
-          <h1>User Settings: </h1>
-        </div>
-      }
-      body={
-        <div className="userSettings">
-          <Form>
-            <FormGroup check>
-              <Label for="emailNotifications" check>
-                <Input type="checkbox" id="emailNotifications" /> Email
-                Notifications
-              </Label>
-              <Label for="smsNotifications" check>
-                <Input type="checkbox" id="smsNotifications" /> SMS
-                Notifications
-              </Label>
-            </FormGroup>
-          </Form>
-        </div>
-      }
-    />
+    // TODO: Wrap in Content component
+    <div className="userSettings bootStrapStyles">
+      <h1>User Settings: </h1>
+      <Form>
+        <FormGroup>
+          <Label for="exampleEmail">Email</Label>
+          <Input
+            type="email"
+            name="email"
+            id="exampleEmail"
+            placeholder="with a placeholder"
+          />
+          <Label for="examplePassword">Password</Label>
+          <Input
+            type="password"
+            name="password"
+            id="examplePassword"
+            placeholder="password placeholder"
+          />
+        </FormGroup>
+        <FormGroup check>
+          <Row>
+            <Label for="emailNotifications" check>
+              <Input type="checkbox" id="emailNotifications" /> Email
+              Notifications
+            </Label>
+            <Label for="smsNotifications" check>
+              <Input type="checkbox" id="smsNotifications" /> SMS Notifications
+            </Label>
+          </Row>
+        </FormGroup>
+        <FormGroup>
+          <Row>
+            <Button className="saveChanges">Save Changes</Button>
+          </Row>
+          <Row>
+            <Button className="deleteAccount">Delete Account</Button>
+          </Row>
+        </FormGroup>
+      </Form>
+    </div>
   );
 }
