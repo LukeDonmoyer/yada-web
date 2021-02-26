@@ -1,12 +1,15 @@
+export interface SiteCollection {
+  [key: string]: SiteObject;
+}
 export interface SiteObject {
   address: string;
+  equipmentUnits: EquipmentUnit[];
   name: string;
   notes: string;
-  equipmentUnits: {
-    equipmentID: {
-      faults: [];
-      loggers: [];
-    };
-  };
-  userNotifications: {};
+}
+
+export interface EquipmentUnit {
+  faults: string[];
+  loggers: string[];
+  name: string;
 }
