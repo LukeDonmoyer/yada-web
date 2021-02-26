@@ -45,12 +45,13 @@ import templatesIcon from "assets/icons/hvac.svg";
 import settingsIcon from "assets/icons/settings.svg";
 import usersIcon from "assets/icons/accountManagement.svg";
 import updateUsersSlice from "store/UserAction";
+import { registerAuthChangeCallback } from "scripts/Datastore";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [userPrivilege, setPrivilege] = useState("User");
 
-  fireAuth.onAuthStateChanged((userAuth) => {
+  registerAuthChangeCallback((userAuth: any) => {
     store.dispatch(authSlice.actions.login(userAuth?.uid));
     if (userAuth != null && userAuth !== undefined) {
       initializeSitesListener();
@@ -68,7 +69,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Onboard}/>
+        <Route exact path="/" component={Onboard} />
         <Route path="/app">
           {currentUser === null || currentUser === undefined ? (
             <AuthCheck />
