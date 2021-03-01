@@ -8,19 +8,24 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store/rootReducer";
-import React from "react";
+import React, { ReactElement, useState } from "react";
 import Content from "./Content";
+import SearchBar from "./Dashboard/SearchBar";
+import SiteCard from "./Dashboard/SiteCard";
 
 export default function Dashboard() {
+  const sites = useSelector((state: RootState) => state.sites);
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  console.log(sites);
+
   return (
     <div className={"dashboard"}>
       <h1>Site Overview</h1>
-      <div className={"search-bar"}>Hello World</div>
+      <SearchBar hint={"Search"} />
       <div className={"card-container"}>
-        <div className={"card"}>
-          <h3>Hello</h3>
-        </div>
+        <SiteCard site={sites["SyUr5CsHDmi8wbdu9HjS"]} />
       </div>
     </div>
   );
