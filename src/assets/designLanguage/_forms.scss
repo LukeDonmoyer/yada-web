@@ -21,6 +21,21 @@
   }
 }
 
+@mixin smallInput {
+  display: block;
+  border-width: 2px;
+  border-color: $lightGray;
+  border-radius: 10px;
+  padding: 5px;
+  padding-left: 15px;
+  outline: 0px;
+  width: 30%;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  color: $darkGray;
+  opacity: 0.9;
+}
+
 .simpleInput {
   width: 100%;
   padding: 5px;

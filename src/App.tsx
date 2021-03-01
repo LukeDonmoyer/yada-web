@@ -51,8 +51,15 @@ function App() {
   const [userPrivilege, setPrivilege] = useState("User");
 
   fireAuth.onAuthStateChanged((userAuth) => {
+    if (userAuth?.uid == currentUser) {
+      return;
+    }
     store.dispatch(authSlice.actions.login(userAuth?.uid));
-    if (userAuth != null && userAuth !== undefined) {
+    if (
+      userAuth != null &&
+      userAuth !== undefined &&
+      currentUser != userAuth?.uid
+    ) {
       initializeSitesListener();
       initializeUsersListener();
       initializeChannelTemplatesListener();

@@ -1,9 +1,10 @@
 .sites {
   margin: 0 16px;
+  // @include scrollWithoutScrollbar;
 
   height: 100%;
   h1 {
-    @include largeTitle;
-    color: $companyName;
+    @include mediumTitle;
+    color: $darkNavbar;
   }
 }

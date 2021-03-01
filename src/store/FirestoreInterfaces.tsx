@@ -12,6 +12,8 @@ export interface EquipmentUnit {
   faults: string[];
   loggers: string[];
   name: string;
+  health: string;
+  type: string;
 }
 
 export interface UserCollection {
