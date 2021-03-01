@@ -13,3 +13,16 @@ export interface EquipmentUnit {
   loggers: string[];
   name: string;
 }
+
+export interface UserCollection {
+  [key: string]: User;
+}
+
+export interface User {
+  defaults: boolean;
+  email: string;
+  phoneNumber: string;
+  userGroup: string;
+  emailNotifications?: boolean;
+  smsNotifications?: boolean;
+}

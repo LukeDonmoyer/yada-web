@@ -7,6 +7,9 @@ import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Content from "./Content";
 import "../assets/styles.scss";
 import "../assets/bootstrap.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "store/rootReducer";
+import { Link } from "react-router-dom";
 
 /**
  * Use uncontrolled React form components.
@@ -17,8 +20,10 @@ import "../assets/bootstrap.scss";
  */
 
 export default function UserSettings() {
+  const currentUser = useSelector((state: RootState) => state.auth.userUID);
+
   return (
-    // TODO: Wrap in Content component
+    // TODO: Wrap in Content component?
     <div className="userSettings bootStrapStyles">
       <h1>User Settings: </h1>
       <Form>
@@ -39,23 +44,18 @@ export default function UserSettings() {
           />
         </FormGroup>
         <FormGroup check>
-          <Row>
-            <Label for="emailNotifications" check>
-              <Input type="checkbox" id="emailNotifications" /> Email
-              Notifications
-            </Label>
-            <Label for="smsNotifications" check>
-              <Input type="checkbox" id="smsNotifications" /> SMS Notifications
-            </Label>
-          </Row>
+          <Label for="emailNotifications" check>
+            <Input type="checkbox" id="emailNotifications" /> Email
+            Notifications
+          </Label>
+          <Label for="smsNotifications" check>
+            <Input type="checkbox" id="smsNotifications" /> SMS Notifications
+          </Label>
         </FormGroup>
         <FormGroup>
-          <Row>
-            <Button className="saveChanges">Save Changes</Button>
-          </Row>
-          <Row>
-            <Button className="deleteAccount">Delete Account</Button>
-          </Row>
+          <Link to="/change-password">Change Password</Link>
+          <Button>Save Changes</Button>
+          <Button>Delete Account</Button>
         </FormGroup>
       </Form>
     </div>

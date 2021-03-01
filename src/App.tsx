@@ -140,9 +140,6 @@ function App() {
         <Route path="/request-account">
           <RequestAccount />
         </Route>
-        <Route path="/user-settings">
-          <UserSettings />
-        </Route>
         <Route path={"*"} component={NotFound} />
       </Switch>
     </Router>
