@@ -36,7 +36,7 @@ export function SiteEquipmentContent({
     const data = loggerData as LoggerObject;
 
     loggerTabs.push(
-      <TabViewItem label={String(id)} exact>
+      <TabViewItem label={String(id)} route={String(id)}>
         {LoggerTab(data)}
       </TabViewItem>
     );
