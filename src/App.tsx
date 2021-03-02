@@ -1,24 +1,9 @@
 import React, { useState } from "react";
 import "assets/App.scss";
 import "assets/tailwind.css";
-import {
-  fireAuth,
-  fireAuthSignOut,
-  getUserPrivilege,
-  initializeChannelTemplatesListener,
-  initializeSitesListener,
-  initializeUsersListener,
-  resetRedux,
-} from "./scripts/FireConfig";
-
 import Onboard from "./components/Onboard";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChangePassword from "components/ChangePassword";
 import RegisterUsers from "components/RegisterUsers";
 import ContactUs from "components/ContactUs";
@@ -27,8 +12,6 @@ import RequestAccount from "components/RequestAccount";
 import authSlice from "store/FireActions";
 import store from "./store/store";
 import Sites from "components/Site/Sites";
-// import Profiles from "components/Profiles";
-// import AdminManagement from "components/AdminManagement";
 import Settings from "components/Settings";
 import NotFound from "components/NotFound";
 import { RootState } from "store/rootReducer";
@@ -44,8 +27,12 @@ import sitesIcon from "assets/icons/site.svg";
 import templatesIcon from "assets/icons/hvac.svg";
 import settingsIcon from "assets/icons/settings.svg";
 import usersIcon from "assets/icons/accountManagement.svg";
-import updateUsersSlice from "store/UserAction";
-import { registerAuthChangeCallback } from "scripts/Datastore";
+import {
+  getUserPrivilege,
+  initializeListeners,
+  registerAuthChangeCallback,
+  resetRedux,
+} from "scripts/Datastore";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -54,15 +41,13 @@ function App() {
   registerAuthChangeCallback((userAuth: any) => {
     store.dispatch(authSlice.actions.login(userAuth?.uid));
     if (userAuth != null && userAuth !== undefined) {
-      initializeSitesListener();
-      initializeUsersListener();
-      initializeChannelTemplatesListener();
+      initializeListeners();
     } else {
       resetRedux();
     }
   });
 
-  getUserPrivilege().then((privilege) => {
+  getUserPrivilege().then((privilege: string) => {
     setPrivilege(privilege);
   });
 
