@@ -218,11 +218,11 @@ export function createNewSite() {
     });
 }
 
-export function createNewEquipment(site_uid: string){
+export function createNewEquipment(site_uid: string, equipment_name: string){
   const newEquipment: EquipmentUnit = {
     faults : [],
     loggers: [],
-    name : "New Equipment",
+    name : equipment_name,
     health: "Unknown",
     type: "Unassigned"
   };
