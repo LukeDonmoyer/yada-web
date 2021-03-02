@@ -9,7 +9,7 @@ import "../assets/styles.scss";
 import "../assets/bootstrap.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "store/rootReducer";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 /**
  * Use uncontrolled React form components.
@@ -20,7 +20,9 @@ import { Link } from "react-router-dom";
  */
 
 export default function UserSettings() {
-  const currentUser = useSelector((state: RootState) => state.auth.userUID);
+  const uid = useSelector((state: RootState) => state.auth.userUID);
+
+  // USE NULL COALESCENCE TO SET DEFAULT VALS IF SETTING DOESN'T EXIST
 
   return (
     // TODO: Wrap in Content component?
@@ -33,7 +35,7 @@ export default function UserSettings() {
             type="email"
             name="email"
             id="exampleEmail"
-            placeholder="with a placeholder"
+            placeholder="email"
           />
           <Label for="examplePassword">Password</Label>
           <Input
