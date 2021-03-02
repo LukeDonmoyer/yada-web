@@ -9,6 +9,7 @@ import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
 import updateSitesSlice from "store/SiteActions";
 import store from "store/store";
 import updateUsersSlice from "store/UserAction";
+import {EquipmentUnit} from "store/FirestoreInterfaces";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -24,6 +25,8 @@ const firebaseConfig = {
 var fireInstance = firebase.initializeApp(firebaseConfig);
 var fireStore = fireInstance.firestore();
 export var fireAuth = firebase.auth();
+
+const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 
 /**
  * Changes the password for the logged in user
@@ -213,6 +216,18 @@ export function createNewSite() {
     .catch((error) => {
       console.error("Error writing document: ", error);
     });
+}
+
+export function createNewEquipment(site_uid: string){
+  const newEquipment: EquipmentUnit = {
+    faults : [],
+    loggers: [],
+    name : "New Equipment",
+    health: "Unknown",
+    type: "Unassigned"
+  };
+
+  fireStore.collection("Sites").doc(site_uid).update({equipmentUnits: arrayUnion(newEquipment)});
 }
 
 export function initializeSitesListener() {

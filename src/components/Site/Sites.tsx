@@ -22,6 +22,7 @@ import {
   GridToolbar,
 } from "@material-ui/data-grid";
 import Button, { ButtonType } from "components/Button";
+import { createNewEquipment } from "scripts/FireConfig";
 
 export default function Sites() {
   const sites = useSelector((state: RootState) => state.sites);
@@ -118,6 +119,10 @@ function EquipmentTab(): ReactElement {
     changeRedirect(`/app/sites/${siteID}/equipment/${equipmentName}`);
   }
 
+  function handleNewEquipmentClick() {
+    createNewEquipment(siteID);
+  }
+
   if (redirect != "") {
     return <Redirect to={redirect} />;
   }
@@ -138,7 +143,7 @@ function EquipmentTab(): ReactElement {
           type={ButtonType.tableControl}
           text={"create equipment"}
           onClick={() => {
-            alert("creating new equipment");
+            handleNewEquipmentClick();
           }}
         />
       </div>
