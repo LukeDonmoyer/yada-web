@@ -8,6 +8,7 @@ import {
   initializeChannelTemplatesListener,
   initializeSitesListener,
   initializeUsersListener,
+  initializeLoggersListener,
   resetRedux,
 } from "./scripts/FireConfig";
 
@@ -61,6 +62,7 @@ function App() {
       currentUser != userAuth?.uid
     ) {
       initializeSitesListener();
+      initializeLoggersListener();
       initializeUsersListener();
       initializeChannelTemplatesListener();
     } else {

@@ -9,7 +9,9 @@ import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
 import updateSitesSlice from "store/SiteActions";
 import store from "store/store";
 import updateUsersSlice from "store/UserAction";
+import updateLoggersSlice from "store/LoggerAction";
 import {EquipmentUnit} from "store/FirestoreInterfaces";
+import { firestoreConnect } from "react-redux-firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -240,6 +242,18 @@ export function initializeSitesListener() {
     // call reducer to store each site
     store.dispatch(updateSitesSlice.actions.updateSites(sites));
   });
+}
+
+export function initializeLoggersListener(){
+  console.log("initializing loggers listener");
+  fireStore.collection("Loggers").onSnapshot((querySnapshot) => {
+    var loggers: any = {};
+    querySnapshot.forEach((doc) => {
+      loggers[doc.id] = doc.data();
+    });
+    //call reducer to store each logger
+    store.dispatch(updateLoggersSlice.actions.updateLoggers(loggers));
+  })
 }
 
 export function initializeUsersListener() {
