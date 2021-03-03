@@ -7,11 +7,11 @@
  */
 
 import { useSelector } from "react-redux";
-import { RootState } from "../store/rootReducer";
+import { RootState } from "../../store/rootReducer";
 import React, { ReactElement, useState } from "react";
-import Content from "./Content";
-import SearchBar from "./Dashboard/SearchBar";
-import SiteCard from "./Dashboard/SiteCard";
+import Content from "../Content";
+import SearchBar from "./SearchBar";
+import SiteCard from "./SiteCard";
 
 export default function Dashboard() {
   const sites = useSelector((state: RootState) => state.sites);
