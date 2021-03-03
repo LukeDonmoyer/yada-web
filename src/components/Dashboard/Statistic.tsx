@@ -8,7 +8,7 @@ interface StatisticProps {
   label: string;
 }
 
-function Statistic({
+export default function Statistic({
   value,
   valueClassName,
   label,

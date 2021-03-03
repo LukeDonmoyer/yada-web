@@ -14,4 +14,13 @@
     font-weight: 600;
     font-size: 18pt;
   }
+
+  .fault-statistic {
+    float: left;
+
+    margin-right: 8px;
+
+    color: $lightRed;
+    font-size: 20pt;
+  }
 }
