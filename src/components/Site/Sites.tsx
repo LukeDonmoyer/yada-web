@@ -16,12 +16,14 @@ import DynamicNavbar, { DynamicNavLink } from "../DynamicNavbar";
 import SiteEquipment from "./SiteEquipment";
 import TabView, { TabViewItem } from "../TabView";
 import {
+  GridColDef,
   DataGrid,
-  ColDef,
   ValueGetterParams,
   GridToolbar,
 } from "@material-ui/data-grid";
 import Button, { ButtonType } from "components/Button";
+import { createNewEquipment } from "scripts/FireConfig";
+import { basename } from "path";
 
 export default function Sites() {
   const sites = useSelector((state: RootState) => state.sites);
@@ -92,7 +94,7 @@ function EquipmentTab(): ReactElement {
     return unit.name.includes(filter);
   }
 
-  const columns: ColDef[] = [
+  const columns: GridColDef[] = [
     { field: "name", headerName: "name", flex: 1 },
     { field: "health", headerName: "health", flex: 1 },
     { field: "type", headerName: "type", flex: 1 },
@@ -118,6 +120,21 @@ function EquipmentTab(): ReactElement {
     changeRedirect(`/app/sites/${siteID}/equipment/${equipmentName}`);
   }
 
+  function handleNewEquipmentClick() {
+    var baseName = "New Equipment ";
+    var nameNum = 0;
+
+    while (
+      sites[siteID]["equipmentUnits"].find(
+        (element) => element.name == baseName + String(nameNum)
+      ) != undefined
+    ) {
+      nameNum++;
+    }
+
+    createNewEquipment(siteID, baseName + String(nameNum));
+  }
+
   if (redirect != "") {
     return <Redirect to={redirect} />;
   }
@@ -138,7 +155,7 @@ function EquipmentTab(): ReactElement {
           type={ButtonType.tableControl}
           text={"create equipment"}
           onClick={() => {
-            alert("creating new equipment");
+            handleNewEquipmentClick();
           }}
         />
       </div>
