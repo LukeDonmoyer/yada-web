@@ -8,6 +8,8 @@ interface SiteCardProps {
 }
 
 export default function SiteCard({ site }: SiteCardProps): ReactElement {
+  if (!site) return <></>;
+
   return (
     <div className={"card"}>
       <div>
