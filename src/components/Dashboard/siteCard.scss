@@ -23,4 +23,39 @@
     color: $lightRed;
     font-size: 20pt;
   }
+
+  .details-button {
+    display: flex;
+
+    margin-right: 16px;
+    float: right;
+    width: auto;
+
+    color: white;
+
+    .details-link {
+      padding: 4px 32px;
+
+      border-radius: 8px 8px 0 0;
+
+      background-color: $lightOrange;
+    }
+
+    svg {
+      width: 32px;
+      height: 32px;
+
+      fill: $lightOrange;
+    }
+  }
+
+  .details-button:hover {
+    .details-link {
+      background-color: $buttonDarkOrange;
+    }
+
+    svg {
+      fill: $buttonDarkOrange;
+    }
+  }
 }

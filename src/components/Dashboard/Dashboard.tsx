@@ -26,7 +26,7 @@ export default function Dashboard() {
       if (!sites[key].name.toLowerCase().includes(searchQuery.toLowerCase()))
         continue;
 
-      result.push(<SiteCard site={sites[key]} />);
+      result.push(<SiteCard site={sites[key]} siteId={key} />);
     }
 
     return result;
