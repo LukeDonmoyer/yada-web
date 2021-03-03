@@ -16,7 +16,6 @@ import { SiteCollection } from "../../store/FirestoreInterfaces";
 
 export default function Dashboard() {
   const sites = useSelector((state: RootState) => state.sites);
-  const currentUser = useSelector((state: RootState) => state.auth.userUID);
   const [searchQuery, setSearchQuery] = useState("");
 
   function createSiteElements(sites: SiteCollection): ReactElement[] {
@@ -24,6 +23,8 @@ export default function Dashboard() {
 
     for (let key in sites) {
       if (!sites.hasOwnProperty(key)) continue;
+      if (!sites[key].name.toLowerCase().includes(searchQuery.toLowerCase()))
+        continue;
 
       result.push(<SiteCard site={sites[key]} />);
     }
@@ -34,7 +35,7 @@ export default function Dashboard() {
   return (
     <div className={"dashboard"}>
       <h1>Site Overview</h1>
-      <SearchBar hint={"Search"} />
+      <SearchBar hint={"Search"} onInput={setSearchQuery} />
       <div className={"card-container"}>{createSiteElements(sites)}</div>
     </div>
   );
