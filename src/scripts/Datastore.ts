@@ -2,10 +2,14 @@
  * This script contains every datastore query used by the application. These functions will need to be modified when the system is implemented to work with whatever database is being used. The specific function requirements are documented. Any changes to these function arguments and return types will require additional changes in the source code.
  */
 
+// ------------------------------------------------
+// ONLY EDIT THIS LINE
+import * as implementation from "./Implementation";
+// ------------------------------------------------
+
 import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
 import store from "store/store";
 import updateUsersSlice from "store/UserAction";
-import * as implementation from "./Implementation";
 
 // AUTHENTICATION
 /**
@@ -19,14 +23,16 @@ export function registerAuthChangeCallback(callback: (userAuth: any) => void) {
 }
 
 /**
- * TODO: finish
+ * Fetches the privilege of the currently authenticated user.
+ * Returns a promise that resolves with one of: ['Owner', 'Admin', 'Power', 'User']
  */
 export function getUserPrivilege(): Promise<any> {
   return implementation.getUserPrivilege();
 }
 
-// REDUX HANDLERS
-// TODO: finish
+/**
+ * initializes every datastore listener to sync datastore updates to the redux store
+ */
 export function initializeListeners() {
   implementation.initializeChannelTemplatesListener();
   implementation.initializeSitesListener();
@@ -34,7 +40,7 @@ export function initializeListeners() {
 }
 
 /**
- * TODO: finish this
+ * clears the redux store (TODO: check to make sure this disconnects datastore listeners)
  */
 export function resetRedux() {
   store.dispatch(updateUsersSlice.actions.updateUsers({}));
@@ -45,14 +51,14 @@ export function resetRedux() {
 }
 
 /**
- * TODO: finish this
+ * creates a new site in the datastore
  */
 export function createNewSite() {
   implementation.createNewSite();
 }
 
 /**
- * TODO: finish this
+ * sends authorization email to newly registered email
  * @param address
  */
 export function sendAuthorizationEmail(address: string) {
@@ -60,10 +66,10 @@ export function sendAuthorizationEmail(address: string) {
 }
 
 /**
- * TODO: finish this
  * Creates an email document which will be later sent to admins and then deleted
- * @param email
- * @param message
+ * @param email string
+ * @param message string
+ * @param subject string
  */
 export function createEmailDocument(
   email: string,
@@ -74,11 +80,10 @@ export function createEmailDocument(
 }
 
 /**
- * TODO: finish
- * Creates the user document associated with accounts
- * @param uid
- * @param email
- * @param userGroup
+ * creates the user document to store info on the newly registered user
+ * @param uid string
+ * @param email string
+ * @param userGroup string
  */
 export function createUserDocument(
   uid: string,
@@ -89,10 +94,9 @@ export function createUserDocument(
 }
 
 /**
- * TODO: complete
  * attemps to sign in the user
- * @param email
- * @param password
+ * @param email string
+ * @param password string
  *
  * returns a promise that resolves with the successfully signed in user document
  */
@@ -101,7 +105,6 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
 }
 
 /**
- * TODO: complete
  * signs out the current user
  * returns a promise that resolves without arguments
  */
@@ -110,9 +113,8 @@ export function fireAuthSignOut(): Promise<any> {
 }
 
 /**
- * TODO: finish
  * Fetches the User document specified
- * @param uid
+ * @param uid string
  *
  * returns a promise that resolves with the user document
  */
@@ -121,10 +123,10 @@ export function getUserData(uid: string): Promise<any> {
 }
 
 /**
- * TODO: finish
  * Changes the password for the logged in user
- * @param newPassword
- * returns a promise resolved with nothing
+ * @param newPassword string
+ *
+ * returns a promise that resolves with nothing
  */
 export function changePassword(newPassword: string): Promise<any> | undefined {
   return implementation.changePassword(newPassword);

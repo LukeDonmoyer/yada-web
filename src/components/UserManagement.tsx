@@ -6,7 +6,7 @@
  * purpose: page that wiill provide access to manage users
  */
 
-import { getUserPrivilege } from "../scripts/FireConfig";
+import { getUserPrivilege } from "../scripts/Datastore";
 import AuthCheck from "./AuthCheck";
 import React, { useState } from "react";
 import Content from "./Content";

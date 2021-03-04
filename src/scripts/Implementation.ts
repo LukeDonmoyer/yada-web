@@ -1,5 +1,5 @@
 /**
- * Implementation of the required database scripts to support this application. This implementation uses Firestore as the datastore
+ * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
 import sitesSlice from "store/SiteActions";
@@ -8,6 +8,7 @@ import updateUsersSlice from "store/UserAction";
 import * as fire from "./FireConfig";
 
 /**
+ * -- REQUIRED --
  * handles user auth state cahnges. the callback must be called whenever the authenticated user changes. The userAuth parameter to the callback function must be an object that contains at least a 'uid' key which contains a string identifying the user
  * @param callback
  */
@@ -16,7 +17,9 @@ export function handleAuthStateChange(callback: (userAuth: any) => void) {
 }
 
 /**
- * returns a promise resolving with a string representing the current user's privilege
+ * -- REQUIRED --
+ * gets the user privilege for the currently authenticated user
+ * returns a promise resolving with one of the following strings: ['Owner', 'Privilege', 'Admin', 'User']
  */
 export function getUserPrivilege(): Promise<any> {
   return fire.fireStore
@@ -39,12 +42,12 @@ export function getUserPrivilege(): Promise<any> {
 }
 
 /**
- * REDUX LISTENERS
+ * -- Required --
+ * initializes the datastore Users collection listener
  *
- * These listeners keep the redux store in sync with the data in the datastore
+ * if the current user is an 'Owner' or 'Admin', the entire users collection is synced to the redux store
+ * if the current user is 'Power' or 'User' only the current user document is synced to the redux store
  */
-
-// TODO: finish docs
 export function initializeUsersListener() {
   getUserPrivilege().then((privilege) => {
     if (["Owner", "Admin"].includes(privilege as string)) {
@@ -72,7 +75,11 @@ export function initializeUsersListener() {
   });
 }
 
-// TODO: finish docs
+/**
+ * -- required --
+ * initializes the Channel Templates collection listener
+ * syncs all channel telmplates to the redux store
+ */
 export function initializeChannelTemplatesListener() {
   console.log("initializing channel templates listener");
   fire.fireStore.collection("ChannelTemplates").onSnapshot((querySnapshot) => {
@@ -87,7 +94,12 @@ export function initializeChannelTemplatesListener() {
   });
 }
 
-// TODO: finish docs
+/**
+ * -- required --
+ *
+ * initializes sites listener
+ * syncs all site documents to the redux store
+ */
 export function initializeSitesListener() {
   console.log("initializing sites listener");
   fire.fireStore.collection("Sites").onSnapshot((querySnapshot) => {
@@ -101,8 +113,8 @@ export function initializeSitesListener() {
 }
 
 /**
- * TODO: finish
- * creates a new empty site document
+ * -- Required --
+ * creates a new site document in the datastore
  */
 export function createNewSite() {
   fire.fireStore
@@ -123,7 +135,7 @@ export function createNewSite() {
 }
 
 /**
- * TODO: finish this docs
+ * -- Required --
  * Sends the authorization email (via the password reset template)
  * @param address address to reset
  */
@@ -142,9 +154,11 @@ export function sendAuthorizationEmail(address: string) {
 }
 
 /**
+ * -- Required --
  * Creates an email document which will be later sent to admins and then deleted
- * @param email
- * @param message
+ * @param email string
+ * @param message string
+ * @param subject string
  */
 export function createEmailDocument(
   email: string,
@@ -159,10 +173,11 @@ export function createEmailDocument(
 }
 
 /**
+ * -- Required --
  * Creates the user document associated with accounts
- * @param uid
- * @param email
- * @param userGroup
+ * @param uid string
+ * @param email string
+ * @param userGroup string
  */
 export function createUserDocument(
   uid: string,
@@ -178,12 +193,12 @@ export function createUserDocument(
 }
 
 /**
- * TODO: complete
+ * -- Required --
  * attemps to sign in the user
- * @param email
- * @param password
+ * @param email string
+ * @param password string
  *
- * returns a promise that resolves with the successfully signed in user document
+ * returns a promise that resolves with the successfully signed in user document (this document may contain any information but MUST contain a 'uid' key with the unique id for the user)
  */
 export function signInWithEmail(email: string, password: string): Promise<any> {
   return fire.fireAuth
@@ -201,7 +216,7 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
 }
 
 /**
- * TODO: finish
+ * -- Required --
  * signs out the current user
  * returns a promise that resolves without arguments
  */
@@ -214,9 +229,9 @@ export function fireAuthSignOut(): Promise<any> {
 }
 
 /**
- * TODO: finish
+ * -- Required --
  * Fetches the User document specified
- * @param uid
+ * @param uid string
  *
  * returns a promise that resolves with the user document
  */
@@ -241,7 +256,7 @@ export function getUserData(uid: string): Promise<any> {
 }
 
 /**
- * TODO: finish
+ * -- Required --
  * Changes the password for the logged in user
  * @param newPassword
  * returns a promise resolved with nothing

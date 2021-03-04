@@ -6,7 +6,7 @@
  */
 import firebase from "firebase";
 import "firebase/auth";
-import { getUserPrivilege } from "scripts/FireConfig";
+import { getUserPrivilege } from "scripts/Datastore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
