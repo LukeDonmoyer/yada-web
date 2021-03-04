@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "store/rootReducer";
 import { SiteEquipmentBackButton } from "./SiteEquipmentBackButton";
 import TabView, { TabViewItem } from "../TabView";
+import { DataGrid, GridColDef } from "@material-ui/data-grid";
 
 interface SiteEquipmentContentProps {
   // The name of the site that the equipment is a part of
@@ -56,5 +57,23 @@ export function SiteEquipmentContent({
 }
 
 function LoggerTab(logger: LoggerObject): ReactElement {
-  return <div>Logger Content</div>;
+  const columns: GridColDef[] = [
+    { field: "timestamp", headerName: "timestamp", flex: 1 },
+  ];
+
+  let rows: any[] = [];
+
+  logger.data.forEach((dataPoint, index) => {
+    rows.push({
+      id: index,
+      timestamp: dataPoint.timestamp,
+    });
+  });
+
+  return (
+    <div className="loggerTab">
+      <h1>Logger Data</h1>
+      <DataGrid className="dataGrid" rows={rows} columns={columns} />
+    </div>
+  );
 }

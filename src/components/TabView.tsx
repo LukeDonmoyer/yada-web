@@ -23,7 +23,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
 
     return (
       <NavLink
-        to={`${path}${child.props.default ? "" : `/${child.props.route}`}`}
+        to={`${url}${child.props.default ? "" : `/${child.props.route}`}`}
         exact={child.props.exact}
         className={"tab-item"}
         activeClassName={"tab-item-selected"}
