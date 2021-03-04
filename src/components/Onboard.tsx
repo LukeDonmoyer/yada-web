@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { RouteComponentProps, Link, Redirect } from "react-router-dom";
 import { Button, Form, Input } from "reactstrap";
-import { signInWithEmail, getUserData } from "../scripts/FireConfig";
+import { signInWithEmail, getUserData } from "../scripts/Datastore";
 
 import { ReactComponent as Logo } from "../assets/images/icon.svg";
 import AnimatedLogo from "./AnimatedLogo";

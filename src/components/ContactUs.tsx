@@ -7,7 +7,7 @@
  */
 import { useState } from "react";
 import { Button, Form, Input, Alert } from "reactstrap";
-import { createEmailDocument } from "../scripts/FireConfig";
+import { createEmailDocument } from "../scripts/Datastore";
 import { Redirect } from "react-router-dom";
 import "../assets/styles.scss";
 

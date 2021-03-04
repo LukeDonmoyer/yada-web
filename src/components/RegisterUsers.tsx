@@ -14,7 +14,7 @@ import {
   createUserDocument,
   getUserData,
   sendAuthorizationEmail,
-} from "scripts/FireConfig";
+} from "scripts/Datastore";
 import { registerUser } from "scripts/FireAdmin";
 import "../assets/styles.scss";
 import { RootState } from "../store/rootReducer";

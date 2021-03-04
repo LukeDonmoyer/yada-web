@@ -6,7 +6,7 @@
  * purpose: page that will provide access to manage sites
  */
 
-import { createNewSite } from "scripts/FireConfig";
+import { createNewSite, createNewEquipment } from "../../scripts/Datastore";
 import React, { ReactElement, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, Redirect, Route, useLocation } from "react-router-dom";
@@ -22,7 +22,6 @@ import {
   GridToolbar,
 } from "@material-ui/data-grid";
 import Button, { ButtonType } from "components/Button";
-import { createNewEquipment } from "scripts/FireConfig";
 import { basename } from "path";
 
 export default function Sites() {
