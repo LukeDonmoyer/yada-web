@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 import AuthCheck from 'components/AuthCheck';
 import { Animated } from 'react-animated-css';
 import StaticNavbar, { StaticNavItem } from 'components/StaticNavbar';
-import Dashboard from 'components/Dashboard';
+import Dashboard from 'components/Dashboard/Dashboard';
 import ChannelTemplates from 'components/ChannelTemplates';
 import UserManagement from 'components/UserManagement';
 import homeIcon from 'assets/icons/home.svg';
