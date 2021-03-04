@@ -1,22 +1,22 @@
 .tab-view {
-  margin-top: 8px;
-  margin-bottom: 32px;
-  border-bottom: 1px solid $lightGray;
+    margin-top: 8px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid $lightGray;
 }
 
 .tab-item {
-  font-size: 17px;
-  @include link;
-  margin-right: 16px;
-  color: $darkNavbar;
-  // padding-bottom: 10px;
+    font-size: 17px;
+    @include link;
+    margin-right: 16px;
+    color: $darkNavbar;
+    // padding-bottom: 10px;
 }
 
 .tab-item:hover {
-  color: $buttonDarkOrange;
+    color: $buttonDarkOrange;
 }
 
 .tab-item-selected {
-  color: $buttonDarkOrange;
-  border-bottom: 2px solid $buttonDarkOrange;
+    color: $buttonDarkOrange;
+    border-bottom: 2px solid $buttonDarkOrange;
 }

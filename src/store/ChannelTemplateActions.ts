@@ -1,21 +1,21 @@
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const updateChannelTemplates_action = createAction(
-  "updateChannelTemplates"
+    'updateChannelTemplates'
 );
 
 const initialState = {
-  templates: {},
+    templates: {},
 };
 
 const updateChannelTemplatesSlice = createSlice({
-  name: "updateChannelTemplates",
-  initialState,
-  reducers: {
-    updateChannelTemplates(state, action: PayloadAction<any>) {
-      state.templates = action.payload;
+    name: 'updateChannelTemplates',
+    initialState,
+    reducers: {
+        updateChannelTemplates(state, action: PayloadAction<any>) {
+            state.templates = action.payload;
+        },
     },
-  },
 });
 
 export const { updateChannelTemplates } = updateChannelTemplatesSlice.actions;

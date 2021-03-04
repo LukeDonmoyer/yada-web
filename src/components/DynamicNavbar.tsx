@@ -1,74 +1,74 @@
-import React, { ReactElement } from "react";
-import { Link, Route, useLocation, useRouteMatch } from "react-router-dom";
+import React, { ReactElement } from 'react';
+import { Link, Route, useLocation, useRouteMatch } from 'react-router-dom';
 
 interface dynamicNavLink {
-  route: string;
-  name: string;
-  children: ReactElement;
-  blockLinkRender?: boolean;
+    route: string;
+    name: string;
+    children: ReactElement;
+    blockLinkRender?: boolean;
 }
 
 export function DynamicNavLink(props: dynamicNavLink) {
-  let currentRoute = useLocation();
-  const { url } = useRouteMatch();
+    let currentRoute = useLocation();
+    const { url } = useRouteMatch();
 
-  if (props.blockLinkRender) {
-    return <></>;
-  }
+    if (props.blockLinkRender) {
+        return <></>;
+    }
 
-  return (
-    <Link to={`${url}/${props.route}`}>
-      <div
-        className={`navItem ${
-          currentRoute.pathname.startsWith(`${url}/${props.route}`)
-            ? "active"
-            : "inactive"
-        }`}
-      >
-        {props.name}
-      </div>
-    </Link>
-  );
+    return (
+        <Link to={`${url}/${props.route}`}>
+            <div
+                className={`navItem ${
+                    currentRoute.pathname.startsWith(`${url}/${props.route}`)
+                        ? 'active'
+                        : 'inactive'
+                }`}
+            >
+                {props.name}
+            </div>
+        </Link>
+    );
 }
 
 interface DynamicNavBarProps {
-  title: string;
-  buttonAction: any;
-  children: ReactElement | ReactElement[];
+    title: string;
+    buttonAction: any;
+    children: ReactElement | ReactElement[];
 }
 
 export default function DynamicNavbar(props: DynamicNavBarProps) {
-  const { path } = useRouteMatch();
+    const { path } = useRouteMatch();
 
-  function createRoute(child: ReactElement) {
-    if (child.props.blockLinkRender) {
-      return (
-        <Route exact path={`${path}/${child.props.route}`}>
-          {child.props.children}
-        </Route>
-      );
+    function createRoute(child: ReactElement) {
+        if (child.props.blockLinkRender) {
+            return (
+                <Route exact path={`${path}/${child.props.route}`}>
+                    {child.props.children}
+                </Route>
+            );
+        }
+        return (
+            <Route path={`${path}/${child.props.route}`}>
+                {child.props.children}
+            </Route>
+        );
     }
-    return (
-      <Route path={`${path}/${child.props.route}`}>
-        {child.props.children}
-      </Route>
-    );
-  }
 
-  return (
-    <>
-      <div className="dynamicNavbar">
-        <div className="navbarHeader">
-          <div className="title">{props.title}</div>
-          <div className="addButton" onClick={props.buttonAction}>
-            +
-          </div>
-        </div>
-        <div className="links">{props.children}</div>
-      </div>
-      <div className="routes">
-        {React.Children.map(props.children, createRoute)}
-      </div>
-    </>
-  );
+    return (
+        <>
+            <div className="dynamicNavbar">
+                <div className="navbarHeader">
+                    <div className="title">{props.title}</div>
+                    <div className="addButton" onClick={props.buttonAction}>
+                        +
+                    </div>
+                </div>
+                <div className="links">{props.children}</div>
+            </div>
+            <div className="routes">
+                {React.Children.map(props.children, createRoute)}
+            </div>
+        </>
+    );
 }

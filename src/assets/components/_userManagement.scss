@@ -1,7 +1,7 @@
 .userManagement {
-  padding: 1%;
-  h1 {
-    @include largeTitle;
-    color: $companyName;
-  }
+    padding: 1%;
+    h1 {
+        @include largeTitle;
+        color: $companyName;
+    }
 }

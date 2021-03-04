@@ -1,32 +1,32 @@
 .authCheck {
-  h1 {
-    @include largeTitle;
-    color: $companyName;
-  }
+    h1 {
+        @include largeTitle;
+        color: $companyName;
+    }
 
-  input {
-    @include wideInput;
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
+    input {
+        @include wideInput;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
 
-  .requestLink {
-    @include link;
-    width: 100%;
-    text-align: center;
-    display: block;
-    margin-top: 20px;
-  }
+    .requestLink {
+        @include link;
+        width: 100%;
+        text-align: center;
+        display: block;
+        margin-top: 20px;
+    }
 
-  button {
-    @include filledPrimaryButton;
-    display: block;
-    width: 100%;
-    margin-top: 40px;
-  }
+    button {
+        @include filledPrimaryButton;
+        display: block;
+        width: 100%;
+        margin-top: 40px;
+    }
 
-  .card {
-    @include floatingCard;
-    @include cardSmall;
-  }
+    .card {
+        @include floatingCard;
+        @include cardSmall;
+    }
 }
