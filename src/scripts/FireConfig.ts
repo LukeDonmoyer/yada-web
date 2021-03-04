@@ -27,5 +27,6 @@ export function fireIncrement(val: number) {
 export function fireDecrement(val: number) {
   return firebase.firestore.FieldValue.increment(val);
 }
-export let fireDelete = firebase.firestore.FieldValue.delete();
+export let fireDelete = firebase.firestore.FieldValue.delete;
 export let Timestamp = firebase.firestore.Timestamp;
+export let arrayUnion = firebase.firestore.FieldValue.arrayUnion;

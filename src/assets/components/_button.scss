@@ -1,0 +1,14 @@
+.button {
+  border-radius: 7px;
+  text-align: center;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.tableControl {
+  background-color: $buttonLightOrange;
+  color: $buttonDarkOrange;
+}

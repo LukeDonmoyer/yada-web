@@ -32,7 +32,7 @@ import {
   initializeListeners,
   registerAuthChangeCallback,
   resetRedux,
-} from "scripts/Datastore";
+} from "./scripts/Datastore";
 
 function App() {
   const currentUser = useSelector((state: RootState) => state.auth.userUID);

@@ -58,6 +58,15 @@ export function createNewSite() {
 }
 
 /**
+ * creates new equipment
+ * @param siteUID string
+ * @param equipmentName string
+ */
+export function createNewEquipment(siteUID: string, equipmentName: string) {
+  implementation.createNewEquipment(siteUID, equipmentName);
+}
+
+/**
  * sends authorization email to newly registered email
  * @param address
  */

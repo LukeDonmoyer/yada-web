@@ -2,6 +2,7 @@
  * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
+import { EquipmentUnit } from "store/FirestoreInterfaces";
 import sitesSlice from "store/SiteActions";
 import store from "store/store";
 import updateUsersSlice from "store/UserAction";
@@ -284,4 +285,25 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
       });
     }
   );
+}
+
+/**
+ * -- Required --
+ * creates new equpiment associated with the specified site and given an initial name
+ * @param site_uid string
+ * @param equipment_name string
+ */
+export function createNewEquipment(site_uid: string, equipment_name: string) {
+  const newEquipment: EquipmentUnit = {
+    faults: [],
+    loggers: [],
+    name: equipment_name,
+    health: "Unknown",
+    type: "Unassigned",
+  };
+
+  fire.fireStore
+    .collection("Sites")
+    .doc(site_uid)
+    .update({ equipmentUnits: fire.arrayUnion(newEquipment) });
 }

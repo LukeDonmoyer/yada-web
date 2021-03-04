@@ -60,7 +60,7 @@ export default function DynamicNavbar(props: DynamicNavBarProps) {
       <div className="dynamicNavbar">
         <div className="navbarHeader">
           <div className="title">{props.title}</div>
-          <div className="button" onClick={props.buttonAction}>
+          <div className="addButton" onClick={props.buttonAction}>
             +
           </div>
         </div>
