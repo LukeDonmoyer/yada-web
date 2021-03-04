@@ -61,7 +61,7 @@ export default function SiteCard({
             <div>Unit 3</div>
           </div>
           <div className={"fault-table-column"}>
-            <h4>Equip. name</h4>
+            <h4>Time</h4>
             <div>Unit 1</div>
             <div>Unit 2</div>
             <div>Unit 3</div>
