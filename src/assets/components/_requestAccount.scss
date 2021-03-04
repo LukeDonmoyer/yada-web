@@ -1,25 +1,25 @@
 .requestAccount {
-  input {
-    @include wideInput;
-  }
-  textArea {
-    @include wideInput;
-  }
+    input {
+        @include wideInput;
+    }
+    textArea {
+        @include wideInput;
+    }
 
-  .card {
-    @include floatingCard;
-    @include cardLarge;
-  }
+    .card {
+        @include floatingCard;
+        @include cardLarge;
+    }
 
-  h1 {
-    @include largeTitle;
-    color: $companyName;
-  }
+    h1 {
+        @include largeTitle;
+        color: $companyName;
+    }
 
-  button {
-    @include filledPrimaryButton;
-    width: 70%;
-    margin: 0 auto;
-    display: block;
-  }
+    button {
+        @include filledPrimaryButton;
+        width: 70%;
+        margin: 0 auto;
+        display: block;
+    }
 }

@@ -1,27 +1,27 @@
 .content {
-  padding-top: 0.5%;
-  padding-bottom: 0.5%;
-  padding-right: 0.5%;
-  width: 100%;
-
-  .navbarSection {
-    height: 100%;
-    float: left;
-  }
-
-  .rightSection {
-    height: 100%;
-    @include scrollWithoutScrollbar;
-    position: relative;
-  }
-
-  .headSection {
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-right: 0.5%;
     width: 100%;
-    margin-bottom: 10px;
-  }
 
-  .bodySection {
-    width: 100%;
-    height: 100%;
-  }
+    .navbarSection {
+        height: 100%;
+        float: left;
+    }
+
+    .rightSection {
+        height: 100%;
+        @include scrollWithoutScrollbar;
+        position: relative;
+    }
+
+    .headSection {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .bodySection {
+        width: 100%;
+        height: 100%;
+    }
 }

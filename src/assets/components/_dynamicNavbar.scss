@@ -1,52 +1,52 @@
 .dynamicNavbar {
-  height: 100%;
-  background-color: $turqois;
-  // width: auto;
-  // display: inline-block;
-  float: left;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-
-  .navbarHeader {
-    padding-top: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-    min-width: 200px;
-
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .title {
-    @include mediumSmallTitle;
-    color: white;
-  }
-
-  .addButton {
-    margin-top: 10px;
-    @include addButton;
-  }
-
-  .links {
-    margin-top: 25px;
     height: 100%;
-    @include scrollWithoutScrollbar;
-  }
+    background-color: $turqois;
+    // width: auto;
+    // display: inline-block;
+    float: left;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 
-  .navItem {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    @include link;
-  }
+    .navbarHeader {
+        padding-top: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
+        min-width: 200px;
 
-  .active {
-    background-color: white;
-    color: $turqois;
-  }
+        display: flex;
+        justify-content: space-between;
+    }
 
-  .inactive {
-    color: white;
-  }
+    .title {
+        @include mediumSmallTitle;
+        color: white;
+    }
+
+    .addButton {
+        margin-top: 10px;
+        @include addButton;
+    }
+
+    .links {
+        margin-top: 25px;
+        height: 100%;
+        @include scrollWithoutScrollbar;
+    }
+
+    .navItem {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        @include link;
+    }
+
+    .active {
+        background-color: white;
+        color: $turqois;
+    }
+
+    .inactive {
+        color: white;
+    }
 }

@@ -1,6 +1,6 @@
 {
-  "defaultPassword": "yadaDefault",
-  "domain": "localhost:",
-  "orgName": "Yada Instance",
-  "ownerEmail": "jorstadsd17@gcc.edu"
+    "defaultPassword": "yadaDefault",
+    "domain": "localhost:",
+    "orgName": "Yada Instance",
+    "ownerEmail": "jorstadsd17@gcc.edu"
 }

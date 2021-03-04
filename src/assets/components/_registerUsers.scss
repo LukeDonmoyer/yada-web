@@ -1,40 +1,40 @@
 .registerUsers {
-  h1 {
-    @include largeTitle;
-    color: $companyName;
-  }
+    h1 {
+        @include largeTitle;
+        color: $companyName;
+    }
 
-  h2 {
-    @include smallTitle;
-    opacity: 0.7;
-    padding-top: 10px;
-  }
+    h2 {
+        @include smallTitle;
+        opacity: 0.7;
+        padding-top: 10px;
+    }
 
-  input {
-    @include wideInput;
-  }
+    input {
+        @include wideInput;
+    }
 
-  .registerUsersButton {
-    @include filledPrimaryButton;
-    width: 70%;
-    margin: 0 auto;
-    text-align: center;
-  }
+    .registerUsersButton {
+        @include filledPrimaryButton;
+        width: 70%;
+        margin: 0 auto;
+        text-align: center;
+    }
 
-  .addEmailButton {
-    @include borderedPrimaryButton;
-    float: right;
-  }
+    .addEmailButton {
+        @include borderedPrimaryButton;
+        float: right;
+    }
 
-  .card {
-    @include floatingCard;
-    @include cardLarge;
-  }
+    .card {
+        @include floatingCard;
+        @include cardLarge;
+    }
 
-  .dashboardLink {
-    @include link;
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
-  }
+    .dashboardLink {
+        @include link;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
 }
