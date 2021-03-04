@@ -1,110 +1,110 @@
 .onboard {
-  .content {
-    height: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
-  }
-
-  .leftSection {
-    width: 100%;
-    height: 100%;
-    padding: 1.5%;
-
-    .coloredBlock {
-      width: 100%;
-      height: 100%;
-      border-radius: 5%;
-      background-color: #a7d3db;
-
-      h1 {
-        font-family: "Lato";
-        font-size: 35px;
-        color: $companyName;
-        font-weight: 800;
-        padding-top: 6%;
-      }
+    .content {
+        height: 100%;
+        margin-left: 10%;
+        margin-right: 10%;
     }
-  }
 
-  .rightSection {
-    width: 100%;
-    height: 100%;
-    padding-top: 8%;
-    padding-bottom: 8%;
-    padding-left: 15%;
-    padding-right: 15%;
-  }
+    .leftSection {
+        width: 100%;
+        height: 100%;
+        padding: 1.5%;
 
-  .signIn {
-    padding-left: 10%;
-  }
+        .coloredBlock {
+            width: 100%;
+            height: 100%;
+            border-radius: 5%;
+            background-color: #a7d3db;
 
-  .onboardForm {
-    margin-top: 10%;
-  }
+            h1 {
+                font-family: 'Lato';
+                font-size: 35px;
+                color: $companyName;
+                font-weight: 800;
+                padding-top: 6%;
+            }
+        }
+    }
 
-  h1 {
-    @include largeTitle;
-    margin-top: 30px;
-    color: $companyName;
-  }
+    .rightSection {
+        width: 100%;
+        height: 100%;
+        padding-top: 8%;
+        padding-bottom: 8%;
+        padding-left: 15%;
+        padding-right: 15%;
+    }
 
-  p {
-    @include lightParagraph;
-    padding-bottom: 70px;
-  }
+    .signIn {
+        padding-left: 10%;
+    }
 
-  input {
-    @include wideInput;
-  }
+    .onboardForm {
+        margin-top: 10%;
+    }
 
-  button {
-    // @include filledPrimaryButton;
-    @include filledPrimaryButton;
-    width: 70%;
-    margin: 0 auto;
-    display: block;
-    margin-top: 80px;
-  }
+    h1 {
+        @include largeTitle;
+        margin-top: 30px;
+        color: $companyName;
+    }
 
-  .requestLink {
-    @include link;
-    display: block;
-    width: 100%;
-    text-align: center;
-    margin-top: 15px;
-  }
-  li {
-    float: left;
-    padding-right: 30px;
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    cursor: pointer;
-    user-select: none;
-    color: $darkGray;
-    opacity: 0.7;
-  }
+    p {
+        @include lightParagraph;
+        padding-bottom: 70px;
+    }
 
-  .navbar {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10%;
-    padding-right: 10%;
-    position: relative;
-  }
+    input {
+        @include wideInput;
+    }
 
-  body {
-  }
+    button {
+        // @include filledPrimaryButton;
+        @include filledPrimaryButton;
+        width: 70%;
+        margin: 0 auto;
+        display: block;
+        margin-top: 80px;
+    }
 
-  .compName {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-size: 40px;
-    color: $companyName;
-  }
+    .requestLink {
+        @include link;
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
+    li {
+        float: left;
+        padding-right: 30px;
+        font-family: 'Lato', sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+        cursor: pointer;
+        user-select: none;
+        color: $darkGray;
+        opacity: 0.7;
+    }
 
-  .focus {
-    color: $companyName;
-  }
+    .navbar {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10%;
+        padding-right: 10%;
+        position: relative;
+    }
+
+    body {
+    }
+
+    .compName {
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+        font-size: 40px;
+        color: $companyName;
+    }
+
+    .focus {
+        color: $companyName;
+    }
 }

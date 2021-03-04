@@ -4,22 +4,22 @@
  *
  * description: this creates a second connection to the firestore, which allows the owner accounts to authorize users via the '/registerUsers' route
  */
-import firebase from "firebase";
-import "firebase/auth";
-import { getUserPrivilege } from "scripts/Datastore";
+import firebase from 'firebase';
+import 'firebase/auth';
+import { getUserPrivilege } from 'scripts/Datastore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
-  authDomain: "yada-comp451.firebaseapp.com",
-  databaseURL: "https://yada-comp451.firebaseio.com",
-  projectId: "yada-comp451",
-  storageBucket: "yada-comp451.appspot.com",
-  messagingSenderId: "584848197896",
-  appId: "1:584848197896:web:5bc77aad841c51c9b844bd",
-  measurementId: "G-CYXQ4Q1RG2",
+    apiKey: 'AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM',
+    authDomain: 'yada-comp451.firebaseapp.com',
+    databaseURL: 'https://yada-comp451.firebaseio.com',
+    projectId: 'yada-comp451',
+    storageBucket: 'yada-comp451.appspot.com',
+    messagingSenderId: '584848197896',
+    appId: '1:584848197896:web:5bc77aad841c51c9b844bd',
+    measurementId: 'G-CYXQ4Q1RG2',
 };
 
-var adminInstance = firebase.initializeApp(firebaseConfig, "secondary");
+var adminInstance = firebase.initializeApp(firebaseConfig, 'secondary');
 var adminStore = adminInstance.firestore();
 var adminAuth = adminInstance.auth();
 
@@ -31,17 +31,17 @@ var adminAuth = adminInstance.auth();
  * returns a promise that is resolved with the user authentication object
  */
 export function registerUser(userEmail: string): Promise<any> {
-  return getUserPrivilege().then((privilege: string) => {
-    if (["Owner", "Admin"].includes(privilege)) {
-      return adminAuth
-        .createUserWithEmailAndPassword(userEmail, "yadaDefault")
-        .then((user) => {
-          return new Promise((resolve, reject) => {
-            resolve(user);
-          });
-        });
-    } else {
-      alert("innappropriate user permissions for this action");
-    }
-  });
+    return getUserPrivilege().then((privilege: string) => {
+        if (['Owner', 'Admin'].includes(privilege)) {
+            return adminAuth
+                .createUserWithEmailAndPassword(userEmail, 'yadaDefault')
+                .then((user) => {
+                    return new Promise((resolve, reject) => {
+                        resolve(user);
+                    });
+                });
+        } else {
+            alert('innappropriate user permissions for this action');
+        }
+    });
 }

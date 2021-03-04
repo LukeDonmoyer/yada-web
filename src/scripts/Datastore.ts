@@ -4,12 +4,12 @@
 
 // ------------------------------------------------
 // ONLY EDIT THIS LINE
-import * as implementation from "./Implementation";
+import * as implementation from './Implementation';
 // ------------------------------------------------
 
-import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
-import store from "store/store";
-import updateUsersSlice from "store/UserAction";
+import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
+import store from 'store/store';
+import updateUsersSlice from 'store/UserAction';
 
 // AUTHENTICATION
 /**
@@ -19,7 +19,7 @@ import updateUsersSlice from "store/UserAction";
  * @param callback the callback function that executes anytime the authenticated user changes. This function modifies the redux store to update the ui
  */
 export function registerAuthChangeCallback(callback: (userAuth: any) => void) {
-  implementation.handleAuthStateChange(callback);
+    implementation.handleAuthStateChange(callback);
 }
 
 /**
@@ -27,34 +27,34 @@ export function registerAuthChangeCallback(callback: (userAuth: any) => void) {
  * Returns a promise that resolves with one of: ['Owner', 'Admin', 'Power', 'User']
  */
 export function getUserPrivilege(): Promise<any> {
-  return implementation.getUserPrivilege();
+    return implementation.getUserPrivilege();
 }
 
 /**
  * initializes every datastore listener to sync datastore updates to the redux store
  */
 export function initializeListeners() {
-  implementation.initializeChannelTemplatesListener();
-  implementation.initializeSitesListener();
-  implementation.initializeUsersListener();
+    implementation.initializeChannelTemplatesListener();
+    implementation.initializeSitesListener();
+    implementation.initializeUsersListener();
 }
 
 /**
  * clears the redux store (TODO: check to make sure this disconnects datastore listeners)
  */
 export function resetRedux() {
-  store.dispatch(updateUsersSlice.actions.updateUsers({}));
-  store.dispatch(updateUsersSlice.actions.updateUsers({}));
-  store.dispatch(
-    updateChannelTemplatesSlice.actions.updateChannelTemplates({})
-  );
+    store.dispatch(updateUsersSlice.actions.updateUsers({}));
+    store.dispatch(updateUsersSlice.actions.updateUsers({}));
+    store.dispatch(
+        updateChannelTemplatesSlice.actions.updateChannelTemplates({})
+    );
 }
 
 /**
  * creates a new site in the datastore
  */
 export function createNewSite() {
-  implementation.createNewSite();
+    implementation.createNewSite();
 }
 
 /**
@@ -63,7 +63,7 @@ export function createNewSite() {
  * @param equipmentName string
  */
 export function createNewEquipment(siteUID: string, equipmentName: string) {
-  implementation.createNewEquipment(siteUID, equipmentName);
+    implementation.createNewEquipment(siteUID, equipmentName);
 }
 
 /**
@@ -71,7 +71,7 @@ export function createNewEquipment(siteUID: string, equipmentName: string) {
  * @param address
  */
 export function sendAuthorizationEmail(address: string) {
-  implementation.sendAuthorizationEmail(address);
+    implementation.sendAuthorizationEmail(address);
 }
 
 /**
@@ -81,11 +81,11 @@ export function sendAuthorizationEmail(address: string) {
  * @param subject string
  */
 export function createEmailDocument(
-  email: string,
-  message: string,
-  subject: string
+    email: string,
+    message: string,
+    subject: string
 ) {
-  implementation.createEmailDocument(email, message, subject);
+    implementation.createEmailDocument(email, message, subject);
 }
 
 /**
@@ -95,11 +95,11 @@ export function createEmailDocument(
  * @param userGroup string
  */
 export function createUserDocument(
-  uid: string,
-  email: string,
-  userGroup: string
+    uid: string,
+    email: string,
+    userGroup: string
 ) {
-  implementation.createUserDocument(uid, email, userGroup);
+    implementation.createUserDocument(uid, email, userGroup);
 }
 
 /**
@@ -110,7 +110,7 @@ export function createUserDocument(
  * returns a promise that resolves with the successfully signed in user document
  */
 export function signInWithEmail(email: string, password: string): Promise<any> {
-  return implementation.signInWithEmail(email, password);
+    return implementation.signInWithEmail(email, password);
 }
 
 /**
@@ -118,7 +118,7 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
  * returns a promise that resolves without arguments
  */
 export function fireAuthSignOut(): Promise<any> {
-  return implementation.fireAuthSignOut();
+    return implementation.fireAuthSignOut();
 }
 
 /**
@@ -128,7 +128,7 @@ export function fireAuthSignOut(): Promise<any> {
  * returns a promise that resolves with the user document
  */
 export function getUserData(uid: string): Promise<any> {
-  return implementation.getUserData(uid);
+    return implementation.getUserData(uid);
 }
 
 /**
@@ -138,5 +138,5 @@ export function getUserData(uid: string): Promise<any> {
  * returns a promise that resolves with nothing
  */
 export function changePassword(newPassword: string): Promise<any> | undefined {
-  return implementation.changePassword(newPassword);
+    return implementation.changePassword(newPassword);
 }
