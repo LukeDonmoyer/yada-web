@@ -1,18 +1,46 @@
 @import "src/assets/designLanguage/variables";
 
 .card {
-  margin: 16px 0;
+  margin: 32px auto;
+
+  width: 650px;
 
   filter: drop-shadow(2px 2px 1px $shadow);
   border-radius: 8px;
   border: 1px solid $lightGray;
   background-color: $offWhite;
 
+  .site-information {
+    float: left;
+
+    margin-left: 16px;
+  }
+
+  .fault-table {
+    display: flex;
+    float: right;
+
+    margin: 16px;
+  }
+
+  .fault-table-column {
+    margin: 8px 16px;
+
+    width: auto;
+  }
+
   h3 {
     margin: 8px 16px;
     font-family: "Lato", sans-serif;
     font-weight: 600;
     font-size: 18pt;
+  }
+
+  h4 {
+    margin-bottom: 8px;
+    font-family: "Lato", sans-serif;
+    font-weight: 600;
+    font-size: 12pt;
   }
 
   .fault-statistic {

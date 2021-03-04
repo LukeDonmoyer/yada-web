@@ -3,6 +3,10 @@
 .searchbar {
   display: flex;
 
+  margin: 0 auto;
+
+  width: 650px;
+
   filter: drop-shadow(2px 2px 1px $shadow);
   border-radius: 8px;
   border: 1px solid $lightGray;
