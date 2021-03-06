@@ -13,8 +13,8 @@ import { Button } from "reactstrap";
 import { addLoggerToEquipment } from "../../scripts/FireConfig";
 
 interface SiteEquipmentContentProps {
-  // The name of the site that the equipment is a part of
-  siteName: string;
+    // The name of the site that the equipment is a part of
+    siteName: string;
 
   //ID of the site the equipment is a part of
   siteId: string;
@@ -156,4 +156,5 @@ function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
       {loggerCard}
     </div>
   );
+
 }

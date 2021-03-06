@@ -1,49 +1,49 @@
 @mixin wideInput {
-  display: block;
-  border-width: 2px;
-  border-color: $lightGray;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  outline: 0px;
-  width: 100%;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  color: $darkGray;
-  opacity: 0.9;
+    display: block;
+    border-width: 2px;
+    border-color: $lightGray;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    outline: 0px;
+    width: 100%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: $darkGray;
+    opacity: 0.9;
 
-  &:required:valid {
-    border-bottom-color: $lightGreen;
-  }
+    &:required:valid {
+        border-bottom-color: $lightGreen;
+    }
 
-  &:required:invalid {
-    border-bottom-color: $lightRed;
-  }
+    &:required:invalid {
+        border-bottom-color: $lightRed;
+    }
 }
 
 @mixin smallInput {
-  display: block;
-  border-width: 2px;
-  border-color: $lightGray;
-  border-radius: 10px;
-  padding: 5px;
-  padding-left: 15px;
-  outline: 0px;
-  width: 30%;
-  font-family: "Lato", sans-serif;
-  font-weight: 400;
-  color: $darkGray;
-  opacity: 0.9;
+    display: block;
+    border-width: 2px;
+    border-color: $lightGray;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 15px;
+    outline: 0px;
+    width: 30%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: $darkGray;
+    opacity: 0.9;
 }
 
 .simpleInput {
-  width: 100%;
-  padding: 5px;
-  font-family: "Lato", sans-serif;
-  color: $darkGray;
-  margin-bottom: 2px;
+    width: 100%;
+    padding: 5px;
+    font-family: 'Lato', sans-serif;
+    color: $darkGray;
+    margin-bottom: 2px;
 }
 
 .userForms {
-  height: 100%;
+    height: 100%;
 }

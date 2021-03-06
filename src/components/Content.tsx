@@ -4,9 +4,9 @@
  *
  */
 interface ContentProps {
-  navbar?: any;
-  head: any;
-  body: any;
+    navbar?: any;
+    head: any;
+    body: any;
 }
 
 /**
@@ -15,15 +15,15 @@ interface ContentProps {
  * @param props
  */
 export default function Content(props: ContentProps) {
-  return (
-    <div className="content">
-      <div className="navbarSection">
-        {props.navbar ? props.navbar : <div></div>}
-      </div>
-      <div className="rightSection">
-        <div className="headSection">{props.head}</div>
-        <div className="bodySection">{props.body}</div>
-      </div>
-    </div>
-  );
+    return (
+        <div className="content">
+            <div className="navbarSection">
+                {props.navbar ? props.navbar : <div></div>}
+            </div>
+            <div className="rightSection">
+                <div className="headSection">{props.head}</div>
+                <div className="bodySection">{props.body}</div>
+            </div>
+        </div>
+    );
 }

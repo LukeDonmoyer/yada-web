@@ -6,18 +6,18 @@
  * purpose: page that will provide access to manage user settings
  */
 
-import React from "react";
-import Content from "./Content";
+import React from 'react';
+import Content from './Content';
 
 export default function Settings() {
-  return (
-    <Content
-      head={
-        <div className="settings">
-          <h1>Settings: </h1>
-        </div>
-      }
-      body={<div></div>}
-    />
-  );
+    return (
+        <Content
+            head={
+                <div className="settings">
+                    <h1>Settings: </h1>
+                </div>
+            }
+            body={<div></div>}
+        />
+    );
 }

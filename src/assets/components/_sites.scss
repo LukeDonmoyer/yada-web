@@ -1,10 +1,10 @@
 .sites {
-  margin: 0 16px;
-  // @include scrollWithoutScrollbar;
+    margin: 0 16px;
+    // @include scrollWithoutScrollbar;
 
-  height: 100%;
-  h1 {
-    @include mediumTitle;
-    color: $darkNavbar;
-  }
+    height: 100%;
+    h1 {
+        @include mediumTitle;
+        color: $darkNavbar;
+    }
 }
