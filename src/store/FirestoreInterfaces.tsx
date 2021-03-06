@@ -9,9 +9,14 @@ export interface SiteObject {
 }
 
 export interface EquipmentUnit {
-    faults: string[];
+    faults: Fault[];
     loggers: string[];
     name: string;
     health: string;
     type: string;
+}
+
+export interface Fault {
+    timestamp: number;
+    message: string;
 }
