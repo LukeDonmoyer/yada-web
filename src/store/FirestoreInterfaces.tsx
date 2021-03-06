@@ -9,12 +9,13 @@ export interface SiteObject {
 }
 
 export interface EquipmentUnit {
-    faults: string[];
+    faults: Fault[];
     loggers: string[];
     name: string;
     health: string;
     type: string;
 }
+
 
 export interface LoggerCollection {
     [key: string]: LoggerObject;
@@ -32,4 +33,9 @@ export interface LoggerObject {
     status: boolean;
     uptime: any;
     name: string;
+}
+
+export interface Fault {
+    timestamp: number;
+    message: string;
 }
