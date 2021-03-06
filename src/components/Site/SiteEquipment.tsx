@@ -39,23 +39,26 @@ export default function SiteEquipment(): ReactElement {
                 key={unit.name}
                 name={unit.name}
             >
-                <SiteEquipmentContent siteName={site.name} siteId={siteId} unit={unit} />
+                <SiteEquipmentContent
+                    siteName={site.name}
+                    siteId={siteId}
+                    unit={unit}
+                />
             </DynamicNavLink>
         );
     }
 
-  return (
-    <DynamicNavbar title={"Equipment"} buttonAction={addEquipment}>
-      <DynamicNavLink
-        route={""}
-        key={"default"}
-        name={"default route"}
-        blockLinkRender={true}
-      >
-        <SiteEquipmentContent siteName={site.name} siteId={siteId} />
-      </DynamicNavLink>
-      {site.equipmentUnits.map(createEquipmentLink) as any}
-    </DynamicNavbar>
-  );
-
+    return (
+        <DynamicNavbar title={'Equipment'} buttonAction={addEquipment}>
+            <DynamicNavLink
+                route={''}
+                key={'default'}
+                name={'default route'}
+                blockLinkRender={true}
+            >
+                <SiteEquipmentContent siteName={site.name} siteId={siteId} />
+            </DynamicNavLink>
+            {site.equipmentUnits.map(createEquipmentLink) as any}
+        </DynamicNavbar>
+    );
 }

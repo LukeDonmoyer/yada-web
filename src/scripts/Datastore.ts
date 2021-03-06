@@ -37,6 +37,7 @@ export function initializeListeners() {
     implementation.initializeChannelTemplatesListener();
     implementation.initializeSitesListener();
     implementation.initializeUsersListener();
+    implementation.initializeLoggersListener();
 }
 
 /**

@@ -17,18 +17,18 @@ export interface EquipmentUnit {
 }
 
 export interface LoggerCollection {
-  [key: string]: LoggerObject;
+    [key: string]: LoggerObject;
 }
 
 export interface LoggerObject {
-  channelTemplate: string;
-  collectingData: boolean;
-  data: any[];
-  equipment: string;
-  ip: string;
-  mac: string;
-  notes: string;
-  site: string;
-  status: boolean;
-  uptime: any;
+    channelTemplate: string;
+    collectingData: boolean;
+    data: any[];
+    equipment: string;
+    ip: string;
+    mac: string;
+    notes: string;
+    site: string;
+    status: boolean;
+    uptime: any;
 }

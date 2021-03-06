@@ -3,16 +3,16 @@
  * author: Shaun Jorstad
  *
  */
-import firebase from "firebase";
-import "firebase/auth";
-import updateChannelTemplatesSlice from "store/ChannelTemplateActions";
-import updateSitesSlice from "store/SiteActions";
-import store from "store/store";
-import updateUsersSlice from "store/UserAction";
-import updateLoggersSlice from "store/LoggerAction";
-import {EquipmentUnit, SiteObject} from "store/FirestoreInterfaces";
-import { firestoreConnect } from "react-redux-firebase";
-import sitesSlice from "store/SiteActions";
+import firebase from 'firebase';
+import 'firebase/auth';
+import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
+import updateSitesSlice from 'store/SiteActions';
+import store from 'store/store';
+import updateUsersSlice from 'store/UserAction';
+import updateLoggersSlice from 'store/LoggerAction';
+import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import { firestoreConnect } from 'react-redux-firebase';
+import sitesSlice from 'store/SiteActions';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM',
