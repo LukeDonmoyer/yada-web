@@ -16,28 +16,10 @@ export function deleteUser(uid: string) {
 }
 
 /**
- *
- * @param uid
- * @param setting
- * @param value
+ * 
+ * @param uid 
+ * @param newVals 
  */
-export function updateNotifications(
-  uid: string,
-  setting: string,
-  value: boolean
-) {
-  fireStore.collection("Users").doc(uid).update({ setting: value });
-}
-
-/**
- *
- * @param uid
- * @param newNumber
- */
-export function updatePhoneNumber(uid: string, newNumber: string) {
-  fireStore.collection("Users").doc(uid).update({ phoneNumber: newNumber });
-}
-
 export function updateUserDoc(uid: string, newVals: any) {
   fireStore.collection("Users").doc(uid).set(newVals, {merge: true});
   if("email" in newVals)
