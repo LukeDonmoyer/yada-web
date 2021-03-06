@@ -3,6 +3,11 @@
 
     margin: 8px 24px;
 
+    h1 {
+        @include mediumTitle;
+        color: $darkNavbar;
+    }
+
     .message {
         @include mediumSmallTitle;
 
