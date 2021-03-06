@@ -52,5 +52,10 @@
     background-color: white;
     border: 2px black dashed;
     border-radius: 10px;
+
+    &:hover {
+      transform: scale(0.9, 0.9);
+      transition: all 0.2s ease-in-out;
+    }
   }
 }
