@@ -4,13 +4,14 @@
  * Collection of functions to update User settings.
  */
 
-import { fireStore, getUserData } from "scripts/FireConfig";
+import { fireAuth, fireStore, getUserData } from "scripts/FireConfig";
 
 /**
  *
  * @param uid
  */
 export function deleteUser(uid: string) {
+  fireAuth.currentUser?.delete();
   fireStore.collection("Users").doc(uid).delete();
 }
 
@@ -37,6 +38,8 @@ export function updatePhoneNumber(uid: string, newNumber: string) {
   fireStore.collection("Users").doc(uid).update({ phoneNumber: newNumber });
 }
 
-export function updateUserDoc(uid: string, newVals: object) {
+export function updateUserDoc(uid: string, newVals: any) {
   fireStore.collection("Users").doc(uid).set(newVals, {merge: true});
+  if("email" in newVals)
+    fireAuth.currentUser?.updateEmail(newVals.email);
 }

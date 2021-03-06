@@ -12,6 +12,7 @@ import { RootState } from "store/rootReducer";
 import { Link, Redirect } from "react-router-dom";
 import { User } from "store/FirestoreInterfaces";
 import { current } from "@reduxjs/toolkit";
+import { deleteUser, updateUserDoc } from "scripts/UserSettingsFunctions";
 
 /**
  * Use uncontrolled React form components.
@@ -27,26 +28,55 @@ export default function UserSettings() {
 
   const [newVals, setNewVals] = useState({
     email: currentUser.email,
-    phoneNum: currentUser.phoneNumber,
+    phoneNumber: currentUser.phoneNumber,
     emailNotifications: (currentUser.emailNotifications ?? true),
     smsNotifications: (currentUser.smsNotifications ?? true)
   });
 
-  /**
-   * Handles state changes on the page.
-   * @param func is the function which updates the associated stateful value.
-   */
-   function handleEvent(func: any) {
-    return (event: any) => {
-      // event.preventDefault();
-      func(event.target.value);
-    };
+  const [accountDeleted, setAccountDeleted] = useState(false);
+
+  const updateField = (e: any) => {
+    setNewVals({
+      ...newVals,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const updateCheckbox = (e: any) => {
+    setNewVals({
+      ...newVals,
+      [e.target.name]: e.target.checked
+    });
+  };
+
+  const printVals = (e: any) => {
+    e.preventDefault();
+    console.log(newVals);
+  };
+
+  const submitChanges = (event: any) => {
+    event.preventDefault();
+    console.log(newVals);
+    updateUserDoc(uid as string, newVals);
+    alert("Changes saved!");
+  };
+
+  const deleteAccount = (event: any) => {
+    event.preventDefault();
+    let deleteAccount = window.confirm("Do you really wish to delete your account?");
+    if(deleteAccount){
+      deleteUser(uid as string);
+      alert("Account deleted.");
+      setAccountDeleted(true);
+    }
   }
 
-  return (
+  return accountDeleted ? (
+    <Redirect push to="/"/>
+  ) : (
     <div className="userSettings bootStrapStyles">
       <h1>User Settings: </h1>
-      <Form>
+      <Form onSubmit={submitChanges} className="py-8">
         <FormGroup>
           <Label for="email">Email</Label>
           <Input
@@ -55,16 +85,16 @@ export default function UserSettings() {
             id="email"
             placeholder={newVals.email}
             value={newVals.email}
-            onChange={handleEvent(setNewVals)}
+            onChange={updateField}
           />
-          <Label for="phoneNum">Password</Label>
+          <Label for="phoneNumber">Phone Number</Label>
           <Input
             type="tel"
-            name="phoneNum"
-            id="phoneNum"
-            placeholder={newVals.phoneNum}
-            value={newVals.phoneNum}
-            onChange={handleEvent(setNewVals)}
+            name="phoneNumber"
+            id="phoneNumber"
+            placeholder={newVals.phoneNumber}
+            value={newVals.phoneNumber}
+            onChange={updateField}
           />
         </FormGroup>
         <FormGroup check>
@@ -74,7 +104,7 @@ export default function UserSettings() {
               id="emailNotifications" 
               name="emailNotifications" 
               checked={newVals.emailNotifications}
-              onChange={handleEvent(setNewVals)}
+              onChange={updateCheckbox}
             />
             Email Notifications
           </Label>
@@ -84,7 +114,7 @@ export default function UserSettings() {
               id="smsNotifications" 
               name="smsNotifications"
               checked={newVals.smsNotifications}
-              onChange={handleEvent(setNewVals)}
+              onChange={updateCheckbox}
             />
             SMS Notifications
           </Label>
@@ -92,7 +122,7 @@ export default function UserSettings() {
         <FormGroup>
           <Link to="/change-password">Change Password</Link>
           <Button>Save Changes</Button>
-          <Button>Delete Account</Button>
+          <Button onClick={deleteAccount}>Delete Account</Button>
         </FormGroup>
       </Form>
     </div>
