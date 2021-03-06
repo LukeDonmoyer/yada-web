@@ -4,6 +4,9 @@ import '@inovua/reactdatagrid-community/index.css';
 import { SiteObject } from '../../store/FirestoreInterfaces';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
+import moment from 'moment';
+window.moment = moment;
+
 interface SiteFaultsTabProps {
     site: SiteObject;
 }
@@ -11,14 +14,19 @@ interface SiteFaultsTabProps {
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
+
     const columns = [
         {
             name: 'timestamp',
             header: 'Timestamp',
-            filterEditor: DateFilter,
             minWidth: 150,
             defaultFlex: 1,
-            render: ({ data }: any) => data.timestamp.toLocaleString(),
+            dateFormat: dateFormat,
+            filterEditor: DateFilter,
+            filterEditorProps: () => {
+                return { dateFormat: dateFormat };
+            },
         },
         {
             name: 'message',
@@ -33,7 +41,7 @@ export default function SiteFaultsTab({
     ];
 
     const filters = [
-        { name: 'timestamp', operator: 'before', type: 'date', value: '' },
+        { name: 'timestamp', operator: 'after', type: 'date', value: '' },
         { name: 'message', operator: 'contains', type: 'string', value: '' },
         { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
@@ -43,7 +51,7 @@ export default function SiteFaultsTab({
             return {
                 unitName: unit.name,
                 message: fault.message,
-                timestamp: new Date(fault.timestamp),
+                timestamp: moment(fault.timestamp).format(dateFormat),
             };
         });
     });
