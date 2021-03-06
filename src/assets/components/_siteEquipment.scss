@@ -4,8 +4,8 @@
     margin: 8px 24px;
 
     h1 {
-        font-size: x-large;
-        font-weight: bold;
+        @include mediumTitle;
+        color: $darkNavbar;
     }
 
     .message {
