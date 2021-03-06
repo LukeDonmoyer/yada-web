@@ -1,7 +1,35 @@
 .loggerTab {
+
   .dataGrid {
     width: 100%;
     height: 700px;
     margin-bottom: 40px;
+  }
+
+}
+
+.addLogger {
+  float: right;
+  color: white;
+  background-color: $lightOrange;
+  width: 10rem;
+  height: 2rem;
+  border-radius: 10px;
+}
+
+.loggerPicker {
+  margin-left: 50%;
+  width: 200px;
+  height: 200px;
+  z-index: 2;
+  position: absolute;
+  border: 2px dashed $turqois;
+  border-radius: 10px;
+  background-color: $lightGray;
+
+  h1 {
+    padding-left: 5%;
+    font-size: large;
+    font-weight: bold;
   }
 }
