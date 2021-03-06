@@ -311,3 +311,26 @@ export function createNewEquipment(site_uid: string, equipment_name: string) {
         .doc(site_uid)
         .update({ equipmentUnits: fire.arrayUnion(newEquipment) });
 }
+
+/**
+ * -REQUIRED-
+ * Adds an existing logger to the specified equipment at the specified site.
+ * @param site_uid string
+ * @param equipment_name string
+ * @param logger_uid string
+ */
+export function addLoggerToEquipment(site_uid: string, equipment_name: string, logger_uid: string){
+    fire.fireStore.collection("Sites").doc(site_uid).get().then((doc) => {
+      if(doc.exists){
+        var site = doc.data() as SiteObject;
+  
+        var equipmentIndex = site.equipmentUnits.findIndex(unit => unit.name === equipment_name);
+  
+        if(equipmentIndex != -1) site.equipmentUnits[equipmentIndex].loggers.push(logger_uid);
+  
+        fire.fireStore.collection("Sites").doc(site_uid).update(site);
+  
+        console.log('Added logger "' + logger_uid + '" to equipment "' + equipment_name + '"');
+      }
+    });
+  }

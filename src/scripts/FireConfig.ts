@@ -29,23 +29,6 @@ var fireInstance = firebase.initializeApp(firebaseConfig);
 export var fireStore = fireInstance.firestore();
 export var fireAuth = firebase.auth();
 
-//TODO: Move to Implementation
-export function addLoggerToEquipment(site_uid: string, equipment_name: string, logger_uid: string){
-  fireStore.collection("Sites").doc(site_uid).get().then((doc) => {
-    if(doc.exists){
-      var site = doc.data() as SiteObject;
-
-      var equipmentIndex = site.equipmentUnits.findIndex(unit => unit.name === equipment_name);
-
-      if(equipmentIndex != -1) site.equipmentUnits[equipmentIndex].loggers.push(logger_uid);
-
-      fireStore.collection("Sites").doc(site_uid).update(site);
-
-      console.log('Added logger "' + logger_uid + '" to equipment "' + equipment_name + '"');
-    }
-  });
-}
-
 // useful firestore functions that will be used later in development
 export function fireIncrement(val: number) {
     return firebase.firestore.FieldValue.increment(val);
