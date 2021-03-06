@@ -10,8 +10,9 @@ import updateSitesSlice from "store/SiteActions";
 import store from "store/store";
 import updateUsersSlice from "store/UserAction";
 import updateLoggersSlice from "store/LoggerAction";
-import {EquipmentUnit} from "store/FirestoreInterfaces";
+import {EquipmentUnit, SiteObject} from "store/FirestoreInterfaces";
 import { firestoreConnect } from "react-redux-firebase";
+import sitesSlice from "store/SiteActions";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTZqNRnrfcgfRjE3SvPiqtDVsADFNXIxM",
@@ -230,6 +231,22 @@ export function createNewEquipment(site_uid: string, equipment_name: string){
   };
 
   fireStore.collection("Sites").doc(site_uid).update({equipmentUnits: arrayUnion(newEquipment)});
+}
+
+export function addLoggerToEquipment(site_uid: string, equipment_name: string, logger_uid: string){
+  fireStore.collection("Sites").doc(site_uid).get().then((doc) => {
+    if(doc.exists){
+      var site = doc.data() as SiteObject;
+
+      var equipmentIndex = site.equipmentUnits.findIndex(unit => unit.name === equipment_name);
+
+      if(equipmentIndex != -1) site.equipmentUnits[equipmentIndex].loggers.push(logger_uid);
+
+      fireStore.collection("Sites").doc(site_uid).update(site);
+
+      console.log('Added logger "' + logger_uid + '" to equipment "' + equipment_name + '"');
+    }
+  });
 }
 
 export function initializeSitesListener() {

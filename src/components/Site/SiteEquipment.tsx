@@ -39,7 +39,11 @@ export default function SiteEquipment(): ReactElement {
         key={unit.name}
         name={unit.name}
       >
-        <SiteEquipmentContent siteName={site.name} unit={unit} />
+        <SiteEquipmentContent
+          siteName={site.name}
+          siteId={siteId}
+          unit={unit}
+        />
       </DynamicNavLink>
     );
   }
@@ -52,7 +56,7 @@ export default function SiteEquipment(): ReactElement {
         name={"default route"}
         blockLinkRender={true}
       >
-        <SiteEquipmentContent siteName={site.name} />
+        <SiteEquipmentContent siteName={site.name} siteId={siteId} />
       </DynamicNavLink>
       {site.equipmentUnits.map(createEquipmentLink) as any}
     </DynamicNavbar>
