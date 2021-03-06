@@ -49,13 +49,11 @@ export default function SiteFaultsTab({
     });
 
     return (
-        <div className={'data-grid-container'}>
-            <ReactDataGrid
-                className={'data-grid'}
-                columns={columns}
-                dataSource={faults}
-                defaultFilterValue={filters}
-            />
-        </div>
+        <ReactDataGrid
+            className={'data-grid'}
+            columns={columns}
+            dataSource={faults}
+            defaultFilterValue={filters}
+        />
     );
 }
