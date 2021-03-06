@@ -36,3 +36,7 @@ export function updateNotifications(
 export function updatePhoneNumber(uid: string, newNumber: string) {
   fireStore.collection("Users").doc(uid).update({ phoneNumber: newNumber });
 }
+
+export function updateUserDoc(uid: string, newVals: object) {
+  fireStore.collection("Users").doc(uid).set(newVals, {merge: true});
+}

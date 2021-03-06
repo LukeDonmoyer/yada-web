@@ -2,7 +2,7 @@
  * Author: Brendan Ortmann
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import Content from "./Content";
 import "../assets/styles.scss";
@@ -10,6 +10,8 @@ import "../assets/bootstrap.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "store/rootReducer";
 import { Link, Redirect } from "react-router-dom";
+import { User } from "store/FirestoreInterfaces";
+import { current } from "@reduxjs/toolkit";
 
 /**
  * Use uncontrolled React form components.
@@ -21,37 +23,70 @@ import { Link, Redirect } from "react-router-dom";
 
 export default function UserSettings() {
   const uid = useSelector((state: RootState) => state.auth.userUID);
+  const currentUser = useSelector((state: RootState) => state.users[uid as string]);
 
-  // USE NULL COALESCENCE TO SET DEFAULT VALS IF SETTING DOESN'T EXIST
+  const [newVals, setNewVals] = useState({
+    email: currentUser.email,
+    phoneNum: currentUser.phoneNumber,
+    emailNotifications: (currentUser.emailNotifications ?? true),
+    smsNotifications: (currentUser.smsNotifications ?? true)
+  });
+
+  /**
+   * Handles state changes on the page.
+   * @param func is the function which updates the associated stateful value.
+   */
+   function handleEvent(func: any) {
+    return (event: any) => {
+      // event.preventDefault();
+      func(event.target.value);
+    };
+  }
 
   return (
-    // TODO: Wrap in Content component?
     <div className="userSettings bootStrapStyles">
       <h1>User Settings: </h1>
       <Form>
         <FormGroup>
-          <Label for="exampleEmail">Email</Label>
+          <Label for="email">Email</Label>
           <Input
             type="email"
             name="email"
-            id="exampleEmail"
-            placeholder="email"
+            id="email"
+            placeholder={newVals.email}
+            value={newVals.email}
+            onChange={handleEvent(setNewVals)}
           />
-          <Label for="examplePassword">Password</Label>
+          <Label for="phoneNum">Password</Label>
           <Input
-            type="password"
-            name="password"
-            id="examplePassword"
-            placeholder="password placeholder"
+            type="tel"
+            name="phoneNum"
+            id="phoneNum"
+            placeholder={newVals.phoneNum}
+            value={newVals.phoneNum}
+            onChange={handleEvent(setNewVals)}
           />
         </FormGroup>
         <FormGroup check>
           <Label for="emailNotifications" check>
-            <Input type="checkbox" id="emailNotifications" /> Email
-            Notifications
+            <Input 
+              type="checkbox" 
+              id="emailNotifications" 
+              name="emailNotifications" 
+              checked={newVals.emailNotifications}
+              onChange={handleEvent(setNewVals)}
+            />
+            Email Notifications
           </Label>
           <Label for="smsNotifications" check>
-            <Input type="checkbox" id="smsNotifications" /> SMS Notifications
+            <Input 
+              type="checkbox" 
+              id="smsNotifications" 
+              name="smsNotifications"
+              checked={newVals.smsNotifications}
+              onChange={handleEvent(setNewVals)}
+            />
+            SMS Notifications
           </Label>
         </FormGroup>
         <FormGroup>
