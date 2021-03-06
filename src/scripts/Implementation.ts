@@ -362,6 +362,8 @@ export function addLoggerToEquipment(
 
                 fire.fireStore.collection('Sites').doc(site_uid).update(site);
 
+                fire.fireStore.collection("Loggers").doc(logger_uid).set({equipment: equipment_name}, {merge: true});
+
                 console.log(
                     'Added logger "' +
                         logger_uid +

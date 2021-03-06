@@ -49,7 +49,10 @@ export function SiteEquipmentContent({
         //only make logger tabs for loggers attached to the current unit
         if (unit?.loggers.find((loggerId) => loggerId === id)) {
             loggerTabs.push(
-                <TabViewItem label={String(id)} route={String(id)}>
+                <TabViewItem
+                    label={data.name || '<logger.name>'}
+                    route={String(id)}
+                >
                     {LoggerTab(data)}
                 </TabViewItem>
             );
