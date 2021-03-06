@@ -1,0 +1,99 @@
+@import 'src/assets/designLanguage/variables';
+
+.card {
+    margin: 32px auto;
+
+    width: 700px;
+
+    filter: drop-shadow(2px 2px 1px $shadow);
+    border-radius: 8px;
+    border: 1px solid $lightGray;
+    background-color: $offWhite;
+
+    .site-information {
+        float: left;
+        width: 200px;
+
+        margin-left: 16px;
+    }
+
+    .fault-table {
+        float: right;
+
+        margin: 16px;
+
+        > :not(:last-child) {
+            border-bottom: 1px solid $lightGray;
+        }
+    }
+
+    .fault-table-row {
+        margin: 8px;
+
+        display: flex;
+        flex-flow: row;
+
+        > * {
+            margin: 0 8px;
+            width: 128px;
+        }
+    }
+
+    h3 {
+        margin: 8px 16px;
+        font-family: 'Lato', sans-serif;
+        font-weight: 600;
+        font-size: 18pt;
+    }
+
+    h4 {
+        margin-bottom: 8px;
+        font-family: 'Lato', sans-serif;
+        font-weight: 600;
+        font-size: 12pt;
+    }
+
+    .fault-statistic {
+        float: left;
+
+        margin-right: 8px;
+
+        color: $lightRed;
+        font-size: 20pt;
+    }
+
+    .details-button {
+        display: flex;
+
+        margin-right: 16px;
+        float: right;
+        width: auto;
+
+        color: white;
+
+        .details-link {
+            padding: 4px 32px;
+
+            border-radius: 8px 8px 0 0;
+
+            background-color: $lightOrange;
+        }
+
+        svg {
+            width: 32px;
+            height: 32px;
+
+            fill: $lightOrange;
+        }
+
+        :hover {
+            .details-link {
+                background-color: $buttonDarkOrange;
+            }
+
+            svg {
+                fill: $buttonDarkOrange;
+            }
+        }
+    }
+}
