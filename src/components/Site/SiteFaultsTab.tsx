@@ -2,6 +2,7 @@ import { ReactElement } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import { SiteObject } from '../../store/FirestoreInterfaces';
+import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
 interface SiteFaultsTabProps {
     site: SiteObject;
@@ -10,22 +11,14 @@ interface SiteFaultsTabProps {
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
-    /*const faults = site.equipmentUnits
-        .flatMap((unit) => {
-            return unit.faults
-                .map((fault) => {
-                    return {
-                        unitName: unit.name,
-                        fault: fault
-                    }
-                });
-        });*/
-
-    let columns = [
+    const columns = [
         {
-            name: 'unitName',
-            header: 'Unit',
+            name: 'timestamp',
+            header: 'Timestamp',
+            filterEditor: DateFilter,
+            minWidth: 150,
             defaultFlex: 1,
+            render: ({ data }: any) => data.timestamp.toLocaleString(),
         },
         {
             name: 'message',
@@ -33,34 +26,36 @@ export default function SiteFaultsTab({
             defaultFlex: 2,
         },
         {
-            name: 'timestamp',
-            header: 'Timestamp',
-            minWidth: 150,
+            name: 'unitName',
+            header: 'Unit',
             defaultFlex: 1,
-            render: ({ data }: any) => data.timestamp.toLocaleString(),
         },
     ];
 
-    let data = [
-        {
-            id: 1,
-            unitName: 'Test Unit',
-            message: 'Error detected',
-            timestamp: new Date(),
-        },
-        {
-            id: 2,
-            unitName: 'Test Unit 2',
-            message: 'Error detected',
-            timestamp: new Date(),
-        },
+    const filters = [
+        { name: 'timestamp', operator: 'before', type: 'date', value: '' },
+        { name: 'message', operator: 'contains', type: 'string', value: '' },
+        { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
+
+    const faults = site.equipmentUnits.flatMap((unit) => {
+        return unit.faults.map((fault) => {
+            return {
+                unitName: unit.name,
+                message: fault.message,
+                timestamp: new Date(fault.timestamp),
+            };
+        });
+    });
 
     return (
-        <ReactDataGrid
-            className={'data-grid'}
-            columns={columns}
-            dataSource={data}
-        />
+        <div className={'data-grid-container'}>
+            <ReactDataGrid
+                className={'data-grid'}
+                columns={columns}
+                dataSource={faults}
+                defaultFilterValue={filters}
+            />
+        </div>
     );
 }

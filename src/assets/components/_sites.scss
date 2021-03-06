@@ -10,7 +10,17 @@
         color: $darkNavbar;
     }
 
+    .data-grid-container {
+        display: flex;
+        flex-flow: column;
+
+        margin: 0 0 16px 0;
+        height: 100%;
+    }
+
     .data-grid {
         @include dataGrid;
+
+        flex: 1;
     }
 }
