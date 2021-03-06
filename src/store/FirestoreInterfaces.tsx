@@ -31,4 +31,5 @@ export interface LoggerObject {
     site: string;
     status: boolean;
     uptime: any;
+    name: string;
 }

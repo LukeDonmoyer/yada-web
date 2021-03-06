@@ -65,6 +65,7 @@ export function SiteEquipmentContent({
 
         //Only collapse the logger if we click on something other than the Add Logger button or the Logger Selector.
         if (
+            target.className &&
             !(
                 target.className.includes('addLogger') ||
                 target.className.includes('loggerSelector') ||
@@ -139,15 +140,18 @@ function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
     for (const [id, loggerData] of Object.entries(loggers)) {
         const data = loggerData as LoggerObject;
 
-        loggerCard.push(
-            <div
-                className="loggerCard"
-                onClick={() => handleLoggerCardClick(id)}
-            >
-                <h2>Logger Name</h2>
-                {id}
-            </div>
-        );
+        //check that the logger does not have an equipment specified
+        if (!data.equipment) {
+            loggerCard.push(
+                <div
+                    className="loggerCard"
+                    onClick={() => handleLoggerCardClick(id)}
+                >
+                    <h2>{data.name || '<logger.name>'}</h2>
+                    {id}
+                </div>
+            );
+        }
     }
 
     function handleLoggerCardClick(logger_id: string) {
