@@ -2,31 +2,31 @@
  * Redux management for firestore data
  */
 
-import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getUserPrivilege } from "scripts/FireConfig";
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getUserPrivilege } from 'scripts/Datastore';
 
-export const login_action = createAction("login");
-export const logout_action = createAction("logout");
+export const login_action = createAction('login');
+export const logout_action = createAction('logout');
 
 // userUID starts as null, firestore objects without authentication are undefined
 export interface userUID {
-  userUID: string | null | undefined;
+    userUID: string | null | undefined;
 }
 const initialState = {
-  userUID: null,
+    userUID: null,
 } as userUID;
 
 const authSlice = createSlice({
-  name: "authentication",
-  initialState,
-  reducers: {
-    login(state, action: PayloadAction<string | undefined>) {
-      state.userUID = action.payload;
+    name: 'authentication',
+    initialState,
+    reducers: {
+        login(state, action: PayloadAction<string | undefined>) {
+            state.userUID = action.payload;
+        },
+        logout(state) {
+            state.userUID = null;
+        },
     },
-    logout(state) {
-      state.userUID = null;
-    },
-  },
 });
 
 export const { login, logout } = authSlice.actions;

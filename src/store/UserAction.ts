@@ -6,7 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import { User, UserCollection } from "./FirestoreInterfaces";
 
-export const updateUsers_action = createAction("updateUsers");
+export const updateUsers_action = createAction('updateUsers');
 
 const updateUsersSlice = createSlice<
   UserCollection,
@@ -18,7 +18,7 @@ const updateUsersSlice = createSlice<
     updateUsers(state, action: PayloadAction<UserCollection>) {
       return action.payload;
     },
-  },
+  }
 });
 
 export const { updateUsers } = updateUsersSlice.actions;

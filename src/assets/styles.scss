@@ -1,9 +1,9 @@
-@import "/designLanguage/_variables";
-@import "/designLanguage/_types";
-@import "/designLanguage/_buttons";
-@import "/designLanguage/_forms";
-@import "/designLanguage/_cards";
-@import "/designLanguage/_tables";
+@import 'designLanguage/_variables';
+@import 'designLanguage/_types';
+@import 'designLanguage/_buttons';
+@import 'designLanguage/_forms';
+@import 'designLanguage/_cards';
+@import 'designLanguage/_tables';
 
 @import "/components/_contactUs";
 @import "/components/_requestAccount";
@@ -24,11 +24,6 @@
 @import "/components/_routes";
 @import "/components/_app";
 
-@import "/components/_tabview";
-@import "/components/_animatedLogo";
-@import "/components/_siteEquipment";
-@import "/components/_table.scss";
-@import "/components/_button.scss";
 * {
-  overflow: hidden;
+    overflow: hidden;
 }

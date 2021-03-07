@@ -1,34 +1,34 @@
 .animatedLogo {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5rem;
-  width: 200px;
-  height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+    width: 200px;
+    height: 200px;
 
-  .logoBox {
-    z-index: 1;
-    margin: auto;
-    position: absolute;
-  }
+    .logoBox {
+        z-index: 1;
+        margin: auto;
+        position: absolute;
+    }
 
-  @keyframes spinBlades {
-    0% {
-      transform: rotate(0deg);
+    @keyframes spinBlades {
+        0% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(180deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
-    50% {
-      transform: rotate(180deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 
-  .logoBlades {
-    z-index: 2;
-    animation-timing-function: linear;
-    animation-name: spinBlades;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    position: absolute;
-  }
+    .logoBlades {
+        z-index: 2;
+        animation-timing-function: linear;
+        animation-name: spinBlades;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        position: absolute;
+    }
 }
