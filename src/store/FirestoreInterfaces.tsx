@@ -16,7 +16,6 @@ export interface EquipmentUnit {
     type: string;
 }
 
-
 export interface LoggerCollection {
     [key: string]: LoggerObject;
 }
@@ -38,4 +37,14 @@ export interface LoggerObject {
 export interface Fault {
     timestamp: number;
     message: string;
+}
+
+export interface ChannelTemplate {
+    channels: any[];
+    modified: string;
+    name: string;
+}
+
+export interface ChannelTemplateCollection {
+    [key: string]: ChannelTemplate;
 }

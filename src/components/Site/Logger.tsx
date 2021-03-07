@@ -1,10 +1,20 @@
 import { GridColDef, DataGrid } from '@material-ui/data-grid';
 import { ToggleSwitch } from 'components/ToggleSwitch';
-import { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Label } from 'reactstrap';
+import {
+    ButtonDropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Label,
+} from 'reactstrap';
 import { addLoggerToEquipment } from 'scripts/Implementation';
-import { LoggerCollection, LoggerObject } from 'store/FirestoreInterfaces';
+import {
+    ChannelTemplate,
+    LoggerCollection,
+    LoggerObject,
+} from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 
 export interface LoggerTabProps {
@@ -84,9 +94,28 @@ export interface LoggerInfoProps {
 }
 
 export function LoggerInfo({ logger }: LoggerInfoProps) {
+    const [templateDropDownOpen, setTemplateDropDownOpen] = useState(false);
+    const toggleTemplateDropDown = () =>
+        setTemplateDropDownOpen(!templateDropDownOpen);
+
+    const [selectedTemplateId, setSelectedTemplateId] = useState('');
+
+    const channelTemplates = useSelector((state: RootState) => state.templates);
+
+    var templateDropdownItems: any = [];
+
+    for (const [id, data] of Object.entries(channelTemplates)) {
+        const template = data as ChannelTemplate;
+
+        //check that the logger does not have an equipment specified
+        templateDropdownItems.push(
+            <DropdownItem>{template.name}</DropdownItem>
+        );
+    }
+
     return (
         <div className="loggerInfo">
-            <div>
+            <div className="info">
                 <LoggerInfoItem
                     label="Status"
                     value={logger.status ? 'active' : 'inactive'}
@@ -95,10 +124,27 @@ export function LoggerInfo({ logger }: LoggerInfoProps) {
                 <LoggerInfoItem label="MAC" value={logger.mac || '<unknown>'} />
                 <LoggerInfoItem label="Notes" value={logger.notes} />
             </div>
-            <div className="loggerControls">
-                <div className="loggerControl">
+            <div className="controls">
+                <div className="control">
                     <h2>Collecting Data</h2>
                     <ToggleSwitch enabledDefault={false} />
+                </div>
+                <h3>Logger uptime: {logger.uptime}</h3>
+                <div className="dropdown">
+                    <ButtonDropdown
+                        isOpen={templateDropDownOpen}
+                        toggle={toggleTemplateDropDown}
+                    >
+                        <DropdownToggle caret>
+                            {selectedTemplateId
+                                ? channelTemplates[selectedTemplateId].name
+                                : '<template>'}
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem divider></DropdownItem>
+                            {templateDropdownItems}
+                        </DropdownMenu>
+                    </ButtonDropdown>
                 </div>
             </div>
         </div>
@@ -114,7 +160,7 @@ export function LoggerInfoItem({ label, value }: LoggerInfoItemProps) {
     return (
         <div className="loggerInfoItem">
             <h2>{label}</h2>
-            <div className="loggerInfoValue">{value}</div>
+            <div className="value">{value}</div>
         </div>
     );
 }

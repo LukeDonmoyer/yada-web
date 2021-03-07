@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     sites: updateSitesSlice.reducer,
     loggers: updateLoggerSlice.reducer,
     updateUsers: updateUsersSlice.reducer,
-    updateChannelTemplates: updateChannelTemplatesSlice.reducer,
+    templates: updateChannelTemplatesSlice.reducer,
 });
 
 export default rootReducer;

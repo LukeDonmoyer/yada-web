@@ -61,16 +61,55 @@
 }
 
 .loggerInfo {
+    display: flex;
+    flex-direction: row;
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        margin-right: 3rem;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .control {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        h2 {
+            margin-right: 2rem;
+        }
+    }
+
+    .dropdown {
+        border: 1px black solid;
+        position: relative;
+    }
+
+    h3 {
+        font-size: small;
+    }
 }
 
 .loggerInfoItem {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    h2 {
+        font-size: large;
+    }
+
+    .value {
+        padding-left: 2rem;
+    }
 }
 
-.loggerControl {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.Dropdown-menu {
+    position: absolute;
+    z-index: 1000;
 }
