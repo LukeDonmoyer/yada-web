@@ -1,6 +1,10 @@
 .userSettings {
+
+  
   h1 {
     @include largeTitle;
     color: $companyName;
   }
+
+
 }
