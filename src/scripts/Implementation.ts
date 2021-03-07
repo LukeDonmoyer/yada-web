@@ -6,6 +6,7 @@ import { EquipmentUnit } from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
+import { adminAuth } from './FireAdmin';
 import * as fire from './FireConfig';
 
 /**
@@ -14,7 +15,22 @@ import * as fire from './FireConfig';
  * @param callback
  */
 export function handleAuthStateChange(callback: (userAuth: any) => void) {
-    fire.fireAuth.onAuthStateChanged((auth) => callback(auth));
+    fire.fireAuth.onAuthStateChanged((auth) => {
+        if (auth == null || auth == undefined) {
+            callback(auth);
+        } else {
+            fire.fireStore
+                .collection('Users')
+                .doc(auth.uid)
+                .get()
+                .then((docSnapshot) => {
+                    let data = docSnapshot.data();
+                    if (!data!.disabled) {
+                        callback(auth);
+                    }
+                });
+        }
+    });
 }
 
 /**
@@ -194,6 +210,7 @@ export function createUserDocument(
         email: email,
         phoneNumber: null,
         userGroup: userGroup,
+        disabled: false,
     });
 }
 
@@ -253,6 +270,9 @@ export function getUserData(uid: string): Promise<any> {
             } else {
                 // doc.data() will be undefined in this case
                 console.log('No such document!');
+                return new Promise((resolve, reject) => {
+                    reject();
+                });
             }
         })
         .catch(function (error) {
@@ -310,4 +330,91 @@ export function createNewEquipment(site_uid: string, equipment_name: string) {
         .collection('Sites')
         .doc(site_uid)
         .update({ equipmentUnits: fire.arrayUnion(newEquipment) });
+}
+
+/**
+ * edits a user's email
+ * @param userID
+ * @param email
+ */
+export function editEmail(userID: string, email: string) {
+    fire.fireStore.collection('Users').doc(userID).update({
+        email: email,
+    });
+}
+
+/**
+ * --Required --
+ * edits a user's phone number
+ */
+export function editPhoneNumber(userid: string, number: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        phoneNumber: number,
+    });
+}
+
+/**
+ *  -- Required --
+ * edits a user's user group
+ * @param userid
+ * @param privilege must be one of ['Admin', 'Power', 'User']
+ */
+export function editPrivilege(userid: string, privilege: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        userGroup: privilege,
+    });
+}
+
+/**
+ * -- Required --
+ * disables user from logging in
+ * @param userid
+ */
+export function deleteUser(userid: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        disabled: true,
+    });
+}
+
+/**
+ * registers the email and default password for user
+ * todo: send emails with information
+ * @param userEmail email of the new user
+ *
+ * returns a promise that is resolved with the user authentication object
+ */
+export function registerUser(userEmail: string) {
+    getUserPrivilege().then((privilege: string) => {
+        if (['Owner', 'Admin'].includes(privilege)) {
+            let createdUser = adminAuth.createUserWithEmailAndPassword(
+                userEmail,
+                'yadaDefault'
+            ); // todo: this needs try catch
+            createdUser.catch((error) => {
+                console.log('error in creating user');
+                fire.fireStore
+                    .collection('Users')
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.docs.map((doc) => {
+                            if (doc.data().email == userEmail) {
+                                fire.fireStore
+                                    .collection('Users')
+                                    .doc(doc.id)
+                                    .update({ disabled: false });
+                            }
+                        });
+                    });
+            });
+            createdUser
+                .then((user) => {
+                    let userData = user.user;
+                    createUserDocument(userData!.uid, userEmail, 'User');
+                    sendAuthorizationEmail(userEmail);
+                })
+                .catch((error) => {});
+        } else {
+            alert('innappropriate user permissions for this action');
+        }
+    });
 }

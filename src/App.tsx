@@ -36,6 +36,7 @@ import {
 
 function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
+    const [userDocExists, setUserDocExists] = useState(false);
     const [userPrivilege, setPrivilege] = useState('User');
 
     registerAuthChangeCallback((userAuth: any) => {

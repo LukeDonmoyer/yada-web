@@ -20,3 +20,11 @@ export interface Fault {
     timestamp: number;
     message: string;
 }
+
+export interface User {
+    userGroup: string;
+    phoneNumber: string | null;
+    email: string;
+    defaults: boolean;
+    disabled: boolean;
+}
