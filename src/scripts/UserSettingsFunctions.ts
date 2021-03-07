@@ -4,7 +4,7 @@
  * Collection of functions to update User settings.
  */
 
-import { fireAuth, fireStore, getUserData } from "scripts/FireConfig";
+import { fireAuth, fireStore } from "scripts/FireConfig";
 
 /**
  *

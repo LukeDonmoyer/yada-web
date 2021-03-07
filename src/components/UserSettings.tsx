@@ -11,7 +11,7 @@ import { RootState } from "store/rootReducer";
 import { Link, Redirect } from "react-router-dom";
 import { deleteUser, updateUserDoc } from "scripts/UserSettingsFunctions";
 
-export default function UserSettings() {
+export default function Settings() {
   const uid = useSelector((state: RootState) => state.auth.userUID);
   const currentUser = useSelector((state: RootState) => state.users[uid as string]);
 
