@@ -59,3 +59,18 @@
         }
     }
 }
+
+.loggerInfo {
+}
+
+.loggerInfoItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.loggerControl {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
