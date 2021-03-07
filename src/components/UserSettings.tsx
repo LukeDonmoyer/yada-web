@@ -2,8 +2,8 @@
  * Author: Brendan Ortmann
  */
 
-import { useState } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import React, { useState } from "react";
+import { Button, Form, FormGroup, Input, InputGroup, InputGroupText, Label } from "reactstrap";
 import "../assets/styles.scss";
 import "../assets/bootstrap.scss";
 import { useSelector } from "react-redux";
@@ -16,8 +16,8 @@ export default function Settings() {
   const currentUser = useSelector((state: RootState) => state.users[uid as string]);
 
   const [newVals, setNewVals] = useState({
-    email: currentUser.email,
-    phoneNumber: currentUser.phoneNumber,
+    email: "",
+    phoneNumber: "",
     emailNotifications: (currentUser.emailNotifications ?? true),
     smsNotifications: (currentUser.smsNotifications ?? true)
   });
@@ -63,56 +63,70 @@ export default function Settings() {
   return accountDeleted ? (
     <Redirect push to="/"/>
   ) : (
-    <div className="userSettings bootStrapStyles">
-      <h1>User Settings: </h1>
+    <div className="userSettings">
+      <h1>User Settings</h1>
       <Form onSubmit={submitChanges}>
-        <FormGroup>
-          <Label for="email">Email</Label>
-          <Input
-            type="email"
-            name="email"
-            id="email"
-            placeholder={newVals.email}
-            value={newVals.email}
-            onChange={updateField}
-          />
-          <Label for="phoneNumber">Phone Number</Label>
-          <Input
-            type="tel"
-            name="phoneNumber"
-            id="phoneNumber"
-            placeholder={newVals.phoneNumber}
-            value={newVals.phoneNumber}
-            onChange={updateField}
-          />
-        </FormGroup>
-        <FormGroup check>
-          <Label for="emailNotifications" check>
+        <div>
+          <FormGroup>
+            <Label for="email">Email</Label>
+            <Input
+              required
+              type="email"
+              name="email"
+              id="email"
+              placeholder={currentUser.email}
+              value={newVals.email}
+              onChange={updateField}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="phoneNumber">Phone Number</Label>
+            <Input
+              required
+              type="tel"
+              name="phoneNumber"
+              id="phoneNumber"
+              placeholder={currentUser.phoneNumber}
+              value={newVals.phoneNumber}
+              onChange={updateField}
+            />
+          </FormGroup>
+        </div>
+        <div className="flex items-center">
+          <FormGroup check>
+            <Label for="emailNotifications" check>
+              Email Notifications
+            </Label>
             <Input 
               type="checkbox" 
               id="emailNotifications" 
               name="emailNotifications" 
+              className="bootStrapStyles"
               checked={newVals.emailNotifications}
               onChange={updateCheckbox}
             />
-            Email Notifications
-          </Label>
-          <Label for="smsNotifications" check>
+          </FormGroup>
+        </div>
+        <div className="flex items-center">
+          <FormGroup check>
+            <Label for="smsNotifications" check>
+              SMS Notifications
+            </Label>
             <Input 
               type="checkbox" 
               id="smsNotifications" 
               name="smsNotifications"
+              className="bootStrapStyles"
               checked={newVals.smsNotifications}
               onChange={updateCheckbox}
             />
-            SMS Notifications
-          </Label>
-        </FormGroup>
-        <FormGroup>
-          <Link to="/change-password">Change Password</Link>
-          <Button>Save Changes</Button>
-          <Button onClick={deleteAccount}>Delete Account</Button>
-        </FormGroup>
+          </FormGroup>
+        </div>
+        <div className="flex justify-around items-center">
+          <Link to="/change-password" className="pswdLink">Change Password</Link>
+          <Button className="primaryBtn">Save Changes</Button>
+          <Button onClick={deleteAccount} className="deleteBtn">Delete Account</Button>
+        </div>
       </Form>
     </div>
   );
