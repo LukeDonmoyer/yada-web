@@ -1,0 +1,29 @@
+.userSettings {
+  margin: 0 16px;
+  height: 100%;
+  width: 50%;
+  
+  h1 {
+    @include largeTitle;
+    color: $companyName;
+  }
+
+  input {
+    @include wideInput;
+  }
+
+  .primaryBtn {
+    @include filledPrimaryButton;
+  }
+
+  .deleteBtn {
+    @include filledPrimaryButton;
+    background-color: $lightRed;
+    border-color: $lightRed;
+  }
+
+  .pswdLink {
+    @include link;
+  }
+
+}
