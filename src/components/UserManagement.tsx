@@ -91,7 +91,7 @@ function AccountControls(props: accountControlsProps) {
 
 export default function UserManagement() {
     const [authorized, setAuthorization] = useState(false);
-    const users = useSelector((state: RootState) => state.updateUsers);
+    const users = useSelector((state: RootState) => state.users);
 
     getUserPrivilege().then((privilege) => {
         if (privilege === 'Owner' || privilege === 'Admin') {
@@ -131,8 +131,7 @@ export default function UserManagement() {
 
     let data: any = [];
 
-    // console.log(users.users);
-    for (const [uid, user] of Object.entries(users.users)) {
+    for (const [uid, user] of Object.entries(users)) {
         let userData = user as User;
         let phoneNumber = userData.phoneNumber;
         if (phoneNumber == null) {

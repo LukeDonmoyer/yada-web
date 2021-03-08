@@ -23,7 +23,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
 
         return (
             <NavLink
-                to={`${path}${
+                to={`${url}${
                     child.props.default ? '' : `/${child.props.route}`
                 }`}
                 exact={child.props.exact}

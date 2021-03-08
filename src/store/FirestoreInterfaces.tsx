@@ -16,15 +16,39 @@ export interface EquipmentUnit {
     type: string;
 }
 
+export interface LoggerCollection {
+    [key: string]: LoggerObject;
+}
+
+export interface LoggerObject {
+    channelTemplate: string;
+    collectingData: boolean;
+    data: any[];
+    equipment: string;
+    ip: string;
+    mac: string;
+    notes: string;
+    site: string;
+    status: boolean;
+    uptime: any;
+    name: string;
+}
+
 export interface Fault {
     timestamp: number;
     message: string;
 }
 
+export interface UserCollection {
+    [key: string]: User;
+}
+
 export interface User {
-    userGroup: string;
-    phoneNumber: string | null;
-    email: string;
     defaults: boolean;
+    email: string;
     disabled: boolean;
+    phoneNumber: string | null;
+    userGroup: string;
+    emailNotifications?: boolean;
+    smsNotifications?: boolean;
 }

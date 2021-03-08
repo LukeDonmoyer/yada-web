@@ -37,6 +37,7 @@ export function initializeListeners() {
     implementation.initializeChannelTemplatesListener();
     implementation.initializeSitesListener();
     implementation.initializeUsersListener();
+    implementation.initializeLoggersListener();
 }
 
 /**
@@ -159,4 +160,12 @@ export function deleteUser(userID: string) {
 
 export function registerUser(email: string) {
     implementation.registerUser(email);
+}
+/**
+ * updates the user document with the following settings
+ * @param uid
+ * @param newVals
+ */
+export function updateUserDoc(uid: string, newVals: any) {
+    implementation.updateUserDoc(uid, newVals);
 }

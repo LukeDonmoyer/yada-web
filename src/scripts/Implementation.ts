@@ -2,11 +2,12 @@
  * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
-import { EquipmentUnit } from 'store/FirestoreInterfaces';
+import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
+import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
 
 /**
@@ -130,6 +131,24 @@ export function initializeSitesListener() {
         });
         // call reducer to store each site
         store.dispatch(sitesSlice.actions.updateSites(sites));
+    });
+}
+
+/**
+ * -- required --
+ *
+ * initializes loggers listener
+ * syncs all logger documents to the redux store
+ */
+export function initializeLoggersListener() {
+    console.log('initializing loggers listener');
+    fire.fireStore.collection('Loggers').onSnapshot((querySnapshot) => {
+        var loggers: any = {};
+        querySnapshot.forEach((doc) => {
+            loggers[doc.id] = doc.data();
+        });
+        //call reducer to store each logger
+        store.dispatch(updateLoggersSlice.actions.updateLoggers(loggers));
     });
 }
 
@@ -333,6 +352,7 @@ export function createNewEquipment(site_uid: string, equipment_name: string) {
 }
 
 /**
+ * -- required --
  * edits a user's email
  * @param userID
  * @param email
@@ -377,6 +397,7 @@ export function deleteUser(userid: string) {
 }
 
 /**
+ * -- required --
  * registers the email and default password for user
  * todo: send emails with information
  * @param userEmail email of the new user
@@ -417,4 +438,63 @@ export function registerUser(userEmail: string) {
             alert('innappropriate user permissions for this action');
         }
     });
+}
+
+/**
+ * --REQUIRED--
+ * Adds an existing logger to the specified equipment at the specified site.
+ * @param site_uid string
+ * @param equipment_name string
+ * @param logger_uid string
+ */
+export function addLoggerToEquipment(
+    site_uid: string,
+    equipment_name: string,
+    logger_uid: string
+) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(site_uid)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                var site = doc.data() as SiteObject;
+
+                var equipmentIndex = site.equipmentUnits.findIndex(
+                    (unit) => unit.name === equipment_name
+                );
+
+                if (equipmentIndex != -1)
+                    site.equipmentUnits[equipmentIndex].loggers.push(
+                        logger_uid
+                    );
+
+                fire.fireStore.collection('Sites').doc(site_uid).update(site);
+
+                fire.fireStore
+                    .collection('Loggers')
+                    .doc(logger_uid)
+                    .set({ equipment: equipment_name }, { merge: true });
+
+                console.log(
+                    'Added logger "' +
+                        logger_uid +
+                        '" to equipment "' +
+                        equipment_name +
+                        '"'
+                );
+            }
+        });
+}
+
+/**
+ * -- Required --
+ * updates the user document with the following settings
+ * @param uid
+ * @param newVals
+ */
+export function updateUserDoc(uid: string, newVals: any) {
+    fire.fireStore.collection('Users').doc(uid).set(newVals, { merge: true });
+    if ('email' in newVals)
+        fire.fireAuth.currentUser?.updateEmail(newVals.email);
 }

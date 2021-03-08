@@ -12,7 +12,7 @@ import RequestAccount from 'components/RequestAccount';
 import authSlice from 'store/FireActions';
 import store from './store/store';
 import Sites from 'components/Site/Sites';
-import Settings from 'components/Settings';
+import Settings from 'components/UserSettings';
 import NotFound from 'components/NotFound';
 import { RootState } from 'store/rootReducer';
 import { useSelector } from 'react-redux';

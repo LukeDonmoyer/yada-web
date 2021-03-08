@@ -18,7 +18,6 @@
 @import 'components/_sites';
 @import 'components/_channelTemplates';
 @import 'components/_userManagement';
-@import 'components/_settings';
 @import 'components/_changePassword';
 @import 'components/_registerUsers';
 @import 'components/_routes';
@@ -30,6 +29,8 @@
 @import 'components/_button.scss';
 @import 'components/privilegeToggle';
 @import 'components/accountControls';
+@import 'components/userSettings';
+@import 'components/_loggerTab.scss';
 
 * {
     overflow: hidden;
