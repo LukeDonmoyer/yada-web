@@ -85,13 +85,13 @@ function App() {
                                     >
                                         <Sites />
                                     </StaticNavItem>
-                                    <StaticNavItem
+                                    {/* <StaticNavItem
                                         label={'channel templates'}
                                         route={'channel-templates'}
                                         icon={templatesIcon}
                                     >
                                         <ChannelTemplates />
-                                    </StaticNavItem>
+                                    </StaticNavItem> */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
                                     ) ? (
