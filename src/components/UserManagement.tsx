@@ -173,19 +173,23 @@ export default function UserManagement() {
                     head={<h1>User Management</h1>}
                     body={
                         <div>
-                            <Button
-                                type={ButtonType.tableControl}
-                                text={'+'}
-                                onClick={promptForEmail}
-                            />
-                            <ReactDataGrid
-                                style={gridStyle}
-                                idProperty="uniqueId"
-                                columns={columns}
-                                dataSource={data}
-                                editable={true}
-                                onEditComplete={onEditComplete}
-                            />
+                            <div className="addUserButton">
+                                <Button
+                                    type={ButtonType.tableControl}
+                                    text={'+'}
+                                    onClick={promptForEmail}
+                                />
+                            </div>
+                            <div className="dataGrid">
+                                <ReactDataGrid
+                                    style={gridStyle}
+                                    idProperty="uniqueId"
+                                    columns={columns}
+                                    dataSource={data}
+                                    editable={true}
+                                    onEditComplete={onEditComplete}
+                                />
+                            </div>
                         </div>
                     }
                 />
