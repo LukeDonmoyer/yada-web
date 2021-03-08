@@ -17,9 +17,7 @@
     }
 
     .deleteBtn {
-        @include filledPrimaryButton;
-        background-color: $lightRed;
-        border-color: $lightRed;
+        @include filledDangerButton;
     }
 
     .pswdLink {
