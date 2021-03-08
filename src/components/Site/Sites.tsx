@@ -23,6 +23,7 @@ import {
 } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
 import { basename } from 'path';
+import SiteFaultsTab from './SiteFaultsTab';
 
 export default function Sites() {
     const sites = useSelector((state: RootState) => state.sites);
@@ -72,7 +73,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
                     <EquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
-                    <FaultsTab />
+                    <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
                     <ConfigTab />
@@ -172,11 +173,6 @@ function EquipmentTab(): ReactElement {
             </div>
         </div>
     );
-}
-
-function FaultsTab(): ReactElement {
-    //TODO Make site fault tab
-    return <h1>Faults</h1>;
 }
 
 function ConfigTab(): ReactElement {
