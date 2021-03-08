@@ -16,7 +16,6 @@ export interface EquipmentUnit {
     type: string;
 }
 
-
 export interface LoggerCollection {
     [key: string]: LoggerObject;
 }
@@ -41,14 +40,14 @@ export interface Fault {
 }
 
 export interface UserCollection {
-  [key: string]: User;
+    [key: string]: User;
 }
 
 export interface User {
-  defaults: boolean;
-  email: string;
-  phoneNumber: string;
-  userGroup: string;
-  emailNotifications?: boolean;
-  smsNotifications?: boolean;
+    defaults: boolean;
+    email: string;
+    phoneNumber: string;
+    userGroup: string;
+    emailNotifications?: boolean;
+    smsNotifications?: boolean;
 }

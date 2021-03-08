@@ -362,7 +362,10 @@ export function addLoggerToEquipment(
 
                 fire.fireStore.collection('Sites').doc(site_uid).update(site);
 
-                fire.fireStore.collection("Loggers").doc(logger_uid).set({equipment: equipment_name}, {merge: true});
+                fire.fireStore
+                    .collection('Loggers')
+                    .doc(logger_uid)
+                    .set({ equipment: equipment_name }, { merge: true });
 
                 console.log(
                     'Added logger "' +
@@ -373,4 +376,12 @@ export function addLoggerToEquipment(
                 );
             }
         });
+}
+
+/**
+ * sends password reset email
+ * @param email email
+ */
+export function sendPasswordResetEmail(email: string) {
+    fire.fireAuth.sendPasswordResetEmail(email);
 }

@@ -141,3 +141,11 @@ export function getUserData(uid: string): Promise<any> {
 export function changePassword(newPassword: string): Promise<any> | undefined {
     return implementation.changePassword(newPassword);
 }
+
+/**
+ * sends password reset email
+ * @param email
+ */
+export function sendPasswordResetEmail(email: string) {
+    return implementation.sendPasswordResetEmail(email);
+}
