@@ -65,3 +65,14 @@
             rgba(216, 125, 6, 0.705) 0px 18px 36px -18px inset;
     }
 }
+
+@mixin filledDangerButton {
+    @include filledPrimaryButton;
+    background-color: $lightRed;
+    border-color: $lightRed;
+
+    &:hover {
+        border-color: $lightRed;
+        color: $lightRed;
+    }
+}

@@ -1,18 +1,18 @@
-@import "src/assets/designLanguage/variables";
+@import 'src/assets/designLanguage/variables';
 
 .statistic {
-  margin: 8px 16px;
+    margin: 8px 16px;
 
-  vertical-align: middle;
+    vertical-align: middle;
 
-  line-height: 16pt;
+    line-height: 16pt;
 
-  .statistic-value {
-    float: left;
+    .statistic-value {
+        float: left;
 
-    margin-right: 8px;
+        margin-right: 8px;
 
-    color: $turqois;
-    font-size: 16pt;
-  }
+        color: $turqois;
+        font-size: 16pt;
+    }
 }

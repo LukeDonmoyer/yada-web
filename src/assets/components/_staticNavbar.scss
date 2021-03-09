@@ -1,8 +1,11 @@
 .staticNavbar {
     height: 100%;
-    padding: 0.5%;
-    padding-right: 0;
-    float: left;
+    // float: left;
+    padding-left: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    position: absolute;
+    z-index: 1000;
     &:hover {
         .navTitle {
             max-width: 350px;
@@ -10,6 +13,10 @@
             padding-left: 15px;
             padding-right: 45px;
             opacity: 1;
+        }
+        .roundLeftCorners {
+            transition: all 0.5s ease-in-out;
+            border-radius: 10px;
         }
     }
 
@@ -25,6 +32,7 @@
 
     .roundLeftCorners {
         border-radius: 10px 0px 0px 10px;
+        transition: all 0.5s ease-in-out;
     }
 
     .navLinks {
