@@ -18,7 +18,6 @@
 @import 'components/_sites';
 @import 'components/_channelTemplates';
 @import 'components/_userManagement';
-@import 'components/_settings';
 @import 'components/_changePassword';
 @import 'components/_registerUsers';
 @import 'components/_routes';
@@ -28,6 +27,7 @@
 @import 'components/_siteEquipment';
 @import 'components/_table.scss';
 @import 'components/_button.scss';
+@import 'components/userSettings';
 
 @import 'components/_loggerTab.scss';
 @import 'components/siteConfigTab';

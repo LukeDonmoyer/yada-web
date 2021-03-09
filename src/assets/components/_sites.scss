@@ -1,10 +1,19 @@
+@import '../designLanguage/dataGrid';
+
 .sites {
+    display: flex;
+    flex-flow: column;
+
     margin: 0 16px;
-    // @include scrollWithoutScrollbar;
 
     height: 100%;
+
     h1 {
         @include mediumTitle;
         color: $darkNavbar;
+    }
+
+    .data-grid {
+        @include dataGrid;
     }
 }

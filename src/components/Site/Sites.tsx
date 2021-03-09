@@ -24,6 +24,7 @@ import {
 import Button, { ButtonType } from 'components/Button';
 import { basename } from 'path';
 import ConfigTab from './SiteConfigContent';
+import SiteFaultsTab from './SiteFaultsTab';
 
 export default function Sites() {
     const sites = useSelector((state: RootState) => state.sites);
@@ -74,7 +75,7 @@ function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
                     <EquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
-                    <FaultsTab />
+                    <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
                     <ConfigTab site={site} siteId={siteId}/>
@@ -174,9 +175,4 @@ function EquipmentTab(): ReactElement {
             </div>
         </div>
     );
-}
-
-function FaultsTab(): ReactElement {
-    //TODO Make site fault tab
-    return <h1>Faults</h1>;
 }
