@@ -24,7 +24,7 @@ export default function Settings() {
 
   const [newVals, setNewVals] = useState({
     email: currentUser.email,
-    phoneNumber: currentUser.phoneNumber,
+    phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : "",
     emailNotifications: (currentUser.emailNotifications ?? true),
     smsNotifications: (currentUser.smsNotifications ?? true)
   });
@@ -88,7 +88,7 @@ export default function Settings() {
                                     type="tel"
                                     name="phoneNumber"
                                     id="phoneNumber"
-                                    placeholder={currentUser?.phoneNumber ? currentUser?.phoneNumber : ""}
+                                    placeholder={newVals.phoneNumber}
                                     value={newVals.phoneNumber}
                                     onChange={updateField}
                                 />
