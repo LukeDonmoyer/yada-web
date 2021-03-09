@@ -105,7 +105,7 @@ export default function StaticNavbar(props: navbarProps) {
                     </div>
                 </div>
             </div>
-            <div className="routes">
+            <div className="staticRoutes">
                 {React.Children.map(props.children, createRoute)}
             </div>
         </>
