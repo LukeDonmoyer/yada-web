@@ -30,39 +30,45 @@ interface PrivilegeToggleProps {
     uid: string;
 }
 
+interface ToggleItemProps {
+    uid: string;
+    currentLevel: string;
+    level: string;
+}
+
+function ToggleItem(props: ToggleItemProps) {
+    return (
+        <span
+            onClick={() => {
+                editPrivilege(props.uid, props.level);
+            }}
+            className={`${
+                props.currentLevel === props.level ? 'selected' : 'deselected'
+            }`}
+        >
+            {props.level}
+        </span>
+    );
+}
+
 function PrivilegeToggle(props: PrivilegeToggleProps) {
     return (
         <div className="privilegeToggle">
-            <span
-                onClick={() => {
-                    editPrivilege(props.uid, 'Admin');
-                }}
-                className={`${
-                    props.level === 'Admin' ? 'selected' : 'deselected'
-                }`}
-            >
-                admin
-            </span>
-            <span
-                onClick={() => {
-                    editPrivilege(props.uid, 'Power');
-                }}
-                className={`${
-                    props.level === 'Power' ? 'selected' : 'deselected'
-                }`}
-            >
-                power
-            </span>
-            <span
-                onClick={() => {
-                    editPrivilege(props.uid, 'User');
-                }}
-                className={`${
-                    props.level === 'User' ? 'selected' : 'deselected'
-                }`}
-            >
-                user
-            </span>
+            <ToggleItem
+                uid={props.uid}
+                level={'Admin'}
+                currentLevel={props.level}
+            />
+            <ToggleItem
+                uid={props.uid}
+                level={'Power'}
+                currentLevel={props.level}
+            />
+            <ToggleItem
+                uid={props.uid}
+                level={'User'}
+                currentLevel={props.level}
+            />
         </div>
     );
 }
