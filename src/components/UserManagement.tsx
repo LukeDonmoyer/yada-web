@@ -143,7 +143,7 @@ export default function UserManagement() {
         if (phoneNumber == null) {
             phoneNumber = '';
         }
-        if (userData.userGroup != 'Owner' && !userData.disabled) {
+        if (userData.userGroup !== 'Owner' && !userData.disabled) {
             data.push({
                 email: userData.email,
                 phone: phoneNumber,
