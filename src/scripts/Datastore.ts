@@ -141,3 +141,31 @@ export function getUserData(uid: string): Promise<any> {
 export function changePassword(newPassword: string): Promise<any> | undefined {
     return implementation.changePassword(newPassword);
 }
+
+export function editEmail(userID: string, email: string) {
+    implementation.editEmail(userID, email);
+}
+
+export function editPhoneNumber(userID: string, number: string) {
+    implementation.editPhoneNumber(userID, number);
+}
+
+export function editPrivilege(userID: string, privilege: string) {
+    implementation.editPrivilege(userID, privilege);
+}
+
+export function deleteUser(userID: string) {
+    implementation.deleteUser(userID);
+}
+
+export function registerUser(email: string) {
+    implementation.registerUser(email);
+}
+/**
+ * updates the user document with the following settings
+ * @param uid
+ * @param newVals
+ */
+export function updateUserDoc(uid: string, newVals: any) {
+    implementation.updateUserDoc(uid, newVals);
+}
