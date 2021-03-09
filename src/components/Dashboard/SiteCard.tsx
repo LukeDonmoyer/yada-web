@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import './siteCard.scss';
-import { EquipmentUnit, SiteObject } from '../../store/FirestoreInterfaces';
+import { SiteObject } from '../../store/FirestoreInterfaces';
 import Statistic from './Statistic';
 import { Link } from 'react-router-dom';
 
@@ -17,17 +17,6 @@ export default function SiteCard({
     const sum = (x: number, y: number) => x + y;
 
     if (!site) return <></>;
-
-    console.log(Date.now().toString());
-
-    let latestFaults = site.equipmentUnits
-        .flatMap((unit) => {
-            return unit.faults.map((fault) => {
-                return { fault: fault, unitName: unit.name };
-            });
-        })
-        .sort((a, b) => a.fault.timestamp - b.fault.timestamp)
-        .slice(0, 3);
 
     return (
         <div className={'card'}>
@@ -72,11 +61,13 @@ export default function SiteCard({
     );
 }
 
-interface SiteLatestFaultTable {
+interface SiteLatestFaultTableProps {
     site: SiteObject;
 }
 
-function SiteLatestFaultTable({ site }: SiteLatestFaultTable): ReactElement {
+function SiteLatestFaultTable({
+    site,
+}: SiteLatestFaultTableProps): ReactElement {
     let latestFaults = site.equipmentUnits
         .flatMap((unit) => {
             return unit.faults.map((fault) => {

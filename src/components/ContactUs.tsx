@@ -6,7 +6,7 @@
  * to the administrators/owners of the database.
  */
 import { useState } from 'react';
-import { Button, Form, Input, Alert } from 'reactstrap';
+import { Button, Form, Input } from 'reactstrap';
 import { createEmailDocument } from '../scripts/Datastore';
 import { Redirect } from 'react-router-dom';
 import '../assets/styles.scss';
