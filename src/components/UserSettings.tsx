@@ -16,8 +16,8 @@ export default function Settings() {
   const currentUser = useSelector((state: RootState) => state.users[uid as string]);
 
   const [newVals, setNewVals] = useState({
-    email: "",
-    phoneNumber: "",
+    email: currentUser.email,
+    phoneNumber: currentUser.phoneNumber,
     emailNotifications: (currentUser.emailNotifications ?? true),
     smsNotifications: (currentUser.smsNotifications ?? true)
   });
@@ -74,7 +74,7 @@ export default function Settings() {
               type="email"
               name="email"
               id="email"
-              placeholder={currentUser.email}
+              placeholder={newVals.email}
               value={newVals.email}
               onChange={updateField}
             />
@@ -86,7 +86,7 @@ export default function Settings() {
               type="tel"
               name="phoneNumber"
               id="phoneNumber"
-              placeholder={currentUser.phoneNumber}
+              placeholder={newVals.phoneNumber}
               value={newVals.phoneNumber}
               onChange={updateField}
             />
