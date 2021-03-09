@@ -62,6 +62,7 @@ export default function SiteFaultsTab({
             columns={columns}
             dataSource={faults}
             defaultFilterValue={filters}
+            defaultSortInfo={[]}
         />
     );
 }
