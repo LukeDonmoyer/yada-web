@@ -374,3 +374,15 @@ export function addLoggerToEquipment(
             }
         });
 }
+
+/**
+ * 
+ * @param site_uid 
+ * @param site_config 
+ */
+export function updateSiteConfig(
+    site_uid: string,
+    site_config: any
+) {
+    fire.fireStore.collection('Sites').doc(site_uid).set(site_config, {merge: true});
+}
