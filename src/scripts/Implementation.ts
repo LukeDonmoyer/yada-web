@@ -377,12 +377,12 @@ export function addLoggerToEquipment(
 
 /**
  * 
- * @param site_uid 
- * @param site_config 
+ * @param siteId 
+ * @param siteConfig 
  */
 export function updateSiteConfig(
-    site_uid: string,
-    site_config: any
+    siteId: string,
+    siteConfig: any
 ) {
-    fire.fireStore.collection('Sites').doc(site_uid).set(site_config, {merge: true});
+    fire.fireStore.collection('Sites').doc(siteId).set(siteConfig, {merge: true});
 }

@@ -34,9 +34,9 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
 
   return (
     <div className="siteConfigTab">
-      <Form className="bootStrapStyles">
-        <div>
-          <FormGroup for="name">
+      <Form onSubmit={submitChanges}>
+        <div className="bootStrapStyles">
+          <FormGroup>
             <Label>Name</Label>
             <Input
               type="text"
@@ -49,9 +49,9 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
           </FormGroup>
         </div>
 
-        <div>
+        <div className="bootStrapStyles">
           <FormGroup>
-            <Label for="address">Address</Label>
+            <Label>Address</Label>
             <Input
               type="text"
               name="address"
@@ -63,9 +63,9 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
           </FormGroup>
         </div>
 
-        <div>
+        <div className="bootStrapStyles">
           <FormGroup>
-            <Label for="notes">Notes</Label>
+            <Label>Notes</Label>
             <Input
               type="textarea"
               name="notes"
@@ -77,17 +77,17 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
           </FormGroup>
         </div>
 
-        <div>
+        <div className="bootStrapStyles">
           <FormGroup>
             <Label>Equipment Notifications</Label>
             <div>Equipment notification selection goes here.</div>
           </FormGroup>
         </div>
-      </Form>
 
-      <div>
-        <Button>Save Changes</Button>
-      </div>
+        <div>
+          <Button type="submit" value="Submit">Save Changes</Button>
+        </div>
+      </Form>
     </div>
   );
 }
