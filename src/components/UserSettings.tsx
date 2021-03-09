@@ -8,32 +8,26 @@ import {
     Form,
     FormGroup,
     Input,
-    InputGroup,
-    InputGroupText,
     Label,
 } from 'reactstrap';
 import '../assets/styles.scss';
 import '../assets/bootstrap.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
 import Content from './Content';
 
 export default function Settings() {
     const uid = useSelector((state: RootState) => state.auth.userUID);
-    const currentUser = useSelector(
-        (state: RootState) => state.users[uid as string]
-    );
+    const currentUser = useSelector((state: RootState) => state.users[uid as string]);
 
-    const [newVals, setNewVals] = useState({
-        email: '',
-        phoneNumber: '',
-        emailNotifications: currentUser?.emailNotifications ?? true,
-        smsNotifications: currentUser?.smsNotifications ?? true,
-    });
-
-    const [accountDeleted, setAccountDeleted] = useState(false);
+  const [newVals, setNewVals] = useState({
+    email: currentUser.email,
+    phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : "",
+    emailNotifications: (currentUser.emailNotifications ?? true),
+    smsNotifications: (currentUser.smsNotifications ?? true)
+  });
 
     const updateField = (e: any) => {
         setNewVals({
@@ -47,11 +41,6 @@ export default function Settings() {
             ...newVals,
             [e.target.name]: e.target.checked,
         });
-    };
-
-    const printVals = (e: any) => {
-        e.preventDefault();
-        console.log(newVals);
     };
 
     const submitChanges = (event: any) => {
@@ -70,13 +59,10 @@ export default function Settings() {
             deleteUser(uid as string);
             alert('Account deleted.');
             fireAuthSignOut();
-            // setAccountDeleted(true);
         }
     };
 
-    return accountDeleted ? (
-        <Redirect push to="/" />
-    ) : (
+    return (
         <div className="userSettings">
             <Content
                 head={<h1>User Settings</h1>}
@@ -102,11 +88,7 @@ export default function Settings() {
                                     type="tel"
                                     name="phoneNumber"
                                     id="phoneNumber"
-                                    placeholder={
-                                        currentUser?.phoneNumber
-                                            ? currentUser?.phoneNumber
-                                            : ''
-                                    }
+                                    placeholder={newVals.phoneNumber}
                                     value={newVals.phoneNumber}
                                     onChange={updateField}
                                 />
