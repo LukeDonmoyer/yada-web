@@ -1,0 +1,19 @@
+.privilegeToggle {
+    span {
+        margin-right: 10px;
+        user-select: none;
+        cursor: pointer;
+        @include link;
+        padding: 4px;
+        border-radius: 6px;
+    }
+
+    .selected {
+        background-color: $companyName;
+        color: white;
+    }
+
+    .deselected {
+        color: $darkGray;
+    }
+}

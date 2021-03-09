@@ -44,7 +44,7 @@ export default function ChangePassword() {
                     getUserData(currentUser as string).then((userData) => {
                         // if the current user is the Owner, they are directed to the register users page, otherwise the dashboard
                         if (userData.userGroup === 'Owner') {
-                            history.push('/register-users');
+                            history.push('/app/usermanagement');
                         } else {
                             history.push('/app/dashboard');
                         }
