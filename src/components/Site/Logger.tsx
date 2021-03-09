@@ -3,7 +3,7 @@ import { ToggleSwitch } from 'components/ToggleSwitch';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
-    ButtonDropdown,
+    Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
@@ -130,21 +130,21 @@ export function LoggerInfo({ logger }: LoggerInfoProps) {
                     <ToggleSwitch enabledDefault={false} />
                 </div>
                 <h3>Logger uptime: {logger.uptime}</h3>
-                <div className="dropdown">
-                    <ButtonDropdown
+                <div className="bootStrapStyles dropdown">
+                    <Dropdown
                         isOpen={templateDropDownOpen}
                         toggle={toggleTemplateDropDown}
                     >
                         <DropdownToggle caret>
                             {selectedTemplateId
                                 ? channelTemplates[selectedTemplateId].name
-                                : '<template>'}
+                                : '<template> ' + templateDropDownOpen}
                         </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem divider></DropdownItem>
+                        <DropdownMenu className="dropdownMenu">
+                            <DropdownItem>testItem</DropdownItem>
                             {templateDropdownItems}
                         </DropdownMenu>
-                    </ButtonDropdown>
+                    </Dropdown>
                 </div>
             </div>
         </div>

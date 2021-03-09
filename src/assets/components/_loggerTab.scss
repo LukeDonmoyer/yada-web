@@ -63,6 +63,7 @@
 .loggerInfo {
     display: flex;
     flex-direction: row;
+    overflow: visible;
 
     .info {
         display: flex;
@@ -73,6 +74,18 @@
     .controls {
         display: flex;
         flex-direction: column;
+        overflow: visible;
+
+        .dropdown {
+            border: 1px green solid;
+            overflow: visible;
+            z-index: 1000;
+
+            .dropdownMenu {
+                border: 1px red dashed;
+                z-index: 1000;
+            }
+        }
     }
 
     .control {
@@ -83,11 +96,6 @@
         h2 {
             margin-right: 2rem;
         }
-    }
-
-    .dropdown {
-        border: 1px black solid;
-        position: relative;
     }
 
     h3 {
@@ -107,9 +115,4 @@
     .value {
         padding-left: 2rem;
     }
-}
-
-.Dropdown-menu {
-    position: absolute;
-    z-index: 1000;
 }
