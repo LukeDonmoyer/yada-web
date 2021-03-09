@@ -169,8 +169,6 @@ export default function UserManagement() {
         }
     };
 
-    const gridStyle = { minHeight: 550 };
-
     return (
         <div className="userManagement w-full">
             {authorized ? (
@@ -185,16 +183,14 @@ export default function UserManagement() {
                                     onClick={promptForEmail}
                                 />
                             </div>
-                            <div className="dataGrid">
-                                <ReactDataGrid
-                                    style={gridStyle}
-                                    idProperty="uniqueId"
-                                    columns={columns}
-                                    dataSource={data}
-                                    editable={true}
-                                    onEditComplete={onEditComplete}
-                                />
-                            </div>
+                            <ReactDataGrid
+                                className={'dataGrid'}
+                                idProperty="uniqueId"
+                                columns={columns}
+                                dataSource={data}
+                                editable={true}
+                                onEditComplete={onEditComplete}
+                            />
                         </div>
                     }
                 />
