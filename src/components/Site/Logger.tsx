@@ -32,6 +32,10 @@ export function LoggerTab({
     logger,
     logger_uid,
 }: LoggerTabProps): ReactElement {
+    const [infoExpanded, setInfoExpanded] = useState(false);
+
+    const handleInfoButton = () => setInfoExpanded(!infoExpanded);
+
     const columns: GridColDef[] = [
         { field: 'timestamp', headerName: 'timestamp', flex: 1 },
     ];
@@ -47,8 +51,14 @@ export function LoggerTab({
 
     return (
         <div className="loggerTab">
-            <h1>Logger Data</h1>
-            <LoggerInfo logger={logger} logger_uid={logger_uid} />
+            <Button
+                text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                type={ButtonType.loggerInfoShow}
+                onClick={handleInfoButton}
+            />
+            {infoExpanded ? (
+                <LoggerInfo logger={logger} logger_uid={logger_uid} />
+            ) : null}
             <DataGrid className="dataGrid" rows={rows} columns={columns} />
         </div>
     );

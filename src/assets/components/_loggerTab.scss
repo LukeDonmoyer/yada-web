@@ -64,6 +64,8 @@
     display: flex;
     flex-direction: row;
     overflow: visible;
+    border-bottom: 1px $lightGray solid;
+    margin-bottom: 1rem;
 
     .info {
         display: flex;

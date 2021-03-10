@@ -9,6 +9,7 @@ export enum ButtonType {
     tableControl = 'tableControl',
     alert = 'alert',
     warning = 'warning',
+    loggerInfoShow = 'loggerInfoShow',
 }
 
 export default function Button(props: ButtonProps) {
