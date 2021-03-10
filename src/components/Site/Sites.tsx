@@ -9,7 +9,7 @@
 import { createNewEquipment, createNewSite } from '../../scripts/Datastore';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, Route, useLocation } from 'react-router-dom';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { SiteObject } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import DynamicNavbar, { DynamicNavLink } from '../DynamicNavbar';
@@ -35,7 +35,7 @@ export default function Sites() {
     }
 
     return (
-        <>
+        <Switch>
             <Route path={'/app/sites/:siteId/equipment'}>
                 <SiteEquipment />
             </Route>
@@ -48,11 +48,11 @@ export default function Sites() {
                         name={'default route'}
                         blockLinkRender={true}
                     >
-                        <p>Please select a site</p>
+                        <div className={'message'}>Please select a site</div>
                     </DynamicNavLink>
                 </DynamicNavbar>
             </Route>
-        </>
+        </Switch>
     );
 }
 
