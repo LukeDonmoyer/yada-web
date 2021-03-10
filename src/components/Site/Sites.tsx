@@ -17,6 +17,8 @@ import SiteEquipment from './SiteEquipment';
 import TabView, { TabViewItem } from '../TabView';
 import { DataGrid, GridColDef, GridToolbar } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
+import { basename } from 'path';
+import ConfigTab from './SiteConfigContent';
 import SiteFaultsTab from './SiteFaultsTab';
 
 export default function Sites() {
@@ -27,7 +29,7 @@ export default function Sites() {
         const data = siteData as SiteObject;
         navLinks.push(
             <DynamicNavLink route={id} key={id} name={data.name}>
-                <SiteContent site={sites[id]} />
+                <SiteContent site={sites[id]} siteId={id} />
             </DynamicNavLink>
         );
     }
@@ -54,11 +56,12 @@ export default function Sites() {
     );
 }
 
-interface SiteContentProps {
+export interface SiteContentProps {
     site: SiteObject;
+    siteId: string;
 }
 
-function SiteContent({ site }: SiteContentProps): ReactElement {
+function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
     return (
         <div className={'sites'}>
             <h1>{site.name}</h1>
@@ -70,7 +73,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
                     <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
-                    <ConfigTab />
+                    <ConfigTab site={site} siteId={siteId}/>
                 </TabViewItem>
             </TabView>
         </div>
@@ -167,9 +170,4 @@ function EquipmentTab(): ReactElement {
             </div>
         </div>
     );
-}
-
-function ConfigTab(): ReactElement {
-    //TODO: Make site config tab
-    return <h1>Config</h1>;
 }
