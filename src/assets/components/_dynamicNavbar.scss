@@ -1,4 +1,7 @@
 .dynamicNavbar {
+    display: flex;
+    flex-flow: column;
+
     height: 100%;
     background-color: $turqois;
     float: left;
@@ -27,8 +30,9 @@
     }
 
     .links {
+        flex: 1;
         margin-top: 25px;
-        height: 100%;
+        margin-bottom: 8px;
         @include scrollWithoutScrollbar;
     }
 
