@@ -3,12 +3,22 @@ import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 
 interface CsvDownloadButtonProps {
+    // Label for the button
     label?: string;
+
+    // Headers for the csv file
     headers: Headers;
+
+    // Filename for the csv file tod download
     filename: string;
+
+    // Function that creates the dsv data, this will be run asynchronously
     createData: () => Data;
 }
 
+/**
+ * Creates a button to download a csv file from the given data.
+ */
 export default function CsvDownloadButton({
     label,
     headers,
