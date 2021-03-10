@@ -17,3 +17,17 @@
         @include dataGrid;
     }
 }
+
+.message {
+    @include mediumSmallTitle;
+
+    width: 50%;
+
+    margin: 64px auto;
+
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+
+    color: $companyName;
+}
