@@ -3,13 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    Label,
-} from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import '../assets/styles.scss';
 import '../assets/bootstrap.scss';
 import { useSelector } from 'react-redux';

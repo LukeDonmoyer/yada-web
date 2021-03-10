@@ -4,7 +4,7 @@ import {
     PayloadAction,
     SliceCaseReducers,
 } from '@reduxjs/toolkit';
-import { User, UserCollection } from './FirestoreInterfaces';
+import { UserCollection } from './FirestoreInterfaces';
 
 export const updateUsers_action = createAction('updateUsers');
 

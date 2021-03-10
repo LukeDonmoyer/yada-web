@@ -17,7 +17,7 @@ import * as fire from './FireConfig';
  */
 export function handleAuthStateChange(callback: (userAuth: any) => void) {
     fire.fireAuth.onAuthStateChanged((auth) => {
-        if (auth == null || auth == undefined) {
+        if (auth === null || auth === undefined) {
             callback(auth);
         } else {
             fire.fireStore
@@ -71,7 +71,7 @@ export function initializeUsersListener() {
         if (['Owner', 'Admin'].includes(privilege as string)) {
             // listen to entire users collection
             fire.fireStore.collection('Users').onSnapshot((querySnapshot) => {
-                var users: any = {};
+                let users: any = {};
                 querySnapshot.forEach((doc) => {
                     users[doc.id] = doc.data();
                 });
@@ -251,7 +251,7 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
             });
         })
         .catch((error) => {
-            var errorMessage = error.message;
+            let errorMessage = error.message;
             alert(errorMessage);
         });
 }
@@ -417,8 +417,8 @@ export function registerUser(userEmail: string) {
                     .collection('Users')
                     .get()
                     .then((querySnapshot) => {
-                        querySnapshot.docs.map((doc) => {
-                            if (doc.data().email == userEmail) {
+                        querySnapshot.docs.forEach((doc) => {
+                            if (doc.data().email === userEmail) {
                                 fire.fireStore
                                     .collection('Users')
                                     .doc(doc.id)
@@ -458,13 +458,13 @@ export function addLoggerToEquipment(
         .get()
         .then((doc) => {
             if (doc.exists) {
-                var site = doc.data() as SiteObject;
+                let site = doc.data() as SiteObject;
 
-                var equipmentIndex = site.equipmentUnits.findIndex(
+                let equipmentIndex = site.equipmentUnits.findIndex(
                     (unit) => unit.name === equipment_name
                 );
 
-                if (equipmentIndex != -1)
+                if (equipmentIndex !== -1)
                     site.equipmentUnits[equipmentIndex].loggers.push(
                         logger_uid
                     );

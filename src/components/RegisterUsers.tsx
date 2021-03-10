@@ -9,7 +9,7 @@
  */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
     createUserDocument,
     getUserData,

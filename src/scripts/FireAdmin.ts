@@ -19,8 +19,8 @@ const firebaseConfig = {
     measurementId: 'G-CYXQ4Q1RG2',
 };
 
-var adminInstance = firebase.initializeApp(firebaseConfig, 'secondary');
-var adminStore = adminInstance.firestore();
+let adminInstance = firebase.initializeApp(firebaseConfig, 'secondary');
+let adminStore = adminInstance.firestore();
 export var adminAuth = adminInstance.auth();
 
 /**
