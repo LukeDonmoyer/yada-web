@@ -9,8 +9,9 @@ import { RootState } from 'store/rootReducer';
 import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
 import TabView, { TabViewItem } from '../TabView';
 import { DataGrid, GridColDef } from '@material-ui/data-grid';
-import { Button } from 'reactstrap';
+import { Button, Label } from 'reactstrap';
 import { addLoggerToEquipment } from '../../scripts/Implementation';
+import { LoggerSelector, LoggerTab } from './Logger';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -53,7 +54,7 @@ export function SiteEquipmentContent({
                     label={data.name || '<logger.name>'}
                     route={String(id)}
                 >
-                    {LoggerTab(data)}
+                    <LoggerTab logger={data} logger_uid={id} />
                 </TabViewItem>
             );
         }
@@ -99,73 +100,6 @@ export function SiteEquipmentContent({
                 <LoggerSelector siteId={siteId} unitName={unit?.name || ''} />
             )}
             {<TabView>{loggerTabs}</TabView>}
-        </div>
-    );
-}
-
-function LoggerTab(logger: LoggerObject): ReactElement {
-    const columns: GridColDef[] = [
-        { field: 'timestamp', headerName: 'timestamp', flex: 1 },
-    ];
-
-    let rows: any[] = [];
-
-    logger.data.forEach((dataPoint, index) => {
-        rows.push({
-            id: index,
-            timestamp: dataPoint.timestamp,
-        });
-    });
-
-    return (
-        <div className="loggerTab">
-            <h1>Logger Data</h1>
-            <DataGrid className="dataGrid" rows={rows} columns={columns} />
-        </div>
-    );
-}
-
-interface LoggerSelectorProps {
-    //ID of the site the equipment is a part of
-    siteId: string;
-
-    // The name of the equipment
-    unitName: string;
-}
-
-function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
-    const loggers: LoggerCollection = useSelector(
-        (state: RootState) => state.loggers
-    );
-
-    var loggerCard: any = [];
-
-    for (const [id, loggerData] of Object.entries(loggers)) {
-        const data = loggerData as LoggerObject;
-
-        //check that the logger does not have an equipment specified
-        if (!data.equipment) {
-            loggerCard.push(
-                <div
-                    className="loggerCard"
-                    onClick={() => handleLoggerCardClick(id)}
-                >
-                    <h2>{data.name || '<logger.name>'}</h2>
-                    {id}
-                </div>
-            );
-        }
-    }
-
-    function handleLoggerCardClick(logger_id: string) {
-        addLoggerToEquipment(siteId, unitName, logger_id);
-    }
-
-    return (
-        <div className="loggerSelector">
-            <h1>Select Logger</h1>
-
-            {loggerCard}
         </div>
     );
 }

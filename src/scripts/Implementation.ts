@@ -487,6 +487,63 @@ export function addLoggerToEquipment(
         });
 }
 
+export function setLoggerChannelTemplate(logger_uid: string, template_uid: string){
+    fire.fireStore.collection("Loggers").doc(logger_uid).set({channelTemplate: template_uid}, {merge: true});
+    console.log(
+        'Set logger "' +
+            logger_uid +
+            '" with template "' +
+            template_uid +
+            '"'
+    );
+}
+
+export function setLoggerIsCollectingData(logger_uid:string, isCollectingData: boolean){
+    fire.fireStore.collection("Loggers").doc(logger_uid).set({collectingData: isCollectingData}, {merge: true});
+    console.log(
+        'Set logger "' +
+            logger_uid +
+            '" is collecting data "' +
+            isCollectingData +
+            '"'
+    );
+}
+
+export function removeLoggerFromEquipment(site_uid:string, logger_uid: string, equipment_name: string) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(site_uid)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                var site = doc.data() as SiteObject;
+
+                var equipmentIndex = site.equipmentUnits.findIndex(
+                    (unit) => unit.name === equipment_name
+                );
+
+                if (equipmentIndex != -1){
+                    var loggerIndex = site.equipmentUnits[equipmentIndex].loggers.findIndex((uid) => uid === logger_uid);
+
+                    if(loggerIndex != -1)
+                    site.equipmentUnits[equipmentIndex].loggers.splice(loggerIndex, 1);
+                }
+
+                fire.fireStore.collection('Sites').doc(site_uid).update(site);
+
+                fire.fireStore.collection("Loggers").doc(logger_uid).set({equipment: null, site: null}, {merge: true});
+
+                console.log(
+                    'Removed logger "' +
+                        logger_uid +
+                        '" from equipment "' +
+                        equipment_name +
+                        '"'
+                );
+            }
+        });
+}
+
 /**
  * 
  * @param siteId 

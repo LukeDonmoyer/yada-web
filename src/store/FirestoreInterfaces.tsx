@@ -39,6 +39,16 @@ export interface Fault {
     message: string;
 }
 
+export interface ChannelTemplate {
+    channels: any[];
+    modified: string;
+    name: string;
+}
+
+export interface ChannelTemplateCollection {
+    [key: string]: ChannelTemplate;
+}
+
 export interface UserCollection {
     [key: string]: User;
 }

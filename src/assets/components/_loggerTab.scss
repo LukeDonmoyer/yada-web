@@ -24,7 +24,7 @@
     right: 1rem;
     width: 20rem;
     height: 80%;
-    z-index: 2;
+    z-index: 1000;
     position: absolute;
     box-shadow: 0px 1px 3px 2px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -58,5 +58,68 @@
             transform: scale(0.9, 0.9);
             transition: all 0.2s ease-in-out;
         }
+    }
+}
+
+.loggerInfo {
+    display: flex;
+    flex-direction: row;
+    overflow: visible;
+    border-bottom: 1px $lightGray solid;
+    margin-bottom: 1rem;
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        margin-right: 3rem;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    .control {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        overflow: visible;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+
+        h2 {
+            margin-right: 2rem;
+        }
+
+        .dropdown {
+            overflow: visible;
+            z-index: 2;
+
+            .dropdownMenu {
+                z-index: 2;
+            }
+        }
+    }
+
+    h3 {
+        font-size: small;
+    }
+}
+
+.loggerInfoItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+
+    h2 {
+        font-size: large;
+    }
+
+    .value {
+        padding-left: 2rem;
     }
 }
