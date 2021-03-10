@@ -20,35 +20,33 @@ export default function SiteCard({
 
     return (
         <div className={'card'}>
-            <div>
-                <div className={'site-information'}>
-                    <div>
-                        <h3>{site.name}</h3>
-                    </div>
-                    <div>
-                        <Statistic
-                            value={site.equipmentUnits.length}
-                            label={'Total units'}
-                        />
-                        <Statistic
-                            value={site.equipmentUnits
-                                .map((unit) => unit.loggers.length)
-                                .reduce(sum, 0)}
-                            label={'Total loggers'}
-                        />
-                    </div>
-                    <div>
-                        <Statistic
-                            valueClassName={'fault-statistic'}
-                            value={site.equipmentUnits
-                                .map((site) => site.faults.length)
-                                .reduce(sum, 0)}
-                            label={'Total faults'}
-                        />
-                    </div>
+            <div className={'site-information'}>
+                <div>
+                    <h3>{site.name}</h3>
                 </div>
-                <SiteLatestFaultTable site={site} />
+                <div>
+                    <Statistic
+                        value={site.equipmentUnits.length}
+                        label={'Total units'}
+                    />
+                    <Statistic
+                        value={site.equipmentUnits
+                            .map((unit) => unit.loggers.length)
+                            .reduce(sum, 0)}
+                        label={'Total loggers'}
+                    />
+                </div>
+                <div>
+                    <Statistic
+                        valueClassName={'fault-statistic'}
+                        value={site.equipmentUnits
+                            .map((site) => site.faults.length)
+                            .reduce(sum, 0)}
+                        label={'Total faults'}
+                    />
+                </div>
             </div>
+            <SiteLatestFaultTable site={site} />
             <div className={'details-button'}>
                 <Link to={`/app/sites/${siteId}`}>
                     <div className={'details-link'}>View Details</div>

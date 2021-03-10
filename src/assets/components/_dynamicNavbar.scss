@@ -1,11 +1,10 @@
 .dynamicNavbar {
     height: 100%;
     background-color: $turqois;
-    // width: auto;
-    // display: inline-block;
     float: left;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+
     .navbarHeader {
         padding-top: 15px;
         padding-left: 10px;
@@ -19,6 +18,7 @@
     .title {
         @include mediumSmallTitle;
         color: white;
+        margin-right: 8px;
     }
 
     .addButton {
