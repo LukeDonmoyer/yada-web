@@ -1,13 +1,14 @@
 .staticNavbar {
     height: 100%;
     // float: left;
-    padding-left: 7px;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-left: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     position: absolute;
     z-index: 1000;
     &:hover {
         .navTitle {
+            visibility: visible;
             max-width: 350px;
             transition: all 0.5s ease-in-out;
             padding-left: 15px;
@@ -50,9 +51,6 @@
     }
 
     .inactive {
-        padding-left: 15px;
-        padding-right: 15px;
-
         border-radius: 10px;
         padding: 10px;
         margin-left: 5px;
@@ -60,6 +58,7 @@
     }
 
     .navItem {
+        display: flex;
         color: white;
         margin-top: 5px;
         margin-bottom: 5px;
@@ -69,12 +68,13 @@
     }
 
     .navTitle {
-        max-width: 0px;
+        visibility: hidden;
+        max-width: 0;
         opacity: 0;
         transition: all 0.5s ease-in-out;
         white-space: nowrap;
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 0;
+        padding-right: 0;
         vertical-align: middle;
         font-family: 'Lato', sans-serif;
         font-weight: 300;
