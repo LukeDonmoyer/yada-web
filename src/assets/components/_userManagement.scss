@@ -1,12 +1,14 @@
+@import '../designLanguage/dataGrid';
+
 .userManagement {
-    padding: 1%;
+    display: flex;
+    flex-flow: column;
+
+    margin: 0 16px;
+
     h1 {
         @include largeTitle;
         color: $companyName;
-    }
-
-    * {
-        overflow: visible;
     }
 
     .addUserButton {
@@ -18,7 +20,6 @@
     }
 
     .dataGrid {
-        height: 80vh;
-        border-radius: 5px;
+        @include dataGrid;
     }
 }

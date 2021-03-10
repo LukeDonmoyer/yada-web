@@ -13,7 +13,7 @@
         color: $darkNavbar;
     }
 
-    .data-grid {
+    .dataGrid {
         @include dataGrid;
     }
 
@@ -35,4 +35,18 @@
                 rgba(216, 125, 6, 0.705) 0px 18px 36px -18px inset;
         }
     }
+}
+
+.message {
+    @include mediumSmallTitle;
+
+    width: 50%;
+
+    margin: 64px auto;
+
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+
+    color: $companyName;
 }
