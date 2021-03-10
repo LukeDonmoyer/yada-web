@@ -374,3 +374,25 @@ export function addLoggerToEquipment(
             }
         });
 }
+
+export function setLoggerChannelTemplate(logger_uid: string, template_uid: string){
+    fire.fireStore.collection("Loggers").doc(logger_uid).set({channelTemplate: template_uid}, {merge: true});
+    console.log(
+        'Set logger "' +
+            logger_uid +
+            '" with template "' +
+            template_uid +
+            '"'
+    );
+}
+
+export function setLoggerIsCollectingData(logger_uid:string, isCollectingData: boolean){
+    fire.fireStore.collection("Loggers").doc(logger_uid).set({collectingData: isCollectingData}, {merge: true});
+    console.log(
+        'Set logger "' +
+            logger_uid +
+            '" is collecting data "' +
+            isCollectingData +
+            '"'
+    );
+}

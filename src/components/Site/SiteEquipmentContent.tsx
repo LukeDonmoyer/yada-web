@@ -54,7 +54,7 @@ export function SiteEquipmentContent({
                     label={data.name || '<logger.name>'}
                     route={String(id)}
                 >
-                    <LoggerTab logger={data} />
+                    <LoggerTab logger={data} logger_uid={id} />
                 </TabViewItem>
             );
         }

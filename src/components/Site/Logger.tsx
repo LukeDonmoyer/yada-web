@@ -9,7 +9,11 @@ import {
     DropdownToggle,
     Label,
 } from 'reactstrap';
-import { addLoggerToEquipment } from 'scripts/Implementation';
+import {
+    addLoggerToEquipment,
+    setLoggerChannelTemplate,
+    setLoggerIsCollectingData,
+} from 'scripts/Implementation';
 import {
     ChannelTemplate,
     LoggerCollection,
@@ -19,9 +23,13 @@ import { RootState } from 'store/rootReducer';
 
 export interface LoggerTabProps {
     logger: LoggerObject;
+    logger_uid: string;
 }
 
-export function LoggerTab({ logger }: LoggerTabProps): ReactElement {
+export function LoggerTab({
+    logger,
+    logger_uid,
+}: LoggerTabProps): ReactElement {
     const columns: GridColDef[] = [
         { field: 'timestamp', headerName: 'timestamp', flex: 1 },
     ];
@@ -38,7 +46,7 @@ export function LoggerTab({ logger }: LoggerTabProps): ReactElement {
     return (
         <div className="loggerTab">
             <h1>Logger Data</h1>
-            <LoggerInfo logger={logger} />
+            <LoggerInfo logger={logger} logger_uid={logger_uid} />
             <DataGrid className="dataGrid" rows={rows} columns={columns} />
         </div>
     );
@@ -91,14 +99,17 @@ export function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
 
 export interface LoggerInfoProps {
     logger: LoggerObject;
+    logger_uid: string;
 }
 
-export function LoggerInfo({ logger }: LoggerInfoProps) {
+export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
     const [templateDropDownOpen, setTemplateDropDownOpen] = useState(false);
     const toggleTemplateDropDown = () =>
         setTemplateDropDownOpen(!templateDropDownOpen);
 
-    const [selectedTemplateId, setSelectedTemplateId] = useState('');
+    const [selectedTemplateId, setSelectedTemplateId] = useState(
+        logger.channelTemplate
+    );
 
     const channelTemplates = useSelector((state: RootState) => state.templates);
 
@@ -109,9 +120,23 @@ export function LoggerInfo({ logger }: LoggerInfoProps) {
 
         //check that the logger does not have an equipment specified
         templateDropdownItems.push(
-            <DropdownItem>{template.name}</DropdownItem>
+            <DropdownItem
+                onClick={() => {
+                    setSelectedTemplateId(id);
+                    setLoggerChannelTemplate(logger_uid, id);
+                }}
+            >
+                {template.name}
+            </DropdownItem>
         );
     }
+
+    const enableDataCollection = () => {
+        setLoggerIsCollectingData(logger_uid, true);
+    };
+    const disableDataCollection = () => {
+        setLoggerIsCollectingData(logger_uid, false);
+    };
 
     return (
         <div className="loggerInfo">
@@ -127,7 +152,11 @@ export function LoggerInfo({ logger }: LoggerInfoProps) {
             <div className="controls">
                 <div className="control">
                     <h2>Collecting Data</h2>
-                    <ToggleSwitch enabledDefault={false} />
+                    <ToggleSwitch
+                        enabledDefault={logger.collectingData}
+                        onEnable={enableDataCollection}
+                        onDisable={disableDataCollection}
+                    />
                 </div>
                 <h3>Logger uptime: {logger.uptime}</h3>
                 <div className="bootStrapStyles dropdown">
@@ -141,7 +170,6 @@ export function LoggerInfo({ logger }: LoggerInfoProps) {
                                 : '<template> ' + templateDropDownOpen}
                         </DropdownToggle>
                         <DropdownMenu className="dropdownMenu">
-                            <DropdownItem>testItem</DropdownItem>
                             {templateDropdownItems}
                         </DropdownMenu>
                     </Dropdown>

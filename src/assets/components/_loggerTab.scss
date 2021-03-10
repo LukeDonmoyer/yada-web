@@ -77,12 +77,11 @@
         overflow: visible;
 
         .dropdown {
-            border: 1px green solid;
+            margin-top: 0.5rem;
             overflow: visible;
             z-index: 1000;
 
             .dropdownMenu {
-                border: 1px red dashed;
                 z-index: 1000;
             }
         }
