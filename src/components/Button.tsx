@@ -2,12 +2,13 @@ interface ButtonProps {
     type: ButtonType;
     text?: string;
     icon?: any;
-    onClick: any;
+    onClick?: any;
 }
 
 export enum ButtonType {
     tableControl = 'tableControl',
     alert = 'alert',
+    warning = 'warning',
 }
 
 export default function Button(props: ButtonProps) {

@@ -1,4 +1,5 @@
 import { GridColDef, DataGrid } from '@material-ui/data-grid';
+import Button, { ButtonType } from 'components/Button';
 import { ToggleSwitch } from 'components/ToggleSwitch';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -11,6 +12,7 @@ import {
 } from 'reactstrap';
 import {
     addLoggerToEquipment,
+    removeLoggerFromEquipment,
     setLoggerChannelTemplate,
     setLoggerIsCollectingData,
 } from 'scripts/Implementation';
@@ -138,6 +140,10 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
         setLoggerIsCollectingData(logger_uid, false);
     };
 
+    const handleRemoveLogger = () => {
+        removeLoggerFromEquipment(logger.site, logger_uid, logger.equipment);
+    };
+
     return (
         <div className="loggerInfo">
             <div className="info">
@@ -159,20 +165,33 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
                     />
                 </div>
                 <h3>Logger uptime: {logger.uptime}</h3>
-                <div className="bootStrapStyles dropdown">
-                    <Dropdown
-                        isOpen={templateDropDownOpen}
-                        toggle={toggleTemplateDropDown}
-                    >
-                        <DropdownToggle caret>
-                            {selectedTemplateId
-                                ? channelTemplates[selectedTemplateId].name
-                                : '<template> ' + templateDropDownOpen}
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdownMenu">
-                            {templateDropdownItems}
-                        </DropdownMenu>
-                    </Dropdown>
+                <div className="control">
+                    <h2>Template:</h2>
+                    <div className="bootStrapStyles dropdown">
+                        <Dropdown
+                            isOpen={templateDropDownOpen}
+                            toggle={toggleTemplateDropDown}
+                        >
+                            <DropdownToggle caret>
+                                {selectedTemplateId
+                                    ? channelTemplates[selectedTemplateId].name
+                                    : '<template> ' + templateDropDownOpen}
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdownMenu">
+                                {templateDropdownItems}
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
+                </div>
+                <div className="control">
+                    <div>
+                        {/* this is a spacer div to get the button to align correctly */}
+                    </div>
+                    <Button
+                        type={ButtonType.warning}
+                        text={'Remove Logger'}
+                        onClick={handleRemoveLogger}
+                    />
                 </div>
             </div>
         </div>
