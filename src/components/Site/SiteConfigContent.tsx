@@ -12,8 +12,14 @@ interface configTabProps {
   siteId: string
 }
 
-function createEquipmentElements(equipment: EquipmentUnit[]){
-  return;
+function createEquipmentElements(equipment: EquipmentUnit[]): ReactElement[]{
+  let equipmentList: ReactElement[] = [];
+
+  equipment.forEach(e => {
+    equipmentList.push(<p>{e.name}</p>);
+  });
+
+  return equipmentList;
 }
 
 export default function ConfigTab({ site, siteId }: configTabProps): ReactElement {
@@ -84,7 +90,7 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
         <div className="bootStrapStyles">
           <FormGroup>
             <Label>Equipment Notifications</Label>
-            <div>Equipment notification selection goes here.</div>
+            <div>{createEquipmentElements(site.equipmentUnits)}</div>
           </FormGroup>
         </div>
 
