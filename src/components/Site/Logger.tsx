@@ -1,7 +1,10 @@
-import { GridColDef, DataGrid } from '@material-ui/data-grid';
+import ReactDataGrid from '@inovua/reactdatagrid-community';
+import '@inovua/reactdatagrid-community/index.css';
+import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
+import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from 'components/Button';
 import { ToggleSwitch } from 'components/ToggleSwitch';
-import React, { ReactElement, useState } from 'react';
+import React, { MutableRefObject, useRef, ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
@@ -22,6 +25,7 @@ import {
     LoggerObject,
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
+import moment from 'moment';
 
 export interface LoggerTabProps {
     logger: LoggerObject;
@@ -36,16 +40,37 @@ export function LoggerTab({
 
     const handleInfoButton = () => setInfoExpanded(!infoExpanded);
 
-    const columns: GridColDef[] = [
-        { field: 'timestamp', headerName: 'timestamp', flex: 1 },
+    const [
+        gridRef,
+        setGridRef,
+    ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
+
+    const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
+
+    const columns = [
+        {
+            name: 'timestamp',
+            header: 'Timestamp',
+            minWidth: 150,
+            defaultFlex: 1,
+            dateFormat: dateFormat,
+            filterEditor: DateFilter,
+            filterEditorProps: () => {
+                return { dateFormat: dateFormat };
+            },
+        },
     ];
 
-    let rows: any[] = [];
+    const filters = [
+        { name: 'timestamp', operator: 'after', type: 'date', value: '' }
+    ];
+
+    var rows: any[] = [];
 
     logger.data.forEach((dataPoint, index) => {
         rows.push({
             id: index,
-            timestamp: dataPoint.timestamp,
+            timestamp: moment(dataPoint.timestamp).format(dateFormat),
         });
     });
 
@@ -59,7 +84,14 @@ export function LoggerTab({
             {infoExpanded ? (
                 <LoggerInfo logger={logger} logger_uid={logger_uid} />
             ) : null}
-            <DataGrid className="dataGrid" rows={rows} columns={columns} />
+            <ReactDataGrid
+                onReady={setGridRef}
+                className={'dataGrid'}
+                columns={columns}
+                dataSource={rows}
+                defaultFilterValue={filters}
+                defaultSortInfo={[]}
+            />
         </div>
     );
 }

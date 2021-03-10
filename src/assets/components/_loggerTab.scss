@@ -1,9 +1,12 @@
 .loggerTab {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
     .dataGrid {
         z-index: 1;
         width: 100%;
-        height: 700px;
-        margin-bottom: 40px;
+        flex: 1 1 auto;
     }
 }
 
