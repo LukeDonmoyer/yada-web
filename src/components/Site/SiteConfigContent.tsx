@@ -5,11 +5,15 @@ import { SiteContentProps } from "./Sites";
 import "../../assets/styles.scss";
 import "../../assets/bootstrap.scss";
 import { updateSiteConfig } from "scripts/Implementation";
-import { SiteObject } from "store/FirestoreInterfaces";
+import { EquipmentUnit, SiteObject } from "store/FirestoreInterfaces";
 
 interface configTabProps {
   site: SiteObject,
   siteId: string
+}
+
+function createEquipmentElements(equipment: EquipmentUnit[]){
+  return;
 }
 
 export default function ConfigTab({ site, siteId }: configTabProps): ReactElement {
