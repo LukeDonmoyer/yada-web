@@ -143,7 +143,7 @@ export default function UserManagement() {
         if (phoneNumber == null) {
             phoneNumber = '';
         }
-        if (userData.userGroup != 'Owner' && !userData.disabled) {
+        if (userData.userGroup !== 'Owner' && !userData.disabled) {
             data.push({
                 email: userData.email,
                 phone: phoneNumber,
@@ -172,28 +172,24 @@ export default function UserManagement() {
     return (
         <div className="userManagement w-full">
             {authorized ? (
-                <Content
-                    head={<h1>User Management</h1>}
-                    body={
-                        <div>
-                            <div className="addUserButton">
-                                <Button
-                                    type={ButtonType.tableControl}
-                                    text={'+'}
-                                    onClick={promptForEmail}
-                                />
-                            </div>
-                            <ReactDataGrid
-                                className={'dataGrid'}
-                                idProperty="uniqueId"
-                                columns={columns}
-                                dataSource={data}
-                                editable={true}
-                                onEditComplete={onEditComplete}
-                            />
-                        </div>
-                    }
-                />
+                <>
+                    <h1>User Management</h1>
+                    <div className="addUserButton">
+                        <Button
+                            type={ButtonType.tableControl}
+                            text={'+'}
+                            onClick={promptForEmail}
+                        />
+                    </div>
+                    <ReactDataGrid
+                        className={'dataGrid'}
+                        idProperty="uniqueId"
+                        columns={columns}
+                        dataSource={data}
+                        editable={true}
+                        onEditComplete={onEditComplete}
+                    />
+                </>
             ) : (
                 <AuthCheck
                     additionalMessage={

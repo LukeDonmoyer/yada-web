@@ -5,6 +5,7 @@
 @import 'designLanguage/_cards';
 @import 'designLanguage/_tables';
 
+@import 'components/_app';
 @import 'components/_contactUs';
 @import 'components/_requestAccount';
 @import 'components/_staticNavbar';
@@ -21,7 +22,6 @@
 @import 'components/_changePassword';
 @import 'components/_registerUsers';
 @import 'components/_routes';
-@import 'components/_app';
 @import 'components/_tabview';
 @import 'components/_animatedLogo';
 @import 'components/_siteEquipment';
@@ -31,8 +31,3 @@
 @import 'components/accountControls';
 @import 'components/userSettings';
 @import 'components/_loggerTab.scss';
-@import 'components/siteConfigTab';
-
-* {
-    overflow: hidden;
-}

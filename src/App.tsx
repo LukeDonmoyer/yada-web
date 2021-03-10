@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import 'assets/App.scss';
 import 'assets/tailwind.css';
 import Onboard from './components/Onboard';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ChangePassword from 'components/ChangePassword';
 import RegisterUsers from 'components/RegisterUsers';
 import ContactUs from 'components/ContactUs';
@@ -20,11 +19,9 @@ import AuthCheck from 'components/AuthCheck';
 import { Animated } from 'react-animated-css';
 import StaticNavbar, { StaticNavItem } from 'components/StaticNavbar';
 import Dashboard from 'components/Dashboard/Dashboard';
-import ChannelTemplates from 'components/ChannelTemplates';
 import UserManagement from 'components/UserManagement';
 import homeIcon from 'assets/icons/home.svg';
 import sitesIcon from 'assets/icons/site.svg';
-import templatesIcon from 'assets/icons/hvac.svg';
 import settingsIcon from 'assets/icons/settings.svg';
 import usersIcon from 'assets/icons/accountManagement.svg';
 import {
@@ -41,7 +38,7 @@ function App() {
 
     registerAuthChangeCallback((userAuth: any) => {
         store.dispatch(authSlice.actions.login(userAuth?.uid));
-        if (userAuth != null && userAuth !== undefined) {
+        if (userAuth !== null && userAuth !== undefined) {
             initializeListeners();
         } else {
             resetRedux();
@@ -65,7 +62,7 @@ function App() {
                             animationOut="fadeOut"
                             isVisible={true}
                         >
-                            <div className="app">
+                            <div className={'app'}>
                                 <StaticNavbar
                                     autoCollapse={true}
                                     roundRightCorners={true}
@@ -86,12 +83,12 @@ function App() {
                                         <Sites />
                                     </StaticNavItem>
                                     {/* <StaticNavItem
-                                        label={'channel templates'}
-                                        route={'channel-templates'}
-                                        icon={templatesIcon}
-                                    >
-                                        <ChannelTemplates />
-                                    </StaticNavItem> */}
+                                            label={'channel templates'}
+                                            route={'channel-templates'}
+                                            icon={templatesIcon}
+                                        >
+                                            <ChannelTemplates />
+                                        </StaticNavItem> */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
                                     ) ? (
