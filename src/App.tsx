@@ -3,7 +3,7 @@ import 'assets/App.scss';
 import 'assets/tailwind.css';
 import Onboard from './components/Onboard';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ChangePassword from 'components/ChangePassword';
 import RegisterUsers from 'components/RegisterUsers';
 import ContactUs from 'components/ContactUs';
@@ -12,7 +12,7 @@ import RequestAccount from 'components/RequestAccount';
 import authSlice from 'store/FireActions';
 import store from './store/store';
 import Sites from 'components/Site/Sites';
-import Settings from 'components/Settings';
+import Settings from 'components/UserSettings';
 import NotFound from 'components/NotFound';
 import { RootState } from 'store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -20,11 +20,9 @@ import AuthCheck from 'components/AuthCheck';
 import { Animated } from 'react-animated-css';
 import StaticNavbar, { StaticNavItem } from 'components/StaticNavbar';
 import Dashboard from 'components/Dashboard/Dashboard';
-import ChannelTemplates from 'components/ChannelTemplates';
 import UserManagement from 'components/UserManagement';
 import homeIcon from 'assets/icons/home.svg';
 import sitesIcon from 'assets/icons/site.svg';
-import templatesIcon from 'assets/icons/hvac.svg';
 import settingsIcon from 'assets/icons/settings.svg';
 import usersIcon from 'assets/icons/accountManagement.svg';
 import {
@@ -36,11 +34,12 @@ import {
 
 function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
+    const [userDocExists, setUserDocExists] = useState(false);
     const [userPrivilege, setPrivilege] = useState('User');
 
     registerAuthChangeCallback((userAuth: any) => {
         store.dispatch(authSlice.actions.login(userAuth?.uid));
-        if (userAuth != null && userAuth !== undefined) {
+        if (userAuth !== null && userAuth !== undefined) {
             initializeListeners();
         } else {
             resetRedux();
@@ -84,13 +83,13 @@ function App() {
                                     >
                                         <Sites />
                                     </StaticNavItem>
-                                    <StaticNavItem
+                                    {/* <StaticNavItem
                                         label={'channel templates'}
                                         route={'channel-templates'}
                                         icon={templatesIcon}
                                     >
                                         <ChannelTemplates />
-                                    </StaticNavItem>
+                                    </StaticNavItem> */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
                                     ) ? (

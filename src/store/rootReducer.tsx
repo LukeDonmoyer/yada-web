@@ -9,8 +9,8 @@ const rootReducer = combineReducers({
     auth: authSlice.reducer,
     sites: updateSitesSlice.reducer,
     loggers: updateLoggerSlice.reducer,
-    updateUsers: updateUsersSlice.reducer,
     templates: updateChannelTemplatesSlice.reducer,
+    users: updateUsersSlice.reducer,
 });
 
 export default rootReducer;

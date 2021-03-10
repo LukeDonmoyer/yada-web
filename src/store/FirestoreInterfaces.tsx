@@ -48,3 +48,17 @@ export interface ChannelTemplate {
 export interface ChannelTemplateCollection {
     [key: string]: ChannelTemplate;
 }
+
+export interface UserCollection {
+    [key: string]: User;
+}
+
+export interface User {
+    defaults: boolean;
+    email: string;
+    disabled: boolean;
+    phoneNumber: string | null;
+    userGroup: string;
+    emailNotifications?: boolean;
+    smsNotifications?: boolean;
+}

@@ -1,0 +1,9 @@
+.accountControls {
+    span {
+        @include link;
+    }
+
+    .delete {
+        color: $lightRed;
+    }
+}

@@ -6,23 +6,18 @@
  * purpose: page that will provide access to manage sites
  */
 
-import { createNewSite, createNewEquipment } from '../../scripts/Datastore';
+import { createNewEquipment, createNewSite } from '../../scripts/Datastore';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect, Route, useLocation } from 'react-router-dom';
-import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import { Redirect, Route, useLocation } from 'react-router-dom';
+import { SiteObject } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import DynamicNavbar, { DynamicNavLink } from '../DynamicNavbar';
 import SiteEquipment from './SiteEquipment';
 import TabView, { TabViewItem } from '../TabView';
-import {
-    GridColDef,
-    DataGrid,
-    ValueGetterParams,
-    GridToolbar,
-} from '@material-ui/data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
-import { basename } from 'path';
+import SiteFaultsTab from './SiteFaultsTab';
 
 export default function Sites() {
     const sites = useSelector((state: RootState) => state.sites);
@@ -72,7 +67,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
                     <EquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
-                    <FaultsTab />
+                    <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
                     <ConfigTab />
@@ -120,13 +115,13 @@ function EquipmentTab(): ReactElement {
     }
 
     function handleNewEquipmentClick() {
-        var baseName = 'New Equipment ';
-        var nameNum = 0;
+        let baseName = 'New Equipment ';
+        let nameNum = 0;
 
         while (
             sites[siteID]['equipmentUnits'].find(
-                (element) => element.name == baseName + String(nameNum)
-            ) != undefined
+                (element) => element.name === baseName + String(nameNum)
+            ) !== undefined
         ) {
             nameNum++;
         }
@@ -134,7 +129,7 @@ function EquipmentTab(): ReactElement {
         createNewEquipment(siteID, baseName + String(nameNum));
     }
 
-    if (redirect != '') {
+    if (redirect !== '') {
         return <Redirect to={redirect} />;
     }
     //TODO Make site equipment tab
@@ -172,11 +167,6 @@ function EquipmentTab(): ReactElement {
             </div>
         </div>
     );
-}
-
-function FaultsTab(): ReactElement {
-    //TODO Make site fault tab
-    return <h1>Faults</h1>;
 }
 
 function ConfigTab(): ReactElement {
