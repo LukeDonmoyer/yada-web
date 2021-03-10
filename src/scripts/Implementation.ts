@@ -164,7 +164,7 @@ export function createNewSite() {
             notes: '',
             address: '',
             userNotifications: {},
-            equipmentUnits: {},
+            equipmentUnits: [],
         })
         .then(() => {
             console.log('Document successfully written!');
