@@ -6,6 +6,7 @@ import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
+import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
 
@@ -15,7 +16,22 @@ import * as fire from './FireConfig';
  * @param callback
  */
 export function handleAuthStateChange(callback: (userAuth: any) => void) {
-    fire.fireAuth.onAuthStateChanged((auth) => callback(auth));
+    fire.fireAuth.onAuthStateChanged((auth) => {
+        if (auth === null || auth === undefined) {
+            callback(auth);
+        } else {
+            fire.fireStore
+                .collection('Users')
+                .doc(auth.uid)
+                .get()
+                .then((docSnapshot) => {
+                    let data = docSnapshot.data();
+                    if (!data!.disabled) {
+                        callback(auth);
+                    }
+                });
+        }
+    });
 }
 
 /**
@@ -55,7 +71,7 @@ export function initializeUsersListener() {
         if (['Owner', 'Admin'].includes(privilege as string)) {
             // listen to entire users collection
             fire.fireStore.collection('Users').onSnapshot((querySnapshot) => {
-                var users: any = {};
+                let users: any = {};
                 querySnapshot.forEach((doc) => {
                     users[doc.id] = doc.data();
                 });
@@ -213,6 +229,7 @@ export function createUserDocument(
         email: email,
         phoneNumber: null,
         userGroup: userGroup,
+        disabled: false,
     });
 }
 
@@ -234,7 +251,7 @@ export function signInWithEmail(email: string, password: string): Promise<any> {
             });
         })
         .catch((error) => {
-            var errorMessage = error.message;
+            let errorMessage = error.message;
             alert(errorMessage);
         });
 }
@@ -272,6 +289,9 @@ export function getUserData(uid: string): Promise<any> {
             } else {
                 // doc.data() will be undefined in this case
                 console.log('No such document!');
+                return new Promise((resolve, reject) => {
+                    reject();
+                });
             }
         })
         .catch(function (error) {
@@ -332,7 +352,96 @@ export function createNewEquipment(site_uid: string, equipment_name: string) {
 }
 
 /**
- * -REQUIRED-
+ * -- required --
+ * edits a user's email
+ * @param userID
+ * @param email
+ */
+export function editEmail(userID: string, email: string) {
+    fire.fireStore.collection('Users').doc(userID).update({
+        email: email,
+    });
+}
+
+/**
+ * --Required --
+ * edits a user's phone number
+ */
+export function editPhoneNumber(userid: string, number: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        phoneNumber: number,
+    });
+}
+
+/**
+ *  -- Required --
+ * edits a user's user group
+ * @param userid
+ * @param privilege must be one of ['Admin', 'Power', 'User']
+ */
+export function editPrivilege(userid: string, privilege: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        userGroup: privilege,
+    });
+}
+
+/**
+ * -- Required --
+ * disables user from logging in
+ * @param userid
+ */
+export function deleteUser(userid: string) {
+    fire.fireStore.collection('Users').doc(userid).update({
+        disabled: true,
+    });
+}
+
+/**
+ * -- required --
+ * registers the email and default password for user
+ * todo: send emails with information
+ * @param userEmail email of the new user
+ *
+ * returns a promise that is resolved with the user authentication object
+ */
+export function registerUser(userEmail: string) {
+    getUserPrivilege().then((privilege: string) => {
+        if (['Owner', 'Admin'].includes(privilege)) {
+            let createdUser = adminAuth.createUserWithEmailAndPassword(
+                userEmail,
+                'yadaDefault'
+            ); // todo: this needs try catch
+            createdUser.catch((error) => {
+                console.log('error in creating user');
+                fire.fireStore
+                    .collection('Users')
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.docs.forEach((doc) => {
+                            if (doc.data().email === userEmail) {
+                                fire.fireStore
+                                    .collection('Users')
+                                    .doc(doc.id)
+                                    .update({ disabled: false });
+                            }
+                        });
+                    });
+            });
+            createdUser
+                .then((user) => {
+                    let userData = user.user;
+                    createUserDocument(userData!.uid, userEmail, 'User');
+                    sendAuthorizationEmail(userEmail);
+                })
+                .catch((error) => {});
+        } else {
+            alert('innappropriate user permissions for this action');
+        }
+    });
+}
+
+/**
+ * --REQUIRED--
  * Adds an existing logger to the specified equipment at the specified site.
  * @param site_uid string
  * @param equipment_name string
@@ -349,13 +458,13 @@ export function addLoggerToEquipment(
         .get()
         .then((doc) => {
             if (doc.exists) {
-                var site = doc.data() as SiteObject;
+                let site = doc.data() as SiteObject;
 
-                var equipmentIndex = site.equipmentUnits.findIndex(
+                let equipmentIndex = site.equipmentUnits.findIndex(
                     (unit) => unit.name === equipment_name
                 );
 
-                if (equipmentIndex != -1)
+                if (equipmentIndex !== -1)
                     site.equipmentUnits[equipmentIndex].loggers.push(
                         logger_uid
                     );
@@ -384,4 +493,104 @@ export function addLoggerToEquipment(
  */
 export function sendPasswordResetEmail(email: string) {
     fire.fireAuth.sendPasswordResetEmail(email);
+}
+export function setLoggerChannelTemplate(
+    logger_uid: string,
+    template_uid: string
+) {
+    fire.fireStore
+        .collection('Loggers')
+        .doc(logger_uid)
+        .set({ channelTemplate: template_uid }, { merge: true });
+    console.log(
+        'Set logger "' + logger_uid + '" with template "' + template_uid + '"'
+    );
+}
+
+export function setLoggerIsCollectingData(
+    logger_uid: string,
+    isCollectingData: boolean
+) {
+    fire.fireStore
+        .collection('Loggers')
+        .doc(logger_uid)
+        .set({ collectingData: isCollectingData }, { merge: true });
+    console.log(
+        'Set logger "' +
+            logger_uid +
+            '" is collecting data "' +
+            isCollectingData +
+            '"'
+    );
+}
+
+export function removeLoggerFromEquipment(
+    site_uid: string,
+    logger_uid: string,
+    equipment_name: string
+) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(site_uid)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                var site = doc.data() as SiteObject;
+
+                var equipmentIndex = site.equipmentUnits.findIndex(
+                    (unit) => unit.name === equipment_name
+                );
+
+                if (equipmentIndex != -1) {
+                    var loggerIndex = site.equipmentUnits[
+                        equipmentIndex
+                    ].loggers.findIndex((uid) => uid === logger_uid);
+
+                    if (loggerIndex != -1)
+                        site.equipmentUnits[equipmentIndex].loggers.splice(
+                            loggerIndex,
+                            1
+                        );
+                }
+
+                fire.fireStore.collection('Sites').doc(site_uid).update(site);
+
+                fire.fireStore
+                    .collection('Loggers')
+                    .doc(logger_uid)
+                    .set({ equipment: null, site: null }, { merge: true });
+
+                console.log(
+                    'Removed logger "' +
+                        logger_uid +
+                        '" from equipment "' +
+                        equipment_name +
+                        '"'
+                );
+            }
+        });
+}
+
+/**
+ *
+ * @param siteId
+ * @param siteConfig
+ */
+export function updateSiteConfig(siteId: string, siteConfig: any) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(siteId)
+        .set(siteConfig, { merge: true });
+}
+
+/**
+ * -- Required --
+ * updates the user document with the following settings
+ * @param uid
+ * @param newVals
+ */
+export function updateUserDoc(uid: string, newVals: any) {
+    fire.fireStore.collection('Users').doc(uid).set(newVals, { merge: true });
+    if ('email' in newVals)
+        fire.fireAuth.currentUser?.updateEmail(newVals.email);
 }

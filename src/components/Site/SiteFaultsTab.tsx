@@ -1,10 +1,16 @@
-import { ReactElement } from 'react';
+import { MutableRefObject, ReactElement, useRef, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import { SiteObject } from '../../store/FirestoreInterfaces';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
 import moment from 'moment';
+import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
+import { Button } from 'reactstrap';
+import { CSVDownload, CSVLink } from 'react-csv';
+import { Data, Headers } from 'react-csv/components/CommonPropTypes';
+import CsvDownloadButton from '../CsvDownloadButton';
+
 window.moment = moment;
 
 interface SiteFaultsTabProps {
@@ -14,6 +20,11 @@ interface SiteFaultsTabProps {
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const [
+        gridRef,
+        setGridRef,
+    ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
+
     const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
 
     const columns = [
@@ -57,11 +68,24 @@ export default function SiteFaultsTab({
     });
 
     return (
-        <ReactDataGrid
-            className={'data-grid'}
-            columns={columns}
-            dataSource={faults}
-            defaultFilterValue={filters}
-        />
+        <>
+            <CsvDownloadButton
+                headers={[
+                    { label: 'Timestamp', key: 'timestamp' },
+                    { label: 'Message', key: 'message' },
+                    { label: 'Unit', key: 'unitName' },
+                ]}
+                filename={`${site.name} fault data.csv`}
+                createData={() => gridRef?.current?.data as Data}
+            />
+            <ReactDataGrid
+                onReady={setGridRef}
+                className={'data-grid'}
+                columns={columns}
+                dataSource={faults}
+                defaultFilterValue={filters}
+                defaultSortInfo={[]}
+            />
+        </>
     );
 }

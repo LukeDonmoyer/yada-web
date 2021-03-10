@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RouteComponentProps, Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Input } from 'reactstrap';
 import {
     signInWithEmail,

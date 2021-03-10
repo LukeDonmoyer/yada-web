@@ -6,23 +6,19 @@
  * purpose: page that will provide access to manage sites
  */
 
-import { createNewSite, createNewEquipment } from '../../scripts/Datastore';
+import { createNewEquipment, createNewSite } from '../../scripts/Datastore';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, Redirect, Route, useLocation } from 'react-router-dom';
-import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { SiteObject } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import DynamicNavbar, { DynamicNavLink } from '../DynamicNavbar';
 import SiteEquipment from './SiteEquipment';
 import TabView, { TabViewItem } from '../TabView';
-import {
-    GridColDef,
-    DataGrid,
-    ValueGetterParams,
-    GridToolbar,
-} from '@material-ui/data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
 import { basename } from 'path';
+import ConfigTab from './SiteConfigContent';
 import SiteFaultsTab from './SiteFaultsTab';
 
 export default function Sites() {
@@ -33,13 +29,13 @@ export default function Sites() {
         const data = siteData as SiteObject;
         navLinks.push(
             <DynamicNavLink route={id} key={id} name={data.name}>
-                <SiteContent site={sites[id]} />
+                <SiteContent site={sites[id]} siteId={id} />
             </DynamicNavLink>
         );
     }
 
     return (
-        <>
+        <Switch>
             <Route path={'/app/sites/:siteId/equipment'}>
                 <SiteEquipment />
             </Route>
@@ -52,19 +48,20 @@ export default function Sites() {
                         name={'default route'}
                         blockLinkRender={true}
                     >
-                        <p>Please select a site</p>
+                        <div className={'message'}>Please select a site</div>
                     </DynamicNavLink>
                 </DynamicNavbar>
             </Route>
-        </>
+        </Switch>
     );
 }
 
-interface SiteContentProps {
+export interface SiteContentProps {
     site: SiteObject;
+    siteId: string;
 }
 
-function SiteContent({ site }: SiteContentProps): ReactElement {
+function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
     return (
         <div className={'sites'}>
             <h1>{site.name}</h1>
@@ -76,7 +73,7 @@ function SiteContent({ site }: SiteContentProps): ReactElement {
                     <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
-                    <ConfigTab />
+                    <ConfigTab site={site} siteId={siteId} />
                 </TabViewItem>
             </TabView>
         </div>
@@ -121,13 +118,13 @@ function EquipmentTab(): ReactElement {
     }
 
     function handleNewEquipmentClick() {
-        var baseName = 'New Equipment ';
-        var nameNum = 0;
+        let baseName = 'New Equipment ';
+        let nameNum = 0;
 
         while (
             sites[siteID]['equipmentUnits'].find(
-                (element) => element.name == baseName + String(nameNum)
-            ) != undefined
+                (element) => element.name === baseName + String(nameNum)
+            ) !== undefined
         ) {
             nameNum++;
         }
@@ -135,7 +132,7 @@ function EquipmentTab(): ReactElement {
         createNewEquipment(siteID, baseName + String(nameNum));
     }
 
-    if (redirect != '') {
+    if (redirect !== '') {
         return <Redirect to={redirect} />;
     }
     //TODO Make site equipment tab
@@ -173,9 +170,4 @@ function EquipmentTab(): ReactElement {
             </div>
         </div>
     );
-}
-
-function ConfigTab(): ReactElement {
-    //TODO: Make site config tab
-    return <h1>Config</h1>;
 }

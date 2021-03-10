@@ -1,0 +1,15 @@
+.siteConfigTab {
+    width: 70%;
+
+    h1 {
+        @include largeTitle;
+    }
+
+    h2 {
+        @include mediumSmallTitle;
+    }
+
+    button {
+        @include filledPrimaryButton;
+    }
+}

@@ -1,19 +1,20 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+    createAction,
+    createSlice,
+    PayloadAction,
+    SliceCaseReducers,
+} from '@reduxjs/toolkit';
+import { ChannelTemplateCollection } from './FirestoreInterfaces';
 
-export const updateChannelTemplates_action = createAction(
-    'updateChannelTemplates'
-);
-
-const initialState = {
-    templates: {},
-};
-
-const updateChannelTemplatesSlice = createSlice({
-    name: 'updateChannelTemplates',
-    initialState,
+const updateChannelTemplatesSlice = createSlice<
+    ChannelTemplateCollection,
+    SliceCaseReducers<ChannelTemplateCollection>
+>({
+    name: 'templates',
+    initialState: {},
     reducers: {
         updateChannelTemplates(state, action: PayloadAction<any>) {
-            state.templates = action.payload;
+            return action.payload;
         },
     },
 });

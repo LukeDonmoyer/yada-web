@@ -39,6 +39,16 @@ export interface Fault {
     message: string;
 }
 
+export interface ChannelTemplate {
+    channels: any[];
+    modified: string;
+    name: string;
+}
+
+export interface ChannelTemplateCollection {
+    [key: string]: ChannelTemplate;
+}
+
 export interface UserCollection {
     [key: string]: User;
 }
@@ -46,7 +56,8 @@ export interface UserCollection {
 export interface User {
     defaults: boolean;
     email: string;
-    phoneNumber: string;
+    disabled: boolean;
+    phoneNumber: string | null;
     userGroup: string;
     emailNotifications?: boolean;
     smsNotifications?: boolean;

@@ -3,21 +3,15 @@
  */
 
 import React, { useState } from 'react';
-import {
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupText,
-    Label,
-} from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import '../assets/styles.scss';
 import '../assets/bootstrap.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { Link, Redirect } from 'react-router-dom';
-import { deleteUser, updateUserDoc } from 'scripts/UserSettingsFunctions';
+import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
+import Content from './Content';
+import AuthCheck from './AuthCheck';
 
 export default function Settings() {
     const uid = useSelector((state: RootState) => state.auth.userUID);
@@ -26,13 +20,11 @@ export default function Settings() {
     );
 
     const [newVals, setNewVals] = useState({
-        email: '',
-        phoneNumber: '',
-        emailNotifications: currentUser.emailNotifications ?? true,
-        smsNotifications: currentUser.smsNotifications ?? true,
+        email: currentUser?.email ? currentUser?.email : '',
+        phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : '',
+        emailNotifications: currentUser?.emailNotifications ?? true,
+        smsNotifications: currentUser?.smsNotifications ?? true,
     });
-
-    const [accountDeleted, setAccountDeleted] = useState(false);
 
     const updateField = (e: any) => {
         setNewVals({
@@ -46,11 +38,6 @@ export default function Settings() {
             ...newVals,
             [e.target.name]: e.target.checked,
         });
-    };
-
-    const printVals = (e: any) => {
-        e.preventDefault();
-        console.log(newVals);
     };
 
     const submitChanges = (event: any) => {
@@ -68,13 +55,11 @@ export default function Settings() {
         if (deleteAccount) {
             deleteUser(uid as string);
             alert('Account deleted.');
-            setAccountDeleted(true);
+            fireAuthSignOut();
         }
     };
 
-    return accountDeleted ? (
-        <Redirect push to="/" />
-    ) : (
+    return (
         <div className="userSettings">
             <h1>User Settings</h1>
             <Form onSubmit={submitChanges}>
@@ -86,7 +71,7 @@ export default function Settings() {
                             type="email"
                             name="email"
                             id="email"
-                            placeholder={currentUser.email}
+                            placeholder={currentUser?.email}
                             value={newVals.email}
                             onChange={updateField}
                         />
@@ -98,7 +83,7 @@ export default function Settings() {
                             type="tel"
                             name="phoneNumber"
                             id="phoneNumber"
-                            placeholder={currentUser.phoneNumber}
+                            placeholder={newVals.phoneNumber}
                             value={newVals.phoneNumber}
                             onChange={updateField}
                         />

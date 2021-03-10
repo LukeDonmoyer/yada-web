@@ -100,12 +100,12 @@ export default function StaticNavbar(props: navbarProps) {
                             fireAuthSignOut();
                         }}
                     >
-                        <div className={`navIcon logout`}></div>
+                        <div className={`navIcon logout`} />
                         <div className="navTitle">logout</div>
                     </div>
                 </div>
             </div>
-            <div className="routes">
+            <div className="staticRoutes">
                 {React.Children.map(props.children, createRoute)}
             </div>
         </>
