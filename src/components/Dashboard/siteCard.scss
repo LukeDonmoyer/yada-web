@@ -1,7 +1,11 @@
 @import 'src/assets/designLanguage/variables';
 
 .card {
+    overflow: auto;
+
     margin: 32px auto;
+
+    padding: 8px 0;
 
     width: 700px;
 
@@ -65,9 +69,11 @@
     .details-button {
         display: flex;
 
-        margin-right: 16px;
-        float: right;
-        width: auto;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+
+        margin-right: 8px;
 
         color: white;
 
@@ -86,7 +92,7 @@
             fill: $lightOrange;
         }
 
-        :hover {
+        &:hover {
             .details-link {
                 background-color: $buttonDarkOrange;
             }

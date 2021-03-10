@@ -100,7 +100,7 @@ export default function StaticNavbar(props: navbarProps) {
                             fireAuthSignOut();
                         }}
                     >
-                        <div className={`navIcon logout`}></div>
+                        <div className={`navIcon logout`} />
                         <div className="navTitle">logout</div>
                     </div>
                 </div>

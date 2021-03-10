@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import 'assets/App.scss';
 import 'assets/tailwind.css';
 import Onboard from './components/Onboard';
 
@@ -63,7 +62,7 @@ function App() {
                             animationOut="fadeOut"
                             isVisible={true}
                         >
-                            <div className="app">
+                            <div className={'app'}>
                                 <StaticNavbar
                                     autoCollapse={true}
                                     roundRightCorners={true}
@@ -84,12 +83,12 @@ function App() {
                                         <Sites />
                                     </StaticNavItem>
                                     {/* <StaticNavItem
-                                        label={'channel templates'}
-                                        route={'channel-templates'}
-                                        icon={templatesIcon}
-                                    >
-                                        <ChannelTemplates />
-                                    </StaticNavItem> */}
+                                            label={'channel templates'}
+                                            route={'channel-templates'}
+                                            icon={templatesIcon}
+                                        >
+                                            <ChannelTemplates />
+                                        </StaticNavItem> */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
                                     ) ? (
