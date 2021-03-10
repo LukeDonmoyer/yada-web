@@ -545,6 +545,18 @@ export function removeLoggerFromEquipment(site_uid:string, logger_uid: string, e
 }
 
 /**
+ * 
+ * @param siteId 
+ * @param siteConfig 
+ */
+export function updateSiteConfig(
+    siteId: string,
+    siteConfig: any
+) {
+    fire.fireStore.collection('Sites').doc(siteId).set(siteConfig, {merge: true});
+}
+
+/**
  * -- Required --
  * updates the user document with the following settings
  * @param uid
