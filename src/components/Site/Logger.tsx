@@ -63,6 +63,10 @@ export function LoggerTab({
         },
     ];
 
+    const filters = [
+        { name: 'timestamp', operator: 'after', type: 'date', value: '' },
+    ];
+
     for (const [id, data] of Object.entries(channelTemplates)) {
         const template = data as ChannelTemplate;
 
@@ -102,6 +106,7 @@ export function LoggerTab({
                 columns={columns}
                 dataSource={rows}
                 defaultSortInfo={[]}
+                defaultFilterValue={filters}
             />
         </div>
     );
