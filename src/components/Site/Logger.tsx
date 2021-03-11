@@ -1,10 +1,7 @@
-import ReactDataGrid from '@inovua/reactdatagrid-community';
-import '@inovua/reactdatagrid-community/index.css';
-import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
-import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
+import { GridColDef, DataGrid } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
 import { ToggleSwitch } from 'components/ToggleSwitch';
-import React, { MutableRefObject, useRef, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
@@ -25,7 +22,6 @@ import {
     LoggerObject,
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
-import moment from 'moment';
 
 export interface LoggerTabProps {
     logger: LoggerObject;
@@ -40,38 +36,37 @@ export function LoggerTab({
 
     const handleInfoButton = () => setInfoExpanded(!infoExpanded);
 
-    const [
-        gridRef,
-        setGridRef,
-    ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
-
-    const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
-
-    const columns = [
-        {
-            name: 'timestamp',
-            header: 'Timestamp',
-            minWidth: 150,
-            defaultFlex: 1,
-            dateFormat: dateFormat,
-            filterEditor: DateFilter,
-            filterEditorProps: () => {
-                return { dateFormat: dateFormat };
-            },
-        },
+    const columns: GridColDef[] = [
+        { field: 'timestamp', headerName: 'timestamp', flex: 1 },
     ];
 
-    const filters = [
-        { name: 'timestamp', operator: 'after', type: 'date', value: '' }
-    ];
+    const channelTemplates = useSelector((state: RootState) => state.templates);
 
-    var rows: any[] = [];
+    for (const [id, data] of Object.entries(channelTemplates)) {
+        const template = data as ChannelTemplate;
+
+        if (id == logger.channelTemplate) {
+            //populate columns from channel template
+
+            for (const [channelName, channelScript] of Object.entries(
+                data.channels
+            )) {
+                columns.push({
+                    field: channelName,
+                    headerName: channelName,
+                    flex: 1,
+                });
+            }
+        }
+    }
+
+    let rows: any[] = [];
 
     logger.data.forEach((dataPoint, index) => {
-        rows.push({
-            id: index,
-            timestamp: moment(dataPoint.timestamp).format(dateFormat),
-        });
+        var row = Object.assign({}, dataPoint);
+        row['id'] = index;
+
+        rows.push(row);
     });
 
     return (
@@ -84,14 +79,7 @@ export function LoggerTab({
             {infoExpanded ? (
                 <LoggerInfo logger={logger} logger_uid={logger_uid} />
             ) : null}
-            <ReactDataGrid
-                onReady={setGridRef}
-                className={'dataGrid'}
-                columns={columns}
-                dataSource={rows}
-                defaultFilterValue={filters}
-                defaultSortInfo={[]}
-            />
+            <DataGrid className="dataGrid" rows={rows} columns={columns} />
         </div>
     );
 }
