@@ -1,7 +1,11 @@
+import ReactDataGrid from '@inovua/reactdatagrid-community';
+import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
+import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import { GridColDef, DataGrid } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
 import { ToggleSwitch } from 'components/ToggleSwitch';
-import React, { ReactElement, useState } from 'react';
+import moment from 'moment';
+import React, { MutableRefObject, ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
@@ -32,31 +36,43 @@ export function LoggerTab({
     logger,
     logger_uid,
 }: LoggerTabProps): ReactElement {
+    const channelTemplates = useSelector((state: RootState) => state.templates);
+
     const [infoExpanded, setInfoExpanded] = useState(false);
 
     const handleInfoButton = () => setInfoExpanded(!infoExpanded);
 
-    const columns: GridColDef[] = [
-        { field: 'timestamp', headerName: 'timestamp', flex: 1 },
-    ];
+    const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
 
-    const channelTemplates = useSelector((state: RootState) => state.templates);
+    const [
+        gridRef,
+        setGridRef,
+    ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
+
+    const columns: any[] = [
+        {
+            name: 'timestamp',
+            header: 'Timestamp',
+            minWidth: 150,
+            defaultFlex: 1,
+            dateFormat: dateFormat,
+            filterEditor: DateFilter,
+            filterEditorProps: () => {
+                return { dateFormat: dateFormat };
+            },
+        },
+    ];
 
     for (const [id, data] of Object.entries(channelTemplates)) {
         const template = data as ChannelTemplate;
 
-        if (id == logger.channelTemplate) {
-            //populate columns from channel template
-
-            for (const [channelName, channelScript] of Object.entries(
-                data.channels
-            )) {
-                columns.push({
-                    field: channelName,
-                    headerName: channelName,
-                    flex: 1,
-                });
-            }
+        //populate columns based on first entry
+        if (logger.channelTemplate == id) {
+            template.keys.forEach((key) => {
+                if (key != 'timestamp') {
+                    columns.push({ name: key, header: key, defaultFlex: 1 });
+                }
+            });
         }
     }
 
@@ -65,6 +81,7 @@ export function LoggerTab({
     logger.data.forEach((dataPoint, index) => {
         var row = Object.assign({}, dataPoint);
         row['id'] = index;
+        row['timestamp'] = moment(dataPoint.timestamp).format(dateFormat);
 
         rows.push(row);
     });
@@ -79,7 +96,13 @@ export function LoggerTab({
             {infoExpanded ? (
                 <LoggerInfo logger={logger} logger_uid={logger_uid} />
             ) : null}
-            <DataGrid className="dataGrid" rows={rows} columns={columns} />
+            <ReactDataGrid
+                onReady={setGridRef}
+                className={'dataGrid'}
+                columns={columns}
+                dataSource={rows}
+                defaultSortInfo={[]}
+            />
         </div>
     );
 }

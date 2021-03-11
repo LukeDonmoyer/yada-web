@@ -43,6 +43,7 @@ export interface ChannelTemplate {
     channels: any[];
     modified: string;
     name: string;
+    keys: string[];
 }
 
 export interface ChannelTemplateCollection {
