@@ -332,7 +332,7 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
 
 /**
  * -- Required --
- * creates new equpiment associated with the specified site and given an initial name
+ * creates new equipment associated with the specified site and given an initial name
  * @param site_uid string
  * @param equipment_name string
  */
