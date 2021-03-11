@@ -29,4 +29,10 @@
         @include floatingCard;
         @include cardSmall;
     }
+
+    .passwordResetLink {
+        text-align: center;
+        margin-top: 5px;
+        @include link;
+    }
 }

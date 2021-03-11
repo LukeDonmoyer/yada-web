@@ -73,7 +73,7 @@ function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
                     <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
-                    <ConfigTab site={site} siteId={siteId}/>
+                    <ConfigTab site={site} siteId={siteId} />
                 </TabViewItem>
             </TabView>
         </div>

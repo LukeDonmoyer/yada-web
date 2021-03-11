@@ -20,10 +20,10 @@ export default function Settings() {
     );
 
     const [newVals, setNewVals] = useState({
-        email: currentUser?.email ? currentUser?.email : "",
-        phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : "",
-        emailNotifications: (currentUser?.emailNotifications ?? true),
-        smsNotifications: (currentUser?.smsNotifications ?? true)
+        email: currentUser?.email ? currentUser?.email : '',
+        phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : '',
+        emailNotifications: currentUser?.emailNotifications ?? true,
+        smsNotifications: currentUser?.smsNotifications ?? true,
     });
 
     const updateField = (e: any) => {
