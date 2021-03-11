@@ -164,7 +164,7 @@ export function createNewSite() {
             notes: '',
             address: '',
             userNotifications: {},
-            equipmentUnits: {},
+            equipmentUnits: [],
         })
         .then(() => {
             console.log('Document successfully written!');
@@ -485,6 +485,14 @@ export function addLoggerToEquipment(
                 );
             }
         });
+}
+
+/**
+ * sends password reset email
+ * @param email email
+ */
+export function sendPasswordResetEmail(email: string) {
+    fire.fireAuth.sendPasswordResetEmail(email);
 }
 
 export function setLoggerChannelTemplate(
