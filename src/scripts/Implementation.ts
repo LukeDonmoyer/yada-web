@@ -487,19 +487,27 @@ export function addLoggerToEquipment(
         });
 }
 
-export function setLoggerChannelTemplate(logger_uid: string, template_uid: string){
-    fire.fireStore.collection("Loggers").doc(logger_uid).set({channelTemplate: template_uid}, {merge: true});
+export function setLoggerChannelTemplate(
+    logger_uid: string,
+    template_uid: string
+) {
+    fire.fireStore
+        .collection('Loggers')
+        .doc(logger_uid)
+        .set({ channelTemplate: template_uid }, { merge: true });
     console.log(
-        'Set logger "' +
-            logger_uid +
-            '" with template "' +
-            template_uid +
-            '"'
+        'Set logger "' + logger_uid + '" with template "' + template_uid + '"'
     );
 }
 
-export function setLoggerIsCollectingData(logger_uid:string, isCollectingData: boolean){
-    fire.fireStore.collection("Loggers").doc(logger_uid).set({collectingData: isCollectingData}, {merge: true});
+export function setLoggerIsCollectingData(
+    logger_uid: string,
+    isCollectingData: boolean
+) {
+    fire.fireStore
+        .collection('Loggers')
+        .doc(logger_uid)
+        .set({ collectingData: isCollectingData }, { merge: true });
     console.log(
         'Set logger "' +
             logger_uid +
@@ -509,7 +517,11 @@ export function setLoggerIsCollectingData(logger_uid:string, isCollectingData: b
     );
 }
 
-export function removeLoggerFromEquipment(site_uid:string, logger_uid: string, equipment_name: string) {
+export function removeLoggerFromEquipment(
+    site_uid: string,
+    logger_uid: string,
+    equipment_name: string
+) {
     fire.fireStore
         .collection('Sites')
         .doc(site_uid)
@@ -522,16 +534,24 @@ export function removeLoggerFromEquipment(site_uid:string, logger_uid: string, e
                     (unit) => unit.name === equipment_name
                 );
 
-                if (equipmentIndex != -1){
-                    var loggerIndex = site.equipmentUnits[equipmentIndex].loggers.findIndex((uid) => uid === logger_uid);
+                if (equipmentIndex != -1) {
+                    var loggerIndex = site.equipmentUnits[
+                        equipmentIndex
+                    ].loggers.findIndex((uid) => uid === logger_uid);
 
-                    if(loggerIndex != -1)
-                    site.equipmentUnits[equipmentIndex].loggers.splice(loggerIndex, 1);
+                    if (loggerIndex != -1)
+                        site.equipmentUnits[equipmentIndex].loggers.splice(
+                            loggerIndex,
+                            1
+                        );
                 }
 
                 fire.fireStore.collection('Sites').doc(site_uid).update(site);
 
-                fire.fireStore.collection("Loggers").doc(logger_uid).set({equipment: null, site: null}, {merge: true});
+                fire.fireStore
+                    .collection('Loggers')
+                    .doc(logger_uid)
+                    .set({ equipment: null, site: null }, { merge: true });
 
                 console.log(
                     'Removed logger "' +
@@ -545,15 +565,15 @@ export function removeLoggerFromEquipment(site_uid:string, logger_uid: string, e
 }
 
 /**
- * 
- * @param siteId 
- * @param siteConfig 
+ *
+ * @param siteId
+ * @param siteConfig
  */
-export function updateSiteConfig(
-    siteId: string,
-    siteConfig: any
-) {
-    fire.fireStore.collection('Sites').doc(siteId).set(siteConfig, {merge: true});
+export function updateSiteConfig(siteId: string, siteConfig: any) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(siteId)
+        .set(siteConfig, { merge: true });
 }
 
 /**
