@@ -494,6 +494,7 @@ export function addLoggerToEquipment(
 export function sendPasswordResetEmail(email: string) {
     fire.fireAuth.sendPasswordResetEmail(email);
 }
+
 export function setLoggerChannelTemplate(
     logger_uid: string,
     template_uid: string
