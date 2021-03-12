@@ -72,13 +72,25 @@ export function LoggerTab({
     var csvHeaders: string[] = [];
 
  
-    channelTemplates[logger.channelTemplate].keys.forEach((key) => {
-                if (key != 'timestamp') {
-                    columns.push({ name: key, header: key, defaultFlex: 1 });
-                }
+    for (const [key, value] of Object.entries(
+        channelTemplates[logger.channelTemplate].keys
+    )) {
+        if (key != 'timestamp') {
+            columns.push({
+                name: key,
+                header: key,
+                defaultFlex: 1,
+            });
+            filters.push({
+                name: key,
+                operator: 'neq',
+                type: value,
+                value: '',
+            });
+        }
 
-                csvHeaders.push(key);
-            }); 
+        csvHeaders.push(key);
+    }
 
     let rows: any[] = [];
 
