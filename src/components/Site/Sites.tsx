@@ -15,13 +15,13 @@ import { RootState } from 'store/rootReducer';
 import DynamicNavbar, { DynamicNavLink } from '../DynamicNavbar';
 import SiteEquipment from './SiteEquipment';
 import TabView, { TabViewItem } from '../TabView';
-import { DataGrid, GridColDef, GridToolbar } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
 import { basename } from 'path';
 import ConfigTab from './SiteConfigContent';
 import SiteFaultsTab from './SiteFaultsTab';
 import { Data } from 'react-csv/components/CommonPropTypes';
 import CsvDownloadButton from 'components/CsvDownloadButton';
+import SiteEquipmentTab from './SiteEquipmentTab';
 
 export default function Sites() {
     const sites = useSelector((state: RootState) => state.sites);
@@ -69,19 +69,20 @@ function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
             <h1>{site.name}</h1>
             <TabView>
                 <TabViewItem label={'Equipment'} exact default>
-                    <EquipmentTab />
+                    <SiteEquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
                     <SiteFaultsTab site={site} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
-                    <ConfigTab site={site} siteId={siteId}/>
+                    <ConfigTab site={site} siteId={siteId} />
                 </TabViewItem>
             </TabView>
         </div>
     );
 }
 
+        //TODO: MOVE NEW STUFF FOR CSV DOWNLOAD TO THE NEW COMPONENT FILE
 function EquipmentTab(): ReactElement {
     const [filter, updateFilter] = useState('');
     const location = useLocation();
@@ -214,3 +215,4 @@ function EquipmentTab(): ReactElement {
         </div>
     );
 }
+

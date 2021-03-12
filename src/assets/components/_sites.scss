@@ -16,25 +16,6 @@
     .dataGrid {
         @include dataGrid;
     }
-
-    .csvDownloadButton {
-        margin: 8px 0 8px auto;
-
-        width: 180px;
-        background-color: $lightOrange;
-        border-radius: 10px;
-        color: white;
-        user-select: none;
-        cursor: pointer;
-        font-family: 'Lato', sans-serif;
-        text-align: center;
-        line-height: 40px;
-
-        &:hover {
-            box-shadow: rgba(180, 101, 28, 0.25) 0px 30px 60px -12px inset,
-                rgba(216, 125, 6, 0.705) 0px 18px 36px -18px inset;
-        }
-    }
 }
 
 .message {

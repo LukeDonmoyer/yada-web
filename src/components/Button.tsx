@@ -3,6 +3,7 @@ interface ButtonProps {
     text?: string;
     icon?: any;
     onClick?: any;
+    align?: any;
 }
 
 export enum ButtonType {
@@ -14,7 +15,10 @@ export enum ButtonType {
 
 export default function Button(props: ButtonProps) {
     return (
-        <div className={`button ${props.type}`} onClick={props.onClick}>
+        <div
+            className={`button ${props.type} ${props.align ? props.align : ''}`}
+            onClick={props.onClick}
+        >
             {props.text}
         </div>
     );

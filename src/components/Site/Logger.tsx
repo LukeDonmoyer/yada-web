@@ -6,6 +6,7 @@ import Button, { ButtonType } from 'components/Button';
 import CsvDownloadButton from 'components/CsvDownloadButton';
 import { ToggleSwitch } from 'components/ToggleSwitch';
 import moment from 'moment';
+import { bool } from 'prop-types';
 import React, { MutableRefObject, ReactElement, useState } from 'react';
 import { Data, Headers } from 'react-csv/components/CommonPropTypes';
 import { useSelector } from 'react-redux';
@@ -71,7 +72,6 @@ export function LoggerTab({
 
     var csvHeaders: string[] = [];
 
- 
     for (const [key, value] of Object.entries(
         channelTemplates[logger.channelTemplate].keys
     )) {
@@ -97,10 +97,20 @@ export function LoggerTab({
     logger.data.forEach((dataPoint, index) => {
         var row = Object.assign({}, dataPoint);
         row['id'] = index;
-        row['timestamp'] = moment(dataPoint.timestamp).format(dateFormat);
+
+        //if we have any boolean values, stringify them
+        for (const [key, value] of Object.entries(
+            channelTemplates[logger.channelTemplate].keys
+        )) {
+            if (value === 'boolean') {
+                row[key] = JSON.stringify(row[key]);
+            }
+        }
 
         rows.push(row);
     });
+
+    console.log(rows);
 
     return (
         <div className="loggerTab">

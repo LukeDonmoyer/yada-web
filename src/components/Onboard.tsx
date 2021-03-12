@@ -10,19 +10,33 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Input } from 'reactstrap';
-import { getUserData, signInWithEmail } from '../scripts/Datastore';
+import {
+    signInWithEmail,
+    getUserData,
+    sendPasswordResetEmail,
+} from '../scripts/Datastore';
+
+import { ReactComponent as Logo } from '../assets/images/icon.svg';
 import AnimatedLogo from './AnimatedLogo';
 
 import '../assets/styles.scss';
 import { RootState } from '../store/rootReducer';
 
 function SignInForm() {
+    const [email, updateEmail] = useState('');
     const handleLogin = (event: any) => {
         event.preventDefault();
         const email = event.target[0].value;
         const password = event.target[1].value;
         signInWithEmail(email, password).then((user) => {});
     };
+
+    function passwordResetHandler() {
+        if (window.confirm(`send password reset email to ${email}`)) {
+            sendPasswordResetEmail(email);
+        }
+    }
+
     return (
         <div className="onboardForm">
             <h1>Sign In</h1>
@@ -37,6 +51,9 @@ function SignInForm() {
                     name="email"
                     id="email"
                     placeholder="email"
+                    onChange={(event) => {
+                        updateEmail(event.target.value);
+                    }}
                 />
                 <Input
                     required
@@ -49,6 +66,14 @@ function SignInForm() {
                 <Link to="/requestAccount" className="requestLink">
                     Request Account
                 </Link>
+                <div
+                    className="passwordResetLink"
+                    onClick={() => {
+                        passwordResetHandler();
+                    }}
+                >
+                    Request Password Reset
+                </div>
             </Form>
         </div>
     );
