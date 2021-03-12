@@ -39,7 +39,7 @@
         "reactstrap": "^8.9.0",
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
-        "redux-firestore": "^0.14.0",
+        "redux-firestore": "^0.15.0",
         "redux-logger": "^3.0.6",
         "redux-thunk": "^2.3.0",
         "redux-toolkit": "^1.1.2",
