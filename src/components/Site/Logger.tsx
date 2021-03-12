@@ -71,20 +71,14 @@ export function LoggerTab({
 
     var csvHeaders: string[] = [];
 
-    for (const [id, data] of Object.entries(channelTemplates)) {
-        const template = data as ChannelTemplate;
-
-        //populate columns based on first entry
-        if (logger.channelTemplate == id) {
-            template.keys.forEach((key) => {
+ 
+    channelTemplates[logger.channelTemplate].keys.forEach((key) => {
                 if (key != 'timestamp') {
                     columns.push({ name: key, header: key, defaultFlex: 1 });
                 }
 
                 csvHeaders.push(key);
-            });
-        }
-    }
+            }); 
 
     let rows: any[] = [];
 

@@ -85,7 +85,21 @@ function EquipmentTab(): ReactElement {
     const location = useLocation();
     const siteID = location.pathname.split('/')[3];
     const sites = useSelector((state: RootState) => state.sites);
+    const loggers = useSelector((state: RootState) => state.loggers);
+    const channelTemplates = useSelector((state:RootState) => state.templates);
+    const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
+
+    function getAllLoggerData(){
+        //for each equipment at the current site
+        sites[siteID].equipmentUnits.forEach((unit) => {
+            //for each logger uid on the equipment
+            unit.loggers.forEach((logger_uid)=>{
+                
+                //TODO: iterate through channel template keys
+            });
+        });
+    }
 
     function filterSearch(unit: any) {
         return unit.name.includes(filter);
