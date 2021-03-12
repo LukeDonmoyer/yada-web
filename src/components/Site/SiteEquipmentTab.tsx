@@ -9,6 +9,8 @@ import { createNewEquipment } from 'scripts/Datastore';
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
+import CsvDownloadButton from 'components/CsvDownloadButton';
+import { Data } from 'react-csv/components/CommonPropTypes';
 
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
@@ -158,10 +160,9 @@ export default function SiteEquipmentTab(): ReactElement {
     }
 
     return (
-        <>
-            <div className="addEquipmentButton">
+        <div className='site-equipment'>
+            <div className="buttonBar">
                 <Button
-                    align={'right'}
                     type={ButtonType.tableControl}
                     text={'create equipment'}
                     onClick={() => {
@@ -181,6 +182,6 @@ export default function SiteEquipmentTab(): ReactElement {
                 defaultFilterValue={filters}
                 onCellClick={onCellClick}
             />
-        </>
+        </div>
     );
 }

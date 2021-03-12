@@ -19,8 +19,6 @@ import Button, { ButtonType } from 'components/Button';
 import { basename } from 'path';
 import ConfigTab from './SiteConfigContent';
 import SiteFaultsTab from './SiteFaultsTab';
-import { Data } from 'react-csv/components/CommonPropTypes';
-import CsvDownloadButton from 'components/CsvDownloadButton';
 import SiteEquipmentTab from './SiteEquipmentTab';
 
 export default function Sites() {
