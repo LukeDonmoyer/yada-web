@@ -102,8 +102,6 @@ export default function SiteEquipmentTab(): ReactElement {
         },
     ];
 
-    // let rows = [];
-
     function handleNewEquipmentClick() {
         let baseName = 'New Equipment ';
         let nameNum = 0;
@@ -122,11 +120,12 @@ export default function SiteEquipmentTab(): ReactElement {
     if (redirect !== '') {
         return <Redirect to={redirect} />;
     }
-    //TODO Make site equipment tab
+
     return (
-        <div className="">
+        <>
             <div className="addEquipmentButton">
                 <Button
+                    align={'right'}
                     type={ButtonType.tableControl}
                     text={'create equipment'}
                     onClick={() => {
@@ -140,8 +139,7 @@ export default function SiteEquipmentTab(): ReactElement {
                 dataSource={rows}
                 defaultFilterValue={filters}
                 onCellClick={onCellClick}
-                // defaultSortInfo={[]}
             />
-        </div>
+        </>
     );
 }
