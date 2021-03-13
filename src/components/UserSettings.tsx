@@ -8,9 +8,10 @@ import '../assets/styles.scss';
 import '../assets/bootstrap.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
 import Content from './Content';
+import AuthCheck from './AuthCheck';
 
 export default function Settings() {
     const uid = useSelector((state: RootState) => state.auth.userUID);
@@ -19,10 +20,10 @@ export default function Settings() {
     );
 
     const [newVals, setNewVals] = useState({
-        email: currentUser.email,
+        email: currentUser?.email ? currentUser?.email : '',
         phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : '',
-        emailNotifications: currentUser.emailNotifications ?? true,
-        smsNotifications: currentUser.smsNotifications ?? true,
+        emailNotifications: currentUser?.emailNotifications ?? true,
+        smsNotifications: currentUser?.smsNotifications ?? true,
     });
 
     const updateField = (e: any) => {

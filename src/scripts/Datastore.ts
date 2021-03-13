@@ -143,6 +143,14 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
     return implementation.changePassword(newPassword);
 }
 
+/**
+ * sends password reset email
+ * @param email
+ */
+export function sendPasswordResetEmail(email: string) {
+    return implementation.sendPasswordResetEmail(email);
+}
+
 export function editEmail(userID: string, email: string) {
     implementation.editEmail(userID, email);
 }

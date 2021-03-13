@@ -1,14 +1,32 @@
 .button {
+    width: fit-content;
     border-radius: 7px;
     text-align: center;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
     user-select: none;
+    margin-bottom: 5px;
     cursor: pointer;
+}
+
+.right {
+    margin-left: auto;
 }
 
 .tableControl {
     background-color: $buttonLightOrange;
     color: $buttonDarkOrange;
+}
+
+.warning {
+    background-color: $lightRed;
+    color: white;
+}
+
+.loggerInfoShow {
+    background-color: $buttonDarkOrange;
+    color: white;
+    margin-bottom: 0.5rem;
+    width: fit-content;
 }

@@ -1552,10 +1552,10 @@
     gud "^1.0.0"
     warning "^4.0.3"
 
-"@inovua/reactdatagrid-community@^4.0.29":
-  version "4.0.29"
-  resolved "https://registry.yarnpkg.com/@inovua/reactdatagrid-community/-/reactdatagrid-community-4.0.29.tgz#fdbec864ccf277e5c51c4a49402157fe07bad970"
-  integrity sha512-FrbBFQ0a1nacv2p3IA2ysaFkzvhsWOvQ076bZskN8NWf4jg0gR0vW1PFwp4RKZz8xCstwFBrwfW767qJUQceYw==
+"@inovua/reactdatagrid-community@4.0.26":
+  version "4.0.26"
+  resolved "https://registry.yarnpkg.com/@inovua/reactdatagrid-community/-/reactdatagrid-community-4.0.26.tgz#13bc8630d7421e26eadb1bb41f3922e24671e44c"
+  integrity sha512-W0yLzozhvfc3cfB4Tvpa0B+V2vFWiFy3a2vmYaj2mw6+jSE54u6OQip7+L7MYyvEDnu6+GvnuJX4UQ5HzWrhtg==
   dependencies:
     "@types/lodash.debounce" "^4.0.6"
     "@types/lodash.throttle" "^4.1.6"
@@ -2365,6 +2365,13 @@
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
+
+"@types/react-csv@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@types/react-csv/-/react-csv-1.1.1.tgz#003f6de5a46e4f64712f97e5509a4b3f2df9a8b1"
+  integrity sha512-sP8AxGrFJ/kb7ygFpGkssdD/vKSTqdZDJbw3pJKTCa1C0UoT+0+rdUWy2fZqvhvvdpHG+OCJ4G8O7OZqVIa+BA==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-dom@^16.9.8":
   version "16.9.11"
