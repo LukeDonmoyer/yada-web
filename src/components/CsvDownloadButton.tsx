@@ -13,6 +13,8 @@ interface CsvDownloadButtonProps {
     // Filename for the csv file tod download
     filename: string;
 
+    align?: string;
+
     // Function that creates the dsv data, this will be run asynchronously
     createData: () => Data;
 }
@@ -24,6 +26,7 @@ export default function CsvDownloadButton({
     label,
     headers,
     filename,
+    align,
     createData,
 }: CsvDownloadButtonProps): ReactElement {
     const [data, setData] = useState<Data>([]);
@@ -45,7 +48,7 @@ export default function CsvDownloadButton({
                 ref={ref}
             />
             <Button
-                align={'right'}
+                align={align}
                 type={ButtonType.tableControl}
                 text={label ? label : 'Download CSV'}
                 onClick={getData}
