@@ -1,10 +1,10 @@
-import React, { ReactElement, useState } from 'react';
+import React, { FormEvent, ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { SiteContentProps } from './Sites';
 
 import "../../assets/styles.scss";
 import "../../assets/bootstrap.scss";
-import { updateSiteConfig } from "scripts/Datastore";
+import { updateSiteConfig, updateEquipmentNotifications } from "scripts/Datastore";
 import { EquipmentUnit, SiteObject } from "store/FirestoreInterfaces";
 import { useSelector } from "react-redux";
 import { RootState } from "store/rootReducer";
@@ -14,8 +14,24 @@ interface configTabProps {
     siteId: string;
 }
 
-function createEquipmentElements(equipment: EquipmentUnit[]): ReactElement[]{
+function createEquipmentElements(
+  equipment: EquipmentUnit[], 
+  updateState: React.Dispatch<React.SetStateAction<{}>>,
+  state: {},
+  notificationMap: {
+    [key: string]: boolean
+  }
+): ReactElement[] {
   let equipmentList: ReactElement[] = [];
+
+  const createHandler = (name: string) => {
+    return ((e: FormEvent<HTMLInputElement>) => {
+      updateState({
+        ...state,
+        [name]: e.currentTarget.checked
+      });
+    });
+  }
 
   equipment.forEach(e => {
     equipmentList.push(
@@ -25,7 +41,9 @@ function createEquipmentElements(equipment: EquipmentUnit[]): ReactElement[]{
         </div>
         <div>
           <Input
-            type="checkbox"  
+            type="checkbox"
+            checked={notificationMap[e.name] ?? false}
+            onChange={createHandler(e.name)}
           />
         </div>
       </div>
@@ -37,6 +55,9 @@ function createEquipmentElements(equipment: EquipmentUnit[]): ReactElement[]{
 
 export default function ConfigTab({ site, siteId }: configTabProps): ReactElement {
     const uid = useSelector((state: RootState) => state.auth.userUID);
+    const notificationMap = useSelector(
+      (state: RootState) => state.users[uid as string].equipmentNotifications?.[siteId]
+    ) ?? {};
 
     const [configState, setConfigState] = useState({
       name: site.name,
@@ -44,10 +65,12 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
       address: site.address
     });
 
+    const [equipmentState, setEquipmentState] = useState({});
+
     const updateField = (e: any) => {
         setConfigState({
             ...configState,
-            [e.target.name]: e.target.value,
+            [e.currentTarget.name]: e.currentTarget.value,
         });
     };
 
@@ -87,7 +110,7 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
                         />
                     </FormGroup>
                 </div>
-                
+
                 <div className="bootStrapStyles">
                     <FormGroup>
                         <Label>Notes</Label>
@@ -102,21 +125,24 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
                     </FormGroup>
                 </div>
 
-                <div className="bootStrapStyles">
-                  <FormGroup>
-                    <Label>Equipment Notifications</Label>
-                    <div>
-                      {createEquipmentElements(site.equipmentUnits)}
-                    </div>
-                  </FormGroup>
-                </div>
-
                 <div>
                     <Button type="submit" value="Submit">
                         Save Changes
                     </Button>
                 </div>
             </Form>
+
+            <div className="bootStrapStyles">
+              <h2>Equipment Notifications</h2>
+              <div>
+                {createEquipmentElements(
+                  site.equipmentUnits, 
+                  setEquipmentState,
+                  equipmentState,
+                  notificationMap
+                )}
+              </div>
+            </div>
         </div>
     );
 }

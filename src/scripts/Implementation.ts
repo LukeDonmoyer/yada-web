@@ -598,7 +598,9 @@ export function updateUserDoc(uid: string, newVals: any) {
 }
 
 export function updateEquipmentNotifications(uid: string, siteId: string, notificationMap: any){
-    fire.fireStore.collection('Users').doc(uid).update({
-        'equipmentNotifications.siteId': notificationMap
-    });
+    fire.fireStore.collection('Users').doc(uid).set({
+        equipmentNotifications: {
+            [siteId]: notificationMap
+        }
+    }, { merge: true });
 }
