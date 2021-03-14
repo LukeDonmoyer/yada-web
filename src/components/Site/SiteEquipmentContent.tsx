@@ -12,6 +12,7 @@ import { DataGrid, GridColDef } from '@material-ui/data-grid';
 import { Button, Label } from 'reactstrap';
 import { addLoggerToEquipment } from '../../scripts/Implementation';
 import { LoggerSelector, LoggerTab } from './Logger';
+import EquipmentDashboard from './SiteEquipmentDashboard';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -43,6 +44,17 @@ export function SiteEquipmentContent({
     );
 
     var loggerTabs: any = [];
+
+    // Dashboard tab
+    loggerTabs.push(
+        <TabViewItem
+            label="Dashboard"
+            route="dashboard"
+            default={true}
+        >
+            <EquipmentDashboard loggers={loggers}/>
+        </TabViewItem>
+    );
 
     for (const [id, loggerData] of Object.entries(loggers)) {
         const data = loggerData as LoggerObject;
