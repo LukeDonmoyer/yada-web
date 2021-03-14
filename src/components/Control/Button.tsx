@@ -1,3 +1,13 @@
+/**
+ * Button component to consistently style buttons
+ *
+ * props:
+ * - type: ButtonType enum - this conditionally renders different styles
+ * - text?: text to go in the button
+ * - icon?: optional icon to go in the button (not yet implemented)
+ * - onClick?: optional callback to perform
+ * - align?: optional alignment
+ */
 interface ButtonProps {
     type: ButtonType;
     text?: string;

@@ -7,9 +7,8 @@
  */
 import { useState } from 'react';
 import { Button, Form, Input } from 'reactstrap';
-import { createEmailDocument } from '../scripts/Datastore';
+import { createEmailDocument } from '../../scripts/Datastore';
 import { Redirect } from 'react-router-dom';
-import '../assets/styles.scss';
 
 export default function ContactUs() {
     let [email, setEmail] = useState('');

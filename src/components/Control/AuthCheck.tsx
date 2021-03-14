@@ -5,9 +5,12 @@
  * fullscreen component to request signin from the user
  */
 import { Button, Form, Input } from 'reactstrap';
-import { sendPasswordResetEmail, signInWithEmail } from '../scripts/Datastore';
+import {
+    sendPasswordResetEmail,
+    signInWithEmail,
+} from '../../scripts/Datastore';
 import { Animated } from 'react-animated-css';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 interface AuthCheckProps {
@@ -22,15 +25,19 @@ export default function AuthCheck(props: AuthCheckProps) {
      * @param event Synthetic event
      */
     const handleLogin = (event: any) => {
-        event.preventDefault();
+        event.preventDefault(); // prevents form default submission
         const email = event.target[0].value;
         const password = event.target[1].value;
-        signInWithEmail(email, password).then((user) => {});
+        signInWithEmail(email, password); // attempts to sign in with credentials
     };
 
+    /**
+     * sends password reset email to the email address in the email input
+     */
     function passwordResetHandler() {
+        // prompts user to confirm email
         if (window.confirm(`send password reset email to ${email}`)) {
-            sendPasswordResetEmail(email);
+            sendPasswordResetEmail(email); // sends reset email
         }
     }
 

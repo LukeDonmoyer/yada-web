@@ -151,22 +151,45 @@ export function sendPasswordResetEmail(email: string) {
     return implementation.sendPasswordResetEmail(email);
 }
 
+/**
+ * edits user email
+ * @param userID string
+ * @param email string
+ */
 export function editEmail(userID: string, email: string) {
     implementation.editEmail(userID, email);
 }
 
+/**
+ * edits user phone number
+ * @param userID string
+ * @param number string
+ */
 export function editPhoneNumber(userID: string, number: string) {
     implementation.editPhoneNumber(userID, number);
 }
 
+/**
+ * edits user privilege level
+ * @param userID string
+ * @param privilege string: one of ['Admin', 'Power', 'User']
+ */
 export function editPrivilege(userID: string, privilege: string) {
     implementation.editPrivilege(userID, privilege);
 }
 
+/**
+ * deletes a user
+ * @param userID string
+ */
 export function deleteUser(userID: string) {
     implementation.deleteUser(userID);
 }
 
+/**
+ * registers a user
+ * @param email string
+ */
 export function registerUser(email: string) {
     implementation.registerUser(email);
 }
@@ -183,6 +206,10 @@ export function updateSiteConfig(siteId: string, siteConfig: any) {
     implementation.updateSiteConfig(siteId, siteConfig);
 }
 
-export function updateEquipmentNotifications(uid: string, siteId: string, notificationMap: any){
+export function updateEquipmentNotifications(
+    uid: string,
+    siteId: string,
+    notificationMap: any
+) {
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
 }

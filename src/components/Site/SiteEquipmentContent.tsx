@@ -3,14 +3,12 @@ import {
     LoggerCollection,
     LoggerObject,
 } from '../../store/FirestoreInterfaces';
-import React, { ReactElement, SyntheticEvent, useState } from 'react';
+import { ReactElement, SyntheticEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
-import TabView, { TabViewItem } from '../TabView';
-import { DataGrid, GridColDef } from '@material-ui/data-grid';
-import { Button, Label } from 'reactstrap';
-import { addLoggerToEquipment } from '../../scripts/Implementation';
+import TabView, { TabViewItem } from '../Control/TabView';
+import { Button } from 'reactstrap';
 import { LoggerSelector, LoggerTab } from './Logger';
 
 interface SiteEquipmentContentProps {

@@ -11,7 +11,7 @@ import { RootState } from 'store/rootReducer';
 import { Link, Redirect } from 'react-router-dom';
 import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
 import Content from './Content';
-import AuthCheck from './AuthCheck';
+import AuthCheck from './Control/AuthCheck';
 
 export default function Settings() {
     const uid = useSelector((state: RootState) => state.auth.userUID);

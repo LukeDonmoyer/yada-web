@@ -1,5 +1,5 @@
 import { Data, Headers } from 'react-csv/components/CommonPropTypes';
-import React, { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import Button, { ButtonType } from './Button';
 
@@ -53,9 +53,6 @@ export default function CsvDownloadButton({
                 text={label ? label : 'Download CSV'}
                 onClick={getData}
             />
-            {/* <div className={'csvDownloadButton'} onClick={getData}>
-                {label ? label : 'Download CSV'}
-            </div> */}
         </>
     );
 }

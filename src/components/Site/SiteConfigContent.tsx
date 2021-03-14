@@ -1,13 +1,15 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { SiteContentProps } from './Sites';
 
-import "../../assets/styles.scss";
-import "../../assets/bootstrap.scss";
-import { updateSiteConfig, updateEquipmentNotifications } from "scripts/Datastore";
-import { EquipmentUnit, SiteObject } from "store/FirestoreInterfaces";
-import { useSelector } from "react-redux";
-import { RootState } from "store/rootReducer";
+import '../../assets/styles.scss';
+import '../../assets/bootstrap.scss';
+import {
+    updateSiteConfig,
+    updateEquipmentNotifications,
+} from 'scripts/Datastore';
+import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/rootReducer';
 
 interface configTabProps {
     site: SiteObject;
@@ -15,62 +17,67 @@ interface configTabProps {
 }
 
 function createEquipmentElements(
-  equipment: EquipmentUnit[], 
-  updateState: React.Dispatch<React.SetStateAction<{}>>,
-  state: {
-    [key: string]: boolean
-  },
-  notificationMap: {
-    [key: string]: boolean
-  }
+    equipment: EquipmentUnit[],
+    updateState: React.Dispatch<React.SetStateAction<{}>>,
+    state: {
+        [key: string]: boolean;
+    },
+    notificationMap: {
+        [key: string]: boolean;
+    }
 ): ReactElement[] {
-  let equipmentList: ReactElement[] = [];
+    let equipmentList: ReactElement[] = [];
 
-  const createHandler = (name: string) => {
-    return ((e: FormEvent<HTMLInputElement>) => {
-      if (e.currentTarget.checked != (notificationMap[name] ?? false)) {
-        updateState({
-          ...state,
-          [name]: e.currentTarget.checked
-        });
-      } else {
-        let newState = {...state};
-        delete newState[name];
-        updateState(newState);
-      }
+    const createHandler = (name: string) => {
+        return (e: FormEvent<HTMLInputElement>) => {
+            if (e.currentTarget.checked != (notificationMap[name] ?? false)) {
+                updateState({
+                    ...state,
+                    [name]: e.currentTarget.checked,
+                });
+            } else {
+                let newState = { ...state };
+                delete newState[name];
+                updateState(newState);
+            }
+        };
+    };
+
+    equipment.forEach((e) => {
+        equipmentList.push(
+            <div className="grid grid-cols-2 gap-4">
+                <div>{e.name}</div>
+                <div>
+                    <Input
+                        type="checkbox"
+                        checked={
+                            state[e.name] ?? notificationMap[e.name] ?? false
+                        }
+                        onChange={createHandler(e.name)}
+                    />
+                </div>
+            </div>
+        );
     });
-  }
 
-  equipment.forEach(e => {
-    equipmentList.push(
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          {e.name}
-        </div>
-        <div>
-          <Input
-            type="checkbox"
-            checked={state[e.name] ?? notificationMap[e.name] ?? false}
-            onChange={createHandler(e.name)}
-          />
-        </div>
-      </div>
-    );
-  });
-
-  return equipmentList;
+    return equipmentList;
 }
 
-export default function ConfigTab({ site, siteId }: configTabProps): ReactElement {
+export default function ConfigTab({
+    site,
+    siteId,
+}: configTabProps): ReactElement {
     const uid = useSelector((state: RootState) => state.auth.userUID);
-    const notificationMap = useSelector(
-      (state: RootState) => state.users[uid as string].equipmentNotifications?.[siteId]
-    ) ?? {};
+    const notificationMap =
+        useSelector(
+            (state: RootState) =>
+                state.users[uid as string].equipmentNotifications?.[siteId]
+        ) ?? {};
 
     const [configState, setConfigState] = useState({
-      name: site.name,
-      notes: site.notes,
-      address: site.address
+        name: site.name,
+        notes: site.notes,
+        address: site.address,
     });
 
     const [equipmentState, setEquipmentState] = useState({});
@@ -135,15 +142,15 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
                 </div>
 
                 <div className="">
-                  <h2>Equipment Notifications</h2>
-                  <div>
-                    {createEquipmentElements(
-                      site.equipmentUnits, 
-                      setEquipmentState,
-                      equipmentState,
-                      notificationMap
-                    )}
-                  </div>
+                    <h2>Equipment Notifications</h2>
+                    <div>
+                        {createEquipmentElements(
+                            site.equipmentUnits,
+                            setEquipmentState,
+                            equipmentState,
+                            notificationMap
+                        )}
+                    </div>
                 </div>
 
                 <div className="bootStrapStyles">

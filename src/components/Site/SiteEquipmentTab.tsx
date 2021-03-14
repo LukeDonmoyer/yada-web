@@ -1,7 +1,7 @@
 // @ts-nocheck
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { TypeColumn } from '@inovua/reactdatagrid-community/types';
-import Button, { ButtonType } from 'components/Button';
+import Button, { ButtonType } from 'components/Control/Button';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { createNewEquipment } from 'scripts/Datastore';
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
-import CsvDownloadButton from 'components/CsvDownloadButton';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 
 export default function SiteEquipmentTab(): ReactElement {
@@ -17,7 +17,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const siteID = location.pathname.split('/')[3];
     const sites = useSelector((state: RootState) => state.sites);
     const loggers = useSelector((state: RootState) => state.loggers);
-    const channelTemplates = useSelector((state:RootState) => state.templates);
+    const channelTemplates = useSelector((state: RootState) => state.templates);
     const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
@@ -34,7 +34,7 @@ export default function SiteEquipmentTab(): ReactElement {
         changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
     };
 
-    function getAllLoggerData(){
+    function getAllLoggerData() {
         var allData: any[] = [];
 
         //add the header for logger id
@@ -43,13 +43,12 @@ export default function SiteEquipmentTab(): ReactElement {
         //for each equipment at the current site
         sites[siteID].equipmentUnits.forEach((unit) => {
             //for each logger uid on the equipment
-            unit.loggers.forEach((logger_uid)=>{
-                
+            unit.loggers.forEach((logger_uid) => {
                 //add headers for csv
                 for (const [key, value] of Object.entries(
                     channelTemplates[loggers[logger_uid].channelTemplate].keys
                 )) {
-                    if(!csvHeaders.includes(key)){
+                    if (!csvHeaders.includes(key)) {
                         csvHeaders.push(key);
                     }
                 }
@@ -160,7 +159,7 @@ export default function SiteEquipmentTab(): ReactElement {
     }
 
     return (
-        <div className='site-equipment'>
+        <div className="site-equipment">
             <div className="buttonBar">
                 <Button
                     type={ButtonType.tableControl}
