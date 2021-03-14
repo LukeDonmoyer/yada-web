@@ -9,11 +9,16 @@ import { createNewEquipment } from 'scripts/Datastore';
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
+import CsvDownloadButton from 'components/CsvDownloadButton';
+import { Data } from 'react-csv/components/CommonPropTypes';
 
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
     const siteID = location.pathname.split('/')[3];
     const sites = useSelector((state: RootState) => state.sites);
+    const loggers = useSelector((state: RootState) => state.loggers);
+    const channelTemplates = useSelector((state:RootState) => state.templates);
+    const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
     const statuses = [
@@ -28,6 +33,39 @@ export default function SiteEquipmentTab(): ReactElement {
         let parsedName = data.name.replace(' ', '-');
         changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
     };
+
+    function getAllLoggerData(){
+        var allData: any[] = [];
+
+        //add the header for logger id
+        csvHeaders.push('logger');
+
+        //for each equipment at the current site
+        sites[siteID].equipmentUnits.forEach((unit) => {
+            //for each logger uid on the equipment
+            unit.loggers.forEach((logger_uid)=>{
+                
+                //add headers for csv
+                for (const [key, value] of Object.entries(
+                    channelTemplates[loggers[logger_uid].channelTemplate].keys
+                )) {
+                    if(!csvHeaders.includes(key)){
+                        csvHeaders.push(key);
+                    }
+                }
+
+                //add data points from logger and tag with logger uid
+                loggers[logger_uid].data.forEach((dataPoint, index) => {
+                    var dataEntry = Object.assign({}, dataPoint);
+                    dataEntry['logger'] = logger_uid;
+
+                    allData.push(dataEntry);
+                });
+            });
+        });
+
+        return allData;
+    }
 
     // creates rows
     const rows = sites[siteID]['equipmentUnits'].map((unit) => {
@@ -122,15 +160,19 @@ export default function SiteEquipmentTab(): ReactElement {
     }
 
     return (
-        <>
-            <div className="addEquipmentButton">
+        <div className='site-equipment'>
+            <div className="buttonBar">
                 <Button
-                    align={'right'}
                     type={ButtonType.tableControl}
                     text={'create equipment'}
                     onClick={() => {
                         handleNewEquipmentClick();
                     }}
+                />
+                <CsvDownloadButton
+                    headers={csvHeaders}
+                    filename={`${sites[siteID].name}-all-data.csv`}
+                    createData={() => getAllLoggerData() as Data}
                 />
             </div>
             <ReactDataGrid
@@ -140,6 +182,6 @@ export default function SiteEquipmentTab(): ReactElement {
                 defaultFilterValue={filters}
                 onCellClick={onCellClick}
             />
-        </>
+        </div>
     );
 }

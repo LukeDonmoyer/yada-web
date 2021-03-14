@@ -35,4 +35,11 @@
         color: $lightOrange;
         fill: $lightOrange;
     }
+
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        margin-left: auto;
+    }
 }

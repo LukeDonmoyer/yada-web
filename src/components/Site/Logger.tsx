@@ -3,10 +3,12 @@ import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import { GridColDef, DataGrid } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
+import CsvDownloadButton from 'components/CsvDownloadButton';
 import { ToggleSwitch } from 'components/ToggleSwitch';
 import moment from 'moment';
 import { bool } from 'prop-types';
 import React, { MutableRefObject, ReactElement, useState } from 'react';
+import { Data, Headers } from 'react-csv/components/CommonPropTypes';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
@@ -68,6 +70,8 @@ export function LoggerTab({
         { name: 'timestamp', operator: 'after', type: 'date', value: '' },
     ];
 
+    var csvHeaders: string[] = [];
+
     for (const [key, value] of Object.entries(
         channelTemplates[logger.channelTemplate].keys
     )) {
@@ -84,6 +88,8 @@ export function LoggerTab({
                 value: '',
             });
         }
+
+        csvHeaders.push(key);
     }
 
     let rows: any[] = [];
@@ -108,14 +114,22 @@ export function LoggerTab({
 
     return (
         <div className="loggerTab">
-            <Button
-                text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
-                type={ButtonType.loggerInfoShow}
-                onClick={handleInfoButton}
-            />
+            <div className="buttonBar">
+                <Button
+                    text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                    type={ButtonType.loggerInfoShow}
+                    onClick={handleInfoButton}
+                />
+                <CsvDownloadButton
+                    headers={csvHeaders}
+                    filename={`${logger.name} data.csv`}
+                    createData={() => gridRef?.current?.data as Data}
+                />
+            </div>
             {infoExpanded ? (
                 <LoggerInfo logger={logger} logger_uid={logger_uid} />
             ) : null}
+
             <ReactDataGrid
                 onReady={setGridRef}
                 className={'dataGrid'}
