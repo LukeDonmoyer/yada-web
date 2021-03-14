@@ -50,9 +50,10 @@ export function SiteEquipmentContent({
         <TabViewItem
             label="Dashboard"
             route="dashboard"
-            default={true}
+            default
+            exact
         >
-            <EquipmentDashboard loggers={loggers}/>
+            <EquipmentDashboard loggers={loggers} unit={unit}/>
         </TabViewItem>
     );
 

@@ -1,22 +1,26 @@
 import { Logger } from "@material-ui/data-grid";
 import { ReactElement } from "react";
-import { LoggerCollection } from "store/FirestoreInterfaces";
+import { EquipmentUnit, LoggerCollection } from "store/FirestoreInterfaces";
 
 export interface EquipmentDashboardProps {
-  loggers: LoggerCollection
+  loggers: LoggerCollection,
+  unit?: EquipmentUnit
 }
 
 export default function EquipmentDashboard({
-  loggers
+  loggers,
+  unit
 }: EquipmentDashboardProps): ReactElement {
 
   function loggerNames(loggers: LoggerCollection){
     let loggerNames = [];
 
     for(const [id, loggerData] of Object.entries(loggers)){
-      loggerNames.push(
+      if (unit?.loggers.find((loggerId) => loggerId === id)) {
+        loggerNames.push(
         <h2>{loggerData.name}</h2>
-      );
+        );
+      }
     }
 
     return loggerNames;
