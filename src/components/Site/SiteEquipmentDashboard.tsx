@@ -18,7 +18,10 @@ export default function EquipmentDashboard({
     for(const [id, loggerData] of Object.entries(loggers)){
       if (unit?.loggers.find((loggerId) => loggerId === id)) {
         loggerNames.push(
-        <h2>{loggerData.name}</h2>
+          <div>
+            <h2>{loggerData.name}</h2>
+            <div>{loggerData.data[0]['timestamp']}</div>
+          </div>
         );
       }
     }
