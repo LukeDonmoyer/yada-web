@@ -62,4 +62,9 @@ export interface User {
     userGroup: string;
     emailNotifications?: boolean;
     smsNotifications?: boolean;
+    equipmentNotifications?: {
+        [siteId: string]: {
+            [equipmentName: string]: boolean
+        }
+    };
 }

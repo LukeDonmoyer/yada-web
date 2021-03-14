@@ -9,6 +9,7 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import { Map } from 'typescript';
 
 /**
  * -- REQUIRED --
@@ -594,4 +595,12 @@ export function updateUserDoc(uid: string, newVals: any) {
     fire.fireStore.collection('Users').doc(uid).set(newVals, { merge: true });
     if ('email' in newVals)
         fire.fireAuth.currentUser?.updateEmail(newVals.email);
+}
+
+export function updateEquipmentNotifications(uid: string, siteId: string, notificationMap: any){
+    fire.fireStore.collection('Users').doc(uid).set({
+        equipmentNotifications: {
+            [siteId]: notificationMap
+        }
+    }, { merge: true });
 }
