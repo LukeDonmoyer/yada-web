@@ -10,6 +10,7 @@ import * as implementation from './Implementation';
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
+import { Map } from 'typescript';
 
 // AUTHENTICATION
 /**
@@ -188,4 +189,15 @@ export function changeEquipmentName(
     newName: string
 ) {
     implementation.changeEquipmentName(siteID, oldName, newName);
+}
+export function updateSiteConfig(siteId: string, siteConfig: any) {
+    implementation.updateSiteConfig(siteId, siteConfig);
+}
+
+export function updateEquipmentNotifications(
+    uid: string,
+    siteId: string,
+    notificationMap: any
+) {
+    implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
 }

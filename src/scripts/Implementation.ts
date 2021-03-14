@@ -9,8 +9,6 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/rootReducer';
 
 /**
  * -- REQUIRED --
@@ -334,7 +332,7 @@ export function changePassword(newPassword: string): Promise<any> | undefined {
 
 /**
  * -- Required --
- * creates new equpiment associated with the specified site and given an initial name
+ * creates new equipment associated with the specified site and given an initial name
  * @param site_uid string
  * @param equipment_name string
  */
@@ -660,4 +658,21 @@ export function changeEquipmentName(
                 });
             }
         });
+}
+export function updateEquipmentNotifications(
+    uid: string,
+    siteId: string,
+    notificationMap: any
+) {
+    fire.fireStore
+        .collection('Users')
+        .doc(uid)
+        .set(
+            {
+                equipmentNotifications: {
+                    [siteId]: notificationMap,
+                },
+            },
+            { merge: true }
+        );
 }

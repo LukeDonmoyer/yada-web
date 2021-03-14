@@ -5,14 +5,13 @@ import DynamicNavbar, { DynamicNavLink } from '../DynamicNavbar';
 import { useParams } from 'react-router-dom';
 import { EquipmentUnit, SiteObject } from '../../store/FirestoreInterfaces';
 import { SiteEquipmentContent } from './SiteEquipmentContent';
+import { createNewEquipment } from 'scripts/Datastore';
 
 /**
  * Event handler for adding a new equipment unit.
- *
- * @param event The click event.
  */
-function addEquipment(event: any) {
-    //TODO: Add equipment unit to current site
+function addEquipment(siteId: string) {
+    createNewEquipment(siteId, 'New Equipment');
 }
 
 /**
@@ -49,7 +48,10 @@ export default function SiteEquipment(): ReactElement {
     }
 
     return (
-        <DynamicNavbar title={'Equipment'} buttonAction={addEquipment}>
+        <DynamicNavbar
+            title={'Equipment'}
+            buttonAction={() => addEquipment(siteId)}
+        >
             <DynamicNavLink
                 route={''}
                 key={'default'}

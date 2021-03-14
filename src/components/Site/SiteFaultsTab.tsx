@@ -70,6 +70,7 @@ export default function SiteFaultsTab({
     return (
         <>
             <CsvDownloadButton
+                align={'right'}
                 headers={[
                     { label: 'Timestamp', key: 'timestamp' },
                     { label: 'Message', key: 'message' },

@@ -1,6 +1,7 @@
 .site-equipment {
     display: flex;
     flex-flow: column;
+    height: calc(100% - 2rem);
 
     margin: 8px 24px;
 
@@ -33,5 +34,12 @@
     .site-equipment-back-button:hover {
         color: $lightOrange;
         fill: $lightOrange;
+    }
+
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        margin-left: auto;
     }
 }

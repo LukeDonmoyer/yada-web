@@ -1,7 +1,14 @@
+import ReactDataGrid from '@inovua/reactdatagrid-community';
+import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
+import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import { GridColDef, DataGrid } from '@material-ui/data-grid';
 import Button, { ButtonType } from 'components/Button';
+import CsvDownloadButton from 'components/CsvDownloadButton';
 import { ToggleSwitch } from 'components/ToggleSwitch';
-import React, { ReactElement, useState } from 'react';
+import moment from 'moment';
+import { bool } from 'prop-types';
+import React, { MutableRefObject, ReactElement, useState } from 'react';
+import { Data, Headers } from 'react-csv/components/CommonPropTypes';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
@@ -32,34 +39,105 @@ export function LoggerTab({
     logger,
     logger_uid,
 }: LoggerTabProps): ReactElement {
+    const channelTemplates = useSelector((state: RootState) => state.templates);
+
     const [infoExpanded, setInfoExpanded] = useState(false);
 
     const handleInfoButton = () => setInfoExpanded(!infoExpanded);
 
-    const columns: GridColDef[] = [
-        { field: 'timestamp', headerName: 'timestamp', flex: 1 },
+    const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
+
+    const [
+        gridRef,
+        setGridRef,
+    ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
+
+    const columns: any[] = [
+        {
+            name: 'timestamp',
+            header: 'Timestamp',
+            minWidth: 150,
+            defaultFlex: 1,
+            dateFormat: dateFormat,
+            filterEditor: DateFilter,
+            filterEditorProps: () => {
+                return { dateFormat: dateFormat };
+            },
+        },
     ];
+
+    const filters = [
+        { name: 'timestamp', operator: 'after', type: 'date', value: '' },
+    ];
+
+    var csvHeaders: string[] = [];
+
+    for (const [key, value] of Object.entries(
+        channelTemplates[logger.channelTemplate].keys
+    )) {
+        if (key != 'timestamp') {
+            columns.push({
+                name: key,
+                header: key,
+                defaultFlex: 1,
+            });
+            filters.push({
+                name: key,
+                operator: 'neq',
+                type: value,
+                value: '',
+            });
+        }
+
+        csvHeaders.push(key);
+    }
 
     let rows: any[] = [];
 
     logger.data.forEach((dataPoint, index) => {
-        rows.push({
-            id: index,
-            timestamp: dataPoint.timestamp,
-        });
+        var row = Object.assign({}, dataPoint);
+        row['id'] = index;
+
+        //if we have any boolean values, stringify them
+        for (const [key, value] of Object.entries(
+            channelTemplates[logger.channelTemplate].keys
+        )) {
+            if (value === 'boolean') {
+                row[key] = JSON.stringify(row[key]);
+            }
+        }
+
+        rows.push(row);
     });
+
+    console.log(rows);
 
     return (
         <div className="loggerTab">
-            <Button
-                text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
-                type={ButtonType.loggerInfoShow}
-                onClick={handleInfoButton}
-            />
+            <div className="buttonBar">
+                <Button
+                    text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                    type={ButtonType.loggerInfoShow}
+                    onClick={handleInfoButton}
+                />
+                <CsvDownloadButton
+                    headers={csvHeaders}
+                    filename={`${logger.name} data.csv`}
+                    createData={() => gridRef?.current?.data as Data}
+                />
+            </div>
             {infoExpanded ? (
                 <LoggerInfo logger={logger} logger_uid={logger_uid} />
             ) : null}
-            <DataGrid className="dataGrid" rows={rows} columns={columns} />
+
+            <ReactDataGrid
+                onReady={setGridRef}
+                className={'dataGrid'}
+                columns={columns}
+                dataSource={rows}
+                defaultSortInfo={[]}
+                defaultFilterValue={filters}
+            />
         </div>
     );
 }

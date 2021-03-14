@@ -43,6 +43,7 @@ export interface ChannelTemplate {
     channels: any[];
     modified: string;
     name: string;
+    keys: Map<string, string>;
 }
 
 export interface ChannelTemplateCollection {
@@ -61,4 +62,9 @@ export interface User {
     userGroup: string;
     emailNotifications?: boolean;
     smsNotifications?: boolean;
+    equipmentNotifications?: {
+        [siteId: string]: {
+            [equipmentName: string]: boolean;
+        };
+    };
 }
