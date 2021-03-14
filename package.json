@@ -23,6 +23,7 @@
         "autoprefixer": "^9",
         "firebase": "^8.2.2",
         "moment": "^2.29.1",
+        "nivo": "^0.31.0",
         "postcss": "^7",
         "prop-types": "^15.7.2",
         "react": "^17.0.1",
