@@ -174,13 +174,12 @@ export default function UserManagement() {
             {authorized ? (
                 <>
                     <h1>User Management</h1>
-                    <div className="addUserButton">
-                        <Button
-                            type={ButtonType.tableControl}
-                            text={'+'}
-                            onClick={promptForEmail}
-                        />
-                    </div>
+                    <Button
+                        align={'right'}
+                        type={ButtonType.tableControl}
+                        text={'+'}
+                        onClick={promptForEmail}
+                    />
                     <ReactDataGrid
                         className={'dataGrid'}
                         idProperty="uniqueId"
