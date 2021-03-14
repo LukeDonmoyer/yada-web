@@ -17,7 +17,9 @@ interface configTabProps {
 function createEquipmentElements(
   equipment: EquipmentUnit[], 
   updateState: React.Dispatch<React.SetStateAction<{}>>,
-  state: {},
+  state: {
+    [key: string]: boolean
+  },
   notificationMap: {
     [key: string]: boolean
   }
@@ -26,10 +28,16 @@ function createEquipmentElements(
 
   const createHandler = (name: string) => {
     return ((e: FormEvent<HTMLInputElement>) => {
-      updateState({
-        ...state,
-        [name]: e.currentTarget.checked
-      });
+      if (e.currentTarget.checked != (notificationMap[name] ?? false)) {
+        updateState({
+          ...state,
+          [name]: e.currentTarget.checked
+        });
+      } else {
+        let newState = {...state};
+        delete newState[name];
+        updateState(newState);
+      }
     });
   }
 
@@ -42,7 +50,7 @@ function createEquipmentElements(
         <div>
           <Input
             type="checkbox"
-            checked={notificationMap[e.name] ?? false}
+            checked={state[e.name] ?? notificationMap[e.name] ?? false}
             onChange={createHandler(e.name)}
           />
         </div>
@@ -77,6 +85,7 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
     const submitChanges = (e: any) => {
         e.preventDefault();
         updateSiteConfig(siteId, configState);
+        updateEquipmentNotifications(uid as string, siteId, equipmentState);
         alert('Changes saved!');
     };
 
@@ -125,24 +134,24 @@ export default function ConfigTab({ site, siteId }: configTabProps): ReactElemen
                     </FormGroup>
                 </div>
 
-                <div>
+                <div className="">
+                  <h2>Equipment Notifications</h2>
+                  <div>
+                    {createEquipmentElements(
+                      site.equipmentUnits, 
+                      setEquipmentState,
+                      equipmentState,
+                      notificationMap
+                    )}
+                  </div>
+                </div>
+
+                <div className="bootStrapStyles">
                     <Button type="submit" value="Submit">
                         Save Changes
                     </Button>
                 </div>
             </Form>
-
-            <div className="bootStrapStyles">
-              <h2>Equipment Notifications</h2>
-              <div>
-                {createEquipmentElements(
-                  site.equipmentUnits, 
-                  setEquipmentState,
-                  equipmentState,
-                  notificationMap
-                )}
-              </div>
-            </div>
         </div>
     );
 }
