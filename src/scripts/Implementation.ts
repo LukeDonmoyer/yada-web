@@ -489,6 +489,7 @@ export function addLoggerToEquipment(
 }
 
 /**
+ * --REQUIRED--
  * sends password reset email
  * @param email email
  */
@@ -597,10 +598,20 @@ export function updateUserDoc(uid: string, newVals: any) {
         fire.fireAuth.currentUser?.updateEmail(newVals.email);
 }
 
-export function updateEquipmentNotifications(uid: string, siteId: string, notificationMap: any){
-    fire.fireStore.collection('Users').doc(uid).set({
-        equipmentNotifications: {
-            [siteId]: notificationMap
-        }
-    }, { merge: true });
+export function updateEquipmentNotifications(
+    uid: string,
+    siteId: string,
+    notificationMap: any
+) {
+    fire.fireStore
+        .collection('Users')
+        .doc(uid)
+        .set(
+            {
+                equipmentNotifications: {
+                    [siteId]: notificationMap,
+                },
+            },
+            { merge: true }
+        );
 }

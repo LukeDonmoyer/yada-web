@@ -64,7 +64,7 @@ export interface User {
     smsNotifications?: boolean;
     equipmentNotifications?: {
         [siteId: string]: {
-            [equipmentName: string]: boolean
-        }
+            [equipmentName: string]: boolean;
+        };
     };
 }

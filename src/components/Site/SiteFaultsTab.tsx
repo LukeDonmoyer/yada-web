@@ -9,7 +9,7 @@ import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import { Button } from 'reactstrap';
 import { CSVDownload, CSVLink } from 'react-csv';
 import { Data, Headers } from 'react-csv/components/CommonPropTypes';
-import CsvDownloadButton from '../CsvDownloadButton';
+import CsvDownloadButton from '../Control/CsvDownloadButton';
 
 window.moment = moment;
 
@@ -70,7 +70,7 @@ export default function SiteFaultsTab({
     return (
         <>
             <CsvDownloadButton
-            align={'right'}
+                align={'right'}
                 headers={[
                     { label: 'Timestamp', key: 'timestamp' },
                     { label: 'Message', key: 'message' },
