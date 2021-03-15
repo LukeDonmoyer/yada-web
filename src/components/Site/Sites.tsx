@@ -66,7 +66,7 @@ function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
         <div className={'sites'}>
             <h1>{site.name}</h1>
             <TabView>
-                <TabViewItem label={'Equipment'} exact default>
+                <TabViewItem label={'Equipment'} default>
                     <SiteEquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
