@@ -97,7 +97,7 @@ export default function SiteFaultsTab({
             />
             <ReactDataGrid
                 onReady={setGridRef}
-                className={'data-grid'}
+                className={'dataGrid'}
                 columns={columns}
                 dataSource={faults}
                 defaultFilterValue={filters}
