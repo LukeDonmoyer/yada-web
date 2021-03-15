@@ -660,6 +660,13 @@ export function changeEquipmentName(
             }
         });
 }
+
+/**
+ * Updates the equipment notifications map in the user document specified by @param uid.
+ * @param uid 
+ * @param siteId 
+ * @param notificationMap 
+ */
 export function updateEquipmentNotifications(
     uid: string,
     siteId: string,

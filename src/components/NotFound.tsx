@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
  *
  * @constructor
  */
-export default function NotFound() {
+export default function NotFound(): ReactElement {
     return (
         <div className="notFound h-screen">
             <div className="card grid grid-cols-2 md:grid-cols-2">
