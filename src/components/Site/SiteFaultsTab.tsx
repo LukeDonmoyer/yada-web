@@ -1,15 +1,19 @@
-import { MutableRefObject, ReactElement, useRef, useState } from 'react';
+import { MutableRefObject, ReactElement, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
-import { SiteObject } from '../../store/FirestoreInterfaces';
+import {
+    EquipmentUnit,
+    Fault,
+    SiteObject,
+} from '../../store/FirestoreInterfaces';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
 import moment from 'moment';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
-import { Button } from 'reactstrap';
-import { CSVDownload, CSVLink } from 'react-csv';
-import { Data, Headers } from 'react-csv/components/CommonPropTypes';
+import { Data } from 'react-csv/components/CommonPropTypes';
 import CsvDownloadButton from '../Control/CsvDownloadButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 window.moment = moment;
 
@@ -43,6 +47,13 @@ export default function SiteFaultsTab({
             name: 'message',
             header: 'Fault',
             defaultFlex: 2,
+            render: ({ value }: any) =>
+                value.map((message: string) => (
+                    <>
+                        <span>{message}</span>
+                        <br />
+                    </>
+                )),
         },
         {
             name: 'unitName',
@@ -57,13 +68,18 @@ export default function SiteFaultsTab({
         { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
 
-    const faults = site.equipmentUnits.flatMap((unit) => {
-        return unit.faults.map((fault) => {
-            return {
-                unitName: unit.name,
-                message: fault.message,
-                timestamp: moment(fault.timestamp).format(dateFormat),
-            };
+    let loggers = useSelector((state: RootState) => state.loggers);
+
+    //TODO: Change this to use implementation abstraction function
+    const faults = site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
+        return unit.loggers.flatMap((loggerId: string) => {
+            return loggers[loggerId].faults.map((fault: Fault) => {
+                return {
+                    unitName: unit.name,
+                    message: fault.messages,
+                    timestamp: moment(fault.timestamp).format(dateFormat),
+                };
+            });
         });
     });
 

@@ -1,9 +1,15 @@
 import React, { ReactElement } from 'react';
 
 import './siteCard.scss';
-import { SiteObject } from '../../store/FirestoreInterfaces';
+import {
+    EquipmentUnit,
+    Fault,
+    SiteObject,
+} from '../../store/FirestoreInterfaces';
 import Statistic from './Statistic';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
 interface SiteCardProps {
     site: SiteObject;
@@ -66,10 +72,13 @@ interface SiteLatestFaultTableProps {
 function SiteLatestFaultTable({
     site,
 }: SiteLatestFaultTableProps): ReactElement {
-    let latestFaults = site.equipmentUnits
-        .flatMap((unit) => {
-            return unit.faults.map((fault) => {
-                return { fault: fault, unitName: unit.name };
+    let loggers = useSelector((state: RootState) => state.loggers);
+    const latestFaults = site.equipmentUnits
+        .flatMap((unit: EquipmentUnit) => {
+            return unit.loggers.flatMap((loggerId: string) => {
+                return loggers[loggerId].faults.map((fault: Fault) => {
+                    return { unitName: unit.name, fault: fault };
+                });
             });
         })
         .sort((a, b) => a.fault.timestamp - b.fault.timestamp)
@@ -84,13 +93,17 @@ function SiteLatestFaultTable({
                 <h4>Fault</h4>
                 <h4>Time</h4>
             </div>
-            {latestFaults.map((x) => {
+            {latestFaults.map((entry) => {
                 return (
                     <div className={'fault-table-row'}>
-                        <div>{x.unitName}</div>
-                        <div>{x.fault.message}</div>
+                        <div>{entry.unitName}</div>
                         <div>
-                            {new Date(x.fault.timestamp).toLocaleString()}
+                            {entry.fault.messages.map((message: string) => (
+                                <div className={'truncate'}>{message}</div>
+                            ))}
+                        </div>
+                        <div>
+                            {new Date(entry.fault.timestamp).toLocaleString()}
                         </div>
                     </div>
                 );
