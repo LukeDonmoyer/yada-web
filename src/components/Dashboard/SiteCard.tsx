@@ -1,28 +1,30 @@
 import React, { ReactElement } from 'react';
 
-import './siteCard.scss';
-import {
-    EquipmentUnit,
-    Fault,
-    SiteObject,
-} from '../../store/FirestoreInterfaces';
+import { SiteObject } from '../../store/FirestoreInterfaces';
 import Statistic from './Statistic';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import SiteLatestFaultTable from './SiteLatestFaultTable';
 
 interface SiteCardProps {
+    // The Site Object to get information from
     site: SiteObject;
+
+    // The id of the site object
     siteId: string;
 }
 
+/**
+ * Component to display some basic information about a site as a card.
+ *
+ * @param site The site object to get information from
+ * @param siteId The id of the site object
+ * @constructor
+ */
 export default function SiteCard({
     site,
     siteId,
 }: SiteCardProps): ReactElement {
     const sum = (x: number, y: number) => x + y;
-
-    if (!site) return <></>;
 
     return (
         <div className={'card'}>
@@ -52,7 +54,7 @@ export default function SiteCard({
                     />
                 </div>
             </div>
-            <SiteLatestFaultTable site={site} />
+            <SiteLatestFaultTable site={site} numFaults={3} />
             <div className={'details-button'}>
                 <Link to={`/app/sites/${siteId}`}>
                     <div className={'details-link'}>View Details</div>
@@ -61,53 +63,6 @@ export default function SiteCard({
                     <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                 </svg>
             </div>
-        </div>
-    );
-}
-
-interface SiteLatestFaultTableProps {
-    site: SiteObject;
-}
-
-function SiteLatestFaultTable({
-    site,
-}: SiteLatestFaultTableProps): ReactElement {
-    let loggers = useSelector((state: RootState) => state.loggers);
-    const latestFaults = site.equipmentUnits
-        .flatMap((unit: EquipmentUnit) => {
-            return unit.loggers.flatMap((loggerId: string) => {
-                return loggers[loggerId].faults.map((fault: Fault) => {
-                    return { unitName: unit.name, fault: fault };
-                });
-            });
-        })
-        .sort((a, b) => a.fault.timestamp - b.fault.timestamp)
-        .slice(0, 3);
-
-    if (latestFaults.length <= 0) return <h3>No Faults</h3>;
-
-    return (
-        <div className={'fault-table'}>
-            <div className={'fault-table-row'}>
-                <h4>Equip. name</h4>
-                <h4>Fault</h4>
-                <h4>Time</h4>
-            </div>
-            {latestFaults.map((entry) => {
-                return (
-                    <div className={'fault-table-row'}>
-                        <div>{entry.unitName}</div>
-                        <div>
-                            {entry.fault.messages.map((message: string) => (
-                                <div className={'truncate'}>{message}</div>
-                            ))}
-                        </div>
-                        <div>
-                            {new Date(entry.fault.timestamp).toLocaleString()}
-                        </div>
-                    </div>
-                );
-            })}
         </div>
     );
 }

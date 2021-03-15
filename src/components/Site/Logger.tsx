@@ -71,7 +71,7 @@ export function LoggerTab({
     for (const [key, value] of Object.entries(
         channelTemplates[logger.channelTemplate].keys
     )) {
-        if (key != 'timestamp') {
+        if (key !== 'timestamp') {
             columns.push({
                 name: key,
                 header: key,
@@ -105,8 +105,6 @@ export function LoggerTab({
 
         rows.push(row);
     });
-
-    console.log(rows);
 
     return (
         <div className="loggerTab">

@@ -13,10 +13,20 @@ import SearchBar from './SearchBar';
 import SiteCard from './SiteCard';
 import { SiteCollection } from '../../store/FirestoreInterfaces';
 
+/**
+ * Main Dashboard container component.
+ *
+ * @constructor
+ */
 export default function Dashboard() {
     const sites = useSelector((state: RootState) => state.sites);
     const [searchQuery, setSearchQuery] = useState('');
 
+    /**
+     * Creates a list of sites card elements from the given collection of sites.
+     *
+     * @param sites The collection of sites to make cards for.
+     */
     function createSiteElements(sites: SiteCollection): ReactElement[] {
         let result = [];
 

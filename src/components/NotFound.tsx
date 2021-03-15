@@ -1,7 +1,11 @@
 import React from 'react';
-import '../assets/styles.scss';
 import { Link } from 'react-router-dom';
 
+/**
+ * 404 component. Includes some links back to other pages.
+ *
+ * @constructor
+ */
 export default function NotFound() {
     return (
         <div className="notFound h-screen">

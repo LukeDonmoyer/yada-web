@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactElement, useState } from 'react';
+import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import {
@@ -15,15 +15,30 @@ import CsvDownloadButton from '../Control/CsvDownloadButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 
-window.moment = moment;
+window.moment = moment; // Needed for date filtering
+
+interface FaultData {
+    unitName: string;
+    message: string[];
+    timestamp: string;
+}
 
 interface SiteFaultsTabProps {
+    // The site to get faults from
     site: SiteObject;
 }
 
+/**
+ * Displays the faults tab for a site. This includes the csv download button and the fault table itself.
+ *
+ * @param site
+ * @constructor
+ */
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const [faults, setFaults] = useState<FaultData[] | null>(null);
+    const loggers = useSelector((state: RootState) => state.loggers);
     const [
         gridRef,
         setGridRef,
@@ -31,7 +46,7 @@ export default function SiteFaultsTab({
 
     const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
 
-    const columns = [
+    const gridColumns = [
         {
             name: 'timestamp',
             header: 'Timestamp',
@@ -68,20 +83,28 @@ export default function SiteFaultsTab({
         { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
 
-    let loggers = useSelector((state: RootState) => state.loggers);
-
     //TODO: Change this to use implementation abstraction function
-    const faults = site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
-        return unit.loggers.flatMap((loggerId: string) => {
-            return loggers[loggerId].faults.map((fault: Fault) => {
-                return {
-                    unitName: unit.name,
-                    message: fault.messages,
-                    timestamp: moment(fault.timestamp).format(dateFormat),
-                };
+    useEffect(() => {
+        async function getFaults(): Promise<FaultData[]> {
+            return site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
+                return unit.loggers.flatMap((loggerId: string) => {
+                    return (
+                        loggers[loggerId]?.faults.map((fault: Fault) => {
+                            return {
+                                unitName: unit.name,
+                                message: fault.messages,
+                                timestamp: moment(fault.timestamp).format(
+                                    dateFormat
+                                ),
+                            };
+                        }) || []
+                    );
+                });
             });
-        });
-    });
+        }
+
+        getFaults().then(setFaults);
+    }, [loggers, site]);
 
     return (
         <>
@@ -97,11 +120,12 @@ export default function SiteFaultsTab({
             />
             <ReactDataGrid
                 onReady={setGridRef}
-                className={'data-grid'}
-                columns={columns}
-                dataSource={faults}
+                className={'dataGrid'}
+                columns={gridColumns}
+                dataSource={faults ?? []}
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
+                loading={faults === null}
             />
         </>
     );

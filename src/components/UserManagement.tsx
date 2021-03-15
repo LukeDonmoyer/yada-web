@@ -2,7 +2,7 @@
  * Dashboard component
  *
  * route: '/app/usermanagement'
- * purpose: page that wiill provide access to manage users
+ * purpose: page that will provide access to manage users
  */
 
 import {
@@ -14,7 +14,6 @@ import {
     registerUser,
 } from '../scripts/Datastore';
 import AuthCheck from './Control/AuthCheck';
-import Content from './Content';
 import { useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';

@@ -30,7 +30,7 @@ function createEquipmentElements(
 
     const createHandler = (name: string) => {
         return (e: FormEvent<HTMLInputElement>) => {
-            if (e.currentTarget.checked != (notificationMap[name] ?? false)) {
+            if (e.currentTarget.checked !== (notificationMap[name] ?? false)) {
                 updateState({
                     ...state,
                     [name]: e.currentTarget.checked,
@@ -71,7 +71,7 @@ export default function ConfigTab({
     const notificationMap =
         useSelector(
             (state: RootState) =>
-                state.users[uid as string].equipmentNotifications?.[siteId]
+                state.users[uid as string]?.equipmentNotifications?.[siteId]
         ) ?? {};
 
     const [configState, setConfigState] = useState({

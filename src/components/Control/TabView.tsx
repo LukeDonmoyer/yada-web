@@ -26,7 +26,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
                 to={`${url}${
                     child.props.default ? '' : `/${child.props.route}`
                 }`}
-                exact={child.props.exact}
+                exact={child.props.exact || child.props.default}
                 className={'tab-item'}
                 activeClassName={'tab-item-selected'}
             >
@@ -45,7 +45,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
 
         return (
             <Route
-                exact={child.props.exact}
+                exact={child.props.exact || child.props.default}
                 path={`${path}${
                     child.props.default ? '' : `/${child.props.route}`
                 }`}
