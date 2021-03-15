@@ -2,7 +2,7 @@
  * Dashboard component
  *
  * route: '/app/usermanagement'
- * purpose: page that wiill provide access to manage users
+ * purpose: page that will provide access to manage users
  */
 
 import {

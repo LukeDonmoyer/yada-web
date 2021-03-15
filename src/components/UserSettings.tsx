@@ -40,7 +40,6 @@ export default function Settings() {
 
     const submitChanges = (event: any) => {
         event.preventDefault();
-        console.log(newVals);
         updateUserDoc(uid as string, newVals);
         alert('Changes saved!');
     };

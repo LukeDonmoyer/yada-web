@@ -1,11 +1,21 @@
 import { useState } from 'react';
 
 export interface ToggleSwitchProps {
+    // Default state of toggle
     enabledDefault: boolean;
+
+    // Handler for when the switch is enabled
     onEnable?: () => void;
+
+    // Handler for when the switch is disabled
     onDisable?: () => void;
 }
 
+/**
+ * Creates a simple toggle switch.
+ *
+ * @constructor
+ */
 export function ToggleSwitch({
     enabledDefault,
     onEnable,
@@ -15,10 +25,10 @@ export function ToggleSwitch({
 
     const handleClick = () => {
         if (enabled) {
-            if (onDisable) onDisable();
+            onDisable?.();
             setEnabled(false);
         } else {
-            if (onEnable) onEnable();
+            onEnable?.();
             setEnabled(true);
         }
     };

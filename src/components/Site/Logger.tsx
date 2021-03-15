@@ -106,8 +106,6 @@ export function LoggerTab({
         rows.push(row);
     });
 
-    console.log(rows);
-
     return (
         <div className="loggerTab">
             <div className="buttonBar">

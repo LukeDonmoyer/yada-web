@@ -15,15 +15,23 @@ import CsvDownloadButton from '../Control/CsvDownloadButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 
-window.moment = moment;
+window.moment = moment; // Needed for date filtering
 
 interface SiteFaultsTabProps {
+    // The site to get faults from
     site: SiteObject;
 }
 
+/**
+ * Displays the faults tab for a site. This includes the csv download button and the fault table itself.
+ *
+ * @param site
+ * @constructor
+ */
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const loggers = useSelector((state: RootState) => state.loggers);
     const [
         gridRef,
         setGridRef,
@@ -31,7 +39,7 @@ export default function SiteFaultsTab({
 
     const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
 
-    const columns = [
+    const gridColumns = [
         {
             name: 'timestamp',
             header: 'Timestamp',
@@ -68,8 +76,6 @@ export default function SiteFaultsTab({
         { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
 
-    let loggers = useSelector((state: RootState) => state.loggers);
-
     //TODO: Change this to use implementation abstraction function
     const faults = site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
         return unit.loggers.flatMap((loggerId: string) => {
@@ -98,7 +104,7 @@ export default function SiteFaultsTab({
             <ReactDataGrid
                 onReady={setGridRef}
                 className={'dataGrid'}
-                columns={columns}
+                columns={gridColumns}
                 dataSource={faults}
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
