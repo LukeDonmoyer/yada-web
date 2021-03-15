@@ -47,6 +47,8 @@ export default function SiteEquipment(): ReactElement {
         );
     }
 
+    if (!site) return <></>;
+
     return (
         <DynamicNavbar
             title={'Equipment'}

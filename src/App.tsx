@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'assets/tailwind.css';
 import Onboard from './components/Onboard/Onboard';
 
@@ -34,18 +34,21 @@ function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
     const [userPrivilege, setPrivilege] = useState('User');
 
-    registerAuthChangeCallback((userAuth: any) => {
-        store.dispatch(authSlice.actions.login(userAuth?.uid));
-        if (userAuth !== null && userAuth !== undefined) {
-            initializeListeners();
-        } else {
-            resetRedux();
-        }
-    });
+    // Setup listeners and get user privilege after authentication
+    useEffect(() => {
+        registerAuthChangeCallback((userAuth: any) => {
+            store.dispatch(authSlice.actions.login(userAuth?.uid));
+            if (userAuth !== null && userAuth !== undefined) {
+                initializeListeners();
+            } else {
+                resetRedux();
+            }
 
-    getUserPrivilege().then((privilege: string) => {
-        setPrivilege(privilege);
-    });
+            getUserPrivilege().then((privilege: string) => {
+                setPrivilege(privilege);
+            });
+        });
+    }, []);
 
     return (
         <Router>

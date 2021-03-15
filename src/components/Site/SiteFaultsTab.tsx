@@ -1,4 +1,4 @@
-import { MutableRefObject, ReactElement, useState } from 'react';
+import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import {
@@ -17,6 +17,12 @@ import { RootState } from '../../store/rootReducer';
 
 window.moment = moment; // Needed for date filtering
 
+interface FaultData {
+    unitName: string;
+    message: string[];
+    timestamp: string;
+}
+
 interface SiteFaultsTabProps {
     // The site to get faults from
     site: SiteObject;
@@ -31,6 +37,7 @@ interface SiteFaultsTabProps {
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const [faults, setFaults] = useState<FaultData[] | null>(null);
     const loggers = useSelector((state: RootState) => state.loggers);
     const [
         gridRef,
@@ -77,17 +84,27 @@ export default function SiteFaultsTab({
     ];
 
     //TODO: Change this to use implementation abstraction function
-    const faults = site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
-        return unit.loggers.flatMap((loggerId: string) => {
-            return loggers[loggerId].faults.map((fault: Fault) => {
-                return {
-                    unitName: unit.name,
-                    message: fault.messages,
-                    timestamp: moment(fault.timestamp).format(dateFormat),
-                };
+    useEffect(() => {
+        async function getFaults(): Promise<FaultData[]> {
+            return site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
+                return unit.loggers.flatMap((loggerId: string) => {
+                    return (
+                        loggers[loggerId]?.faults.map((fault: Fault) => {
+                            return {
+                                unitName: unit.name,
+                                message: fault.messages,
+                                timestamp: moment(fault.timestamp).format(
+                                    dateFormat
+                                ),
+                            };
+                        }) || []
+                    );
+                });
             });
-        });
-    });
+        }
+
+        getFaults().then(setFaults);
+    }, [loggers, site]);
 
     return (
         <>
@@ -105,9 +122,10 @@ export default function SiteFaultsTab({
                 onReady={setGridRef}
                 className={'dataGrid'}
                 columns={gridColumns}
-                dataSource={faults}
+                dataSource={faults ?? []}
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
+                loading={faults === null}
             />
         </>
     );

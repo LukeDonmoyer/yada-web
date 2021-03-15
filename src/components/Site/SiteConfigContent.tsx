@@ -71,7 +71,7 @@ export default function ConfigTab({
     const notificationMap =
         useSelector(
             (state: RootState) =>
-                state.users[uid as string].equipmentNotifications?.[siteId]
+                state.users[uid as string]?.equipmentNotifications?.[siteId]
         ) ?? {};
 
     const [configState, setConfigState] = useState({
