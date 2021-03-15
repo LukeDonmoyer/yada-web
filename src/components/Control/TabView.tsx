@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { NavLink, Route, useRouteMatch } from 'react-router-dom';
+import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
 
 interface TabViewProps {
     // TabView Items to route between. Any element that is not a TabViewItem will be displayed in the tab view div.
@@ -60,7 +60,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
             <div className={'tab-view'}>
                 {React.Children.map(children, createLink)}
             </div>
-            {React.Children.map(children, createRoute)}
+            <Switch>{React.Children.map(children, createRoute)}</Switch>
         </>
     );
 }
