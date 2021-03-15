@@ -6,17 +6,15 @@
  * purpose: page that will provide access to manage sites
  */
 
-import { createNewEquipment, createNewSite } from '../../scripts/Datastore';
-import React, { ReactElement, useState } from 'react';
+import { createNewSite } from '../../scripts/Datastore';
+import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { SiteObject } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import DynamicNavbar, { DynamicNavLink } from '../Control/DynamicNavbar';
 import SiteEquipment from './SiteEquipment';
 import TabView, { TabViewItem } from '../Control/TabView';
-import Button, { ButtonType } from 'components/Control/Button';
-import { basename } from 'path';
 import ConfigTab from './SiteConfigContent';
 import SiteFaultsTab from './SiteFaultsTab';
 import SiteEquipmentTab from './SiteEquipmentTab';

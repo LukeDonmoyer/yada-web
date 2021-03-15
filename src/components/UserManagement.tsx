@@ -14,7 +14,6 @@ import {
     registerUser,
 } from '../scripts/Datastore';
 import AuthCheck from './Control/AuthCheck';
-import Content from './Content';
 import { useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';

@@ -543,12 +543,12 @@ export function removeLoggerFromEquipment(
                     (unit) => unit.name === equipment_name
                 );
 
-                if (equipmentIndex != -1) {
+                if (equipmentIndex !== -1) {
                     var loggerIndex = site.equipmentUnits[
                         equipmentIndex
                     ].loggers.findIndex((uid) => uid === logger_uid);
 
-                    if (loggerIndex != -1)
+                    if (loggerIndex !== -1)
                         site.equipmentUnits[equipmentIndex].loggers.splice(
                             loggerIndex,
                             1

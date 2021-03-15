@@ -30,7 +30,7 @@ function createEquipmentElements(
 
     const createHandler = (name: string) => {
         return (e: FormEvent<HTMLInputElement>) => {
-            if (e.currentTarget.checked != (notificationMap[name] ?? false)) {
+            if (e.currentTarget.checked !== (notificationMap[name] ?? false)) {
                 updateState({
                     ...state,
                     [name]: e.currentTarget.checked,
