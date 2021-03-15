@@ -1,16 +1,22 @@
-@mixin filledPrimaryButton {
+@mixin sharedButtonAttributes {
     font-family: 'Lato';
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: $companyName;
-    color: white;
+
     border-radius: 10px;
     border-width: 2px;
-    border-color: $companyName;
+
     transition: all 0.2s ease-in-out;
     user-select: none;
     cursor: pointer;
+}
+
+@mixin filledPrimaryButton {
+    @include sharedButtonAttributes();
+    background-color: $companyName;
+    color: white;
+    border-color: $companyName;
 
     &:hover {
         background-color: white;
@@ -22,18 +28,10 @@
 }
 
 @mixin borderedPrimaryButton {
-    font-family: 'Lato';
-    padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    @include sharedButtonAttributes();
     background-color: white;
     color: $companyName;
-    border-radius: 10px;
-    border-width: 2px;
     border-color: $companyName;
-    transition: all 0.2s ease-in-out;
-    user-select: none;
-    cursor: pointer;
 
     &:hover {
         background-color: $companyName;
@@ -56,7 +54,6 @@
     font-size: 30px;
     text-align: center;
     line-height: 40px;
-    transition: all 0.2s ease-in-out;
 
     &:hover {
         transform: scale(1.1, 1.1);

@@ -488,6 +488,7 @@ export function addLoggerToEquipment(
 }
 
 /**
+ * --REQUIRED--
  * sends password reset email
  * @param email email
  */

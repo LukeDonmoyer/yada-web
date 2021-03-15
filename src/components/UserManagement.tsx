@@ -1,8 +1,7 @@
 /**
  * Dashboard component
- * author: Shaun Jorstad
  *
- * route: '/app/user-management'
+ * route: '/app/usermanagement'
  * purpose: page that wiill provide access to manage users
  */
 
@@ -14,7 +13,7 @@ import {
     getUserPrivilege,
     registerUser,
 } from '../scripts/Datastore';
-import AuthCheck from './AuthCheck';
+import AuthCheck from './Control/AuthCheck';
 import Content from './Content';
 import { useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
@@ -23,19 +22,27 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
-import Button, { ButtonType } from './Button';
+import Button, { ButtonType } from './Control/Button';
 
 interface PrivilegeToggleProps {
+    // name of privilege level
     level: string;
+    // user id
     uid: string;
 }
 
 interface ToggleItemProps {
+    // user id
     uid: string;
+    // current level of the user
     currentLevel: string;
+    // level for this toggle item
     level: string;
 }
 
+/**
+ * renders privilege toggle item
+ */
 function ToggleItem(props: ToggleItemProps) {
     return (
         <span
@@ -51,6 +58,9 @@ function ToggleItem(props: ToggleItemProps) {
     );
 }
 
+/**
+ * renders privilege toggle
+ */
 function PrivilegeToggle(props: PrivilegeToggleProps) {
     return (
         <div className="privilegeToggle">
@@ -95,6 +105,9 @@ function AccountControls(props: accountControlsProps) {
     );
 }
 
+/**
+ * renders user management table
+ */
 export default function UserManagement() {
     const [authorized, setAuthorization] = useState(false);
     const users = useSelector((state: RootState) => state.users);
@@ -105,6 +118,7 @@ export default function UserManagement() {
         }
     });
 
+    // prompts user for email and then registers the email
     function promptForEmail() {
         let result = prompt(
             "Enter the email address for the account you'd like registered",
@@ -137,6 +151,7 @@ export default function UserManagement() {
 
     let data: any = [];
 
+    // adds row to data for each user in the system
     for (const [uid, user] of Object.entries(users)) {
         let userData = user as User;
         let phoneNumber = userData.phoneNumber;
@@ -156,6 +171,7 @@ export default function UserManagement() {
         }
     }
 
+    // callback for editing a phone number cell (email is an option but is disabled for this implementation with firestore)
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'phone': {

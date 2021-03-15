@@ -1,6 +1,5 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { SiteContentProps } from './Sites';
 
 import '../../assets/styles.scss';
 import '../../assets/bootstrap.scss';

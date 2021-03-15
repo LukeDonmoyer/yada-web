@@ -8,8 +8,7 @@
 import { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Button, Form, Input } from 'reactstrap';
-import { createEmailDocument } from 'scripts/Datastore';
-import '../assets/styles.scss';
+import { createEmailDocument } from '../../scripts/Datastore';
 
 export default function RequestAccount() {
     let [email, setEmail] = useState('');

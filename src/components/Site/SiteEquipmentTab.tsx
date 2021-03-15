@@ -1,7 +1,7 @@
 // @ts-nocheck
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { TypeColumn } from '@inovua/reactdatagrid-community/types';
-import Button, { ButtonType } from 'components/Button';
+import Button, { ButtonType } from 'components/Control/Button';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router-dom';
@@ -9,14 +9,12 @@ import {
     changeEquipmentName,
     createNewEquipment,
     deleteEquipment,
-    editEmail,
 } from 'scripts/Datastore';
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import chevron_right from '../../assets/icons/chevron_right.svg';
-import { handleAuthStateChange } from 'scripts/Implementation';
-import CsvDownloadButton from 'components/CsvDownloadButton';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 
 export default function SiteEquipmentTab(): ReactElement {

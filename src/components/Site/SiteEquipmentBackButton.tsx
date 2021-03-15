@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import React from 'react';
 
 interface SiteEquipmentBackButtonProps {
     // The name of the site to go back to.

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import 'assets/tailwind.css';
-import Onboard from './components/Onboard';
+import Onboard from './components/Onboard/Onboard';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ChangePassword from 'components/ChangePassword';
-import RegisterUsers from 'components/RegisterUsers';
-import ContactUs from 'components/ContactUs';
-import RequestAccount from 'components/RequestAccount';
+import ChangePassword from 'components/Onboard/ChangePassword';
+import ContactUs from 'components/Onboard/ContactUs';
+import RequestAccount from 'components/Onboard/RequestAccount';
 
 import authSlice from 'store/FireActions';
 import store from './store/store';
@@ -15,9 +14,9 @@ import Settings from 'components/UserSettings';
 import NotFound from 'components/NotFound';
 import { RootState } from 'store/rootReducer';
 import { useSelector } from 'react-redux';
-import AuthCheck from 'components/AuthCheck';
+import AuthCheck from 'components/Control/AuthCheck';
 import { Animated } from 'react-animated-css';
-import StaticNavbar, { StaticNavItem } from 'components/StaticNavbar';
+import StaticNavbar, { StaticNavItem } from 'components/Control/StaticNavbar';
 import Dashboard from 'components/Dashboard/Dashboard';
 import UserManagement from 'components/UserManagement';
 import homeIcon from 'assets/icons/home.svg';
@@ -33,7 +32,6 @@ import {
 
 function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
-    const [userDocExists, setUserDocExists] = useState(false);
     const [userPrivilege, setPrivilege] = useState('User');
 
     registerAuthChangeCallback((userAuth: any) => {
@@ -54,6 +52,7 @@ function App() {
             <Switch>
                 <Route exact path="/" component={Onboard} />
                 <Route path="/app">
+                    {/* Shows simple signin component on routes where the user is not authenticated */}
                     {currentUser === null || currentUser === undefined ? (
                         <AuthCheck />
                     ) : (
@@ -63,11 +62,13 @@ function App() {
                             isVisible={true}
                         >
                             <div className={'app'}>
+                                {/* Component that renders each link in the static navbar as a nested route */}
                                 <StaticNavbar
                                     autoCollapse={true}
                                     roundRightCorners={true}
                                     currentPrivilege={userPrivilege}
                                 >
+                                    {/* Dashboard route */}
                                     <StaticNavItem
                                         label={'dashboard'}
                                         route={'dashboard'}
@@ -75,6 +76,7 @@ function App() {
                                     >
                                         <Dashboard />
                                     </StaticNavItem>
+                                    {/* Sites route */}
                                     <StaticNavItem
                                         label={'sites'}
                                         route={'sites'}
@@ -82,6 +84,7 @@ function App() {
                                     >
                                         <Sites />
                                     </StaticNavItem>
+                                    {/* Route disabled because this component has not been created yet */}
                                     {/* <StaticNavItem
                                             label={'channel templates'}
                                             route={'channel-templates'}
@@ -89,6 +92,7 @@ function App() {
                                         >
                                             <ChannelTemplates />
                                         </StaticNavItem> */}
+                                    {/* User management route: conditionally rendered if User is an owner or an admin */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
                                     ) ? (
@@ -102,6 +106,7 @@ function App() {
                                     ) : (
                                         <></>
                                     )}
+                                    {/* User settings route */}
                                     <StaticNavItem
                                         label="settings"
                                         route="settings"
@@ -114,18 +119,19 @@ function App() {
                         </Animated>
                     )}
                 </Route>
+                {/* singular component to change user's password, required on first login */}
                 <Route path="/change-password">
                     <ChangePassword />
                 </Route>
-                <Route path="/register-users">
-                    <RegisterUsers />
-                </Route>
+                {/* contact us form */}
                 <Route path="/contact-us">
                     <ContactUs />
                 </Route>
+                {/* request account form */}
                 <Route path="/request-account">
                     <RequestAccount />
                 </Route>
+                {/* 404 error */}
                 <Route path={'*'} component={NotFound} />
             </Switch>
         </Router>
