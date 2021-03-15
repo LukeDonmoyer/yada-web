@@ -34,4 +34,13 @@ $darkNavbar: #393e41;
     }
     overflow: -moz-scrollbars-none;
     ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+// removes firefox dotted border highlight
+a {
+    outline: 0;
+    &:focus {
+        outline: none;
+    }
 }

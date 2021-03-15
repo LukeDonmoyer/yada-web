@@ -202,6 +202,17 @@ export function updateUserDoc(uid: string, newVals: any) {
     implementation.updateUserDoc(uid, newVals);
 }
 
+export function deleteEquipment(siteID: string, name: string) {
+    implementation.deleteEquipment(siteID, name);
+}
+
+export function changeEquipmentName(
+    siteID: string,
+    oldName: string,
+    newName: string
+) {
+    implementation.changeEquipmentName(siteID, oldName, newName);
+}
 export function updateSiteConfig(siteId: string, siteConfig: any) {
     implementation.updateSiteConfig(siteId, siteConfig);
 }

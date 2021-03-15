@@ -16,6 +16,17 @@
     .dataGrid {
         @include dataGrid;
     }
+
+    .openIcon {
+        margin: 0 auto;
+        // width: 60%;
+        // height: 60%;
+    }
+
+    .deleteLink {
+        @include link;
+        color: $lightRed;
+    }
 }
 
 .message {
