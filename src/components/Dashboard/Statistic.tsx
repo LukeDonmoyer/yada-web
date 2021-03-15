@@ -1,7 +1,5 @@
 import React, { ReactElement } from 'react';
 
-import './statistic.scss';
-
 interface StatisticProps {
     value: number;
     valueClassName?: string;
