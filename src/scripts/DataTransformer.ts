@@ -20,7 +20,7 @@ function transformDataPoint(
     }
 }
 
-export default function DataTransformer(data: any[], channelName: string): any[]{
+export default function dataTransformer(data: any[], channelName: string): any[]{
     let transformedData: any[] = [];
 
     data.forEach((d: any) => {
@@ -30,5 +30,5 @@ export default function DataTransformer(data: any[], channelName: string): any[]
             transformedData.push(dataPoint);
     });
 
-    return [];
+    return transformedData;
 }

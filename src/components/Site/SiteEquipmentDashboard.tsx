@@ -1,6 +1,15 @@
-import { Logger } from "@material-ui/data-grid";
+/**
+ * 
+ * 
+ * 
+ * Get channels from each template -> map channels to loggers that have them -> for each channel -> for each logger -> transform data for channel -> add data to Nivo struct -> render graph
+ */
+
 import { ReactElement } from "react";
-import { EquipmentUnit, LoggerCollection } from "store/FirestoreInterfaces";
+import { useSelector } from "react-redux";
+import dataTransformer from "scripts/DataTransformer";
+import { ChannelTemplateCollection, EquipmentUnit, LoggerCollection, LoggerObject } from "store/FirestoreInterfaces";
+import { RootState } from "store/rootReducer";
 
 export interface EquipmentDashboardProps {
   loggers: LoggerCollection,
@@ -12,15 +21,22 @@ export default function EquipmentDashboard({
   unit
 }: EquipmentDashboardProps): ReactElement {
 
-  function loggerNames(loggers: LoggerCollection){
+  let channelTemplates = useSelector((state: RootState) => state.templates);
+  let loggersOnUnit: LoggerObject[] = []
+
+  for (const [id, logger] of Object.entries(loggers)){
+    if (unit?.loggers.find((loggerId) => loggerId === id))
+      loggersOnUnit.push(logger);
+  }
+
+  const loggerNames = () => {
     let loggerNames = [];
 
-    for(const [id, loggerData] of Object.entries(loggers)){
-      if (unit?.loggers.find((loggerId) => loggerId === id)) {
+    for (const logger of loggersOnUnit){
+      for (const key in channelTemplates[logger.channelTemplate].keys){
         loggerNames.push(
           <div>
-            <h2>{loggerData.name}</h2>
-            <div>{loggerData.data[0]['timestamp']}</div>
+            <li>{ key }</li>
           </div>
         );
       }
@@ -31,9 +47,7 @@ export default function EquipmentDashboard({
 
   return (
     <div>
-      {
-        loggerNames(loggers)
-      }
+      { loggerNames }
     </div>
   );
 }
