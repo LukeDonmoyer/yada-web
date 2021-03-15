@@ -93,17 +93,17 @@ function SiteLatestFaultTable({
                 <h4>Fault</h4>
                 <h4>Time</h4>
             </div>
-            {latestFaults.map((x) => {
+            {latestFaults.map((entry) => {
                 return (
                     <div className={'fault-table-row'}>
-                        <div>{x.unitName}</div>
+                        <div>{entry.unitName}</div>
                         <div>
-                            {x.fault.messages.map((message: string) => (
+                            {entry.fault.messages.map((message: string) => (
                                 <div className={'truncate'}>{message}</div>
                             ))}
                         </div>
                         <div>
-                            {new Date(x.fault.timestamp).toLocaleString()}
+                            {new Date(entry.fault.timestamp).toLocaleString()}
                         </div>
                     </div>
                 );
