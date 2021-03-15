@@ -16,6 +16,14 @@ interface configTabProps {
     siteId: string;
 }
 
+/**
+ * Enumerates equipment with corresponding checkboxes and state
+ * @param equipment 
+ * @param updateState 
+ * @param state 
+ * @param notificationMap 
+ * @returns a ReactElement array containing each row of equipment and corresponding checkbox
+ */
 function createEquipmentElements(
     equipment: EquipmentUnit[],
     updateState: React.Dispatch<React.SetStateAction<{}>>,
@@ -63,6 +71,11 @@ function createEquipmentElements(
     return equipmentList;
 }
 
+/**
+ * 
+ * @param param0 
+ * @returns React element for site configuration tab
+ */
 export default function ConfigTab({
     site,
     siteId,
