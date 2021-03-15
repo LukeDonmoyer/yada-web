@@ -41,6 +41,11 @@
             margin: 0 8px;
             width: 128px;
         }
+
+        .truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     h3 {
