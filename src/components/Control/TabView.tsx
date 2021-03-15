@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom';
+import { NavLink, Route, useRouteMatch } from 'react-router-dom';
 
 interface TabViewProps {
     // TabView Items to route between. Any element that is not a TabViewItem will be displayed in the tab view div.
@@ -19,7 +19,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
      * @param child The TabVewItem to create a NavLink for or element to display.
      */
     function createLink(child: ReactElement) {
-        if ((child.type as any).name !== 'TabViewItem') return child;
+        if ((child.type as any).name !== TabViewItem.name) return child;
 
         return (
             <NavLink
@@ -41,7 +41,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
      * @param child The TabViewItem to create a route to.
      */
     function createRoute(child: ReactElement) {
-        if ((child.type as any).name !== 'TabViewItem') return;
+        if ((child.type as any).name !== TabViewItem.name) return;
 
         return (
             <Route
@@ -60,7 +60,7 @@ export default function TabView({ children }: TabViewProps): ReactElement {
             <div className={'tab-view'}>
                 {React.Children.map(children, createLink)}
             </div>
-            <Switch>{React.Children.map(children, createRoute)}</Switch>
+            {React.Children.map(children, createRoute)}
         </>
     );
 }
