@@ -22,32 +22,40 @@ export default function EquipmentDashboard({
 }: EquipmentDashboardProps): ReactElement {
 
   let channelTemplates = useSelector((state: RootState) => state.templates);
-  let loggersOnUnit: LoggerObject[] = []
+  let loggersOnUnit: LoggerObject[] = [];
+  let channelsFromLoggers: string[] = [];
 
   for (const [id, logger] of Object.entries(loggers)){
     if (unit?.loggers.find((loggerId) => loggerId === id))
       loggersOnUnit.push(logger);
   }
 
-  const loggerNames = () => {
-    let loggerNames = [];
-
-    for (const logger of loggersOnUnit){
-      for (const key in channelTemplates[logger.channelTemplate].keys){
-        loggerNames.push(
-          <div>
-            <li>{ key }</li>
-          </div>
-        );
-      }
+  for (const logger of loggersOnUnit){
+    for (const key in channelTemplates[logger.channelTemplate].keys){
+      if (!channelsFromLoggers.includes(key))
+        channelsFromLoggers.push(key);
     }
-
-    return loggerNames;
   }
+
+  // const loggerNames = () => {
+  //   let loggerNames = [];
+
+  //   for (const logger of loggersOnUnit){
+  //     for (const key in channelTemplates[logger.channelTemplate].keys){
+  //       loggerNames.push(
+  //         <div>
+  //           <li>{ key }</li>
+  //         </div>
+  //       );
+  //     }
+  //   }
+
+  //   return loggerNames;
+  // }
 
   return (
     <div>
-      { loggerNames }
+      { channelsFromLoggers.join() }
     </div>
   );
 }
