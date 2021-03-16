@@ -1,6 +1,5 @@
 /**
  * Change Password component
- * Author: Shaun Jorstad
  *
  * Description: form component that upon submission changes the password for the currently authenticated account. This component is available to all users at the route of '/change-password'. The form submission is required upon the first user login
  */
@@ -8,11 +7,9 @@ import { changePassword, getUserData } from 'scripts/Datastore';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
-import { RootState } from '../store/rootReducer';
-import AuthCheck from './AuthCheck';
+import { RootState } from '../../store/rootReducer';
+import AuthCheck from '../Control/AuthCheck';
 import { Animated } from 'react-animated-css';
-
-import '../assets/styles.scss';
 
 export default function ChangePassword() {
     // the UID for the currently logged in user

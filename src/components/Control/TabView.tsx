@@ -19,14 +19,14 @@ export default function TabView({ children }: TabViewProps): ReactElement {
      * @param child The TabVewItem to create a NavLink for or element to display.
      */
     function createLink(child: ReactElement) {
-        if ((child.type as any).name !== 'TabViewItem') return child;
+        if ((child.type as any).name !== TabViewItem.name) return child;
 
         return (
             <NavLink
                 to={`${url}${
                     child.props.default ? '' : `/${child.props.route}`
                 }`}
-                exact={child.props.exact}
+                exact={child.props.exact || child.props.default}
                 className={'tab-item'}
                 activeClassName={'tab-item-selected'}
             >
@@ -41,11 +41,11 @@ export default function TabView({ children }: TabViewProps): ReactElement {
      * @param child The TabViewItem to create a route to.
      */
     function createRoute(child: ReactElement) {
-        if ((child.type as any).name !== 'TabViewItem') return;
+        if ((child.type as any).name !== TabViewItem.name) return;
 
         return (
             <Route
-                exact={child.props.exact}
+                exact={child.props.exact || child.props.default}
                 path={`${path}${
                     child.props.default ? '' : `/${child.props.route}`
                 }`}

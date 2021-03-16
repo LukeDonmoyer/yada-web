@@ -1,7 +1,5 @@
 import { FormEvent, ReactElement, useState } from 'react';
 
-import './searchbar.scss';
-
 interface SearchBarProps {
     // The callback for when the input changes.
     onInput?: (value: string) => void;

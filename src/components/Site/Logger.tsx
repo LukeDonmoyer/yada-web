@@ -1,21 +1,17 @@
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
-import { GridColDef, DataGrid } from '@material-ui/data-grid';
-import Button, { ButtonType } from 'components/Button';
-import CsvDownloadButton from 'components/CsvDownloadButton';
-import { ToggleSwitch } from 'components/ToggleSwitch';
-import moment from 'moment';
-import { bool } from 'prop-types';
-import React, { MutableRefObject, ReactElement, useState } from 'react';
-import { Data, Headers } from 'react-csv/components/CommonPropTypes';
+import Button, { ButtonType } from 'components/Control/Button';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
+import { ToggleSwitch } from 'components/Control/ToggleSwitch';
+import { MutableRefObject, ReactElement, useState } from 'react';
+import { Data } from 'react-csv/components/CommonPropTypes';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
-    Label,
 } from 'reactstrap';
 import {
     addLoggerToEquipment,
@@ -75,7 +71,7 @@ export function LoggerTab({
     for (const [key, value] of Object.entries(
         channelTemplates[logger.channelTemplate].keys
     )) {
-        if (key != 'timestamp') {
+        if (key !== 'timestamp') {
             columns.push({
                 name: key,
                 header: key,
@@ -109,8 +105,6 @@ export function LoggerTab({
 
         rows.push(row);
     });
-
-    console.log(rows);
 
     return (
         <div className="loggerTab">

@@ -1,15 +1,20 @@
 // @ts-nocheck
 import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { TypeColumn } from '@inovua/reactdatagrid-community/types';
-import Button, { ButtonType } from 'components/Button';
+import Button, { ButtonType } from 'components/Control/Button';
 import React, { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, useLocation } from 'react-router-dom';
-import { createNewEquipment } from 'scripts/Datastore';
+import {
+    changeEquipmentName,
+    createNewEquipment,
+    deleteEquipment,
+} from 'scripts/Datastore';
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
-import CsvDownloadButton from 'components/CsvDownloadButton';
+import chevron_right from '../../assets/icons/chevron_right.svg';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 
 export default function SiteEquipmentTab(): ReactElement {
@@ -17,7 +22,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const siteID = location.pathname.split('/')[3];
     const sites = useSelector((state: RootState) => state.sites);
     const loggers = useSelector((state: RootState) => state.loggers);
-    const channelTemplates = useSelector((state:RootState) => state.templates);
+    const channelTemplates = useSelector((state: RootState) => state.templates);
     const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
@@ -34,7 +39,7 @@ export default function SiteEquipmentTab(): ReactElement {
         changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
     };
 
-    function getAllLoggerData(){
+    function getAllLoggerData() {
         var allData: any[] = [];
 
         //add the header for logger id
@@ -43,13 +48,12 @@ export default function SiteEquipmentTab(): ReactElement {
         //for each equipment at the current site
         sites[siteID].equipmentUnits.forEach((unit) => {
             //for each logger uid on the equipment
-            unit.loggers.forEach((logger_uid)=>{
-                
+            unit.loggers.forEach((logger_uid) => {
                 //add headers for csv
-                for (const [key, value] of Object.entries(
+                for (const [key] of Object.entries(
                     channelTemplates[loggers[logger_uid].channelTemplate].keys
                 )) {
-                    if(!csvHeaders.includes(key)){
+                    if (!csvHeaders.includes(key)) {
                         csvHeaders.push(key);
                     }
                 }
@@ -88,34 +92,75 @@ export default function SiteEquipmentTab(): ReactElement {
             name: unit.name,
             health: unit.health,
             type: unit.type,
+            key: unit.name,
+            open: (
+                <img
+                    className="openIcon"
+                    src={chevron_right}
+                    alt="open"
+                    onClick={() => {
+                        let parsedName = unit.name.replace(' ', '-');
+                        changeRedirect(
+                            `/app/sites/${siteID}/equipment/${parsedName}`
+                        );
+                    }}
+                />
+            ),
+            caution: (
+                <span
+                    className="deleteLink"
+                    onClick={() => {
+                        if (window.confirm(`Delete equipment: ${unit.name}`)) {
+                            // deleteUser(props.uid);
+                            deleteEquipment(siteID, unit.name);
+                        }
+                    }}
+                >
+                    delete
+                </span>
+            ),
         };
     });
 
     const columns: TypeColumn[] = [
         {
+            name: 'open',
+            header: 'open',
+            defaultFlex: 1,
+            editable: false,
+        },
+        {
             name: 'name',
             header: 'name',
-            defaultFlex: 1,
+            defaultFlex: 9,
         },
         {
             name: 'health',
             header: 'health',
-            defaultFlex: 1,
+            defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
                 placeholder: 'All',
                 dataSource: statuses,
             },
+            editable: false,
         },
         {
             name: 'type',
             header: 'type',
-            defaultFlex: 1,
+            defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
                 placeholder: 'All',
                 dataSource: types,
             },
+            editable: false,
+        },
+        {
+            name: 'caution',
+            header: 'caution',
+            defaultFlex: 2,
+            editable: false,
         },
     ];
 
@@ -124,7 +169,7 @@ export default function SiteEquipmentTab(): ReactElement {
             name: 'name',
             operator: 'contains',
             type: 'string',
-            value: null,
+            value: '',
         },
         {
             name: 'health',
@@ -155,12 +200,22 @@ export default function SiteEquipmentTab(): ReactElement {
         createNewEquipment(siteID, baseName + String(nameNum));
     }
 
+    const onEditComplete = (info: TypeEditInfo) => {
+        switch (info.columnId) {
+            case 'name': {
+                let oldName = rows[info.rowIndex].name;
+                let newName = info.value;
+                changeEquipmentName(siteID, oldName, newName);
+            }
+        }
+    };
+
     if (redirect !== '') {
         return <Redirect to={redirect} />;
     }
 
     return (
-        <div className='site-equipment'>
+        <div className="site-equipment">
             <div className="buttonBar">
                 <Button
                     type={ButtonType.tableControl}
@@ -180,7 +235,8 @@ export default function SiteEquipmentTab(): ReactElement {
                 columns={columns}
                 dataSource={rows}
                 defaultFilterValue={filters}
-                onCellClick={onCellClick}
+                editable={true}
+                onEditComplete={onEditComplete}
             />
         </div>
     );

@@ -488,6 +488,7 @@ export function addLoggerToEquipment(
 }
 
 /**
+ * --REQUIRED--
  * sends password reset email
  * @param email email
  */
@@ -542,12 +543,12 @@ export function removeLoggerFromEquipment(
                     (unit) => unit.name === equipment_name
                 );
 
-                if (equipmentIndex != -1) {
+                if (equipmentIndex !== -1) {
                     var loggerIndex = site.equipmentUnits[
                         equipmentIndex
                     ].loggers.findIndex((uid) => uid === logger_uid);
 
-                    if (loggerIndex != -1)
+                    if (loggerIndex !== -1)
                         site.equipmentUnits[equipmentIndex].loggers.splice(
                             loggerIndex,
                             1
@@ -594,4 +595,92 @@ export function updateUserDoc(uid: string, newVals: any) {
     fire.fireStore.collection('Users').doc(uid).set(newVals, { merge: true });
     if ('email' in newVals)
         fire.fireAuth.currentUser?.updateEmail(newVals.email);
+}
+
+export function deleteEquipment(siteID: string, name: string) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(siteID)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                let data = doc.data();
+                let equipment = data?.equipmentUnits.filter((unit: any) => {
+                    if (unit.name === name) {
+                        unit.loggers.forEach((loggerID: string) => {
+                            fire.fireStore
+                                .collection('Loggers')
+                                .doc(loggerID)
+                                .update({
+                                    equipment: null,
+                                    site: null,
+                                });
+                        });
+                    } else {
+                        return unit;
+                    }
+                });
+                fire.fireStore.collection('Sites').doc(siteID).update({
+                    equipmentUnits: equipment,
+                });
+            }
+        });
+}
+
+export function changeEquipmentName(
+    siteID: string,
+    oldName: string,
+    newName: string
+) {
+    fire.fireStore
+        .collection('Sites')
+        .doc(siteID)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                let data = doc.data();
+                let equipment = data?.equipmentUnits.map((unit: any) => {
+                    let tmp = unit;
+                    if (unit.name === oldName) {
+                        tmp.name = newName;
+                        unit.loggers.forEach((loggerID: string) => {
+                            fire.fireStore
+                                .collection('Loggers')
+                                .doc(loggerID)
+                                .update({
+                                    equipment: newName,
+                                });
+                        });
+                    }
+                    return tmp;
+                });
+                fire.fireStore.collection('Sites').doc(siteID).update({
+                    equipmentUnits: equipment,
+                });
+            }
+        });
+}
+
+/**
+ * Updates the equipment notifications map in the user document specified by @param uid.
+ * @param uid 
+ * @param siteId 
+ * @param notificationMap 
+ */
+export function updateEquipmentNotifications(
+    uid: string,
+    siteId: string,
+    notificationMap: any
+) {
+    fire.fireStore
+        .collection('Users')
+        .doc(uid)
+        .set(
+            {
+                equipmentNotifications: {
+                    [siteId]: notificationMap,
+                },
+            },
+            { merge: true }
+        );
 }

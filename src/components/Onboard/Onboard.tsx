@@ -1,12 +1,11 @@
 /**
  * Onboarding component
- * author: Shaun Jorstad
  *
  * route: '/'
  * purpose: home page with an info carousel that provides the login form and some links to resources.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Input } from 'reactstrap';
@@ -14,13 +13,11 @@ import {
     signInWithEmail,
     getUserData,
     sendPasswordResetEmail,
-} from '../scripts/Datastore';
+} from '../../scripts/Datastore';
 
-import { ReactComponent as Logo } from '../assets/images/icon.svg';
 import AnimatedLogo from './AnimatedLogo';
 
-import '../assets/styles.scss';
-import { RootState } from '../store/rootReducer';
+import { RootState } from '../../store/rootReducer';
 
 function SignInForm() {
     const [email, updateEmail] = useState('');
@@ -28,7 +25,7 @@ function SignInForm() {
         event.preventDefault();
         const email = event.target[0].value;
         const password = event.target[1].value;
-        signInWithEmail(email, password).then((user) => {});
+        signInWithEmail(email, password);
     };
 
     function passwordResetHandler() {
@@ -63,7 +60,7 @@ function SignInForm() {
                     placeholder="password"
                 />
                 <Button>Sign In</Button>
-                <Link to="/requestAccount" className="requestLink">
+                <Link to="/request-account" className="requestLink">
                     Request Account
                 </Link>
                 <div

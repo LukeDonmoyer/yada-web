@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import React from 'react';
 
 interface SiteEquipmentBackButtonProps {
     // The name of the site to go back to.
@@ -9,15 +8,13 @@ interface SiteEquipmentBackButtonProps {
 /**
  * Creates a simple back button for the SiteEquipment page.
  *
- * @param siteName
+ * @param siteName The name of the site to go back to.
  * @constructor
  */
 export function SiteEquipmentBackButton({
     label,
 }: SiteEquipmentBackButtonProps) {
     const { siteId }: any = useParams();
-
-    console.log(siteId);
 
     return (
         <Link to={`/app/sites/${siteId}`}>

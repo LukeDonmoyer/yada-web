@@ -2,18 +2,20 @@
  * Author: Brendan Ortmann
  */
 
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import '../assets/styles.scss';
 import '../assets/bootstrap.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
-import Content from './Content';
-import AuthCheck from './AuthCheck';
 
-export default function Settings() {
+/**
+ * 
+ * @returns React element containing user settings
+ */
+export default function Settings(): ReactElement {
     const uid = useSelector((state: RootState) => state.auth.userUID);
     const currentUser = useSelector(
         (state: RootState) => state.users[uid as string]
@@ -42,7 +44,6 @@ export default function Settings() {
 
     const submitChanges = (event: any) => {
         event.preventDefault();
-        console.log(newVals);
         updateUserDoc(uid as string, newVals);
         alert('Changes saved!');
     };

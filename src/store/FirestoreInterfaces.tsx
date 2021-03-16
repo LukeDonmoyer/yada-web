@@ -24,6 +24,7 @@ export interface LoggerObject {
     channelTemplate: string;
     collectingData: boolean;
     data: any[];
+    faults: Fault[];
     equipment: string;
     ip: string;
     mac: string;
@@ -36,7 +37,7 @@ export interface LoggerObject {
 
 export interface Fault {
     timestamp: number;
-    message: string;
+    messages: string[];
 }
 
 export interface ChannelTemplate {
@@ -62,4 +63,9 @@ export interface User {
     userGroup: string;
     emailNotifications?: boolean;
     smsNotifications?: boolean;
+    equipmentNotifications?: {
+        [siteId: string]: {
+            [equipmentName: string]: boolean;
+        };
+    };
 }

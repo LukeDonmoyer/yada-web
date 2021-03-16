@@ -1,25 +1,44 @@
-import { MutableRefObject, ReactElement, useRef, useState } from 'react';
+import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
-import { SiteObject } from '../../store/FirestoreInterfaces';
+import {
+    EquipmentUnit,
+    Fault,
+    SiteObject,
+} from '../../store/FirestoreInterfaces';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
 import moment from 'moment';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
-import { Button } from 'reactstrap';
-import { CSVDownload, CSVLink } from 'react-csv';
-import { Data, Headers } from 'react-csv/components/CommonPropTypes';
-import CsvDownloadButton from '../CsvDownloadButton';
+import { Data } from 'react-csv/components/CommonPropTypes';
+import CsvDownloadButton from '../Control/CsvDownloadButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/rootReducer';
 
-window.moment = moment;
+window.moment = moment; // Needed for date filtering
+
+interface FaultData {
+    unitName: string;
+    message: string[];
+    timestamp: string;
+}
 
 interface SiteFaultsTabProps {
+    // The site to get faults from
     site: SiteObject;
 }
 
+/**
+ * Displays the faults tab for a site. This includes the csv download button and the fault table itself.
+ *
+ * @param site
+ * @constructor
+ */
 export default function SiteFaultsTab({
     site,
 }: SiteFaultsTabProps): ReactElement {
+    const [faults, setFaults] = useState<FaultData[] | null>(null);
+    const loggers = useSelector((state: RootState) => state.loggers);
     const [
         gridRef,
         setGridRef,
@@ -27,7 +46,7 @@ export default function SiteFaultsTab({
 
     const dateFormat = 'M/D/YYYY hh:mm:ss:SSS A';
 
-    const columns = [
+    const gridColumns = [
         {
             name: 'timestamp',
             header: 'Timestamp',
@@ -43,6 +62,13 @@ export default function SiteFaultsTab({
             name: 'message',
             header: 'Fault',
             defaultFlex: 2,
+            render: ({ value }: any) =>
+                value.map((message: string) => (
+                    <>
+                        <span>{message}</span>
+                        <br />
+                    </>
+                )),
         },
         {
             name: 'unitName',
@@ -57,20 +83,33 @@ export default function SiteFaultsTab({
         { name: 'unitName', operator: 'contains', type: 'string', value: '' },
     ];
 
-    const faults = site.equipmentUnits.flatMap((unit) => {
-        return unit.faults.map((fault) => {
-            return {
-                unitName: unit.name,
-                message: fault.message,
-                timestamp: moment(fault.timestamp).format(dateFormat),
-            };
-        });
-    });
+    //TODO: Change this to use implementation abstraction function
+    useEffect(() => {
+        async function getFaults(): Promise<FaultData[]> {
+            return site.equipmentUnits.flatMap((unit: EquipmentUnit) => {
+                return unit.loggers.flatMap((loggerId: string) => {
+                    return (
+                        loggers[loggerId]?.faults.map((fault: Fault) => {
+                            return {
+                                unitName: unit.name,
+                                message: fault.messages,
+                                timestamp: moment(fault.timestamp).format(
+                                    dateFormat
+                                ),
+                            };
+                        }) || []
+                    );
+                });
+            });
+        }
+
+        getFaults().then(setFaults);
+    }, [loggers, site]);
 
     return (
         <>
             <CsvDownloadButton
-            align={'right'}
+                align={'right'}
                 headers={[
                     { label: 'Timestamp', key: 'timestamp' },
                     { label: 'Message', key: 'message' },
@@ -81,11 +120,12 @@ export default function SiteFaultsTab({
             />
             <ReactDataGrid
                 onReady={setGridRef}
-                className={'data-grid'}
-                columns={columns}
-                dataSource={faults}
+                className={'dataGrid'}
+                columns={gridColumns}
+                dataSource={faults ?? []}
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
+                loading={faults === null}
             />
         </>
     );

@@ -1,8 +1,12 @@
-import React from 'react';
-import '../assets/styles.scss';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function NotFound() {
+/**
+ * 404 component. Includes some links back to other pages.
+ *
+ * @constructor
+ */
+export default function NotFound(): ReactElement {
     return (
         <div className="notFound h-screen">
             <div className="card grid grid-cols-2 md:grid-cols-2">
