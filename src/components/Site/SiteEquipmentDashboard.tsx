@@ -3,14 +3,18 @@
  * 
  * 
  * Get channels from each template -> map channels to loggers that have them -> for each channel -> for each logger -> transform data for channel -> add data to Nivo struct -> render graph
+ * 
+ * TODO: parse timestamps, fix cards
  */
 
 import { Logger } from "@material-ui/data-grid";
-import { ReactElement } from "react";
+import { ResponsiveLine } from "@nivo/line";
+import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import dataTransformer from "scripts/DataTransformer";
 import { ChannelTemplateCollection, EquipmentUnit, LoggerCollection, LoggerObject } from "store/FirestoreInterfaces";
 import { RootState } from "store/rootReducer";
+import EquipmentDashboardCard from "./EquipmentDashboardCard";
 
 export interface EquipmentDashboardProps {
   loggers: LoggerCollection,
@@ -41,6 +45,22 @@ function getChannelsFromLoggers(loggers: LoggerObject[], channelTemplates: Chann
   return channelsFromLoggers;
 }
 
+function getChannelDataFromLoggers(channel: string, loggers: LoggerObject[]): any[]{
+  let channelData: any[] = [];
+
+  for (const logger of loggers){
+    if (logger.data.some((d: any) => d.hasOwnProperty(channel))){
+      channelData.push({
+        id: logger.name,
+        data: dataTransformer(logger.data, channel)
+      });
+      console.log(channelData);
+    }
+  }
+
+  return channelData;
+}
+
 export default function EquipmentDashboard({
   loggers,
   unit
@@ -48,11 +68,55 @@ export default function EquipmentDashboard({
 
   let channelTemplates = useSelector((state: RootState) => state.templates);
   let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
-  let channelsFromLoggers: string[] = getChannelsFromLoggers(loggersOnUnit, channelTemplates);
+  let channelsOnUnit: string[] = getChannelsFromLoggers(loggersOnUnit, channelTemplates).filter(c => c !== "timestamp");
+  let dashboardCards: ReactElement[] = [];
+
+  for(const channel of channelsOnUnit){
+    dashboardCards.push(
+      <EquipmentDashboardCard 
+        channel={channel}
+        graphData={getChannelDataFromLoggers(channel, loggersOnUnit)}      
+      />
+    );
+  }
 
   return (
     <div>
-      { channelsFromLoggers.join() }
+      {dashboardCards}
+
+      <div className="h-3/5">
+        <ResponsiveLine
+          data={getChannelDataFromLoggers("random_value", loggersOnUnit)}
+          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          xScale={{ type: 'point' }}
+          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+          axisTop={null}
+          axisRight={null}
+          axisBottom={{
+              orient: 'bottom',
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: 'timestamp',
+              legendOffset: 36,
+              legendPosition: 'middle'
+          }}
+          axisLeft={{
+              orient: 'left',
+              tickSize: 5,
+              tickPadding: 5,
+              tickRotation: 0,
+              legend: "random_value",
+              legendOffset: -40,
+              legendPosition: 'middle'
+          }}
+          pointSize={10}
+          pointColor={{ theme: 'background' }}
+          pointBorderWidth={2}
+          pointLabelYOffset={-12}
+          useMesh={true}
+        />
+      </div>
     </div>
   );
 }
