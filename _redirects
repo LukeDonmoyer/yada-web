@@ -31,4 +31,4 @@
 /contact-us         /contact-us
 
 # handles 404 errors
-/*              /page-not-found 404
+# /*              /page-not-found 404
