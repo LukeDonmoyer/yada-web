@@ -18,10 +18,10 @@ interface configTabProps {
 
 /**
  * Enumerates equipment with corresponding checkboxes and state
- * @param equipment 
- * @param updateState 
- * @param state 
- * @param notificationMap 
+ * @param equipment
+ * @param updateState
+ * @param state
+ * @param notificationMap
  * @returns a ReactElement array containing each row of equipment and corresponding checkbox
  */
 function createEquipmentElements(
@@ -72,8 +72,8 @@ function createEquipmentElements(
 }
 
 /**
- * 
- * @param param0 
+ *
+ * @param param0
  * @returns React element for site configuration tab
  */
 export default function ConfigTab({
