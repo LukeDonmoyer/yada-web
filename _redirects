@@ -1,0 +1,6 @@
+# Redirects for the netlify deploy, earliest matching route is taken
+/app/dashboard  /app/dashboard
+
+
+
+# /home   /
