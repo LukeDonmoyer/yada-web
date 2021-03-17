@@ -1,37 +1,3 @@
 # # Redirects for the netlify deploy, earliest matching route is taken
 # # This is specific to netlify deployment. 
-# /app/dashboard  /app/dashboard
-# /app            /app/dashboard
-
-# # matches site-Equipment page
-# /app/sites/:site/equipment/:name/:logger    /app/sites/:site/equipment/:name/:logger     
-# /app/sites/:site/equipment/:name/dashboard    /app/sites/:site/equipment/:name/dashboard    
-# /app/sites/:site/equipment/:name    /app/sites/:site/equipment/:name 
-
-# # matches site page with tabs
-# /app/sites/:site/faults /app/sites/:site/faults
-# /app/sites/:site/config /app/sites/:site/config
-# /app/sites/:site /app/sites/:site
-# /app/sites      /app/sites
-
-# # matches user management
-# /app/usermanagement     /app/usermanagement
-# /app/user-management    /app/usermanagement
-
-# #matches channel templates
-# /app/channel-templates/:template    /app/channel-templates/:template
-# /app/channel-templates  /app/channel-templates
-
-# # matches user setting
-# /app/settings   /app/settings
-
-# # matches onboard forms
-# /change-password    /change-password
-# /request-account    /request-account
-# /contact-us         /contact-us
-
-# # handles 404 errors
-# # /*              /page-not-found 404
-
-
 /*    /index.html   200
