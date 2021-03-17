@@ -1,0 +1,16 @@
+.equipmentDashboard {
+    @include scrollWithoutScrollbar;
+
+    .card {
+        @include cardLarge;
+    }
+
+    h1 {
+        @include mediumSmallTitle;
+        color: $companyName;
+    }
+
+    .responsiveLine {
+        height: 50vh;
+    }
+}

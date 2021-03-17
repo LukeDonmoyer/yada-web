@@ -4,12 +4,13 @@
  * 
  * Get channels from each template -> map channels to loggers that have them -> for each channel -> for each logger -> transform data for channel -> add data to Nivo struct -> render graph
  * 
- * TODO: parse timestamps, fix cards
+ * TODO: parse timestamps, render actual cards, create theme, 
+ * pass channel type to change yScale type, make tab itself scrollable, 
+ * refactor channelsOnUnit to be a map with data type
  */
 
-import { Logger } from "@material-ui/data-grid";
 import { ResponsiveLine } from "@nivo/line";
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import dataTransformer from "scripts/DataTransformer";
 import { ChannelTemplateCollection, EquipmentUnit, LoggerCollection, LoggerObject } from "store/FirestoreInterfaces";
@@ -42,7 +43,7 @@ function getChannelsFromLoggers(loggers: LoggerObject[], channelTemplates: Chann
     }
   }
 
-  return channelsFromLoggers;
+  return channelsFromLoggers.filter(c => c !== "timestamp").sort();
 }
 
 function getChannelDataFromLoggers(channel: string, loggers: LoggerObject[]): any[]{
@@ -68,7 +69,7 @@ export default function EquipmentDashboard({
 
   let channelTemplates = useSelector((state: RootState) => state.templates);
   let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
-  let channelsOnUnit: string[] = getChannelsFromLoggers(loggersOnUnit, channelTemplates).filter(c => c !== "timestamp");
+  let channelsOnUnit: string[] = getChannelsFromLoggers(loggersOnUnit, channelTemplates);
   let dashboardCards: ReactElement[] = [];
 
   for(const channel of channelsOnUnit){
@@ -81,42 +82,8 @@ export default function EquipmentDashboard({
   }
 
   return (
-    <div>
+    <div className="equipmentDashboard grid grid-cols-2">
       {dashboardCards}
-
-      <div className="h-3/5">
-        <ResponsiveLine
-          data={getChannelDataFromLoggers("random_value", loggersOnUnit)}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-          xScale={{ type: 'point' }}
-          yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
-          axisTop={null}
-          axisRight={null}
-          axisBottom={{
-              orient: 'bottom',
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: 'timestamp',
-              legendOffset: 36,
-              legendPosition: 'middle'
-          }}
-          axisLeft={{
-              orient: 'left',
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: "random_value",
-              legendOffset: -40,
-              legendPosition: 'middle'
-          }}
-          pointSize={10}
-          pointColor={{ theme: 'background' }}
-          pointBorderWidth={2}
-          pointLabelYOffset={-12}
-          useMesh={true}
-        />
-      </div>
     </div>
   );
 }
