@@ -1,8 +1,13 @@
 .equipmentDashboard {
     @include scrollWithoutScrollbar;
+    background-color: $lightRed;
+    overflow-y: scroll;
+    border: 5px solid $companyName;
 
     .card {
-        @include cardLarge;
+        @include cardExtraLarge;
+        margin-bottom: 8px;
+        height: 60vh;
     }
 
     h1 {
