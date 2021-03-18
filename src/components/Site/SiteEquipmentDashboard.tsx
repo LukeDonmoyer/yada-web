@@ -44,17 +44,17 @@ function getLoggersOnUnit(
 function getChannelsFromLoggers(
     loggers: LoggerObject[],
     channelTemplates: ChannelTemplateCollection
-): string[] {
-    let channelsFromLoggers: string[] = [];
+): Map<string,string> {
+    let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-        for (const key in channelTemplates[logger.channelTemplate].keys) {
-            if (!channelsFromLoggers.includes(key))
-                channelsFromLoggers.push(key);
-        }
+      channelTemplates[logger.channelTemplate].keys.forEach((value, key) => {
+        if (!channelsFromLoggers.has(key) && key !== "timestamp")
+          channelsFromLoggers.set(key, value);
+      });
     }
 
-    return channelsFromLoggers.filter((c) => c !== 'timestamp').sort();
+    return channelsFromLoggers;
 }
 
 function getChannelDataFromLoggers(
@@ -82,20 +82,18 @@ export default function EquipmentDashboard({
 }: EquipmentDashboardProps): ReactElement {
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
-    let channelsOnUnit: string[] = getChannelsFromLoggers(
-        loggersOnUnit,
-        channelTemplates
-    );
+    let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(loggersOnUnit, channelTemplates);
     let dashboardCards: ReactElement[] = [];
 
-    for (const channel of channelsOnUnit) {
-        dashboardCards.push(
-            <EquipmentDashboardCard
-                channel={channel}
-                graphData={getChannelDataFromLoggers(channel, loggersOnUnit)}
-            />
-        );
-    }
+    channelsOnUnit.forEach((channelType, channelName) => {
+      dashboardCards.push(
+        <EquipmentDashboardCard
+            channel={channelName}
+            channelType={channelType}
+            graphData={getChannelDataFromLoggers(channelName, loggersOnUnit)}
+        />
+    );
+    });
 
     return <div className="equipmentDashboard">{dashboardCards}</div>;
 }

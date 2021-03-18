@@ -3,10 +3,14 @@ import { ResponsiveLine } from "@nivo/line";
 
 export interface EquipmentDashboardCardProps{
   channel: string,
+  channelType: string,
   graphData: any[]
 }
 
-export default function DashboardCard({ channel, graphData }: EquipmentDashboardCardProps): ReactElement {
+export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
+
+  let numericalScale = { type: 'linear', min: 'auto', max: 'auto', reverse: false };
+  let stringScale = { type: 'point' };
 
   return (
     <div className="card">
@@ -17,9 +21,14 @@ export default function DashboardCard({ channel, graphData }: EquipmentDashboard
           margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'minute' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
-          yScale={{ type: 'linear', min: 'auto', max: 'auto', reverse: false }}
-          axisTop={null}
-          axisRight={null}
+          yScale={
+            { 
+              type: 'linear', 
+              min: 'auto', 
+              max: 'auto', 
+              reverse: false 
+            }
+          }
           axisBottom={{
               format: '%H:%M',
               tickValues: 'every 2 minutes',
