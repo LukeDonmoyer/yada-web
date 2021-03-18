@@ -48,7 +48,9 @@ function getChannelsFromLoggers(
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-      channelTemplates[logger.channelTemplate].keys.forEach((value, key) => {
+      let template = channelTemplates[logger.channelTemplate].keys;
+      
+      template.forEach((value: string, key: string) => {
         if (!channelsFromLoggers.has(key) && key !== "timestamp")
           channelsFromLoggers.set(key, value);
       });

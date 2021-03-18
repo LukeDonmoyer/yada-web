@@ -21,14 +21,12 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
           margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'minute' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
-          yScale={
-            { 
-              type: 'linear', 
+          yScale={{ 
+              type: (["boolean", "string"].includes(channelType)) ? 'point' : 'linear', 
               min: 'auto', 
               max: 'auto', 
               reverse: false 
-            }
-          }
+          }}
           axisBottom={{
               format: '%H:%M',
               tickValues: 'every 2 minutes',
