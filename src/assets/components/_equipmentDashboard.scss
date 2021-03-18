@@ -1,13 +1,17 @@
 .equipmentDashboard {
     @include scrollWithoutScrollbar;
+
+    display: flex;
+    flex-wrap: wrap;
+
     background-color: $lightRed;
-    overflow-y: scroll;
     border: 5px solid $companyName;
 
     .card {
         @include cardExtraLarge;
-        margin-bottom: 8px;
-        height: 60vh;
+        flex-grow: 1;
+        flex-basis: 500px;
+        margin: 16px 8px;
     }
 
     h1 {
