@@ -10,26 +10,25 @@ export default function DashboardCard({ channel, graphData }: EquipmentDashboard
 
   return (
     <div className="card">
-      <h1>{channel}</h1>
+      <h2>{channel}</h2>
       <div className="responsiveLine">
         <ResponsiveLine
           data={graphData}
           margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
-          xScale={{ type: 'time', format: '%m-%d-%g-%H:%M:%S', useUTC: false, precision: 'second' }}
+          xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'minute' }}
+          xFormat="time:%m-%d-%Y-%H:%M:%S"
           yScale={{ type: 'linear', min: 'auto', max: 'auto', reverse: false }}
           axisTop={null}
           axisRight={null}
           axisBottom={{
-              format: '%H:M',
+              format: '%H:%M',
               tickValues: 'every 2 minutes',
-              legend: 'time',
-              // orient: 'bottom',
-              // tickSize: 5,
-              // tickPadding: 5,
-              // tickRotation: 0,
-              // legend: 'timestamp',
-              // legendOffset: 36,
-              // legendPosition: 'middle'
+              orient: 'bottom',
+              tickSize: 10,
+              tickPadding: 5,
+              legend: 'timestamp',
+              legendOffset: 36,
+              legendPosition: 'middle'
           }}
           axisLeft={{
               orient: 'left',

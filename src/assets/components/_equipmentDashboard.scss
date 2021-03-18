@@ -4,19 +4,20 @@
     display: flex;
     flex-wrap: wrap;
 
-    background-color: $lightRed;
-    border: 5px solid $companyName;
+    // background-color: $lightRed;
+    // border: 5px solid $companyName;
 
     .card {
         @include cardExtraLarge;
         flex-grow: 1;
         flex-basis: 500px;
-        margin: 16px 8px;
+        margin: 8px 8px;
+        overflow: hidden;
     }
 
-    h1 {
-        @include mediumSmallTitle;
-        color: $companyName;
+    h2 {
+        @include smallTitle;
+        color: $darkGray;
     }
 
     .responsiveLine {
