@@ -15,18 +15,21 @@ export default function DashboardCard({ channel, graphData }: EquipmentDashboard
         <ResponsiveLine
           data={graphData}
           margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
-          xScale={{ type: 'point' }}
+          xScale={{ type: 'time', format: '%m-%d-%g-%H:%M:%S', useUTC: false, precision: 'second' }}
           yScale={{ type: 'linear', min: 'auto', max: 'auto', reverse: false }}
           axisTop={null}
           axisRight={null}
           axisBottom={{
-              orient: 'bottom',
-              tickSize: 5,
-              tickPadding: 5,
-              tickRotation: 0,
-              legend: 'timestamp',
-              legendOffset: 36,
-              legendPosition: 'middle'
+              format: '%H:M',
+              tickValues: 'every 2 minutes',
+              legend: 'time',
+              // orient: 'bottom',
+              // tickSize: 5,
+              // tickPadding: 5,
+              // tickRotation: 0,
+              // legend: 'timestamp',
+              // legendOffset: 36,
+              // legendPosition: 'middle'
           }}
           axisLeft={{
               orient: 'left',
