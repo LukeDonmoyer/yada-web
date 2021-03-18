@@ -44,16 +44,18 @@ function getLoggersOnUnit(
 function getChannelsFromLoggers(
     loggers: LoggerObject[],
     channelTemplates: ChannelTemplateCollection
-): Map<string,string> {
+): Map<string, string> {
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-      let template = channelTemplates[logger.channelTemplate].keys;
-      
-      template.forEach((value: string, key: string) => {
-        if (!channelsFromLoggers.has(key) && key !== "timestamp")
-          channelsFromLoggers.set(key, value);
-      });
+        let template = channelTemplates[logger.channelTemplate].keys;
+        console.log(template);
+
+        Object.entries(template).forEach((item) => {
+            const [key, value] = item;
+            if (!channelsFromLoggers.has(key) && key !== 'timestamp')
+                channelsFromLoggers.set(key, value);
+        });
     }
 
     return channelsFromLoggers;
@@ -84,17 +86,23 @@ export default function EquipmentDashboard({
 }: EquipmentDashboardProps): ReactElement {
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
-    let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(loggersOnUnit, channelTemplates);
+    let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(
+        loggersOnUnit,
+        channelTemplates
+    );
     let dashboardCards: ReactElement[] = [];
 
     channelsOnUnit.forEach((channelType, channelName) => {
-      dashboardCards.push(
-        <EquipmentDashboardCard
-            channel={channelName}
-            channelType={channelType}
-            graphData={getChannelDataFromLoggers(channelName, loggersOnUnit)}
-        />
-    );
+        dashboardCards.push(
+            <EquipmentDashboardCard
+                channel={channelName}
+                channelType={channelType}
+                graphData={getChannelDataFromLoggers(
+                    channelName,
+                    loggersOnUnit
+                )}
+            />
+        );
     });
 
     return <div className="equipmentDashboard">{dashboardCards}</div>;
