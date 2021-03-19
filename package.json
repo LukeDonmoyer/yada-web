@@ -51,7 +51,7 @@
     },
     "scripts": {
         "start": "craco start",
-        "build": "craco build",
+        "build": "craco build && cp _redirects build/_redirects",
         "test": "craco test",
         "eject": "react-scripts eject"
     },
