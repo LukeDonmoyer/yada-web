@@ -13,7 +13,7 @@ function transformDataPoint(
     if (data.hasOwnProperty(channelName)){
         return ({
             x: data["timestamp"],
-            y: data[channelName]
+            y: String(data[channelName])
         });
     } else {
         return {}
