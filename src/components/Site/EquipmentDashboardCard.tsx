@@ -9,9 +9,6 @@ export interface EquipmentDashboardCardProps{
 
 export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
 
-  let numericalScale = { type: 'linear', min: 'auto', max: 'auto', reverse: false };
-  let stringScale = { type: 'point' };
-
   return (
     <div className="card">
       <h2>{channel}</h2>
