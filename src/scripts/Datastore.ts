@@ -10,6 +10,8 @@ import * as implementation from './Implementation';
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
+import loggerSlice from 'store/LoggerAction';
+import sitesSlice from 'store/SiteActions';
 
 // AUTHENTICATION
 /**
@@ -41,11 +43,12 @@ export function initializeListeners() {
 }
 
 /**
- * clears the redux store (TODO: check to make sure this disconnects datastore listeners)
+ * clears the redux store
  */
 export function resetRedux() {
     store.dispatch(updateUsersSlice.actions.updateUsers({}));
-    store.dispatch(updateUsersSlice.actions.updateUsers({}));
+    store.dispatch(loggerSlice.actions.updateLoggers({}));
+    store.dispatch(sitesSlice.actions.updateSites({}));
     store.dispatch(
         updateChannelTemplatesSlice.actions.updateChannelTemplates({})
     );
@@ -218,9 +221,9 @@ export function updateSiteConfig(siteId: string, siteConfig: any) {
 
 /**
  * Updates the equipment notifications map in the user document specified by @param uid.
- * @param uid 
- * @param siteId 
- * @param notificationMap 
+ * @param uid
+ * @param siteId
+ * @param notificationMap
  */
 export function updateEquipmentNotifications(
     uid: string,
