@@ -9,7 +9,6 @@
  * refactor channelsOnUnit to be a map with data type
  */
 
-import { ResponsiveLine } from '@nivo/line';
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import dataTransformer from 'scripts/DataTransformer';
