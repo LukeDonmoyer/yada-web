@@ -592,7 +592,10 @@ export function updateSiteConfig(siteId: string, siteConfig: any) {
  * @param newVals
  */
 export function updateUserDoc(uid: string, newVals: any) {
-    fire.fireStore.collection('Users').doc(uid).set(newVals, { merge: true });
+    console.log('attempting to update');
+    console.log(uid);
+    console.log(newVals);
+    fire.fireStore.collection('Users').doc(uid).update(newVals);
     if ('email' in newVals)
         fire.fireAuth.currentUser?.updateEmail(newVals.email);
 }
