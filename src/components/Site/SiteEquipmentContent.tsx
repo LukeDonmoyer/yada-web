@@ -10,6 +10,7 @@ import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
 import TabView, { TabViewItem } from '../Control/TabView';
 import { Button } from 'reactstrap';
 import { LoggerSelector, LoggerTab } from './Logger';
+import EquipmentDashboard from './SiteEquipmentDashboard';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -41,6 +42,18 @@ export function SiteEquipmentContent({
     );
 
     var loggerTabs: any = [];
+
+    // Dashboard tab
+    loggerTabs.push(
+        <TabViewItem
+            label="Dashboard"
+            route="dashboard"
+            default
+            exact
+        >
+            <EquipmentDashboard loggers={loggers} unit={unit}/>
+        </TabViewItem>
+    );
 
     for (const [id, loggerData] of Object.entries(loggers)) {
         const data = loggerData as LoggerObject;
