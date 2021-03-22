@@ -23,12 +23,14 @@ import homeIcon from 'assets/icons/home.svg';
 import sitesIcon from 'assets/icons/site.svg';
 import settingsIcon from 'assets/icons/settings.svg';
 import usersIcon from 'assets/icons/accountManagement.svg';
+import hvacIcon from 'assets/icons/hvac.svg';
 import {
     getUserPrivilege,
     initializeListeners,
     registerAuthChangeCallback,
     resetRedux,
 } from './scripts/Datastore';
+import ChannelTemplates from './components/ChannelTemplate/ChannelTemplates';
 
 function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
@@ -84,17 +86,19 @@ function App() {
                                         label={'sites'}
                                         route={'sites'}
                                         icon={sitesIcon}
+                                        hasDynamicNavbar
                                     >
                                         <Sites />
                                     </StaticNavItem>
                                     {/* Route disabled because this component has not been created yet */}
-                                    {/* <StaticNavItem
-                                            label={'channel templates'}
-                                            route={'channel-templates'}
-                                            icon={templatesIcon}
-                                        >
-                                            <ChannelTemplates />
-                                        </StaticNavItem> */}
+                                    <StaticNavItem
+                                        label={'Channel Templates'}
+                                        route={'channel-templates'}
+                                        icon={hvacIcon}
+                                        hasDynamicNavbar
+                                    >
+                                        <ChannelTemplates />
+                                    </StaticNavItem>
                                     {/* User management route: conditionally rendered if User is an owner or an admin */}
                                     {['Owner', 'Admin'].includes(
                                         userPrivilege
