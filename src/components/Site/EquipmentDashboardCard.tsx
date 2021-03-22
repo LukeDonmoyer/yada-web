@@ -62,15 +62,6 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
               symbolSize: 12,
               symbolShape: 'circle',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
-              // effects: [
-              //   {
-              //     on: 'hover',
-              //     style: {
-              //       itemBackground: 'rgba(0, 0, 0, .03)',
-              //       itemOpacity: 1
-              //     }
-              //   }
-              // ]
             }
           ]}
         />
