@@ -684,3 +684,70 @@ export function updateEquipmentNotifications(
             { merge: true }
         );
 }
+
+export function updateEquipmentNotification(
+    uid: string,
+    siteId: string,
+    equipmentName: string,
+    status: Boolean
+) {
+    fire.fireStore
+        .collection('Users')
+        .doc(uid)
+        .update({
+            [`equipmentNotifications.${siteId}.${equipmentName}`]: status,
+        });
+}
+
+/**
+ * Deletes a site. This will
+ * - remove all logger data from loggers, and reset some logger attributes
+ * - remove all notification information stored for the users
+ * - remove the site from the datastore
+ *
+ * @param siteId site id to remove
+ */
+export function deleteSite(siteId: string) {
+    // gets the list of loggers attatched to equipment
+    fire.fireStore
+        .collection('Sites')
+        .doc(siteId)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                let data = doc.data();
+                // clears the logger data
+                data?.equipmentUnits.forEach((unit: any) => {
+                    unit.loggers.forEach((loggerId: string) => {
+                        fire.fireStore
+                            .collection('Loggers')
+                            .doc(loggerId)
+                            .update({
+                                data: [],
+                                collectingData: false,
+                                faults: [],
+                                site: null,
+                                siteID: null,
+                            });
+                    });
+                });
+                // deletes the site
+                fire.fireStore.collection('Sites').doc(siteId).delete();
+            }
+        });
+    // remove site from user notifications
+    fire.fireStore
+        .collection('Users')
+        .get()
+        .then((docs) => {
+            docs.forEach((doc) => {
+                fire.fireStore
+                    .collection('Users')
+                    .doc(doc.id)
+                    .update({
+                        [`equipmentNotifications.${siteId}`]: fire.fireDelete(),
+                    });
+                console.log(doc.id);
+            });
+        });
+}

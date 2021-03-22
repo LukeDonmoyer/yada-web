@@ -1,15 +1,26 @@
 import React, { FormEvent, ReactElement, useState } from 'react';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import {
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Button as ReactButton,
+} from 'reactstrap';
+import Button, { ButtonType } from '../Control/Button';
 
 // import '../../assets/styles.scss';
 // import '../../assets/bootstrap.scss';
 import {
     updateSiteConfig,
-    updateEquipmentNotifications,
+    updateEquipmentNotification,
+    deleteSite,
 } from 'scripts/Datastore';
 import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
+import { ToggleSwitch } from 'components/Control/ToggleSwitch';
+import { Redirect } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 interface configTabProps {
     site: SiteObject;
@@ -19,49 +30,44 @@ interface configTabProps {
 /**
  * Enumerates equipment with corresponding checkboxes and state
  * @param equipment
- * @param updateState
- * @param state
+ * @param uid
+ * @param siteId
  * @param notificationMap
  * @returns a ReactElement array containing each row of equipment and corresponding checkbox
  */
 function createEquipmentElements(
     equipment: EquipmentUnit[],
-    updateState: React.Dispatch<React.SetStateAction<{}>>,
-    state: {
-        [key: string]: boolean;
-    },
+    uid: string,
+    siteId: string,
     notificationMap: {
         [key: string]: boolean;
     }
 ): ReactElement[] {
     let equipmentList: ReactElement[] = [];
-
-    const createHandler = (name: string) => {
-        return (e: FormEvent<HTMLInputElement>) => {
-            if (e.currentTarget.checked !== (notificationMap[name] ?? false)) {
-                updateState({
-                    ...state,
-                    [name]: e.currentTarget.checked,
-                });
-            } else {
-                let newState = { ...state };
-                delete newState[name];
-                updateState(newState);
-            }
-        };
-    };
-
     equipment.forEach((e) => {
         equipmentList.push(
-            <div className="grid grid-cols-2 gap-4">
-                <div>{e.name}</div>
-                <div>
-                    <Input
-                        type="checkbox"
-                        checked={
-                            state[e.name] ?? notificationMap[e.name] ?? false
-                        }
-                        onChange={createHandler(e.name)}
+            <div className="notificationEntry" key={e.name}>
+                <div className="name">{e.name}</div>
+                <div className="toggle">
+                    <ToggleSwitch
+                        enabledDefault={notificationMap[e.name] ?? false}
+                        enabled={notificationMap[e.name] ?? false}
+                        onEnable={() => {
+                            updateEquipmentNotification(
+                                uid,
+                                siteId,
+                                e.name,
+                                true
+                            );
+                        }}
+                        onDisable={() => {
+                            updateEquipmentNotification(
+                                uid,
+                                siteId,
+                                e.name,
+                                false
+                            );
+                        }}
                     />
                 </div>
             </div>
@@ -86,14 +92,13 @@ export default function ConfigTab({
             (state: RootState) =>
                 state.users[uid as string]?.equipmentNotifications?.[siteId]
         ) ?? {};
+    const history = useHistory(); // necessary to redirect after site delection
 
     const [configState, setConfigState] = useState({
         name: site.name,
         notes: site.notes,
         address: site.address,
     });
-
-    const [equipmentState, setEquipmentState] = useState({});
 
     const updateField = (e: any) => {
         setConfigState({
@@ -105,7 +110,6 @@ export default function ConfigTab({
     const submitChanges = (e: any) => {
         e.preventDefault();
         updateSiteConfig(siteId, configState);
-        updateEquipmentNotifications(uid as string, siteId, equipmentState);
         alert('Changes saved!');
     };
 
@@ -151,20 +155,30 @@ export default function ConfigTab({
 
                 <div className="buttonContainer">
                     <div className="pad"></div>
-                    <div className="button">
-                        <Button type="submit" value="Submit">
-                            Save Changes
-                        </Button>
+                    <div className="buttons">
+                        <ReactButton type="submit" value="Submit">
+                            Save
+                        </ReactButton>
+                        <Button
+                            type={ButtonType.warningSecondary}
+                            text="Delete"
+                            onClick={() => {
+                                if (window.confirm('Delete this site')) {
+                                    history.push('/app/sites');
+                                    deleteSite(siteId);
+                                }
+                            }}
+                        />
                     </div>
                 </div>
 
-                <div className="">
+                <div className="notificationSection">
                     <h2>Equipment Notifications</h2>
                     <div>
                         {createEquipmentElements(
                             site.equipmentUnits,
-                            setEquipmentState,
-                            equipmentState,
+                            uid as string,
+                            siteId as string,
                             notificationMap
                         )}
                     </div>

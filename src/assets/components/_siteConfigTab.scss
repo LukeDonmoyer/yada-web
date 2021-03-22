@@ -8,10 +8,20 @@
 
     h2 {
         @include mediumSmallTitle;
+        color: $darkGray;
     }
 
     button {
         @include filledPrimaryButton;
+        width: fit-content;
+        text-align: center;
+        padding: 8px;
+        padding-left: 20px;
+        padding-right: 20px;
+        user-select: none;
+        margin-bottom: 5px;
+        cursor: pointer;
+        margin-right: 0.25rem;
     }
 
     .buttonContainer {
@@ -19,8 +29,15 @@
         .pad {
             flex: 2;
         }
-        .button {
+        .buttons {
+            margin-left: 0px;
+            padding-left: 0px;
             flex: 7;
+            display: flex;
+            column-gap: 10px;
+        }
+        button {
+            float: left;
         }
     }
 
@@ -37,6 +54,20 @@
         .text {
             flex: 7;
             @include wideBlueInput;
+        }
+    }
+
+    .notificationSection {
+        margin-top: 20px;
+    }
+
+    .notificationEntry {
+        display: flex;
+        .name {
+            flex: 2;
+        }
+        .toggle {
+            flex: 7;
         }
     }
 }

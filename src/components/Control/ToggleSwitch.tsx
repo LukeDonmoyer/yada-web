@@ -3,6 +3,7 @@ import { useState } from 'react';
 export interface ToggleSwitchProps {
     // Default state of toggle
     enabledDefault: boolean;
+    enabled?: boolean; // uses passed in state rather than this components own state
 
     // Handler for when the switch is enabled
     onEnable?: () => void;
@@ -16,19 +17,23 @@ export interface ToggleSwitchProps {
  *
  * @constructor
  */
-export function ToggleSwitch({
-    enabledDefault,
-    onEnable,
-    onDisable,
-}: ToggleSwitchProps) {
-    const [enabled, setEnabled] = useState(enabledDefault);
+export function ToggleSwitch(props: ToggleSwitchProps) {
+    const [selfEnabled, setEnabled] = useState(props.enabledDefault);
 
     const handleClick = () => {
-        if (enabled) {
-            onDisable?.();
+        if (props.enabled !== undefined) {
+            if (props.enabled) {
+                props.onDisable?.();
+            } else {
+                props.onEnable?.();
+            }
+            return;
+        }
+        if (selfEnabled) {
+            props.onDisable?.();
             setEnabled(false);
         } else {
-            onEnable?.();
+            props.onEnable?.();
             setEnabled(true);
         }
     };
@@ -36,7 +41,11 @@ export function ToggleSwitch({
     return (
         <div className="toggleSwitch" onClick={handleClick}>
             <div className="background" />
-            <div className={enabled ? 'slider-on' : 'slider-off'} />
+            {props.enabled === undefined ? (
+                <div className={selfEnabled ? 'slider-on' : 'slider-off'} />
+            ) : (
+                <div className={props.enabled ? 'slider-on' : 'slider-off'} />
+            )}
         </div>
     );
 }
