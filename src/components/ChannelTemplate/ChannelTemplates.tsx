@@ -8,16 +8,13 @@
 
 import React, { ReactElement } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import SiteEquipment from '../Site/SiteEquipment';
 import DynamicNavbar, { DynamicNavLink } from '../Control/DynamicNavbar';
-import { createNewSite } from '../../scripts/Datastore';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
-import { ChannelTemplate, SiteObject } from '../../store/FirestoreInterfaces';
-import { SiteContent } from '../Site/SiteContent';
+import { ChannelTemplate } from '../../store/FirestoreInterfaces';
 import ChannelTemplateContent from './ChannelTemplateContent';
 
-function createNewTempalte() {}
+function createNewTemplate() {}
 
 /**
  * Main container component for channel template pages.
@@ -43,7 +40,7 @@ export default function ChannelTemplates() {
             <Route path={'/app/channel-templates'}>
                 <DynamicNavbar
                     title={'Templates'}
-                    buttonAction={createNewTempalte}
+                    buttonAction={createNewTemplate}
                 >
                     {navLinks as any}
                     <DynamicNavLink
