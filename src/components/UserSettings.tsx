@@ -155,6 +155,22 @@ export default function Settings(): ReactElement {
                                 />
                             </FormGroup>
                         </div>
+
+                        <div className="buttonsContainer">
+                            <div className="pad"></div>
+                            <div className="buttons">
+                                <Button className="primaryBtn">
+                                    Save Changes
+                                </Button>
+                                <Button
+                                    onClick={deleteAccount}
+                                    className="deleteBtn"
+                                >
+                                    Delete Account
+                                </Button>
+                            </div>
+                        </div>
+
                         <FormGroup check className="checkGroup">
                             <Label for="emailNotifications" check>
                                 Email Notifications
@@ -200,20 +216,6 @@ export default function Settings(): ReactElement {
                                 />
                             </div>
                         </FormGroup>
-                        <div className="buttonsContainer">
-                            <div className="pad"></div>
-                            <div className="buttons">
-                                <Button className="primaryBtn">
-                                    Save Changes
-                                </Button>
-                                <Button
-                                    onClick={deleteAccount}
-                                    className="deleteBtn"
-                                >
-                                    Delete Account
-                                </Button>
-                            </div>
-                        </div>
                     </Form>
                 </div>
                 <div className="right">
