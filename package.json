@@ -53,7 +53,7 @@
     },
     "scripts": {
         "start": "craco start",
-        "build": "craco build && cp _redirects build/_redirects",
+        "build": "node patch-react-spring.js && craco build && cp _redirects build/_redirects",
         "test": "craco test",
         "eject": "react-scripts eject"
     },
