@@ -39,7 +39,7 @@ function SignInForm() {
             <h1>Sign In</h1>
             <p>
                 Sign in with your pre-assigned credentials. Request an account
-                from the adnimistrator with the link below.
+                from the administrator with the link below.
             </p>
             <Form onSubmit={handleLogin}>
                 <Input
@@ -115,7 +115,6 @@ function Onboard(props: RouteComponentProps) {
                     <div className="leftSection  hidden md:block ">
                         <div className="coloredBlock">
                             <h1 className="w-full text-center">Company Name</h1>
-                            {/* <CustomCarousel /> */}
                             <AnimatedLogo />
                         </div>
                     </div>

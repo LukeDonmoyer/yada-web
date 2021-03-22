@@ -33,12 +33,6 @@ export default function SiteEquipmentTab(): ReactElement {
 
     let types: Any[] = [];
 
-    const onCellClick = (event, cellProps) => {
-        const { data } = cellProps;
-        let parsedName = data.name.replace(' ', '-');
-        changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
-    };
-
     function getAllLoggerData() {
         var allData: any[] = [];
 
@@ -111,7 +105,6 @@ export default function SiteEquipmentTab(): ReactElement {
                     className="deleteLink"
                     onClick={() => {
                         if (window.confirm(`Delete equipment: ${unit.name}`)) {
-                            // deleteUser(props.uid);
                             deleteEquipment(siteID, unit.name);
                         }
                     }}

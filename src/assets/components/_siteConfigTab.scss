@@ -1,5 +1,6 @@
 .siteConfigTab {
     width: 70%;
+    margin-top: 30px;
 
     h1 {
         @include largeTitle;
@@ -11,5 +12,31 @@
 
     button {
         @include filledPrimaryButton;
+    }
+
+    .buttonContainer {
+        display: flex;
+        .pad {
+            flex: 2;
+        }
+        .button {
+            flex: 7;
+        }
+    }
+
+    .formGroup {
+        display: flex;
+        vertical-align: center;
+
+        label {
+            padding-top: 15px;
+            flex: 2;
+            @include tinyTitle;
+        }
+        input,
+        .text {
+            flex: 7;
+            @include wideBlueInput;
+        }
     }
 }
