@@ -178,6 +178,9 @@ export default function Settings(): ReactElement {
                             <div className="checkBoxContainer">
                                 <ToggleSwitch
                                     enabledDefault={newVals.emailNotifications}
+                                    enabled={
+                                        currentUser?.emailNotifications ?? true
+                                    }
                                     onEnable={() => {
                                         toggleNotification(
                                             'emailNotifications',
@@ -201,6 +204,9 @@ export default function Settings(): ReactElement {
                             <div className="checkBoxContainer">
                                 <ToggleSwitch
                                     enabledDefault={newVals.smsNotifications}
+                                    enabled={
+                                        currentUser?.smsNotifications ?? true
+                                    }
                                     onEnable={() => {
                                         toggleNotification(
                                             'smsNotifications',
@@ -224,7 +230,4 @@ export default function Settings(): ReactElement {
             </div>
         </div>
     );
-}
-function usePrevious() {
-    throw new Error('Function not implemented.');
 }
