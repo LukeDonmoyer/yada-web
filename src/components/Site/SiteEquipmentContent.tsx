@@ -46,12 +46,13 @@ export function SiteEquipmentContent({
     // Dashboard tab
     loggerTabs.push(
         <TabViewItem
+            key="Dashboard"
             label="Dashboard"
             route="dashboard"
             default
             exact
         >
-            <EquipmentDashboard loggers={loggers} unit={unit}/>
+            <EquipmentDashboard loggers={loggers} unit={unit} />
         </TabViewItem>
     );
 
@@ -62,6 +63,7 @@ export function SiteEquipmentContent({
         if (unit?.loggers.find((loggerId) => loggerId === id)) {
             loggerTabs.push(
                 <TabViewItem
+                    key={id}
                     label={data.name || '<logger.name>'}
                     route={String(id)}
                 >
