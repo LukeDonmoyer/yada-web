@@ -92,7 +92,7 @@ export default function ConfigTab({
             (state: RootState) =>
                 state.users[uid as string]?.equipmentNotifications?.[siteId]
         ) ?? {};
-    const history = useHistory(); // necessary to redirect after site delection
+    const history = useHistory(); // necessary to redirect after deleting the site
 
     const [configState, setConfigState] = useState({
         name: site.name,
