@@ -1,6 +1,6 @@
 /**
  * Contains the functions to generate the Site configuration tab.
- * 
+ *
  * Author: Brendan Ortmann
  */
 

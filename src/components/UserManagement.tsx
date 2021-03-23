@@ -110,6 +110,7 @@ function AccountControls(props: accountControlsProps) {
 export default function UserManagement() {
     const [authorized, setAuthorization] = useState(false);
     const users = useSelector((state: RootState) => state.users);
+    const userID = useSelector((state: RootState) => state.auth.userUID);
 
     getUserPrivilege().then((privilege) => {
         if (privilege === 'Owner' || privilege === 'Admin') {
@@ -157,7 +158,11 @@ export default function UserManagement() {
         if (phoneNumber == null) {
             phoneNumber = '';
         }
-        if (userData.userGroup !== 'Owner' && !userData.disabled) {
+        if (
+            userData.userGroup !== 'Owner' &&
+            uid !== userID &&
+            !userData.disabled
+        ) {
             data.push({
                 email: userData.email,
                 phone: phoneNumber,
