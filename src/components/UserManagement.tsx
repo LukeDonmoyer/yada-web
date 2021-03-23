@@ -129,20 +129,20 @@ export default function UserManagement() {
     const columns = [
         {
             name: 'email',
-            header: <b>email address</b>,
+            header: <b>Email Address</b>,
             defaultFlex: 2,
             editable: false,
         },
-        { name: 'phone', header: 'phone number', defaultFlex: 2 },
+        { name: 'phone', header: 'Phone Number', defaultFlex: 2 },
         {
             name: 'privileges',
-            header: 'privileges',
+            header: 'Privileges',
             editable: false,
             defaultFlex: 2,
         },
         {
             name: 'controls',
-            header: 'caution',
+            header: 'Caution',
             defaultFlex: 1,
             editable: false,
         },

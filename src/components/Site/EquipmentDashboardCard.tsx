@@ -15,7 +15,7 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
       <div className="responsiveLine">
         <ResponsiveLine
           data={graphData}
-          margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
+          margin={{ top: 25, right: 60, bottom: 65, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'second' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
           yScale={{ 
@@ -31,7 +31,7 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
               tickSize: 10,
               tickPadding: 5,
               legend: 'timestamp',
-              legendOffset: 36,
+              legendOffset: 34,
               legendPosition: 'middle'
           }}
           axisLeft={{
@@ -51,12 +51,10 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
           useMesh={true}
           legends={[
             {
-              anchor: 'bottom-right',
-              direction: 'column',
-              justify: false,
-              translateX: 100,
-              translateY: 0,
-              itemsSpacing: 0,
+              anchor: 'bottom-left',
+              direction: 'row',
+              translateY: 65,
+              itemsSpacing: 25,
               itemDirection: 'left-to-right',
               itemWidth: 80,
               itemHeight: 20,
@@ -64,15 +62,6 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
               symbolSize: 12,
               symbolShape: 'circle',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
-              effects: [
-                {
-                  on: 'hover',
-                  style: {
-                    itemBackground: 'rgba(0, 0, 0, .03)',
-                    itemOpacity: 1
-                  }
-                }
-              ]
             }
           ]}
         />
