@@ -1,11 +1,10 @@
 .equipmentDashboard {
     @include scrollWithoutScrollbar;
 
-    display: flex;
-    flex-wrap: wrap;
-
-    // background-color: $lightRed;
-    // border: 5px solid $companyName;
+    .cardDiv {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
     .card {
         @include cardExtraLarge;
@@ -22,5 +21,26 @@
 
     .responsiveLine {
         height: 50vh;
+    }
+
+    .buttonBar {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        justify-content: space-between;
+        overflow: visible;
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+        margin-right: 0.25rem;
+        align-items: center;
+    }
+
+    .dropdown {
+        overflow: visible;
+        z-index: 2;
+
+        .dropdownMenu {
+            z-index: 2;
+        }
     }
 }

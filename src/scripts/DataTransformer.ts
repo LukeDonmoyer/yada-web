@@ -2,6 +2,7 @@
  * Collection of functions to transform Logger data into format required by Nivo.
  */
 
+import { timeParse } from "d3-time-format";
 import _ from "lodash";
 
 function transformDataPoint(
@@ -31,4 +32,18 @@ export default function dataTransformer(data: any[], channelName: string): any[]
     });
 
     return transformedData;
+}
+
+export function filterData(data: any[], filter: Date, now: Date): any[]{
+
+    let parseTime = timeParse("%m-%d-%Y-%H:%M:%S");
+
+    return data.filter(obj => {
+        let newData = obj.data.filter((d: any) => {
+            let time = parseTime(d.x)?.getTime() ?? new Date().getTime();
+            console.log(time);
+            return (filter.getTime() < time && time < now.getTime());
+        });
+        return newData;
+    });
 }

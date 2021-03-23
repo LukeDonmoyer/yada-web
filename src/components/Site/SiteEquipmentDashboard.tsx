@@ -1,16 +1,11 @@
 /**
+ * 
  *
- *
- *
- * Get channels from each template -> map channels to loggers that have them -> for each channel -> for each logger -> transform data for channel -> add data to Nivo struct -> render graph
- *
- * TODO: parse timestamps, render actual cards, create theme,
- * pass channel type to change yScale type, make tab itself scrollable,
- * refactor channelsOnUnit to be a map with data type
  */
 
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import dataTransformer from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
@@ -48,7 +43,6 @@ function getChannelsFromLoggers(
 
     for (const logger of loggers) {
         let template = channelTemplates[logger.channelTemplate].keys;
-        console.log(template);
 
         Object.entries(template).forEach((item) => {
             const [key, value] = item;
@@ -91,11 +85,16 @@ export default function EquipmentDashboard({
     );
     let dashboardCards: ReactElement[] = [];
 
+    let [filterDropdown, setFilterDropdown] = useState(false);
+    let [filter, setFilter] = useState("5 minutes");
+    const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
+
     channelsOnUnit.forEach((channelType, channelName) => {
         dashboardCards.push(
             <EquipmentDashboardCard
                 channel={channelName}
                 channelType={channelType}
+                filter={filter}
                 graphData={getChannelDataFromLoggers(
                     channelName,
                     loggersOnUnit
@@ -104,5 +103,34 @@ export default function EquipmentDashboard({
         );
     });
 
-    return <div className="equipmentDashboard">{dashboardCards}</div>;
+    return (
+        <div className="equipmentDashboard">
+            <div className="buttonBar bootStrapStyles">
+                <Dropdown isOpen={filterDropdown} toggle={toggleFilterDropdown} className="dropdown">
+                    <DropdownToggle caret>
+                        Filter
+                    </DropdownToggle>
+                    <DropdownMenu className="dropdownMenu">
+                        <DropdownItem header>Time Interval</DropdownItem>
+                        <DropdownItem 
+                            onClick={() => {setFilter("5 minutes")}}
+                        >
+                            5 minutes
+                        </DropdownItem>
+                        <DropdownItem
+                            onClick={() => {setFilter("15 minutes")}}
+                        >15 minutes</DropdownItem>
+                        <DropdownItem>1 hour</DropdownItem>
+                        <DropdownItem>6 hours</DropdownItem>
+                        <DropdownItem>12 hours</DropdownItem>
+                        <DropdownItem>1 day</DropdownItem>
+                        <DropdownItem>1 month</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+            <div className="cardDiv">
+                {dashboardCards}
+            </div>
+        </div>
+    );
 }

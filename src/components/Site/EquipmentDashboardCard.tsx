@@ -1,13 +1,15 @@
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
+import { filterData } from "scripts/DataTransformer";
 
 export interface EquipmentDashboardCardProps{
   channel: string,
   channelType: string,
+  filter: string,
   graphData: any[]
 }
 
-export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
+export default function DashboardCard({ channel, channelType, graphData, filter }: EquipmentDashboardCardProps): ReactElement {
 
   return (
     <div className="card">
