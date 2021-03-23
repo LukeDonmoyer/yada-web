@@ -23,6 +23,9 @@ import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from './Control/Button';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 12;
+
 interface PrivilegeToggleProps {
     // name of privilege level
     level: string;
@@ -207,6 +210,8 @@ export default function UserManagement() {
                         dataSource={data}
                         editable={true}
                         onEditComplete={onEditComplete}
+                        pagination={true}
+                        defaultLimit={DEFAULT_PAGE_LIMIT}
                     />
                 </>
             ) : (
