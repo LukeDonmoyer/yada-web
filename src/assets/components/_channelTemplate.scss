@@ -1,0 +1,71 @@
+.channelTemplate {
+    display: flex;
+    flex-flow: column;
+
+    margin: 0 16px;
+
+    height: 100%;
+
+    h1 {
+        @include mediumTitle;
+        color: $darkNavbar;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 8px;
+
+        .expandIcon {
+            position: absolute;
+            transform: translate(-32px);
+
+            margin: 0 4px;
+
+            &:hover {
+                fill: $buttonDarkOrange;
+            }
+        }
+
+        .expandContent {
+            padding: 0 48px;
+
+            width: 100%;
+        }
+
+        svg {
+            width: 24px;
+            height: 24px;
+
+            fill: $darkGray;
+        }
+
+        td,
+        th {
+            padding-left: 32px;
+        }
+
+        thead {
+            tr {
+                background: $offWhite;
+            }
+
+            th {
+                text-align: left;
+                @include smallTitle;
+            }
+        }
+
+        tbody {
+            td {
+            }
+
+            tr {
+                padding: 4px;
+
+                &:nth-child(even) {
+                    background: $offWhite;
+                }
+            }
+        }
+    }
+}
