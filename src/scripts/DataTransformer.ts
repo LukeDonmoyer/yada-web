@@ -36,6 +36,7 @@ export default function dataTransformer(data: any[], channelName: string): any[]
 
 export function filterData(data: any[], filter: Date, now: Date): any[]{
 
+    // Should this string be passed in?
     let parseTime = timeParse("%m-%d-%Y-%H:%M:%S");
 
     return data.filter(obj => {
