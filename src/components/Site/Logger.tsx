@@ -113,7 +113,7 @@ export function LoggerTab({
         <div className="loggerTab">
             <div className="buttonBar">
                 <Button
-                    text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                    text={infoExpanded ? 'Hide Info ⌃' : 'Expand Info ⌄'}
                     type={ButtonType.loggerInfoShow}
                     onClick={handleInfoButton}
                 />
@@ -228,6 +228,7 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
     };
 
     const handleRemoveLogger = () => {
+        console.log('Attempting to remove logger from unit.');
         removeLoggerFromEquipment(logger.site, logger_uid, logger.equipment);
     };
 

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { deleteUser, fireAuthSignOut, updateUserDoc } from 'scripts/Datastore';
 
 /**
- * 
+ *
  * @returns React element containing user settings
  */
 export default function Settings(): ReactElement {

@@ -128,18 +128,18 @@ export default function SiteEquipmentTab(): ReactElement {
     const columns: TypeColumn[] = [
         {
             name: 'open',
-            header: 'open',
+            header: 'Open',
             defaultFlex: 1,
             editable: false,
         },
         {
             name: 'name',
-            header: 'name',
+            header: 'Name',
             defaultFlex: 9,
         },
         {
             name: 'health',
-            header: 'health',
+            header: 'Health',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -150,7 +150,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'type',
-            header: 'type',
+            header: 'Type',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -161,7 +161,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'caution',
-            header: 'caution',
+            header: 'Caution',
             defaultFlex: 2,
             editable: false,
         },
@@ -222,7 +222,7 @@ export default function SiteEquipmentTab(): ReactElement {
             <div className="buttonBar">
                 <Button
                     type={ButtonType.tableControl}
-                    text={'create equipment'}
+                    text={'Create Equipment'}
                     onClick={() => {
                         handleNewEquipmentClick();
                     }}

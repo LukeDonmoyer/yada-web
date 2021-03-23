@@ -1,0 +1,26 @@
+.equipmentDashboard {
+    @include scrollWithoutScrollbar;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    // background-color: $lightRed;
+    // border: 5px solid $companyName;
+
+    .card {
+        @include cardExtraLarge;
+        flex-grow: 1;
+        flex-basis: 500px;
+        margin: 8px 8px;
+        overflow: hidden;
+    }
+
+    h2 {
+        @include smallTitle;
+        color: $darkGray;
+    }
+
+    .responsiveLine {
+        height: 50vh;
+    }
+}
