@@ -223,6 +223,7 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
     };
 
     const handleRemoveLogger = () => {
+        console.log('Attempting to remove logger from unit.');
         removeLoggerFromEquipment(logger.site, logger_uid, logger.equipment);
     };
 
