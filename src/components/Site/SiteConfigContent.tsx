@@ -1,3 +1,9 @@
+/**
+ * Contains the functions to generate the Site configuration tab.
+ * 
+ * Author: Brendan Ortmann
+ */
+
 import React, { FormEvent, ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 
@@ -18,10 +24,10 @@ interface configTabProps {
 
 /**
  * Enumerates equipment with corresponding checkboxes and state
- * @param equipment
- * @param updateState
- * @param state
- * @param notificationMap
+ * @param equipment is an array of EquipmentUnits
+ * @param updateState is the function by which we update the state for the corresponding EquipmentUnit
+ * @param state is the current state
+ * @param notificationMap is a map containing the *changes* to the existing notification state
  * @returns a ReactElement array containing each row of equipment and corresponding checkbox
  */
 function createEquipmentElements(
@@ -72,8 +78,8 @@ function createEquipmentElements(
 }
 
 /**
- *
- * @param param0
+ * Renders the Site Configuration Tab
+ * @param param0 is an object containing the props for the Config tab
  * @returns React element for site configuration tab
  */
 export default function ConfigTab({
