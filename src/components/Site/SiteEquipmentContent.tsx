@@ -10,6 +10,7 @@ import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
 import TabView, { TabViewItem } from '../Control/TabView';
 import { Button } from 'reactstrap';
 import { LoggerSelector, LoggerTab } from './Logger';
+import EquipmentDashboard from './SiteEquipmentDashboard';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -42,6 +43,13 @@ export function SiteEquipmentContent({
 
     var loggerTabs: any = [];
 
+    // Dashboard tab
+    loggerTabs.push(
+        <TabViewItem label="Dashboard" route="dashboard" default exact>
+            <EquipmentDashboard loggers={loggers} unit={unit} />
+        </TabViewItem>
+    );
+
     for (const [id, loggerData] of Object.entries(loggers)) {
         const data = loggerData as LoggerObject;
 
@@ -66,15 +74,15 @@ export function SiteEquipmentContent({
         //leave in to trace bug relating to e.target.className not existing
         console.log(e);
 
-        const target = e.target as HTMLElement;
+        const target = e.target;
 
         //Only collapse the logger if we click on something other than the Add Logger button or the Logger Selector.
         if (
-            target.className &&
+            target instanceof HTMLElement &&
             !(
-                target.className.includes('addLogger') ||
-                target.className.includes('loggerSelector') ||
-                target.className.includes('loggerCard')
+                target?.className?.includes('addLogger') ||
+                target?.className?.includes('loggerSelector') ||
+                target?.className?.includes('loggerCard')
             )
         ) {
             setSelectorCollapsed(true);

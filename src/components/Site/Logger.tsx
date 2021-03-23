@@ -110,7 +110,7 @@ export function LoggerTab({
         <div className="loggerTab">
             <div className="buttonBar">
                 <Button
-                    text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                    text={infoExpanded ? 'Hide Info ⌃' : 'Expand Info ⌄'}
                     type={ButtonType.loggerInfoShow}
                     onClick={handleInfoButton}
                 />
