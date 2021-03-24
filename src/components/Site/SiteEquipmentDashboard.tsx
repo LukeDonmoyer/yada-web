@@ -56,6 +56,7 @@ function getChannelsFromLoggers(
 
 function getChannelDataFromLoggers(
     channel: string,
+    filter: string,
     loggers: LoggerObject[]
 ): any[] {
     let channelData: any[] = [];
@@ -64,9 +65,8 @@ function getChannelDataFromLoggers(
         if (logger.data.some((d: any) => d.hasOwnProperty(channel))) {
             channelData.push({
                 id: logger.name,
-                data: dataTransformer(logger.data, channel),
+                data: dataTransformer(logger.data, channel, filter),
             });
-            console.log(channelData);
         }
     }
 
@@ -86,7 +86,7 @@ export default function EquipmentDashboard({
     let dashboardCards: ReactElement[] = [];
 
     let [filterDropdown, setFilterDropdown] = useState(false);
-    let [filter, setFilter] = useState("5 minutes");
+    let [filter, setFilter] = useState("1 month");
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
     channelsOnUnit.forEach((channelType, channelName) => {
@@ -94,9 +94,9 @@ export default function EquipmentDashboard({
             <EquipmentDashboardCard
                 channel={channelName}
                 channelType={channelType}
-                filter={filter}
                 graphData={getChannelDataFromLoggers(
                     channelName,
+                    filter,
                     loggersOnUnit
                 )}
             />
@@ -113,18 +113,26 @@ export default function EquipmentDashboard({
                     <DropdownMenu className="dropdownMenu">
                         <DropdownItem header>Time Interval</DropdownItem>
                         <DropdownItem 
-                            onClick={() => {setFilter("5 minutes")}}
-                        >
-                            5 minutes
-                        </DropdownItem>
+                            onClick={() => setFilter("5 minutes")}
+                        >5 minutes</DropdownItem>
                         <DropdownItem
-                            onClick={() => {setFilter("15 minutes")}}
+                            onClick={() => setFilter("15 minutes")}
                         >15 minutes</DropdownItem>
-                        <DropdownItem>1 hour</DropdownItem>
-                        <DropdownItem>6 hours</DropdownItem>
-                        <DropdownItem>12 hours</DropdownItem>
-                        <DropdownItem>1 day</DropdownItem>
-                        <DropdownItem>1 month</DropdownItem>
+                        <DropdownItem
+                            onClick={() => setFilter("1 hour")}
+                        >1 hour</DropdownItem>
+                        <DropdownItem
+                            onClick={() => setFilter("6 hours")}
+                        >6 hours</DropdownItem>
+                        <DropdownItem
+                            onClick={() => setFilter("12 hours")}
+                        >12 hours</DropdownItem>
+                        <DropdownItem
+                            onClick={() => setFilter("1 day")}
+                        >1 day</DropdownItem>
+                        <DropdownItem
+                            onClick={() => setFilter("1 month")}
+                        >1 month</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>

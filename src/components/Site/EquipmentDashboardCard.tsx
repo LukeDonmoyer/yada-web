@@ -1,16 +1,34 @@
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
-import { filterData } from "scripts/DataTransformer";
 
 export interface EquipmentDashboardCardProps{
   channel: string,
   channelType: string,
-  filter: string,
   graphData: any[]
 }
 
-export default function DashboardCard({ channel, channelType, graphData, filter }: EquipmentDashboardCardProps): ReactElement {
+export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
 
+  // Count number of empty data arrays
+  let dataEmpty: number = 0;
+  graphData.forEach((d: any) => {
+    if(d.data.length == 0)
+      dataEmpty++;
+  });
+
+  // If all data arrays are empty, return a message indicating this to the user
+  if (dataEmpty == graphData.length)
+    return (
+      <div className="card">
+        <h2>{channel}</h2>
+        <div>
+          <p>No data exists for this channel during the time period specified.</p> 
+          <p>To change the time scale, click the "Filter" button in the top right corner.</p>
+        </div>
+      </div>
+    );
+
+  // Otherwise, return graph with data
   return (
     <div className="card">
       <h2>{channel}</h2>
