@@ -13,10 +13,11 @@ import { ResponsiveLine } from "@nivo/line";
 export interface EquipmentDashboardCardProps{
   channel: string,
   channelType: string,
+  filter: string,
   graphData: any[]
 }
 
-export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
+export default function DashboardCard({ channel, channelType, filter, graphData }: EquipmentDashboardCardProps): ReactElement {
 
   // Count number of empty data arrays
   // TODO: Refactor this to not be trash
@@ -56,7 +57,7 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
           }}
           axisBottom={{
               format: '%H:%M',
-              tickValues: 'every 5 minutes',
+              tickValues: "every " + filter,
               orient: 'bottom',
               tickSize: 10,
               tickPadding: 5,
