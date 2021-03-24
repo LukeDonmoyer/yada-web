@@ -11,6 +11,7 @@ import TabView, { TabViewItem } from '../Control/TabView';
 import { Button } from 'reactstrap';
 import { LoggerSelector, LoggerTab } from './Logger';
 import EquipmentDashboard from './SiteEquipmentDashboard';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -109,9 +110,11 @@ export function SiteEquipmentContent({
                     Add or select a piece of equipment.
                 </div>
             )}
-            <Button className="addLogger" onClick={handleAddLoggerClick}>
-                Add Logger
-            </Button>
+            <PrivilegeAssert requiredPrivilege="Power">
+                <Button className="addLogger" onClick={handleAddLoggerClick}>
+                    Add Logger
+                </Button>
+            </PrivilegeAssert>
             {selectorCollapsed ? null : (
                 <LoggerSelector siteId={siteId} unitName={unit?.name || ''} />
             )}

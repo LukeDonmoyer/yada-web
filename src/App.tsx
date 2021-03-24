@@ -8,7 +8,7 @@ import ChangePassword from 'components/Onboard/ChangePassword';
 import ContactUs from 'components/Onboard/ContactUs';
 import RequestAccount from 'components/Onboard/RequestAccount';
 
-import authSlice from 'store/FireActions';
+import authSlice, { authPayload } from 'store/FireActions';
 import store from './store/store';
 import Sites from 'components/Site/Sites';
 import Settings from 'components/UserSettings';
@@ -25,6 +25,7 @@ import sitesIcon from 'assets/icons/site.svg';
 import settingsIcon from 'assets/icons/settings.svg';
 import usersIcon from 'assets/icons/accountManagement.svg';
 import {
+    getUserData,
     getUserPrivilege,
     initializeListeners,
     registerAuthChangeCallback,
@@ -33,20 +34,26 @@ import {
 
 function App() {
     const currentUser = useSelector((state: RootState) => state.auth.userUID);
-    const [userPrivilege, setPrivilege] = useState('User');
+    const userPrivilege = useSelector(
+        (state: RootState) => state.auth.privilege
+    );
 
     // Setup listeners and get user privilege after authentication
     useEffect(() => {
         registerAuthChangeCallback((userAuth: any) => {
-            store.dispatch(authSlice.actions.login(userAuth?.uid));
-            if (userAuth !== null && userAuth !== undefined) {
-                initializeListeners();
-            } else {
-                resetRedux();
-            }
-
+            let payload = {
+                userUID: userAuth?.uid,
+                privilege: 'User',
+            } as authPayload;
             getUserPrivilege().then((privilege: string) => {
-                setPrivilege(privilege);
+                payload.privilege = privilege;
+
+                store.dispatch(authSlice.actions.login(payload));
+                if (userAuth !== null && userAuth !== undefined) {
+                    initializeListeners();
+                } else {
+                    resetRedux();
+                }
             });
         });
     }, []);
