@@ -17,6 +17,13 @@ export interface EquipmentDashboardCardProps{
   graphData: any[]
 }
 
+// Not sure if this is necessary, requires more discussion
+function parseFilterToOneThird(filter: string): string {
+  let num: number = Math.ceil(parseInt(filter.charAt(0)) / 3);
+
+  return `${num} ${filter.split(' ')[1]}`;
+}
+
 export default function DashboardCard({ channel, channelType, filter, graphData }: EquipmentDashboardCardProps): ReactElement {
 
   // Count number of empty data arrays
@@ -57,7 +64,7 @@ export default function DashboardCard({ channel, channelType, filter, graphData 
           }}
           axisBottom={{
               format: '%H:%M',
-              tickValues: "every " + filter,
+              tickValues: 'every 1 minute',
               orient: 'bottom',
               tickSize: 10,
               tickPadding: 5,
