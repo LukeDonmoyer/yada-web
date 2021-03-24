@@ -79,8 +79,6 @@ export default function Settings(): ReactElement {
     const [newVals, setNewVals] = useState({
         email: currentUser?.email ? currentUser?.email : '',
         phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : '',
-        emailNotifications: currentUser?.emailNotifications ?? true,
-        smsNotifications: currentUser?.smsNotifications ?? true,
     });
 
     if (currentUser !== undefined && !updatedUI) {
@@ -177,7 +175,9 @@ export default function Settings(): ReactElement {
                             </Label>
                             <div className="checkBoxContainer">
                                 <ToggleSwitch
-                                    enabledDefault={newVals.emailNotifications}
+                                    enabledDefault={
+                                        currentUser?.emailNotifications ?? true
+                                    } // this field is ignored by the toggle switch component because we are passing in the enabled state
                                     enabled={
                                         currentUser?.emailNotifications ?? true
                                     }
@@ -203,7 +203,9 @@ export default function Settings(): ReactElement {
 
                             <div className="checkBoxContainer">
                                 <ToggleSwitch
-                                    enabledDefault={newVals.smsNotifications}
+                                    enabledDefault={
+                                        currentUser?.smsNotifications ?? true
+                                    } // this field is ignored since we are passing in the enabled state
                                     enabled={
                                         currentUser?.smsNotifications ?? true
                                     }
