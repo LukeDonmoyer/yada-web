@@ -11,61 +11,78 @@
         color: $darkNavbar;
     }
 
-    table {
-        width: 100%;
-        margin-top: 8px;
+    .scriptTable {
+        display: flex;
+        flex-flow: column;
 
-        .expandIcon {
-            position: absolute;
-            transform: translate(-32px);
+        border-radius: 8px;
+        border: solid 1px $shadow;
 
+        margin-top: 32px;
+        height: 100%;
+
+        overflow: hidden;
+
+        .scrollable {
+            @include scrollWithoutScrollbar;
+
+            height: 100%;
+        }
+
+        .headerHighlight {
+            background: $turqois;
+            color: $offWhite;
+        }
+
+        .headerAlign {
+            padding-left: 32px;
+        }
+
+        h2 {
+            @include smallTitle;
+        }
+
+        .row {
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+
+            padding: 8px 0;
+
+            width: 100%;
+        }
+
+        .column {
+            display: flex;
+            flex-flow: column;
+            flex: 1;
+        }
+
+        svg {
+            float: left;
             margin: 0 4px;
+
+            width: 24px;
+            height: 24px;
+
+            fill: $darkGray;
 
             &:hover {
                 fill: $buttonDarkOrange;
             }
         }
 
-        .expandContent {
-            padding: 0 48px;
-
-            width: 100%;
+        .hidden {
+            display: none;
         }
 
-        svg {
-            width: 24px;
-            height: 24px;
-
-            fill: $darkGray;
+        .expandable {
+            padding-left: 48px;
+            padding-bottom: 16px;
         }
 
-        td,
-        th {
-            padding-left: 32px;
-        }
-
-        thead {
-            tr {
-                background: $offWhite;
-            }
-
-            th {
-                text-align: left;
-                @include smallTitle;
-            }
-        }
-
-        tbody {
-            td {
-            }
-
-            tr {
-                padding: 4px;
-
-                &:nth-child(even) {
-                    background: $offWhite;
-                }
-            }
+        .highlight {
+            background: darken($offWhite, 4);
         }
     }
 }
