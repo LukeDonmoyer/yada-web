@@ -17,6 +17,9 @@ import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 10;
+
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
     const siteID = location.pathname.split('/')[3];
@@ -237,6 +240,8 @@ export default function SiteEquipmentTab(): ReactElement {
                 defaultFilterValue={filters}
                 editable={true}
                 onEditComplete={onEditComplete}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </div>
     );
