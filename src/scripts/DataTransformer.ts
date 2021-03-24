@@ -9,10 +9,13 @@ import _ from "lodash";
 
 /**
  * Creates a new Date object based on specified filter
+ * 
+ * TODO: Refactor this to not be trash
+ * 
  * @param filter is the string containing what we want to filter by
  * @returns a Date object set based on @param filter
  */
-function parseFilterString(filter: string): Date{
+function parseFilterString(filter: string): Date{ 
     let timeVal: Date = new Date();
 
     switch (filter) {

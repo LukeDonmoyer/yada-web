@@ -1,3 +1,12 @@
+/**
+ * Equipment dashboard card component.
+ * 
+ * Returns a card containing a graph for the specified channel or a message to the user
+ * indicating that there's no data for that channel over the time period specified by filter.
+ * 
+ * Author: Brendan Ortmann
+ */
+
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
 
@@ -10,6 +19,7 @@ export interface EquipmentDashboardCardProps{
 export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
 
   // Count number of empty data arrays
+  // TODO: Refactor this to not be trash
   let dataEmpty: number = 0;
   graphData.forEach((d: any) => {
     if(d.data.length == 0)
