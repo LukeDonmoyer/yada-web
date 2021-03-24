@@ -27,6 +27,21 @@
     }
 }
 
+@mixin filledGreenButton {
+    @include sharedButtonAttributes();
+    background-color: $lightGreen;
+    color: white;
+    border-color: $lightGreen;
+
+    &:hover {
+        background-color: white;
+        color: $lightGreen;
+        border-color: $lightGreen;
+        transform: scale(0.9, 0.9);
+        transition: all 0.2s ease-in-out;
+    }
+}
+
 @mixin borderedPrimaryButton {
     @include sharedButtonAttributes();
     background-color: white;
@@ -71,5 +86,18 @@
     &:hover {
         border-color: $lightRed;
         color: $lightRed;
+    }
+}
+
+@mixin borderedDangerButton {
+    @include filledPrimaryButton;
+    background-color: white;
+    border-color: $lightRed;
+    color: $lightRed;
+
+    &:hover {
+        background-color: $lightRed;
+        border-color: $lightRed;
+        color: white;
     }
 }
