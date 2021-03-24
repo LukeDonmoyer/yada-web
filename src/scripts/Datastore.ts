@@ -94,7 +94,7 @@ export function resetRedux() {
  */
 export function createNewSite() {
     requirePrivilegeLevel('Power').then(implementation.createNewSite, () => {
-        console.log('Innapropriate permissions to create a site');
+        console.error('Innapropriate permissions to create a site');
     });
 }
 
@@ -109,7 +109,7 @@ export function createNewEquipment(siteUID: string, equipmentName: string) {
             implementation.createNewEquipment(siteUID, equipmentName);
         },
         () => {
-            console.log('Innapropriate permissions to create new equipment');
+            console.error('Innapropriate permissions to create new equipment');
         }
     );
 }
@@ -124,7 +124,7 @@ export function sendAuthorizationEmail(address: string) {
             implementation.sendAuthorizationEmail(address);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to send authorization email'
             );
         }
@@ -147,7 +147,7 @@ export function createEmailDocument(
             implementation.createEmailDocument(email, message, subject);
         },
         () => {
-            console.log('Innapropriate permissions to create email document');
+            console.error('Innapropriate permissions to create email document');
         }
     );
 }
@@ -168,7 +168,7 @@ export function createUserDocument(
             implementation.createUserDocument(uid, email, userGroup);
         },
         () => {
-            console.log('Innapropriate permissions to create user document');
+            console.error('Innapropriate permissions to create user document');
         }
     );
 }
@@ -231,7 +231,7 @@ export function editEmail(userID: string, email: string) {
             implementation.editEmail(userID, email);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to edit another users email'
             );
         }
@@ -249,7 +249,7 @@ export function editPhoneNumber(userID: string, number: string) {
             implementation.editPhoneNumber(userID, number);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to edit another users phone number'
             );
         }
@@ -267,7 +267,7 @@ export function editPrivilege(userID: string, privilege: string) {
             implementation.editPrivilege(userID, privilege);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to edit another users privilege level'
             );
         }
@@ -284,7 +284,7 @@ export function deleteUser(userID: string) {
             implementation.deleteUser(userID);
         },
         () => {
-            console.log('Innapropriate permissions to delete a user');
+            console.error('Innapropriate permissions to delete a user');
         }
     );
 }
@@ -299,7 +299,7 @@ export function registerUser(email: string) {
             implementation.registerUser(email);
         },
         () => {
-            console.log('Innapropriate permissions to register a user');
+            console.error('Innapropriate permissions to register a user');
         }
     );
 }
@@ -318,7 +318,7 @@ export function deleteEquipment(siteID: string, name: string) {
             implementation.deleteEquipment(siteID, name);
         },
         () => {
-            console.log('Innapropriate permissions to delete equipment');
+            console.error('Innapropriate permissions to delete equipment');
         }
     );
 }
@@ -333,7 +333,7 @@ export function changeEquipmentName(
             implementation.changeEquipmentName(siteID, oldName, newName);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to update the equipment name'
             );
         }
@@ -345,7 +345,7 @@ export function updateSiteConfig(siteId: string, siteConfig: any) {
             implementation.updateSiteConfig(siteId, siteConfig);
         },
         () => {
-            console.log(
+            console.error(
                 'Innapropriate permissions to update the site configuration'
             );
         }
@@ -386,7 +386,7 @@ export function deleteSite(siteId: string) {
             implementation.deleteSite(siteId);
         },
         () => {
-            console.log('Innapropriate permissions to delete the site');
+            console.error('Innapropriate permissions to delete the site');
         }
     );
 }
