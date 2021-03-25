@@ -38,11 +38,24 @@
             padding-left: 32px;
         }
 
+        .addScript {
+            @include addButton;
+
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+
+            position: absolute;
+            right: 24px;
+        }
+
         h2 {
             @include smallTitle;
         }
 
         .row {
+            position: relative;
+
             display: flex;
             flex-flow: row;
             flex-wrap: wrap;
@@ -83,6 +96,22 @@
 
         .highlight {
             background: darken($offWhite, 4);
+        }
+
+        .row:hover > .delete {
+            display: block;
+        }
+
+        .delete {
+            display: none;
+            position: absolute;
+
+            top: 8px;
+            right: 24px;
+
+            &:hover {
+                fill: $lightRed;
+            }
         }
     }
 }

@@ -6,7 +6,10 @@ import {
     DropdownMenu,
     DropdownToggle,
 } from 'reactstrap';
-import { setLoggerChannelTemplate } from '../../scripts/Implementation';
+
+function addScript() {
+    //TODO: add script to firestore
+}
 
 interface ChannelListProps {
     // The template object to get data from.
@@ -44,6 +47,9 @@ export default function ChannelList({
                 </div>
                 <div className={'column'}>
                     <h2>Script</h2>
+                </div>
+                <div className={'addScript'} onClick={addScript}>
+                    +
                 </div>
             </div>
             <div className={'scrollable'}>{createRows(template.channels)}</div>
@@ -99,6 +105,9 @@ function ChannelRow({
                     </div>
                 </div>
                 <div className={'column'}>{scriptFile}</div>
+                <svg className={'delete'} viewBox="0 0 24 24">
+                    <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+                </svg>
             </div>
             <div
                 className={`${expanded ? 'expandable' : 'hidden'} ${
@@ -137,7 +146,7 @@ function KeyType({ name, type }: KeyTypeProps): ReactElement {
         return (
             <DropdownItem
                 onClick={() => {
-                    setSelectedType('boolean');
+                    setSelectedType(name);
                     //TODO: replace with setting channel type
                 }}
             >
