@@ -1,8 +1,16 @@
 /**
+ * Equipment dashboard component.
  * 
- *
+ * Displays cards which contain graphs for each channel measured by the loggers. Provides a filtering dropdown
+ * and a download button to download the filtered data as a CSV file.
+ * 
+ * @author Brendan Ortmann
+ * 
+ * @todo Remove points if timescale is large enough
  */
 
+import Button, { ButtonType } from 'components/Control/Button';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
@@ -107,7 +115,11 @@ export default function EquipmentDashboard({
     return (
         <div className="equipmentDashboard">
             <div className="buttonBar bootStrapStyles">
-                <Dropdown isOpen={filterDropdown} toggle={toggleFilterDropdown} className="dropdown">
+                <Dropdown 
+                    isOpen={filterDropdown}
+                    toggle={toggleFilterDropdown}
+                    className="dropdown"
+                >
                     <DropdownToggle caret>
                         Filter
                     </DropdownToggle>
@@ -136,6 +148,10 @@ export default function EquipmentDashboard({
                         >1 month</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
+                <Button
+                    type={ButtonType.tableControl}
+                    text="Download"
+                />
             </div>
             <div className="cardDiv">
                 {dashboardCards}
