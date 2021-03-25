@@ -15,7 +15,7 @@ import _ from "lodash";
  * @param filter is the string containing what we want to filter by
  * @returns a Date object set based on @param filter
  */
-function parseFilterString(filter: string): Date { 
+export function parseFilterString(filter: string): Date { 
     let timeVal: Date = new Date();
 
     switch (filter) {
@@ -47,6 +47,16 @@ function parseFilterString(filter: string): Date {
     return timeVal;
 }
 
+export function filterByDate(
+    timestamp: string,
+    filter: Date
+): boolean {
+    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S");
+    let parsedTime = timeParser(timestamp)?.getTime() ?? new Date().getTime();
+
+    return parsedTime > filter.getTime();
+}
+
 /**
  * Transforms a single data point into the format required by Nivo
  * @param data is an object containing channel names mapped to values
@@ -62,12 +72,9 @@ function transformDataPoint(
     filter: Date
 ): {} {
 
-    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S");
-    let parsedTime = timeParser(data["timestamp"])?.getTime() ?? new Date().getTime();
-
     if (
         data.hasOwnProperty(channelName) &&
-        parsedTime > filter.getTime()
+        filterByDate(data["timestamp"], filter)
     ){
         return ({
             x: data["timestamp"],

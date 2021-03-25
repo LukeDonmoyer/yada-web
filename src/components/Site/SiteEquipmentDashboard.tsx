@@ -6,12 +6,12 @@
  * 
  * @author Brendan Ortmann
  * 
- * @todo Remove points if timescale is large enough
+ * @todo Remove points if timescale is large enough, refactor filter to use useRef, refactor dropdown to not be garbo
  */
 
 import Button, { ButtonType } from 'components/Control/Button';
-import CsvDownloadButton from 'components/Control/CsvDownloadButton';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import dataTransformer from 'scripts/DataTransformer';
@@ -23,6 +23,7 @@ import {
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import EquipmentDashboardCard from './EquipmentDashboardCard';
+import DashboardCSV from './EquipmentDashboardCSV';
 
 export interface EquipmentDashboardProps {
     loggers: LoggerCollection;
@@ -85,6 +86,8 @@ export default function EquipmentDashboard({
     loggers,
     unit,
 }: EquipmentDashboardProps): ReactElement {
+
+    // Loggers and channel templates
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
     let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(
@@ -93,9 +96,26 @@ export default function EquipmentDashboard({
     );
     let dashboardCards: ReactElement[] = [];
 
+    // Filter
     let [filterDropdown, setFilterDropdown] = useState(false);
     let [filter, setFilter] = useState("1 month");
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
+
+    let [csvDownloads, setCsvDownloads] = useState(false);
+    let csvDownloadElements: ReactElement[] = [];
+    const downloadClick = () => setCsvDownloads(true);
+    const createDownloads = () => {
+        loggersOnUnit.forEach((l: LoggerObject) => {
+            csvDownloadElements.push(
+                <DashboardCSV 
+                    loggerName={l.name}
+                    data={l.data}
+                    filter={filter}
+                    channels={Array.from(channelsOnUnit.keys())}
+                />
+            );
+        });
+    };
 
     channelsOnUnit.forEach((channelType, channelName) => {
         dashboardCards.push(
@@ -151,10 +171,14 @@ export default function EquipmentDashboard({
                 <Button
                     type={ButtonType.tableControl}
                     text="Download"
+                    onClick={downloadClick}
                 />
             </div>
             <div className="cardDiv">
                 {dashboardCards}
+            </div>
+            <div>
+                {csvDownloads ? createDownloads : csvDownloadElements}
             </div>
         </div>
     );
