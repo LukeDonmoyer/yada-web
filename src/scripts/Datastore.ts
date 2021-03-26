@@ -141,8 +141,11 @@ export function getUserData(uid: string): Promise<any> {
  *
  * returns a promise that resolves with nothing
  */
-export function changePassword(newPassword: string): Promise<any> | undefined {
-    return implementation.changePassword(newPassword);
+export function changePassword(
+    currentPassword: string,
+    newPassword: string
+): Promise<any> | undefined {
+    return implementation.changePassword(currentPassword, newPassword);
 }
 
 /**

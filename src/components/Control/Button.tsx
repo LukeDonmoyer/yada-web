@@ -31,7 +31,14 @@ export default function Button(props: ButtonProps) {
             className={`button ${props.type} ${props.align ? props.align : ''}`}
             onClick={props.onClick}
         >
-            {props.text}
+            <div className="text">{props.text}</div>
+            {props.icon === undefined ? (
+                <></>
+            ) : (
+                <div className="icon">
+                    <img src={props.icon} alt="download" />
+                </div>
+            )}
         </div>
     );
 }

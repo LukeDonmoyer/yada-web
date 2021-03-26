@@ -9,6 +9,7 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import firebase from 'firebase';
 
 /**
  * -- REQUIRED --
@@ -305,29 +306,41 @@ export function getUserData(uid: string): Promise<any> {
  * @param newPassword
  * returns a promise resolved with nothing
  */
-export function changePassword(newPassword: string): Promise<any> | undefined {
-    return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
-        () => {
-            // Update successful.
-            return fire.fireStore
-                .collection('Users')
-                .doc(fire.fireAuth.currentUser?.uid)
-                .update({
-                    defaults: false,
-                })
-                .then(() => {
+export function changePassword(
+    currentPassword: string,
+    newPassword: string
+): Promise<any> | undefined {
+    return fire.fireAuth.currentUser
+        ?.reauthenticateWithCredential(
+            firebase.auth.EmailAuthProvider.credential(
+                fire.fireAuth?.currentUser.email as string,
+                currentPassword
+            )
+        )
+        .then((credential) => {
+            return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
+                () => {
+                    // Update successful.
+                    return fire.fireStore
+                        .collection('Users')
+                        .doc(fire.fireAuth.currentUser?.uid)
+                        .update({
+                            defaults: false,
+                        })
+                        .then(() => {
+                            return new Promise((resolve, reject) => {
+                                resolve(true);
+                            });
+                        });
+                },
+                (error) => {
+                    // An error happened.
                     return new Promise((resolve, reject) => {
-                        resolve(true);
+                        reject(error);
                     });
-                });
-        },
-        (error) => {
-            // An error happened.
-            return new Promise((resolve, reject) => {
-                reject(error);
-            });
-        }
-    );
+                }
+            );
+        });
 }
 
 /**
@@ -474,7 +487,10 @@ export function addLoggerToEquipment(
                 fire.fireStore
                     .collection('Loggers')
                     .doc(logger_uid)
-                    .set({ equipment: equipment_name, site: site_uid }, { merge: true });
+                    .set(
+                        { equipment: equipment_name, site: site_uid },
+                        { merge: true }
+                    );
 
                 console.log(
                     'Added logger "' +

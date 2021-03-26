@@ -16,6 +16,7 @@ import ReactDataGrid from '@inovua/reactdatagrid-community';
 import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
+import addIcon from '../../assets/icons/plus.svg';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -215,6 +216,7 @@ export default function SiteEquipmentTab(): ReactElement {
             <div className="buttonBar">
                 <Button
                     type={ButtonType.tableControl}
+                    icon={addIcon}
                     text={'Create Equipment'}
                     onClick={() => {
                         handleNewEquipmentClick();
