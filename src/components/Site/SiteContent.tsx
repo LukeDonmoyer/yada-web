@@ -29,7 +29,7 @@ export function SiteContent({ site, siteId }: SiteContentProps): ReactElement {
                     <SiteEquipmentTab />
                 </TabViewItem>
                 <TabViewItem label={'Faults'} route={'faults'}>
-                    <SiteFaultsTab site={site} />
+                    <SiteFaultsTab site={site} siteId={siteId} />
                 </TabViewItem>
                 <TabViewItem label={'Config'} route={'config'}>
                     <ConfigTab site={site} siteId={siteId} />

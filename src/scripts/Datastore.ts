@@ -253,3 +253,7 @@ export function updateEquipmentNotification(
 export function deleteSite(siteId: string) {
     implementation.deleteSite(siteId);
 }
+
+export function updateSiteFaultsViewDate(siteId: string) {
+    implementation.updateSiteFaultsViewDate(siteId);
+}

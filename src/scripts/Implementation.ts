@@ -129,6 +129,12 @@ export function initializeSitesListener() {
         var sites: any = {};
         querySnapshot.forEach((doc) => {
             sites[doc.id] = doc.data();
+            if ('lastViewedFaults' in doc.data()) {
+                sites[doc.id]['lastViewedFaults'] = sites[doc.id][
+                    'lastViewedFaults'
+                ].toDate();
+                console.log(sites[doc.id]['lastViewedFaults']);
+            }
         });
         // call reducer to store each site
         store.dispatch(sitesSlice.actions.updateSites(sites));
@@ -766,4 +772,10 @@ export function deleteSite(siteId: string) {
                 console.log(doc.id);
             });
         });
+}
+
+export function updateSiteFaultsViewDate(siteId: string) {
+    fire.fireStore.collection('Sites').doc(siteId).update({
+        lastViewedFaults: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 }

@@ -37,6 +37,12 @@ export function SiteEquipmentContent({
         true
     );
 
+    const [newFault, setNewFault] = useState(false);
+    const sites = useSelector((state: RootState) => state.sites);
+    const lastViewedFaultsDate = sites[siteId].lastViewedFaults
+        ? sites[siteId].lastViewedFaults
+        : null;
+
     const loggers: LoggerCollection = useSelector(
         (state: RootState) => state.loggers
     );
@@ -70,6 +76,21 @@ export function SiteEquipmentContent({
                     <LoggerTab logger={data} logger_uid={id} />
                 </TabViewItem>
             );
+            // check if the logger has pushed a fault that has not yet been dismissed
+            data.faults.every((fault) => {
+                console.log('inside loop');
+                if (lastViewedFaultsDate === null) {
+                    console.log('lastviewedfaults is null');
+                    setNewFault(true);
+                    return false;
+                }
+                let faultDate = new Date(fault.timestamp);
+                if (faultDate > lastViewedFaultsDate!!) {
+                    setNewFault(true);
+                    return false;
+                }
+                return true;
+            });
         }
     }
 
