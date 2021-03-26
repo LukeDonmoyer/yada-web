@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import 'assets/tailwind.css';
+import 'assets/styles.scss';
 import Onboard from './components/Onboard/Onboard';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';

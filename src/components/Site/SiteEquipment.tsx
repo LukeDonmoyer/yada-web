@@ -8,13 +8,6 @@ import { SiteEquipmentContent } from './SiteEquipmentContent';
 import { createNewEquipment } from 'scripts/Datastore';
 
 /**
- * Event handler for adding a new equipment unit.
- */
-function addEquipment(siteId: string) {
-    createNewEquipment(siteId, 'New Equipment');
-}
-
-/**
  * React element to display the equipment for a site in a dynamic sidebar. The current site id is obtained through
  * the url.
  *
@@ -26,6 +19,23 @@ export default function SiteEquipment(): ReactElement {
         (state: RootState) => state.sites[siteId]
     );
 
+    /**
+     * Event handler for adding a new equipment unit.
+     */
+    function addEquipment(siteId: string) {
+        let baseName = 'New Equipment ';
+        let nameNum = 0;
+
+        while (
+            site['equipmentUnits'].find(
+                (element) => element.name === baseName + String(nameNum)
+            ) !== undefined
+        ) {
+            nameNum++;
+        }
+
+        createNewEquipment(siteId, baseName + String(nameNum));
+    }
     /**
      * Creates a dynamic navbar link for the given equipment unit.
      *
