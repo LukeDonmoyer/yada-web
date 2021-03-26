@@ -6,6 +6,7 @@
 
 import { timeParse } from "d3-time-format";
 import _ from "lodash";
+import { LoggerObject } from "store/FirestoreInterfaces";
 
 /**
  * Creates a new Date object based on specified filter
@@ -51,7 +52,7 @@ export function filterByDate(
     timestamp: string,
     filter: Date
 ): boolean {
-    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S");
+    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S"); // Should probably make this string a global constant somewhere
     let parsedTime = timeParser(timestamp)?.getTime() ?? new Date().getTime();
 
     return parsedTime > filter.getTime();
@@ -92,7 +93,7 @@ function transformDataPoint(
  * @param channelName is the channel we're filtering by
  * @returns an array of data objects in the format required by Nivo filtered by @param channelName
  */
-export default function dataTransformer(data: any[], channelName: string, filter: string): any[]{
+export default function dataToNivoFormat(data: any[], channelName: string, filter: string): any[]{
     let transformedData: any[] = [];
 
     data.forEach((d: any) => {
@@ -103,4 +104,21 @@ export default function dataTransformer(data: any[], channelName: string, filter
     });
 
     return transformedData;
+}
+
+export function aggregateDataFromLoggers(loggers: LoggerObject[], filter: Date = new Date(0)): any[] {
+    let data: any[] = [];
+
+    loggers.forEach((logger: LoggerObject) => {
+        //add data points from logger and tag with logger uid
+        logger.data.forEach((dataPoint: any, index: number) => {
+            let dataEntry = Object.assign({}, dataPoint);
+            dataEntry['logger'] = logger.name;
+
+            if(filterByDate(dataEntry["timestamp"], filter))
+                data.push(dataEntry);
+        });
+    });
+
+    return data;
 }

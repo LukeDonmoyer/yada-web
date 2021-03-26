@@ -12,7 +12,7 @@ interface DashboardCSVProps {
 export default function DashboardCSV({ loggerName, data, filter, channels }: DashboardCSVProps): ReactElement {
 
     // Filename example: "logger1_3-8-16.csv"
-    let filename: string = `${loggerName}_${new Date().toLocaleDateString().replace(/\//g, '-')}`;
+    let filename: string = `${loggerName}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`;
     let filteredData: any[] = data.filter((d: any) => filterByDate(d["timestamp"], parseFilterString(filter)));
 
     return (
@@ -20,6 +20,6 @@ export default function DashboardCSV({ loggerName, data, filter, channels }: Das
             data={filteredData}
             filename={filename}
             headers={channels}
-        >Yes</CSVLink>
+        >Link</CSVLink>
     );
 }

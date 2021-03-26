@@ -10,11 +10,12 @@
  */
 
 import Button, { ButtonType } from 'components/Control/Button';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import dataTransformer from 'scripts/DataTransformer';
+import dataToNivoFormat, { aggregateDataFromLoggers, parseFilterString } from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
     EquipmentUnit,
@@ -55,7 +56,7 @@ function getChannelsFromLoggers(
 
         Object.entries(template).forEach((item) => {
             const [key, value] = item;
-            if (!channelsFromLoggers.has(key) && key !== 'timestamp')
+            if (!channelsFromLoggers.has(key))
                 channelsFromLoggers.set(key, value);
         });
     }
@@ -74,7 +75,7 @@ function getChannelDataFromLoggers(
         if (logger.data.some((d: any) => d.hasOwnProperty(channel))) {
             channelData.push({
                 id: logger.name,
-                data: dataTransformer(logger.data, channel, filter),
+                data: dataToNivoFormat(logger.data, channel, filter),
             });
         }
     }
@@ -101,36 +102,24 @@ export default function EquipmentDashboard({
     let [filter, setFilter] = useState("1 month");
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
-    let [csvDownloads, setCsvDownloads] = useState(false);
-    let csvDownloadElements: ReactElement[] = [];
-    const downloadClick = () => setCsvDownloads(true);
-    const createDownloads = () => {
-        loggersOnUnit.forEach((l: LoggerObject) => {
-            csvDownloadElements.push(
-                <DashboardCSV 
-                    loggerName={l.name}
-                    data={l.data}
+    channelsOnUnit.forEach((channelType: string, channelName: string) => {
+        if(!(channelName === "timestamp")) // Prevent timestamp graph
+            dashboardCards.push(
+                <EquipmentDashboardCard
+                    channel={channelName}
+                    channelType={channelType}
                     filter={filter}
-                    channels={Array.from(channelsOnUnit.keys())}
+                    graphData={getChannelDataFromLoggers(
+                        channelName,
+                        filter,
+                        loggersOnUnit
+                    )}
                 />
             );
-        });
-    };
-
-    channelsOnUnit.forEach((channelType, channelName) => {
-        dashboardCards.push(
-            <EquipmentDashboardCard
-                channel={channelName}
-                channelType={channelType}
-                filter={filter}
-                graphData={getChannelDataFromLoggers(
-                    channelName,
-                    filter,
-                    loggersOnUnit
-                )}
-            />
-        );
     });
+
+    let csvHeaders: string[] = Array.from(channelsOnUnit.keys());
+    csvHeaders.push("logger");
 
     return (
         <div className="equipmentDashboard">
@@ -168,17 +157,14 @@ export default function EquipmentDashboard({
                         >1 month</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <Button
-                    type={ButtonType.tableControl}
-                    text="Download"
-                    onClick={downloadClick}
+                <CsvDownloadButton 
+                    headers={csvHeaders.sort()}
+                    filename={`${unit?.name ?? ""}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`}
+                    createData={() => aggregateDataFromLoggers(loggersOnUnit, parseFilterString(filter))}
                 />
             </div>
             <div className="cardDiv">
                 {dashboardCards}
-            </div>
-            <div>
-                {csvDownloads ? createDownloads : csvDownloadElements}
             </div>
         </div>
     );
