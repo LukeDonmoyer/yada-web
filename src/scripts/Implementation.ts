@@ -132,7 +132,9 @@ export function initializeSitesListener() {
             if ('lastViewedFaults' in doc.data()) {
                 sites[doc.id]['lastViewedFaults'] = sites[doc.id][
                     'lastViewedFaults'
-                ].toDate();
+                ]
+                    ?.toDate()
+                    .valueOf();
                 console.log(sites[doc.id]['lastViewedFaults']);
             }
         });

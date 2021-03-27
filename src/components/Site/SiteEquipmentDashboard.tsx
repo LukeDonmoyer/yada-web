@@ -72,7 +72,7 @@ function getChannelDataFromLoggers(
                 id: logger.name,
                 data: dataTransformer(logger.data, channel),
             });
-            console.log(channelData);
+            // console.log(channelData);
         }
     }
 

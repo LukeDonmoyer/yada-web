@@ -1,9 +1,9 @@
 /**
- * Contact Us page component. 
- * 
+ * Contact Us page component.
+ *
  * This component returns a page containing a form that allows the user to send a message
  * along with an email address to the administrators/owners of the database.
- * 
+ *
  * Author: Brendan Ortmann
  */
 import { useState } from 'react';

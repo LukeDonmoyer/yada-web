@@ -1,10 +1,10 @@
 /**
  * Collection of functions to transform Logger data into format required by Nivo.
- * 
+ *
  * Author: Brendan Ortmann
  */
 
-import _ from "lodash";
+import _ from 'lodash';
 
 /**
  * Transforms a single data point into the format required by Nivo
@@ -14,20 +14,18 @@ import _ from "lodash";
  */
 function transformDataPoint(
     data: {
-        [key: string]: any
+        [key: string]: any;
     },
     channelName: string
 ): {} {
-
-    if (data.hasOwnProperty(channelName)){
-        return ({
-            x: data["timestamp"],
-            y: String(data[channelName])
-        });
+    if (data.hasOwnProperty(channelName)) {
+        return {
+            x: data['timestamp'],
+            y: String(data[channelName]),
+        };
     } else {
-        return {}
+        return {};
     }
-
 }
 
 /**
@@ -36,14 +34,16 @@ function transformDataPoint(
  * @param channelName is the channel we're filtering by
  * @returns an array of data objects in the format required by Nivo filtered by @param channelName
  */
-export default function dataTransformer(data: any[], channelName: string): any[]{
+export default function dataTransformer(
+    data: any[],
+    channelName: string
+): any[] {
     let transformedData: any[] = [];
 
     data.forEach((d: any) => {
         let dataPoint = transformDataPoint(d, channelName);
 
-        if (!_.isEmpty(dataPoint))
-            transformedData.push(dataPoint);
+        if (!_.isEmpty(dataPoint)) transformedData.push(dataPoint);
     });
 
     return transformedData;

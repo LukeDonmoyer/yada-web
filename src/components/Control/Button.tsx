@@ -36,7 +36,7 @@ export default function Button(props: ButtonProps) {
                 <></>
             ) : (
                 <div className="icon">
-                    <img src={props.icon} alt="download" />
+                    <img src={props.icon} alt={`${props.type}`} />
                 </div>
             )}
         </div>

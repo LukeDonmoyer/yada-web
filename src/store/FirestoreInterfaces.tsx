@@ -6,7 +6,7 @@ export interface SiteObject {
     equipmentUnits: EquipmentUnit[];
     name: string;
     notes: string;
-    lastViewedFaults?: Date;
+    lastViewedFaults?: Number;
 }
 
 export interface EquipmentUnit {
