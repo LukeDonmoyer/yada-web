@@ -50,4 +50,9 @@
     .nameColumn {
         @include editableTableField;
     }
+
+    .editableTable {
+        display: flex;
+        gap: 5px;
+    }
 }

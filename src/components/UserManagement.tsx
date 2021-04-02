@@ -22,6 +22,7 @@ import { RootState } from 'store/rootReducer';
 import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from './Control/Button';
+import pencilIcon from './../assets/icons/pencil.svg';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 12;
@@ -140,32 +141,35 @@ export default function UserManagement(): ReactElement {
                 ? cellProps.editProps.value
                 : value;
             return (
-                <input
-                    className="phoneColumn"
-                    type="text"
-                    autoFocus={cellProps.inEdit}
-                    value={v}
-                    onBlur={(e) => {
-                        cellProps.editProps.onComplete();
-                    }}
-                    onChange={cellProps.editProps.onChange}
-                    onFocus={() => cellProps.editProps.startEdit()}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Escape') {
-                            cellProps.editProps.onCancel(e);
-                        }
-                        if (e.key === 'Enter') {
-                            cellProps.editProps.onComplete(e);
-                        }
-                        if (e.key == 'Tab') {
-                            e.preventDefault();
-                            cellProps.editProps.onTabNavigation(
-                                true,
-                                e.shiftKey ? -1 : 1
-                            );
-                        }
-                    }}
-                />
+                <div className="tableEditable">
+                    <img src={pencilIcon} alt="editable" />
+                    <input
+                        className="phoneColumn"
+                        type="text"
+                        autoFocus={cellProps.inEdit}
+                        value={v}
+                        onBlur={(e) => {
+                            cellProps.editProps.onComplete();
+                        }}
+                        onChange={cellProps.editProps.onChange}
+                        onFocus={() => cellProps.editProps.startEdit()}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Escape') {
+                                cellProps.editProps.onCancel(e);
+                            }
+                            if (e.key === 'Enter') {
+                                cellProps.editProps.onComplete(e);
+                            }
+                            if (e.key == 'Tab') {
+                                e.preventDefault();
+                                cellProps.editProps.onTabNavigation(
+                                    true,
+                                    e.shiftKey ? -1 : 1
+                                );
+                            }
+                        }}
+                    />
+                </div>
             );
         },
     };
