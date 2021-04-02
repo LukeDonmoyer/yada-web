@@ -14,7 +14,7 @@ import {
     registerUser,
 } from '../scripts/Datastore';
 import AuthCheck from './Control/AuthCheck';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import { useSelector } from 'react-redux';
@@ -110,7 +110,7 @@ function AccountControls(props: accountControlsProps) {
 /**
  * renders user management table
  */
-export default function UserManagement() {
+export default function UserManagement(): ReactElement {
     const [authorized, setAuthorization] = useState(false);
     const users = useSelector((state: RootState) => state.users);
     const userID = useSelector((state: RootState) => state.auth.userUID);
@@ -130,6 +130,46 @@ export default function UserManagement() {
         registerUser(result as string);
     }
 
+    const phoneNumberColumn = {
+        name: 'phone',
+        header: 'Phone Number',
+        defaultFlex: 2,
+        rendersInlineEditor: true,
+        render: ({ value }: any, { cellProps }: any) => {
+            let v = cellProps.editProps.inEdit
+                ? cellProps.editProps.value
+                : value;
+            return (
+                <input
+                    className="phoneColumn"
+                    type="text"
+                    autoFocus={cellProps.inEdit}
+                    value={v}
+                    onBlur={(e) => {
+                        cellProps.editProps.onComplete();
+                    }}
+                    onChange={cellProps.editProps.onChange}
+                    onFocus={() => cellProps.editProps.startEdit()}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Escape') {
+                            cellProps.editProps.onCancel(e);
+                        }
+                        if (e.key === 'Enter') {
+                            cellProps.editProps.onComplete(e);
+                        }
+                        if (e.key == 'Tab') {
+                            e.preventDefault();
+                            cellProps.editProps.onTabNavigation(
+                                true,
+                                e.shiftKey ? -1 : 1
+                            );
+                        }
+                    }}
+                />
+            );
+        },
+    };
+
     const columns = [
         {
             name: 'email',
@@ -137,7 +177,7 @@ export default function UserManagement() {
             defaultFlex: 2,
             editable: false,
         },
-        { name: 'phone', header: 'Phone Number', defaultFlex: 2 },
+        phoneNumberColumn,
         {
             name: 'privileges',
             header: 'Privileges',

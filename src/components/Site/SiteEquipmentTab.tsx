@@ -120,12 +120,48 @@ export default function SiteEquipmentTab(): ReactElement {
         };
     });
 
-    const columns: TypeColumn[] = [
-        {
-            name: 'name',
-            header: 'Name',
-            defaultFlex: 9,
+    const nameColumn = {
+        name: 'name',
+        header: 'Name',
+        defaultFlex: 9,
+        rendersInlineEditor: true,
+        render: ({ value }, { cellProps }) => {
+            let v = cellProps.editProps.inEdit
+                ? cellProps.editProps.value
+                : value;
+            return (
+                <input
+                    className="nameColumn"
+                    type="text"
+                    autoFocus={cellProps.inEdit}
+                    value={v}
+                    onBlur={(e) => {
+                        cellProps.editProps.onComplete();
+                    }}
+                    onChange={cellProps.editProps.onChange}
+                    onFocus={() => cellProps.editProps.startEdit()}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Escape') {
+                            cellProps.editProps.onCancel(e);
+                        }
+                        if (e.key === 'Enter') {
+                            cellProps.editProps.onComplete(e);
+                        }
+                        if (e.key == 'Tab') {
+                            e.preventDefault();
+                            cellProps.editProps.onTabNavigation(
+                                true,
+                                e.shiftKey ? -1 : 1
+                            );
+                        }
+                    }}
+                />
+            );
         },
+    };
+
+    const columns: TypeColumn[] = [
+        nameColumn,
         {
             name: 'health',
             header: 'Health',
