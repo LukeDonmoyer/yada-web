@@ -90,41 +90,37 @@ export default function SiteEquipmentTab(): ReactElement {
             health: unit.health,
             type: unit.type,
             key: unit.name,
-            open: (
-                <img
-                    className="openIcon"
-                    src={chevron_right}
-                    alt="open"
-                    onClick={() => {
-                        let parsedName = unit.name.replace(' ', '-');
-                        changeRedirect(
-                            `/app/sites/${siteID}/equipment/${parsedName}`
-                        );
-                    }}
-                />
-            ),
-            caution: (
-                <span
-                    className="deleteLink"
-                    onClick={() => {
-                        if (window.confirm(`Delete equipment: ${unit.name}`)) {
-                            deleteEquipment(siteID, unit.name);
-                        }
-                    }}
-                >
-                    delete
-                </span>
+            actions: (
+                <div className="actions">
+                    <span
+                        className="deleteLink"
+                        onClick={() => {
+                            if (
+                                window.confirm(`Delete equipment: ${unit.name}`)
+                            ) {
+                                deleteEquipment(siteID, unit.name);
+                            }
+                        }}
+                    >
+                        delete
+                    </span>
+                    <img
+                        className="openIcon"
+                        src={chevron_right}
+                        alt="open"
+                        onClick={() => {
+                            let parsedName = unit.name.replace(' ', '-');
+                            changeRedirect(
+                                `/app/sites/${siteID}/equipment/${parsedName}`
+                            );
+                        }}
+                    />
+                </div>
             ),
         };
     });
 
     const columns: TypeColumn[] = [
-        {
-            name: 'open',
-            header: 'Open',
-            defaultFlex: 1,
-            editable: false,
-        },
         {
             name: 'name',
             header: 'Name',
@@ -153,8 +149,8 @@ export default function SiteEquipmentTab(): ReactElement {
             editable: false,
         },
         {
-            name: 'caution',
-            header: 'Caution',
+            name: 'actions',
+            header: 'Actions',
             defaultFlex: 2,
             editable: false,
         },

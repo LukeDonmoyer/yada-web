@@ -41,4 +41,9 @@
         width: fit-content;
         margin-left: auto;
     }
+
+    .actions {
+        display: flex;
+        justify-content: space-around;
+    }
 }
