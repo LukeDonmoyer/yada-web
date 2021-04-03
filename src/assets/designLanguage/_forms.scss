@@ -21,6 +21,13 @@
     }
 }
 
+@mixin wideBlueInput {
+    @include wideInput;
+    &:required:valid {
+        border-bottom-color: $turqois;
+    }
+}
+
 @mixin smallInput {
     display: block;
     border-width: 2px;

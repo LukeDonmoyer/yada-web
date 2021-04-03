@@ -18,6 +18,9 @@ export function DynamicNavLink(props: dynamicNavLink) {
     let currentRoute = useLocation();
     const { url } = useRouteMatch();
 
+    let match =
+        currentRoute.pathname.split(url)[1].split('/')[1] === props.route;
+
     if (props.blockLinkRender) {
         return <></>;
     }
@@ -26,7 +29,8 @@ export function DynamicNavLink(props: dynamicNavLink) {
         <Link to={`${url}/${props.route}`}>
             <div
                 className={`navItem ${
-                    currentRoute.pathname.startsWith(`${url}/${props.route}`)
+                    currentRoute.pathname.startsWith(`${url}/${props.route}`) &&
+                    match
                         ? 'active'
                         : 'inactive'
                 }`}
