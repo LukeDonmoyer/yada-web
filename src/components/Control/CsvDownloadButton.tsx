@@ -16,7 +16,7 @@ interface CsvDownloadButtonProps {
 
     align?: string;
 
-    // Function that creates the dsv data, this will be run asynchronously
+    // Function that creates the csv data, this will be run asynchronously
     createData: () => Data;
 }
 

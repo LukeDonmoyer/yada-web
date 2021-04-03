@@ -1,17 +1,61 @@
+/**
+ * Equipment dashboard card component.
+ *
+ * Returns a card containing a graph for the specified channel or a message to the user
+ * indicating that there's no data for that channel over the time period specified by filter.
+ *
+ * Author: Brendan Ortmann
+ */
+
 import React, { ReactElement } from 'react';
 import { ResponsiveLine } from '@nivo/line';
 
 export interface EquipmentDashboardCardProps {
     channel: string;
     channelType: string;
+    filter: string;
     graphData: any[];
+}
+
+// Not sure if this is necessary, requires more discussion
+function parseFilterToOneThird(filter: string): string {
+    let num: number = Math.ceil(parseInt(filter.charAt(0)) / 3);
+
+    return `${num} ${filter.split(' ')[1]}`;
 }
 
 export default function DashboardCard({
     channel,
     channelType,
+    filter,
     graphData,
 }: EquipmentDashboardCardProps): ReactElement {
+    // Count number of empty data arrays
+    // TODO: Refactor this to not be trash
+    let dataEmpty: number = 0;
+    graphData.forEach((d: any) => {
+        if (d.data.length == 0) dataEmpty++;
+    });
+
+    // If all data arrays are empty, return a message indicating this to the user
+    if (dataEmpty == graphData.length)
+        return (
+            <div className="card">
+                <h2>{channel}</h2>
+                <div>
+                    <p>
+                        No data exists for this channel during the time period
+                        specified.
+                    </p>
+                    <p>
+                        To change the time scale, click the "Filter" button in
+                        the top right corner.
+                    </p>
+                </div>
+            </div>
+        );
+
+    // Otherwise, return graph with data
     return (
         <div className="card">
             <h2>{channel}</h2>
@@ -36,7 +80,7 @@ export default function DashboardCard({
                     }}
                     axisBottom={{
                         format: '%H:%M',
-                        tickValues: 'every 5 minutes',
+                        tickValues: 'every 1 minute',
                         orient: 'bottom',
                         tickSize: 10,
                         tickPadding: 5,
