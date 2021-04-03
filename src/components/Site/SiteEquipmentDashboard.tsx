@@ -1,12 +1,21 @@
 /**
+ * Equipment dashboard component.
  * 
- *
+ * Displays cards which contain graphs for each channel measured by the loggers. Provides a filtering dropdown
+ * and a download button to download the filtered data as a CSV file.
+ * 
+ * @author Brendan Ortmann
+ * 
+ * @todo Remove points if timescale is large enough, refactor filter to use useRef, refactor dropdown to not be garbo
  */
 
-import { ReactElement, useState } from 'react';
+import Button, { ButtonType } from 'components/Control/Button';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
+import { ReactElement, useRef, useState } from 'react';
+import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import dataTransformer from 'scripts/DataTransformer';
+import dataToNivoFormat, { aggregateDataFromLoggers, parseFilterString } from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
     EquipmentUnit,
@@ -15,6 +24,7 @@ import {
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import EquipmentDashboardCard from './EquipmentDashboardCard';
+import DashboardCSV from './EquipmentDashboardCSV';
 
 export interface EquipmentDashboardProps {
     loggers: LoggerCollection;
@@ -46,7 +56,7 @@ function getChannelsFromLoggers(
 
         Object.entries(template).forEach((item) => {
             const [key, value] = item;
-            if (!channelsFromLoggers.has(key) && key !== 'timestamp')
+            if (!channelsFromLoggers.has(key))
                 channelsFromLoggers.set(key, value);
         });
     }
@@ -65,7 +75,7 @@ function getChannelDataFromLoggers(
         if (logger.data.some((d: any) => d.hasOwnProperty(channel))) {
             channelData.push({
                 id: logger.name,
-                data: dataTransformer(logger.data, channel, filter),
+                data: dataToNivoFormat(logger.data, channel, filter),
             });
         }
     }
@@ -77,6 +87,8 @@ export default function EquipmentDashboard({
     loggers,
     unit,
 }: EquipmentDashboardProps): ReactElement {
+
+    // Loggers and channel templates
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
     let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(
@@ -85,33 +97,62 @@ export default function EquipmentDashboard({
     );
     let dashboardCards: ReactElement[] = [];
 
+    // Filter
     let [filterDropdown, setFilterDropdown] = useState(false);
     let [filter, setFilter] = useState("1 month");
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
-    channelsOnUnit.forEach((channelType, channelName) => {
-        dashboardCards.push(
-            <EquipmentDashboardCard
-                channel={channelName}
-                channelType={channelType}
-                filter={filter}
-                graphData={getChannelDataFromLoggers(
-                    channelName,
-                    filter,
-                    loggersOnUnit
-                )}
-            />
-        );
+    channelsOnUnit.forEach((channelType: string, channelName: string) => {
+        if(!(channelName === "timestamp")) // Prevent timestamp graph
+            dashboardCards.push(
+                <EquipmentDashboardCard
+                    channel={channelName}
+                    channelType={channelType}
+                    filter={filter}
+                    graphData={getChannelDataFromLoggers(
+                        channelName,
+                        filter,
+                        loggersOnUnit
+                    )}
+                />
+            );
     });
+
+    let csvHeaders: string[] = Array.from(channelsOnUnit.keys());
+    csvHeaders = csvHeaders.filter((element: string) => element !== "timestamp").sort();
+    csvHeaders.splice(0, 0, "logger", "timestamp");
 
     return (
         <div className="equipmentDashboard">
             <div className="buttonBar bootStrapStyles">
-                <Dropdown isOpen={filterDropdown} toggle={toggleFilterDropdown} className="dropdown">
+                <Dropdown 
+                    isOpen={filterDropdown}
+                    toggle={toggleFilterDropdown}
+                    className="dropdown"
+                >
                     <DropdownToggle caret>
                         Filter
                     </DropdownToggle>
-                    <DropdownMenu className="dropdownMenu">
+                    <DropdownMenu 
+                        className="dropdownMenu" 
+                        right
+                        modifiers={{
+                            setMaxHeight: {
+                                enabled: true,
+                                order: 890,
+                                fn: (data) => {
+                                  return {
+                                    ...data,
+                                    styles: {
+                                      ...data.styles,
+                                      overflow: 'auto',
+                                      maxHeight: '400px',
+                                    },
+                                  };
+                                },
+                              },
+                        }}
+                    >
                         <DropdownItem header>Time Interval</DropdownItem>
                         <DropdownItem 
                             onClick={() => setFilter("5 minutes")}
@@ -140,6 +181,11 @@ export default function EquipmentDashboard({
                         >Clear filter</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
+                <CsvDownloadButton 
+                    headers={csvHeaders}
+                    filename={`${unit?.name ?? ""}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`}
+                    createData={() => aggregateDataFromLoggers(loggersOnUnit, parseFilterString(filter))}
+                />
             </div>
             <div className="cardDiv">
                 {dashboardCards}

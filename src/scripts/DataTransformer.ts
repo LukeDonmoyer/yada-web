@@ -6,6 +6,7 @@
 
 import { timeParse } from "d3-time-format";
 import _ from "lodash";
+import { LoggerObject } from "store/FirestoreInterfaces";
 
 /**
  * Creates a new Date object based on specified filter
@@ -15,7 +16,7 @@ import _ from "lodash";
  * @param filter is the string containing what we want to filter by
  * @returns a Date object set based on @param filter
  */
-function parseFilterString(filter: string): Date { 
+export function parseFilterString(filter: string): Date { 
     let timeVal: Date = new Date();
 
     switch (filter) {
@@ -47,6 +48,16 @@ function parseFilterString(filter: string): Date {
     return timeVal;
 }
 
+export function filterByDate(
+    timestamp: string,
+    filter: Date
+): boolean {
+    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S"); // Should probably make this string a global constant somewhere
+    let parsedTime = timeParser(timestamp)?.getTime() ?? new Date().getTime();
+
+    return parsedTime > filter.getTime();
+}
+
 /**
  * Transforms a single data point into the format required by Nivo
  * @param data is an object containing channel names mapped to values
@@ -62,12 +73,9 @@ function transformDataPoint(
     filter: Date
 ): {} {
 
-    let timeParser = timeParse("%m-%d-%Y-%H:%M:%S");
-    let parsedTime = timeParser(data["timestamp"])?.getTime() ?? new Date().getTime();
-
     if (
         data.hasOwnProperty(channelName) &&
-        parsedTime > filter.getTime()
+        filterByDate(data["timestamp"], filter)
     ){
         return ({
             x: data["timestamp"],
@@ -85,7 +93,7 @@ function transformDataPoint(
  * @param channelName is the channel we're filtering by
  * @returns an array of data objects in the format required by Nivo filtered by @param channelName
  */
-export default function dataTransformer(data: any[], channelName: string, filter: string): any[]{
+export default function dataToNivoFormat(data: any[], channelName: string, filter: string): any[]{
     let transformedData: any[] = [];
 
     data.forEach((d: any) => {
@@ -96,4 +104,21 @@ export default function dataTransformer(data: any[], channelName: string, filter
     });
 
     return transformedData;
+}
+
+export function aggregateDataFromLoggers(loggers: LoggerObject[], filter: Date = new Date(0)): any[] {
+    let data: any[] = [];
+
+    loggers.forEach((logger: LoggerObject) => {
+        //add data points from logger and tag with logger uid
+        logger.data.forEach((dataPoint: any, index: number) => {
+            let dataEntry = Object.assign({}, dataPoint);
+            dataEntry['logger'] = logger.name;
+
+            if(filterByDate(dataEntry["timestamp"], filter))
+                data.push(dataEntry);
+        });
+    });
+
+    return data;
 }
