@@ -17,6 +17,7 @@ import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 import pencilIcon from '../../assets/icons/pencil.svg';
+import deleteIcon from '../../assets/icons/delete.svg';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -93,7 +94,7 @@ export default function SiteEquipmentTab(): ReactElement {
             key: unit.name,
             actions: (
                 <div className="actions">
-                    <span
+                    {/* <span
                         className="deleteLink"
                         onClick={() => {
                             if (
@@ -104,7 +105,19 @@ export default function SiteEquipmentTab(): ReactElement {
                         }}
                     >
                         delete
-                    </span>
+                    </span> */}
+                    <img
+                        className="deleteIcon"
+                        src={deleteIcon}
+                        alt="delete"
+                        onClick={() => {
+                            if (
+                                window.confirm(`Delete equipment: ${unit.name}`)
+                            ) {
+                                deleteEquipment(siteID, unit.name);
+                            }
+                        }}
+                    />
                     <img
                         className="openIcon"
                         src={chevron_right}

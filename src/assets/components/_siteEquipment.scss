@@ -55,4 +55,9 @@
         display: flex;
         gap: 5px;
     }
+
+    .deleteIcon,
+    .openIcon {
+        cursor: pointer;
+    }
 }
