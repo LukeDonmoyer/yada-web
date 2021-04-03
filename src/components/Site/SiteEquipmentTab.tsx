@@ -17,6 +17,9 @@ import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 10;
+
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
     const siteID = location.pathname.split('/')[3];
@@ -32,12 +35,6 @@ export default function SiteEquipmentTab(): ReactElement {
     ];
 
     let types: Any[] = [];
-
-    const onCellClick = (event, cellProps) => {
-        const { data } = cellProps;
-        let parsedName = data.name.replace(' ', '-');
-        changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
-    };
 
     function getAllLoggerData() {
         var allData: any[] = [];
@@ -111,7 +108,6 @@ export default function SiteEquipmentTab(): ReactElement {
                     className="deleteLink"
                     onClick={() => {
                         if (window.confirm(`Delete equipment: ${unit.name}`)) {
-                            // deleteUser(props.uid);
                             deleteEquipment(siteID, unit.name);
                         }
                     }}
@@ -125,18 +121,18 @@ export default function SiteEquipmentTab(): ReactElement {
     const columns: TypeColumn[] = [
         {
             name: 'open',
-            header: 'open',
+            header: 'Open',
             defaultFlex: 1,
             editable: false,
         },
         {
             name: 'name',
-            header: 'name',
+            header: 'Name',
             defaultFlex: 9,
         },
         {
             name: 'health',
-            header: 'health',
+            header: 'Health',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -147,7 +143,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'type',
-            header: 'type',
+            header: 'Type',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -158,7 +154,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'caution',
-            header: 'caution',
+            header: 'Caution',
             defaultFlex: 2,
             editable: false,
         },
@@ -219,7 +215,7 @@ export default function SiteEquipmentTab(): ReactElement {
             <div className="buttonBar">
                 <Button
                     type={ButtonType.tableControl}
-                    text={'create equipment'}
+                    text={'Create Equipment'}
                     onClick={() => {
                         handleNewEquipmentClick();
                     }}
@@ -237,6 +233,8 @@ export default function SiteEquipmentTab(): ReactElement {
                 defaultFilterValue={filters}
                 editable={true}
                 onEditComplete={onEditComplete}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </div>
     );

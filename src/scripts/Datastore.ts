@@ -232,3 +232,21 @@ export function updateEquipmentNotifications(
 ) {
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
 }
+
+export function updateEquipmentNotification(
+    uid: string,
+    siteId: string,
+    equipmentName: string,
+    status: Boolean
+) {
+    implementation.updateEquipmentNotification(
+        uid,
+        siteId,
+        equipmentName,
+        status
+    );
+}
+
+export function deleteSite(siteId: string) {
+    implementation.deleteSite(siteId);
+}

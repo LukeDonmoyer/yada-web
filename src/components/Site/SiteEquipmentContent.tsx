@@ -46,12 +46,13 @@ export function SiteEquipmentContent({
     // Dashboard tab
     loggerTabs.push(
         <TabViewItem
+            key="Dashboard"
             label="Dashboard"
             route="dashboard"
             default
             exact
         >
-            <EquipmentDashboard loggers={loggers} unit={unit}/>
+            <EquipmentDashboard loggers={loggers} unit={unit} />
         </TabViewItem>
     );
 
@@ -62,6 +63,7 @@ export function SiteEquipmentContent({
         if (unit?.loggers.find((loggerId) => loggerId === id)) {
             loggerTabs.push(
                 <TabViewItem
+                    key={id}
                     label={data.name || '<logger.name>'}
                     route={String(id)}
                 >
@@ -79,15 +81,15 @@ export function SiteEquipmentContent({
         //leave in to trace bug relating to e.target.className not existing
         console.log(e);
 
-        const target = e.target as HTMLElement;
+        const target = e.target;
 
         //Only collapse the logger if we click on something other than the Add Logger button or the Logger Selector.
         if (
-            target.className &&
+            target instanceof HTMLElement &&
             !(
-                target.className.includes('addLogger') ||
-                target.className.includes('loggerSelector') ||
-                target.className.includes('loggerCard')
+                target?.className?.includes('addLogger') ||
+                target?.className?.includes('loggerSelector') ||
+                target?.className?.includes('loggerCard')
             )
         ) {
             setSelectorCollapsed(true);
