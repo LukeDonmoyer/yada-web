@@ -39,11 +39,7 @@
     .dropdown {
         overflow: visible;
         z-index: 2;
-
-        .dropdownMenu {
-            @include scrollWithoutScrollbar;
-            z-index: 2;
-            overflow: scroll;
-        }
+        margin-right: 10px;
+        margin-top: -4px;
     }
 }

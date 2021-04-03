@@ -119,7 +119,8 @@ export default function EquipmentDashboard({
     });
 
     let csvHeaders: string[] = Array.from(channelsOnUnit.keys());
-    csvHeaders.push("logger");
+    csvHeaders = csvHeaders.filter((element: string) => element !== "timestamp").sort();
+    csvHeaders.splice(0, 0, "logger", "timestamp");
 
     return (
         <div className="equipmentDashboard">
@@ -132,7 +133,26 @@ export default function EquipmentDashboard({
                     <DropdownToggle caret>
                         Filter
                     </DropdownToggle>
-                    <DropdownMenu className="dropdownMenu">
+                    <DropdownMenu 
+                        className="dropdownMenu" 
+                        right
+                        modifiers={{
+                            setMaxHeight: {
+                                enabled: true,
+                                order: 890,
+                                fn: (data) => {
+                                  return {
+                                    ...data,
+                                    styles: {
+                                      ...data.styles,
+                                      overflow: 'auto',
+                                      maxHeight: '400px',
+                                    },
+                                  };
+                                },
+                              },
+                        }}
+                    >
                         <DropdownItem header>Time Interval</DropdownItem>
                         <DropdownItem 
                             onClick={() => setFilter("5 minutes")}
@@ -162,7 +182,7 @@ export default function EquipmentDashboard({
                     </DropdownMenu>
                 </Dropdown>
                 <CsvDownloadButton 
-                    headers={csvHeaders.sort()}
+                    headers={csvHeaders}
                     filename={`${unit?.name ?? ""}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`}
                     createData={() => aggregateDataFromLoggers(loggersOnUnit, parseFilterString(filter))}
                 />
