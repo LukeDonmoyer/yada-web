@@ -10,7 +10,8 @@ import React, { useState } from 'react';
 import { Button, Form, Input } from 'reactstrap';
 import { createEmailDocument } from '../../scripts/Datastore';
 import { Redirect } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+import { StylesProvider } from '@material-ui/core/styles';
 
 import "../../assets/styles.scss";
 import "../../assets/bootstrap.scss";
@@ -19,7 +20,7 @@ export default function ContactUs() {
     let [email, setEmail] = useState('');
     let [message, setMessage] = useState('');
     let [submitted, setSubmitted] = useState(false);
-    let [modal, setModal] = useState(false);
+    let [dialog, setDialog] = useState(false);
 
     /**
      * Handles state changes on the page.
@@ -37,14 +38,17 @@ export default function ContactUs() {
      * @param event
      */
     const sendEmail = (event: any) => {
+        event.preventDefault();
         // createEmailDocument(email, message, 'YADA Contact Us');
-        // alert('Email sent!'); // TODO: Replace with Reactstrap alert?
-        setModal(true);
-        //setSubmitted(true);
+        setDialog(true);
     };
 
-    const modalClosed = () => setSubmitted(true);
-    const toggle = () => setModal(!modal);
+    /**
+     * Sets the "submitted" stateful value which redirects the user to the onboard
+     * screen on form submission.
+     * @returns a function that sets "submitted" to true
+     */
+    const toOnboard = () => setSubmitted(true);
 
     /**
      * Redirects to the Sign In page if the form has been submitted, otherwise serves the page again.
@@ -53,12 +57,19 @@ export default function ContactUs() {
         <Redirect push to="/" />
     ) : (
         <div className="contactUs h-screen">
-            <Modal isOpen={modal} toggle={toggle} className="bootStrapStyles">
-                <ModalHeader toggle={toggle}>Email sent!</ModalHeader>
-                <ModalFooter>
-                    <Button onClick={toggle}>Ok</Button>
-                </ModalFooter>
-            </Modal>
+            <Dialog
+                open={dialog}
+                onClose={toOnboard}
+                fullWidth
+            >
+                <DialogTitle className="dialogTitle">Email sent!</DialogTitle>
+                <DialogActions>
+                    <Button 
+                        onClick={toOnboard}
+                        className="bootStrapStyles"
+                    >Ok</Button>
+                </DialogActions>
+            </Dialog>
             <div className="card">
                 <h1>Contact Us</h1>
                 <Form onSubmit={sendEmail} className="py-8">
