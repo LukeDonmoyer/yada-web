@@ -36,11 +36,11 @@
     }
 
     .dropdown {
-        overflow: visible;
-        z-index: 2;
+        overflow: scroll;
+        z-index: auto;
 
         .dropdownMenu {
-            z-index: 2;
+            z-index: auto;
         }
     }
 }

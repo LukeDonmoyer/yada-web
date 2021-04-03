@@ -134,6 +134,10 @@ export default function EquipmentDashboard({
                         <DropdownItem
                             onClick={() => setFilter("1 month")}
                         >1 month</DropdownItem>
+                        <DropdownItem divider/>
+                        <DropdownItem
+                            onClick={() => setFilter("1 month")}
+                        >Clear filter</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
