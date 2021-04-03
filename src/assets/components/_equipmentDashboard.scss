@@ -4,6 +4,7 @@
     .cardDiv {
         display: flex;
         flex-wrap: wrap;
+        min-height: 300px;
     }
 
     .card {
@@ -40,7 +41,9 @@
         z-index: 2;
 
         .dropdownMenu {
+            @include scrollWithoutScrollbar;
             z-index: 2;
+            overflow: scroll;
         }
     }
 }
