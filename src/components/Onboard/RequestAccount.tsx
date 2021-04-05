@@ -15,6 +15,7 @@ export default function RequestAccount() {
     let [email, setEmail] = useState('');
     let [message, setMessage] = useState('');
     let [submitted, setSubmitted] = useState(false);
+    let [dialog, setDialog] = useState(false);
 
     /**
      * Handles state changes on the page.
@@ -33,9 +34,10 @@ export default function RequestAccount() {
      */
     const sendEmail = (event: any) => {
         createEmailDocument(email, message, 'YADA Request Account');
-        alert('Email sent!'); // Replace with Reactstrap alert
-        setSubmitted(true);
+        setDialog(true);
     };
+
+    const toOnboard = () => setSubmitted(true);
 
     /**
      * Redirects to the Sign In page if the form has been submitted, otherwise serves the page again.
