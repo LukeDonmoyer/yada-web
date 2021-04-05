@@ -1,3 +1,39 @@
+@mixin svgButton {
+    width: 24px;
+    height: 24px;
+
+    fill: $darkGray;
+    cursor: pointer;
+
+    &:hover {
+        fill: $buttonDarkOrange;
+    }
+}
+
+.modal {
+    h2 {
+        @include smallTitle;
+    }
+
+    .content {
+        justify-content: flex-start;
+        margin: 32px 32px 16px 32px;
+    }
+
+    .horizontal {
+        @include horizontalLayout;
+    }
+
+    .modalButtons {
+        justify-content: flex-end;
+        margin: 16px 32px 32px 32px;
+    }
+
+    svg {
+        @include svgButton;
+    }
+}
+
 .channelTemplate {
     display: flex;
     flex-flow: column;
@@ -72,17 +108,10 @@
         }
 
         svg {
+            @include svgButton;
+
             float: left;
             margin: 0 4px;
-
-            width: 24px;
-            height: 24px;
-
-            fill: $darkGray;
-
-            &:hover {
-                fill: $buttonDarkOrange;
-            }
         }
 
         .hidden {
@@ -90,8 +119,25 @@
         }
 
         .expandable {
-            padding-left: 48px;
+            @include center;
+
+            position: relative;
+
             padding-bottom: 16px;
+            max-width: fit-content;
+            min-width: 700px;
+
+            .fixedWidth > button {
+                width: 132px;
+            }
+
+            .plusButton {
+                @include svgButton;
+                @include center;
+
+                margin-top: 8px;
+                margin-bottom: 8px;
+            }
         }
 
         .highlight {
@@ -105,6 +151,7 @@
         .delete {
             display: none;
             position: absolute;
+            cursor: pointer;
 
             top: 8px;
             right: 24px;
