@@ -1,0 +1,47 @@
+.screenDarken {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.modal {
+    @include floatingCard;
+    position: absolute;
+    margin-top: 0;
+
+    top: 50%;
+    left: 50%;
+
+    width: 500px;
+    height: min-content;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-flow: column;
+
+    h2 {
+        @include smallTitle;
+    }
+
+    .content {
+        justify-content: flex-start;
+        margin: 32px 32px 16px 32px;
+    }
+
+    .horizontal {
+        @include horizontalLayout;
+    }
+
+    .modalButtons {
+        justify-content: flex-end;
+        margin: 16px 32px 32px 32px;
+    }
+
+    svg {
+        @include svgButton;
+    }
+}
