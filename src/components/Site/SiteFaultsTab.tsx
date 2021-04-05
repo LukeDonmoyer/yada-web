@@ -15,6 +15,9 @@ import CsvDownloadButton from '../Control/CsvDownloadButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 9;
+
 window.moment = moment; // Needed for date filtering
 
 interface FaultData {
@@ -126,6 +129,8 @@ export default function SiteFaultsTab({
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
                 loading={faults === null}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </>
     );

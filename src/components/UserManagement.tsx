@@ -23,6 +23,9 @@ import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from './Control/Button';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 12;
+
 interface PrivilegeToggleProps {
     // name of privilege level
     level: string;
@@ -110,6 +113,7 @@ function AccountControls(props: accountControlsProps) {
 export default function UserManagement() {
     const [authorized, setAuthorization] = useState(false);
     const users = useSelector((state: RootState) => state.users);
+    const userID = useSelector((state: RootState) => state.auth.userUID);
 
     getUserPrivilege().then((privilege) => {
         if (privilege === 'Owner' || privilege === 'Admin') {
@@ -129,20 +133,20 @@ export default function UserManagement() {
     const columns = [
         {
             name: 'email',
-            header: <b>email address</b>,
+            header: <b>Email Address</b>,
             defaultFlex: 2,
             editable: false,
         },
-        { name: 'phone', header: 'phone number', defaultFlex: 2 },
+        { name: 'phone', header: 'Phone Number', defaultFlex: 2 },
         {
             name: 'privileges',
-            header: 'privileges',
+            header: 'Privileges',
             editable: false,
             defaultFlex: 2,
         },
         {
             name: 'controls',
-            header: 'caution',
+            header: 'Caution',
             defaultFlex: 1,
             editable: false,
         },
@@ -157,7 +161,11 @@ export default function UserManagement() {
         if (phoneNumber == null) {
             phoneNumber = '';
         }
-        if (userData.userGroup !== 'Owner' && !userData.disabled) {
+        if (
+            userData.userGroup !== 'Owner' &&
+            uid !== userID &&
+            !userData.disabled
+        ) {
             data.push({
                 email: userData.email,
                 phone: phoneNumber,
@@ -202,6 +210,8 @@ export default function UserManagement() {
                         dataSource={data}
                         editable={true}
                         onEditComplete={onEditComplete}
+                        pagination={true}
+                        defaultLimit={DEFAULT_PAGE_LIMIT}
                     />
                 </>
             ) : (

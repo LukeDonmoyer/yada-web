@@ -1,15 +1,32 @@
-import React, { FormEvent, ReactElement, useState } from 'react';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+/**
+ * Contains the functions to generate the Site configuration tab.
+ *
+ * Author: Brendan Ortmann
+ */
 
-import '../../assets/styles.scss';
-import '../../assets/bootstrap.scss';
+import React, { FormEvent, ReactElement, useState } from 'react';
+import {
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Button as ReactButton,
+} from 'reactstrap';
+import Button, { ButtonType } from '../Control/Button';
+
+// import '../../assets/styles.scss';
+// import '../../assets/bootstrap.scss';
 import {
     updateSiteConfig,
-    updateEquipmentNotifications,
+    updateEquipmentNotification,
+    deleteSite,
 } from 'scripts/Datastore';
 import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
+import { ToggleSwitch } from 'components/Control/ToggleSwitch';
+import { Redirect } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 interface configTabProps {
     site: SiteObject;
@@ -18,50 +35,45 @@ interface configTabProps {
 
 /**
  * Enumerates equipment with corresponding checkboxes and state
- * @param equipment
- * @param updateState
- * @param state
- * @param notificationMap
+ * @param equipment is an array of EquipmentUnits
+ * @param updateState is the function by which we update the state for the corresponding EquipmentUnit
+ * @param state is the current state
+ * @param notificationMap is a map containing the *changes* to the existing notification state
  * @returns a ReactElement array containing each row of equipment and corresponding checkbox
  */
 function createEquipmentElements(
     equipment: EquipmentUnit[],
-    updateState: React.Dispatch<React.SetStateAction<{}>>,
-    state: {
-        [key: string]: boolean;
-    },
+    uid: string,
+    siteId: string,
     notificationMap: {
         [key: string]: boolean;
     }
 ): ReactElement[] {
     let equipmentList: ReactElement[] = [];
-
-    const createHandler = (name: string) => {
-        return (e: FormEvent<HTMLInputElement>) => {
-            if (e.currentTarget.checked !== (notificationMap[name] ?? false)) {
-                updateState({
-                    ...state,
-                    [name]: e.currentTarget.checked,
-                });
-            } else {
-                let newState = { ...state };
-                delete newState[name];
-                updateState(newState);
-            }
-        };
-    };
-
     equipment.forEach((e) => {
         equipmentList.push(
-            <div className="grid grid-cols-2 gap-4">
-                <div>{e.name}</div>
-                <div>
-                    <Input
-                        type="checkbox"
-                        checked={
-                            state[e.name] ?? notificationMap[e.name] ?? false
-                        }
-                        onChange={createHandler(e.name)}
+            <div className="notificationEntry" key={e.name}>
+                <div className="name">{e.name}</div>
+                <div className="toggle">
+                    <ToggleSwitch
+                        enabledDefault={notificationMap[e.name] ?? false}
+                        enabled={notificationMap[e.name] ?? false}
+                        onEnable={() => {
+                            updateEquipmentNotification(
+                                uid,
+                                siteId,
+                                e.name,
+                                true
+                            );
+                        }}
+                        onDisable={() => {
+                            updateEquipmentNotification(
+                                uid,
+                                siteId,
+                                e.name,
+                                false
+                            );
+                        }}
                     />
                 </div>
             </div>
@@ -72,8 +84,8 @@ function createEquipmentElements(
 }
 
 /**
- *
- * @param param0
+ * Renders the Site Configuration Tab
+ * @param param0 is an object containing the props for the Config tab
  * @returns React element for site configuration tab
  */
 export default function ConfigTab({
@@ -86,14 +98,13 @@ export default function ConfigTab({
             (state: RootState) =>
                 state.users[uid as string]?.equipmentNotifications?.[siteId]
         ) ?? {};
+    const history = useHistory(); // necessary to redirect after deleting the site
 
     const [configState, setConfigState] = useState({
         name: site.name,
         notes: site.notes,
         address: site.address,
     });
-
-    const [equipmentState, setEquipmentState] = useState({});
 
     const updateField = (e: any) => {
         setConfigState({
@@ -105,71 +116,78 @@ export default function ConfigTab({
     const submitChanges = (e: any) => {
         e.preventDefault();
         updateSiteConfig(siteId, configState);
-        updateEquipmentNotifications(uid as string, siteId, equipmentState);
         alert('Changes saved!');
     };
 
     return (
         <div className="siteConfigTab">
             <Form onSubmit={submitChanges}>
-                <div className="bootStrapStyles">
-                    <FormGroup>
-                        <Label>Name</Label>
-                        <Input
-                            type="text"
-                            name="name"
-                            id="name"
-                            placeholder={configState.name}
-                            value={configState.name}
-                            onChange={updateField}
+                <FormGroup className="formGroup">
+                    <Label>Name</Label>
+                    <Input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder={configState.name}
+                        value={configState.name}
+                        onChange={updateField}
+                    />
+                </FormGroup>
+
+                <FormGroup className="formGroup">
+                    <Label>Address</Label>
+                    <Input
+                        type="text"
+                        name="address"
+                        id="address"
+                        placeholder={configState.address}
+                        value={configState.address}
+                        onChange={updateField}
+                    />
+                </FormGroup>
+
+                <FormGroup className="formGroup">
+                    <Label>Notes</Label>
+                    <Input
+                        type="textarea"
+                        name="notes"
+                        id="notes"
+                        className="text"
+                        placeholder={configState.notes}
+                        value={configState.notes}
+                        onChange={updateField}
+                    />
+                </FormGroup>
+
+                <div className="buttonContainer">
+                    <div className="pad"></div>
+                    <div className="buttons">
+                        <ReactButton type="submit" value="Submit">
+                            Save
+                        </ReactButton>
+                        <Button
+                            type={ButtonType.warningSecondary}
+                            text="Delete"
+                            onClick={() => {
+                                if (window.confirm('Delete this site')) {
+                                    history.push('/app/sites');
+                                    deleteSite(siteId);
+                                }
+                            }}
                         />
-                    </FormGroup>
+                    </div>
                 </div>
 
-                <div className="bootStrapStyles">
-                    <FormGroup>
-                        <Label>Address</Label>
-                        <Input
-                            type="text"
-                            name="address"
-                            id="address"
-                            placeholder={configState.address}
-                            value={configState.address}
-                            onChange={updateField}
-                        />
-                    </FormGroup>
-                </div>
-
-                <div className="bootStrapStyles">
-                    <FormGroup>
-                        <Label>Notes</Label>
-                        <Input
-                            type="textarea"
-                            name="notes"
-                            id="notes"
-                            placeholder={configState.notes}
-                            value={configState.notes}
-                            onChange={updateField}
-                        />
-                    </FormGroup>
-                </div>
-
-                <div className="">
+                <div className="notificationSection">
                     <h2>Equipment Notifications</h2>
                     <div>
                         {createEquipmentElements(
                             site.equipmentUnits,
-                            setEquipmentState,
-                            equipmentState,
+                            uid as string,
+                            siteId as string,
                             notificationMap
                         )}
                     </div>
-                </div>
-
-                <div className="bootStrapStyles">
-                    <Button type="submit" value="Submit">
-                        Save Changes
-                    </Button>
                 </div>
             </Form>
         </div>

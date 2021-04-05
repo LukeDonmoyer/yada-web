@@ -1,21 +1,59 @@
+/**
+ * Equipment dashboard card component.
+ * 
+ * Returns a card containing a graph for the specified channel or a message to the user
+ * indicating that there's no data for that channel over the time period specified by filter.
+ * 
+ * Author: Brendan Ortmann
+ */
+
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
 
 export interface EquipmentDashboardCardProps{
   channel: string,
   channelType: string,
+  filter: string,
   graphData: any[]
 }
 
-export default function DashboardCard({ channel, channelType, graphData }: EquipmentDashboardCardProps): ReactElement {
+// Not sure if this is necessary, requires more discussion
+function parseFilterToOneThird(filter: string): string {
+  let num: number = Math.ceil(parseInt(filter.charAt(0)) / 3);
 
+  return `${num} ${filter.split(' ')[1]}`;
+}
+
+export default function DashboardCard({ channel, channelType, filter, graphData }: EquipmentDashboardCardProps): ReactElement {
+
+  // Count number of empty data arrays
+  // TODO: Refactor this to not be trash
+  let dataEmpty: number = 0;
+  graphData.forEach((d: any) => {
+    if(d.data.length == 0)
+      dataEmpty++;
+  });
+
+  // If all data arrays are empty, return a message indicating this to the user
+  if (dataEmpty == graphData.length)
+    return (
+      <div className="card">
+        <h2>{channel}</h2>
+        <div>
+          <p>No data exists for this channel during the time period specified.</p> 
+          <p>To change the time scale, click the "Filter" button in the top right corner.</p>
+        </div>
+      </div>
+    );
+
+  // Otherwise, return graph with data
   return (
     <div className="card">
       <h2>{channel}</h2>
       <div className="responsiveLine">
         <ResponsiveLine
           data={graphData}
-          margin={{ top: 50, right: 150, bottom: 50, left: 60 }}
+          margin={{ top: 25, right: 60, bottom: 65, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'second' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
           yScale={{ 
@@ -26,12 +64,12 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
           }}
           axisBottom={{
               format: '%H:%M',
-              tickValues: 'every 5 minutes',
+              tickValues: 'every 1 minute',
               orient: 'bottom',
               tickSize: 10,
               tickPadding: 5,
               legend: 'timestamp',
-              legendOffset: 36,
+              legendOffset: 34,
               legendPosition: 'middle'
           }}
           axisLeft={{
@@ -51,12 +89,10 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
           useMesh={true}
           legends={[
             {
-              anchor: 'bottom-right',
-              direction: 'column',
-              justify: false,
-              translateX: 100,
-              translateY: 0,
-              itemsSpacing: 0,
+              anchor: 'bottom-left',
+              direction: 'row',
+              translateY: 65,
+              itemsSpacing: 25,
               itemDirection: 'left-to-right',
               itemWidth: 80,
               itemHeight: 20,
@@ -64,15 +100,6 @@ export default function DashboardCard({ channel, channelType, graphData }: Equip
               symbolSize: 12,
               symbolShape: 'circle',
               symbolBorderColor: 'rgba(0, 0, 0, .5)',
-              effects: [
-                {
-                  on: 'hover',
-                  style: {
-                    itemBackground: 'rgba(0, 0, 0, .03)',
-                    itemOpacity: 1
-                  }
-                }
-              ]
             }
           ]}
         />

@@ -20,7 +20,6 @@ export default function ChangePassword() {
     if (currentUser === null || currentUser === undefined) {
         // redirect flag redirects the user to the change password page after logging in
         return <AuthCheck />;
-        // history.push("/?redirect=changePassword");
     }
 
     /**

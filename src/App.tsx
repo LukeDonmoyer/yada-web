@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import 'assets/tailwind.css';
+import 'assets/styles.scss';
 import Onboard from './components/Onboard/Onboard';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -75,7 +76,7 @@ function App() {
                                 >
                                     {/* Dashboard route */}
                                     <StaticNavItem
-                                        label={'dashboard'}
+                                        label={'Dashboard'}
                                         route={'dashboard'}
                                         icon={homeIcon}
                                     >
@@ -83,7 +84,7 @@ function App() {
                                     </StaticNavItem>
                                     {/* Sites route */}
                                     <StaticNavItem
-                                        label={'sites'}
+                                        label={'Sites'}
                                         route={'sites'}
                                         icon={sitesIcon}
                                         hasDynamicNavbar
@@ -104,7 +105,7 @@ function App() {
                                         userPrivilege
                                     ) ? (
                                         <StaticNavItem
-                                            label="user management"
+                                            label="User Management"
                                             route="usermanagement"
                                             icon={usersIcon}
                                         >
@@ -115,7 +116,7 @@ function App() {
                                     )}
                                     {/* User settings route */}
                                     <StaticNavItem
-                                        label="settings"
+                                        label="Settings"
                                         route="settings"
                                         icon={settingsIcon}
                                     >

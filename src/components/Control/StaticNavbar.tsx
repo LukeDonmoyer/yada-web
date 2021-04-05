@@ -114,7 +114,7 @@ export default function StaticNavbar(props: navbarProps) {
                         }}
                     >
                         <div className={`navIcon logout`} />
-                        <div className="navTitle">logout</div>
+                        <div className="navTitle">Logout</div>
                     </div>
                 </div>
             </div>

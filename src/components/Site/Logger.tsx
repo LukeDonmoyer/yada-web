@@ -26,6 +26,9 @@ import {
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 9;
+
 export interface LoggerTabProps {
     logger: LoggerObject;
     logger_uid: string;
@@ -110,7 +113,7 @@ export function LoggerTab({
         <div className="loggerTab">
             <div className="buttonBar">
                 <Button
-                    text={infoExpanded ? 'hide info ⌃' : 'expand info ⌄'}
+                    text={infoExpanded ? 'Hide Info ⌃' : 'Expand Info ⌄'}
                     type={ButtonType.loggerInfoShow}
                     onClick={handleInfoButton}
                 />
@@ -131,6 +134,8 @@ export function LoggerTab({
                 dataSource={rows}
                 defaultSortInfo={[]}
                 defaultFilterValue={filters}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </div>
     );
@@ -223,6 +228,7 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
     };
 
     const handleRemoveLogger = () => {
+        console.log('Attempting to remove logger from unit.');
         removeLoggerFromEquipment(logger.site, logger_uid, logger.equipment);
     };
 
