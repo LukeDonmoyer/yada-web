@@ -10,11 +10,11 @@ import React, { useState } from 'react';
 import { Button, Form, Input } from 'reactstrap';
 import { createEmailDocument } from '../../scripts/Datastore';
 import { Redirect } from 'react-router-dom';
-import { Dialog, DialogActions, DialogTitle } from '@material-ui/core';
-import { StylesProvider } from '@material-ui/core/styles';
+import CustomButton, { ButtonType } from '../Control/Button';
 
 import "../../assets/styles.scss";
 import "../../assets/bootstrap.scss";
+import Modal from 'components/Control/Modal';
 
 export default function ContactUs() {
     let [email, setEmail] = useState('');
@@ -57,19 +57,23 @@ export default function ContactUs() {
         <Redirect push to="/" />
     ) : (
         <div className="contactUs h-screen">
-            <Dialog
-                open={dialog}
-                onClose={toOnboard}
-                fullWidth
-            >
-                <DialogTitle className="dialogTitle">Email sent!</DialogTitle>
-                <DialogActions>
-                    <Button 
-                        onClick={toOnboard}
-                        className="bootStrapStyles"
-                    >Ok</Button>
-                </DialogActions>
-            </Dialog>
+            <Modal 
+                show={dialog}
+                onClickOutside={toOnboard}
+                children={[
+                    <div className="content">
+                        <h2>Email sent!</h2>
+                        <p>Administrators will receive your message shortly.</p>
+                    </div>,
+                    <div className="modalButtons horizontal">
+                        <CustomButton
+                            text='Return to Sign In'
+                            type={ButtonType.tableControl}
+                            onClick={toOnboard}
+                        />
+                    </div>
+                ]}
+            />
             <div className="card">
                 <h1>Contact Us</h1>
                 <Form onSubmit={sendEmail} className="py-8">
