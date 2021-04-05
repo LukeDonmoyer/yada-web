@@ -3,6 +3,7 @@ import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from 'components/Control/Button';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 import { ToggleSwitch } from 'components/Control/ToggleSwitch';
 import { MutableRefObject, ReactElement, useState } from 'react';
 import { Data } from 'react-csv/components/CommonPropTypes';
@@ -243,45 +244,48 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
                 <LoggerInfoItem label="MAC" value={logger.mac || '<unknown>'} />
                 <LoggerInfoItem label="Notes" value={logger.notes} />
             </div>
-            <div className="controls">
-                <div className="control">
-                    <h2>Collecting Data</h2>
-                    <ToggleSwitch
-                        enabledDefault={logger.collectingData}
-                        onEnable={enableDataCollection}
-                        onDisable={disableDataCollection}
-                    />
-                </div>
-                <h3>Logger uptime: {logger.uptime}</h3>
-                <div className="control">
-                    <h2>Template:</h2>
-                    <div className="bootStrapStyles dropdown">
-                        <Dropdown
-                            isOpen={templateDropDownOpen}
-                            toggle={toggleTemplateDropDown}
-                        >
-                            <DropdownToggle caret>
-                                {selectedTemplateId
-                                    ? channelTemplates[selectedTemplateId].name
-                                    : '<template> ' + templateDropDownOpen}
-                            </DropdownToggle>
-                            <DropdownMenu className="dropdownMenu">
-                                {templateDropdownItems}
-                            </DropdownMenu>
-                        </Dropdown>
+            <PrivilegeAssert requiredPrivilege="Power">
+                <div className="controls">
+                    <div className="control">
+                        <h2>Collecting Data</h2>
+                        <ToggleSwitch
+                            enabledDefault={logger.collectingData}
+                            onEnable={enableDataCollection}
+                            onDisable={disableDataCollection}
+                        />
+                    </div>
+                    <h3>Logger uptime: {logger.uptime}</h3>
+                    <div className="control">
+                        <h2>Template:</h2>
+                        <div className="bootStrapStyles dropdown">
+                            <Dropdown
+                                isOpen={templateDropDownOpen}
+                                toggle={toggleTemplateDropDown}
+                            >
+                                <DropdownToggle caret>
+                                    {selectedTemplateId
+                                        ? channelTemplates[selectedTemplateId]
+                                              .name
+                                        : '<template> ' + templateDropDownOpen}
+                                </DropdownToggle>
+                                <DropdownMenu className="dropdownMenu">
+                                    {templateDropdownItems}
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </div>
+                    <div className="control">
+                        <div>
+                            {/* this is a spacer div to get the button to align correctly */}
+                        </div>
+                        <Button
+                            type={ButtonType.warning}
+                            text={'Remove Logger'}
+                            onClick={handleRemoveLogger}
+                        />
                     </div>
                 </div>
-                <div className="control">
-                    <div>
-                        {/* this is a spacer div to get the button to align correctly */}
-                    </div>
-                    <Button
-                        type={ButtonType.warning}
-                        text={'Remove Logger'}
-                        onClick={handleRemoveLogger}
-                    />
-                </div>
-            </div>
+            </PrivilegeAssert>
         </div>
     );
 }

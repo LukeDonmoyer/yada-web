@@ -9,6 +9,7 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import authSlice, { authPayload } from 'store/FireActions';
 
 /**
  * -- REQUIRED --
@@ -77,6 +78,14 @@ export function initializeUsersListener() {
                 });
                 // call reducer to store each site
                 store.dispatch(updateUsersSlice.actions.updateUsers(users));
+                let userPayload = {
+                    userUID: fire.fireAuth.currentUser?.uid,
+                    privilege:
+                        users[fire.fireAuth.currentUser?.uid as string][
+                            'userGroup'
+                        ],
+                } as authPayload;
+                store.dispatch(authSlice.actions.login(userPayload));
             });
         } else {
             // listen only to current user document
@@ -86,8 +95,13 @@ export function initializeUsersListener() {
                 .onSnapshot((doc) => {
                     var users: any = {};
                     users[doc.id] = doc.data();
-                    // call reducer to store each site
+                    // call reducer to store each user
                     store.dispatch(updateUsersSlice.actions.updateUsers(users));
+                    let userPayload = {
+                        userUID: doc.id,
+                        privilege: users[doc.id]['userGroup'],
+                    } as authPayload;
+                    store.dispatch(authSlice.actions.login(userPayload));
                 });
         }
     });
@@ -474,7 +488,10 @@ export function addLoggerToEquipment(
                 fire.fireStore
                     .collection('Loggers')
                     .doc(logger_uid)
-                    .set({ equipment: equipment_name, site: site_uid }, { merge: true });
+                    .set(
+                        { equipment: equipment_name, site: site_uid },
+                        { merge: true }
+                    );
 
                 console.log(
                     'Added logger "' +

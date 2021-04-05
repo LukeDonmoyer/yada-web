@@ -2,8 +2,10 @@
  * Second tier navbar
  */
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, Route, useLocation, useRouteMatch } from 'react-router-dom';
-
+import { RootState } from '../../store/rootReducer';
+import PrivilegeAssert from './PrivilegeAssert';
 interface dynamicNavLink {
     // route this link directs to
     route: string;
@@ -52,6 +54,7 @@ interface DynamicNavBarProps {
 
 export default function DynamicNavbar(props: DynamicNavBarProps) {
     const { path } = useRouteMatch();
+    const privilege = useSelector((state: RootState) => state.auth.privilege);
 
     // creates route for the component passed into it
     function createRoute(child: ReactElement) {
@@ -74,9 +77,11 @@ export default function DynamicNavbar(props: DynamicNavBarProps) {
             <div className="dynamicNavbar">
                 <div className="navbarHeader">
                     <div className="title">{props.title}</div>
-                    <div className="addButton" onClick={props.buttonAction}>
-                        +
-                    </div>
+                    <PrivilegeAssert requiredPrivilege="Power">
+                        <div className="addButton" onClick={props.buttonAction}>
+                            +
+                        </div>
+                    </PrivilegeAssert>
                 </div>
                 {/* renders each link in children */}
                 <div className="links">{props.children}</div>
