@@ -67,23 +67,55 @@ export default function ChannelList({
                 onClickOutside={() => setAddingScript(false)}
             >
                 <div className={'content'}>
-                    <div className={'horizontal'}>
-                        <h2>Script name</h2>
-                        <input type={'text'} name={'scriptName'} />
-                    </div>
-                    <div className={'horizontal'}>
-                        <h2>Script file</h2>
+                    <div className={'inputSection'}>
+                        <div className={'horizontal'}>
+                            <h2 className={'marginAfter'}>Script File:</h2>
+                            <input
+                                type={'radio'}
+                                id={'new'}
+                                name={'newOrExisting'}
+                                value={'new'}
+                                checked
+                            />
+                            <label className={'marginAfter'} htmlFor={'new'}>
+                                Upload New
+                            </label>
+                            <input
+                                type={'radio'}
+                                id={'existing'}
+                                name={'newOrExisting'}
+                                value={'existing'}
+                            />
+                            <label
+                                className={'marginAfter'}
+                                htmlFor={'existing'}
+                            >
+                                Use Existing
+                            </label>
+                        </div>
                         <input
                             type={'file'}
                             name={'scriptFile'}
                             id={'scriptFile'}
                             hidden
                         />
-                        <label htmlFor={'scriptFile'}>
+                        <label
+                            className={'uploadButton horizontal'}
+                            htmlFor={'scriptFile'}
+                        >
                             <svg viewBox="0 0 24 24">
                                 <path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
                             </svg>
+                            No file uploaded
                         </label>
+                    </div>
+                    <div className={'inputSection'}>
+                        <h2>Script Name:</h2>
+                        <input
+                            className={'scriptName'}
+                            type={'text'}
+                            name={'scriptName'}
+                        />
                     </div>
                 </div>
                 <div className={'modalButtons horizontal'}>
