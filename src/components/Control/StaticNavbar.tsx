@@ -32,6 +32,7 @@ interface StaticNavItemProp {
     label: string;
     route: string;
     icon: any;
+    hasDynamicNavbar?: boolean;
     children: ReactElement;
 }
 
@@ -72,6 +73,18 @@ export default function StaticNavbar(props: navbarProps) {
     let location = useLocation();
     const { path } = useRouteMatch();
 
+    let hasDynamicNavbar = new Map<string, boolean>();
+
+    React.Children.map(props.children, (child) => {
+        const route = `${path}/${child.props.route}`;
+
+        if (location.pathname.startsWith(route))
+            hasDynamicNavbar.set(
+                location.pathname,
+                child.props.hasDynamicNavbar
+            );
+    });
+
     function createRoute(child: ReactElement) {
         return (
             <Route path={`${path}/${child.props.route}`}>
@@ -88,7 +101,7 @@ export default function StaticNavbar(props: navbarProps) {
                         !props.autoCollapse ? 'noCollapse' : ''
                     } ${
                         props.roundRightCorners &&
-                        !location.pathname.startsWith('/app/site')
+                        !hasDynamicNavbar.get(location.pathname)
                             ? 'roundAllCorners'
                             : 'roundLeftCorners'
                     }`}
