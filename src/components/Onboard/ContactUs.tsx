@@ -39,7 +39,7 @@ export default function ContactUs() {
      */
     const sendEmail = (event: any) => {
         event.preventDefault();
-        // createEmailDocument(email, message, 'YADA Contact Us');
+        createEmailDocument(email, message, 'YADA Contact Us');
         setDialog(true);
     };
 
