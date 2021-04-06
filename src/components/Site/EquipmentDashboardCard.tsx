@@ -9,6 +9,7 @@
 
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
+import { interpolateHcl, quantize } from "d3-interpolate";
 
 export interface EquipmentDashboardCardProps{
   channel: string,
@@ -25,6 +26,37 @@ function parseFilterToOneThird(filter: string): string {
 }
 
 export default function DashboardCard({ channel, channelType, filter, graphData }: EquipmentDashboardCardProps): ReactElement {
+
+    // Creates an array of colors of length three based on the given hex values
+    const colors: string[] = quantize(interpolateHcl("#f4d3b4", "#d96c06"), 3);
+
+    // Specifies custom theme properties
+    const themeProperties: {} = {
+        textColor: "#4b4b4b",
+        fontSize: 12,
+        axis: {
+            domain: {
+                line: {
+                    stroke: "#393e41"
+                }
+            },
+            ticks: {
+                line: {
+                    stroke: "#2292a4"
+                },
+            },
+            legend: {
+                text: {
+                    fontSize: 13
+                }
+            }
+        },
+        grid: {
+            line: {
+                stroke: "#c9c9c9"
+            }
+        }
+    }
 
   // Count number of empty data arrays
   // TODO: Refactor this to not be trash
@@ -53,6 +85,8 @@ export default function DashboardCard({ channel, channelType, filter, graphData 
       <div className="responsiveLine">
         <ResponsiveLine
           data={graphData}
+          theme={themeProperties}
+          colors={colors}
           margin={{ top: 25, right: 60, bottom: 65, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'second' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
@@ -69,7 +103,7 @@ export default function DashboardCard({ channel, channelType, filter, graphData 
               tickSize: 10,
               tickPadding: 5,
               legend: 'timestamp',
-              legendOffset: 34,
+              legendOffset: 40,
               legendPosition: 'middle'
           }}
           axisLeft={{
@@ -81,8 +115,8 @@ export default function DashboardCard({ channel, channelType, filter, graphData 
               legendOffset: -40,
               legendPosition: 'middle'
           }}
-          pointSize={10}
-          pointColor={{ theme: 'background' }}
+          pointSize={6}
+          pointColor={"#f5f5f5"}
           pointBorderWidth={2}
           pointBorderColor={{ from: 'serieColor' }}
           pointLabelYOffset={-12}
@@ -92,7 +126,7 @@ export default function DashboardCard({ channel, channelType, filter, graphData 
               anchor: 'bottom-left',
               direction: 'row',
               translateY: 65,
-              itemsSpacing: 25,
+              itemsSpacing: 38,
               itemDirection: 'left-to-right',
               itemWidth: 80,
               itemHeight: 20,
