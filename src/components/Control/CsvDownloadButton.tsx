@@ -2,6 +2,7 @@ import { Data, Headers } from 'react-csv/components/CommonPropTypes';
 import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import Button, { ButtonType } from './Button';
+import downloadIcon from '../../assets/icons/download.svg';
 
 interface CsvDownloadButtonProps {
     // Label for the button
@@ -49,6 +50,7 @@ export default function CsvDownloadButton({
             />
             <Button
                 align={align}
+                icon={downloadIcon}
                 type={ButtonType.tableControl}
                 text={label ? label : 'Download CSV'}
                 onClick={getData}

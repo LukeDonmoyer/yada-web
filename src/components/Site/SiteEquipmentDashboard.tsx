@@ -1,11 +1,11 @@
 /**
  * Equipment dashboard component.
- * 
+ *
  * Displays cards which contain graphs for each channel measured by the loggers. Provides a filtering dropdown
  * and a download button to download the filtered data as a CSV file.
- * 
+ *
  * @author Brendan Ortmann
- * 
+ *
  * @todo Remove points if timescale is large enough, refactor filter to use useRef, refactor dropdown to not be garbo
  */
 
@@ -14,8 +14,16 @@ import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import { useSelector } from 'react-redux';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import dataToNivoFormat, { aggregateDataFromLoggers, parseFilterString } from 'scripts/DataTransformer';
+import {
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+} from 'reactstrap';
+import dataToNivoFormat, {
+    aggregateDataFromLoggers,
+    parseFilterString,
+} from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
     EquipmentUnit,
@@ -87,7 +95,6 @@ export default function EquipmentDashboard({
     loggers,
     unit,
 }: EquipmentDashboardProps): ReactElement {
-
     // Loggers and channel templates
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
@@ -99,11 +106,12 @@ export default function EquipmentDashboard({
 
     // Filter
     let [filterDropdown, setFilterDropdown] = useState(false);
-    let [filter, setFilter] = useState("1 month");
+    let [filter, setFilter] = useState('1 month');
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
     channelsOnUnit.forEach((channelType: string, channelName: string) => {
-        if(!(channelName === "timestamp")) // Prevent timestamp graph
+        if (!(channelName === 'timestamp'))
+            // Prevent timestamp graph
             dashboardCards.push(
                 <EquipmentDashboardCard
                     channel={channelName}
@@ -119,77 +127,84 @@ export default function EquipmentDashboard({
     });
 
     let csvHeaders: string[] = Array.from(channelsOnUnit.keys());
-    csvHeaders = csvHeaders.filter((element: string) => element !== "timestamp").sort();
-    csvHeaders.splice(0, 0, "logger", "timestamp");
+    csvHeaders = csvHeaders
+        .filter((element: string) => element !== 'timestamp')
+        .sort();
+    csvHeaders.splice(0, 0, 'logger', 'timestamp');
 
     return (
         <div className="equipmentDashboard">
             <div className="buttonBar bootStrapStyles">
-                <Dropdown 
+                <Dropdown
                     isOpen={filterDropdown}
                     toggle={toggleFilterDropdown}
                     className="dropdown"
                 >
-                    <DropdownToggle caret>
-                        Filter
-                    </DropdownToggle>
-                    <DropdownMenu 
-                        className="dropdownMenu" 
+                    <DropdownToggle caret>Filter</DropdownToggle>
+                    <DropdownMenu
+                        className="dropdownMenu"
                         right
                         modifiers={{
                             setMaxHeight: {
                                 enabled: true,
                                 order: 890,
                                 fn: (data) => {
-                                  return {
-                                    ...data,
-                                    styles: {
-                                      ...data.styles,
-                                      overflow: 'auto',
-                                      maxHeight: '400px',
-                                    },
-                                  };
+                                    return {
+                                        ...data,
+                                        styles: {
+                                            ...data.styles,
+                                            overflow: 'auto',
+                                            maxHeight: '400px',
+                                        },
+                                    };
                                 },
-                              },
+                            },
                         }}
                     >
                         <DropdownItem header>Time Interval</DropdownItem>
-                        <DropdownItem 
-                            onClick={() => setFilter("5 minutes")}
-                        >5 minutes</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("15 minutes")}
-                        >15 minutes</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("1 hour")}
-                        >1 hour</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("6 hours")}
-                        >6 hours</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("12 hours")}
-                        >12 hours</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("1 day")}
-                        >1 day</DropdownItem>
-                        <DropdownItem
-                            onClick={() => setFilter("1 month")}
-                        >1 month</DropdownItem>
-                        <DropdownItem divider/>
-                        <DropdownItem
-                            onClick={() => setFilter("1 month")}
-                        >Clear filter</DropdownItem>
+                        <DropdownItem onClick={() => setFilter('5 minutes')}>
+                            5 minutes
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('15 minutes')}>
+                            15 minutes
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('1 hour')}>
+                            1 hour
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('6 hours')}>
+                            6 hours
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('12 hours')}>
+                            12 hours
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('1 day')}>
+                            1 day
+                        </DropdownItem>
+                        <DropdownItem onClick={() => setFilter('1 month')}>
+                            1 month
+                        </DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem onClick={() => setFilter('1 month')}>
+                            Clear filter
+                        </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
-                <CsvDownloadButton 
+                <CsvDownloadButton
                     headers={csvHeaders}
-                    filename={`${unit?.name ?? ""}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`}
-                    createData={() => aggregateDataFromLoggers(loggersOnUnit, parseFilterString(filter))}
+                    filename={`${
+                        unit?.name ?? ''
+                    }_${new Date()
+                        .toLocaleDateString()
+                        .replace(/\//g, '-')}.csv`}
+                    createData={() =>
+                        aggregateDataFromLoggers(
+                            loggersOnUnit,
+                            parseFilterString(filter)
+                        )
+                    }
                 />
             </div>
-            <div className="cardDiv">
-                {dashboardCards}
-            </div>
+            <div className="cardDiv">{dashboardCards}</div>
         </div>
     );
 }

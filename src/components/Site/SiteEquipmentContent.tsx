@@ -3,14 +3,16 @@ import {
     LoggerCollection,
     LoggerObject,
 } from '../../store/FirestoreInterfaces';
-import { ReactElement, SyntheticEvent, useState } from 'react';
+import React, { ReactElement, SyntheticEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
 import TabView, { TabViewItem } from '../Control/TabView';
-import { Button } from 'reactstrap';
 import { LoggerSelector, LoggerTab } from './Logger';
 import EquipmentDashboard from './SiteEquipmentDashboard';
+import Button, { ButtonType } from '../Control/Button';
+import bellIcon from '../../assets/icons/Bell.png';
+import { Link } from 'react-router-dom';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 interface SiteEquipmentContentProps {
@@ -37,6 +39,15 @@ export function SiteEquipmentContent({
     const [selectorCollapsed, setSelectorCollapsed]: [Boolean, any] = useState(
         true
     );
+
+    const [newFault, setNewFault] = useState({
+        computing: true,
+        newFault: false,
+    });
+    const sites = useSelector((state: RootState) => state.sites);
+    const lastViewedFaultsDate = sites[siteId].lastViewedFaults
+        ? sites[siteId].lastViewedFaults
+        : null;
 
     const loggers: LoggerCollection = useSelector(
         (state: RootState) => state.loggers
@@ -71,6 +82,27 @@ export function SiteEquipmentContent({
                     <LoggerTab logger={data} logger_uid={id} />
                 </TabViewItem>
             );
+            // check if the logger has pushed a fault that has not yet been dismissed
+
+            if (newFault.computing) {
+                if (data.faults.length > 0) {
+                    if (lastViewedFaultsDate === null) {
+                        setNewFault({ computing: false, newFault: true });
+                    } else {
+                        let latestFault = data.faults.reduce((a, b) => {
+                            return a.timestamp > b.timestamp ? a : b;
+                        });
+                        let mostRecentFault = new Date(
+                            latestFault.timestamp
+                        ).valueOf();
+                        if (
+                            mostRecentFault > (lastViewedFaultsDate as number)
+                        ) {
+                            setNewFault({ computing: false, newFault: true });
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -103,18 +135,35 @@ export function SiteEquipmentContent({
             onClick={handleClickOutsideLoggerSelector}
         >
             <SiteEquipmentBackButton label={siteName} />
-            {unit ? (
-                <h1>{unit.name}</h1>
-            ) : (
-                <div className={'message'}>
-                    Add or select a piece of equipment.
+            <div className="title-button-flex">
+                {unit ? (
+                    <h1>{unit.name}</h1>
+                ) : (
+                    <div className={'message'}>
+                        Add or select a piece of equipment.
+                    </div>
+                )}
+                <div className="buttons">
+                    {newFault.newFault === true ? (
+                        <Link to={`/app/sites/${siteId}/faults`}>
+                            <Button
+                                type={ButtonType.warning}
+                                text="New Fault"
+                                icon={bellIcon}
+                            />
+                        </Link>
+                    ) : (
+                        <></>
+                    )}
+                    <PrivilegeAssert requiredPrivilege="Power">
+                        <Button
+                            type={ButtonType.tableControl}
+                            onClick={handleAddLoggerClick}
+                            text="Add Logger"
+                        />
+                    </PrivilegeAssert>
                 </div>
-            )}
-            <PrivilegeAssert requiredPrivilege="Power">
-                <Button className="addLogger" onClick={handleAddLoggerClick}>
-                    Add Logger
-                </Button>
-            </PrivilegeAssert>
+            </div>
             {selectorCollapsed ? null : (
                 <LoggerSelector siteId={siteId} unitName={unit?.name || ''} />
             )}
