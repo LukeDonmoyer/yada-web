@@ -13,6 +13,7 @@ import EquipmentDashboard from './SiteEquipmentDashboard';
 import Button, { ButtonType } from '../Control/Button';
 import bellIcon from '../../assets/icons/Bell.png';
 import { Link } from 'react-router-dom';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 interface SiteEquipmentContentProps {
     // The name of the site that the equipment is a part of
@@ -154,11 +155,13 @@ export function SiteEquipmentContent({
                     ) : (
                         <></>
                     )}
-                    <Button
-                        type={ButtonType.tableControl}
-                        onClick={handleAddLoggerClick}
-                        text="Add Logger"
-                    />
+                    <PrivilegeAssert requiredPrivilege="Power">
+                        <Button
+                            type={ButtonType.tableControl}
+                            onClick={handleAddLoggerClick}
+                            text="Add Logger"
+                        />
+                    </PrivilegeAssert>
                 </div>
             </div>
             {selectorCollapsed ? null : (
