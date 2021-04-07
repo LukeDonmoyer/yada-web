@@ -32,13 +32,18 @@ import {
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
 import EquipmentDashboardCard from './EquipmentDashboardCard';
-import DashboardCSV from './EquipmentDashboardCSV';
 
 export interface EquipmentDashboardProps {
     loggers: LoggerCollection;
     unit?: EquipmentUnit;
 }
 
+/**
+ * Gets all Logger objects associated with loggers on the given unit.
+ * @param loggers LoggerCollection on given unit
+ * @param unit current unit
+ * @returns array of LoggerObjects on given unit
+ */
 function getLoggersOnUnit(
     loggers: LoggerCollection,
     unit?: EquipmentUnit
@@ -53,6 +58,13 @@ function getLoggersOnUnit(
     return loggersOnUnit;
 }
 
+/**
+ * Creates master list of channels which appear on any logger in @param loggers.
+ * @param loggers array of LoggerObjects
+ * @param channelTemplates collection of ChannelTemplates which define the
+ *        channels that appear on any of the loggers
+ * @returns Map containing the name (key) and type (value) of each channel
+ */
 function getChannelsFromLoggers(
     loggers: LoggerObject[],
     channelTemplates: ChannelTemplateCollection
@@ -72,6 +84,13 @@ function getChannelsFromLoggers(
     return channelsFromLoggers;
 }
 
+/**
+ * Gets data from @param channel on @param logger, filtered by @param filter.
+ * @param channel string specifying the channel from to pull data
+ * @param filter string indicating how old the data can be
+ * @param loggers array of LoggerObjects from which to pull data
+ * @returns array of objects containing logger name and associated data
+ */
 function getChannelDataFromLoggers(
     channel: string,
     filter: string,
@@ -109,6 +128,7 @@ export default function EquipmentDashboard({
     let [filter, setFilter] = useState('1 month');
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
+    // Generates the dashboard cards
     channelsOnUnit.forEach((channelType: string, channelName: string) => {
         if (!(channelName === 'timestamp'))
             // Prevent timestamp graph
@@ -126,6 +146,7 @@ export default function EquipmentDashboard({
             );
     });
 
+    // Generates proper CSV headers
     let csvHeaders: string[] = Array.from(channelsOnUnit.keys());
     csvHeaders = csvHeaders
         .filter((element: string) => element !== 'timestamp')
