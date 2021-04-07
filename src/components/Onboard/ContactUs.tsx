@@ -37,7 +37,7 @@ export default function ContactUs() {
      * Adds an Email document to the Firestore database.
      * @param event
      */
-    const sendEmail = (event: any) => {
+    const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         createEmailDocument(email, message, 'YADA Contact Us');
         setDialog(true);
