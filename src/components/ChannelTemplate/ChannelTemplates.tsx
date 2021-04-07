@@ -30,7 +30,7 @@ export default function ChannelTemplates() {
         const data = templateData as ChannelTemplate;
         navLinks.push(
             <DynamicNavLink route={id} key={id} name={data.name}>
-                <ChannelTemplateContent template={data} />
+                <ChannelTemplateContent template={data} templateId={id} />
             </DynamicNavLink>
         );
     }

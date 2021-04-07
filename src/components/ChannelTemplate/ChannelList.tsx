@@ -1,5 +1,5 @@
-import { ReactElement, useState } from 'react';
-import { ChannelTemplate } from '../../store/FirestoreInterfaces';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { ChannelTemplate, Script } from '../../store/FirestoreInterfaces';
 import {
     Dropdown,
     DropdownItem,
@@ -8,18 +8,72 @@ import {
 } from 'reactstrap';
 import Button, { ButtonType } from '../Control/Button';
 import Modal from '../Control/Modal';
-
-function addScript() {}
+import {
+    addScriptToTemplate,
+    getScriptList,
+    removeScriptFromTemplate,
+    uploadScript,
+} from '../../scripts/Datastore';
 
 interface ChannelListProps {
     // The template object to get data from.
     template: ChannelTemplate;
+
+    // The id of the template
+    templateId: string;
 }
 
+const UPLOAD_KEY = 'upload';
+const EXISTING_KEY = 'existing';
+
 export default function ChannelList({
+    templateId,
     template,
 }: ChannelListProps): ReactElement {
     let [addingScript, setAddingScript] = useState(false);
+    let [file, setFile] = useState<File | undefined>(undefined);
+    let [scriptType, setScriptType] = useState(UPLOAD_KEY);
+    let [dropdownOpen, setDropdownOpen] = useState(false);
+    let [selectedScript, setSelectedScript] = useState<null | Script>(null);
+    let [scripts, setScripts] = useState<undefined | Script[]>(undefined);
+    let [scriptName, setScriptName] = useState<undefined | string>();
+
+    useEffect(() => {
+        getScriptList().then(setScripts);
+    }, []);
+
+    let scriptTypeChangeHandler = (
+        event: React.MouseEvent<HTMLInputElement>
+    ) => {
+        setScriptType(event.currentTarget.value);
+    };
+
+    function addScript() {
+        let filename = undefined;
+
+        if (scriptType === UPLOAD_KEY && file) {
+            uploadScript(file);
+            filename = file.name;
+        } else if (scriptType === EXISTING_KEY && selectedScript) {
+            filename = selectedScript.name;
+        }
+
+        if (!filename || !scriptName) return;
+
+        addScriptToTemplate(templateId, scriptName, filename);
+    }
+
+    function createDropDownItem(script: Script): ReactElement {
+        return (
+            <DropdownItem
+                onClick={() => {
+                    setSelectedScript(script);
+                }}
+            >
+                {script.name}
+            </DropdownItem>
+        );
+    }
 
     function createRows(channels: Map<string, string>) {
         const rows: ReactElement[] = [];
@@ -32,6 +86,7 @@ export default function ChannelList({
                     scriptFile={value}
                     keys={template.keys}
                     index={counter++}
+                    templateId={templateId}
                 />
             );
         }
@@ -74,8 +129,9 @@ export default function ChannelList({
                                 type={'radio'}
                                 id={'new'}
                                 name={'newOrExisting'}
-                                value={'new'}
-                                checked
+                                value={'upload'}
+                                onClick={scriptTypeChangeHandler}
+                                checked={scriptType === UPLOAD_KEY}
                             />
                             <label className={'marginAfter'} htmlFor={'new'}>
                                 Upload New
@@ -84,7 +140,9 @@ export default function ChannelList({
                                 type={'radio'}
                                 id={'existing'}
                                 name={'newOrExisting'}
-                                value={'existing'}
+                                value={EXISTING_KEY}
+                                onClick={scriptTypeChangeHandler}
+                                checked={scriptType === EXISTING_KEY}
                             />
                             <label
                                 className={'marginAfter'}
@@ -93,21 +151,45 @@ export default function ChannelList({
                                 Use Existing
                             </label>
                         </div>
-                        <input
-                            type={'file'}
-                            name={'scriptFile'}
-                            id={'scriptFile'}
-                            hidden
-                        />
-                        <label
-                            className={'uploadButton horizontal'}
-                            htmlFor={'scriptFile'}
-                        >
-                            <svg viewBox="0 0 24 24">
-                                <path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
-                            </svg>
-                            No file uploaded
-                        </label>
+                        {scriptType === EXISTING_KEY ? (
+                            <div className={'bootStrapStyles'}>
+                                <Dropdown
+                                    className={'fixedWidth'}
+                                    isOpen={dropdownOpen}
+                                    toggle={() =>
+                                        setDropdownOpen(!dropdownOpen)
+                                    }
+                                >
+                                    <DropdownToggle caret>
+                                        {selectedScript?.name}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        {scripts?.map(createDropDownItem)}
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </div>
+                        ) : (
+                            <>
+                                <input
+                                    type={'file'}
+                                    name={'scriptFile'}
+                                    id={'scriptFile'}
+                                    onClick={(event) => {
+                                        setFile(event.currentTarget.files?.[0]);
+                                    }}
+                                    hidden
+                                />
+                                <label
+                                    className={'uploadButton horizontal'}
+                                    htmlFor={'scriptFile'}
+                                >
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
+                                    </svg>
+                                    {file ? file.name : 'No file uploaded'}
+                                </label>
+                            </>
+                        )}
                     </div>
                     <div className={'inputSection'}>
                         <h2>Script Name:</h2>
@@ -115,6 +197,9 @@ export default function ChannelList({
                             className={'scriptName'}
                             type={'text'}
                             name={'scriptName'}
+                            onChange={(event) =>
+                                setScriptName(event.currentTarget.value)
+                            }
                         />
                     </div>
                 </div>
@@ -143,6 +228,7 @@ interface ChannelRowProps {
     scriptFile: string;
     index: number;
     keys: Map<string, string>;
+    templateId: string;
 }
 
 function ChannelRow({
@@ -150,6 +236,7 @@ function ChannelRow({
     scriptFile,
     keys,
     index,
+    templateId,
 }: ChannelRowProps): ReactElement {
     const [expanded, setExpanded] = useState(false);
 
@@ -190,7 +277,11 @@ function ChannelRow({
                     </div>
                 </div>
                 <div className={'column'}>{scriptFile}</div>
-                <svg className={'delete'} viewBox="0 0 24 24">
+                <svg
+                    className={'delete'}
+                    viewBox="0 0 24 24"
+                    onClick={() => removeScriptFromTemplate(templateId, name)}
+                >
                     <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
                 </svg>
             </div>

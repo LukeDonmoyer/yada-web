@@ -1,3 +1,8 @@
+export interface Script {
+    name: string;
+    fullPath: string;
+}
+
 export interface SiteCollection {
     [key: string]: SiteObject;
 }

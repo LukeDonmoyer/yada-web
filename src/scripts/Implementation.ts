@@ -2,13 +2,14 @@
  * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
-import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import { EquipmentUnit, Script, SiteObject } from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import firebase from 'firebase';
 
 /**
  * -- REQUIRED --
@@ -679,6 +680,59 @@ export function updateEquipmentNotifications(
             {
                 equipmentNotifications: {
                     [siteId]: notificationMap,
+                },
+            },
+            { merge: true }
+        );
+}
+
+export function getScriptList(): Promise<Script[]> {
+    return fire.storage
+        .ref('/ProfileScripts/Template')
+        .listAll()
+        .then((result) => {
+            return result.items.map((ref) => {
+                return {
+                    name: ref.name,
+                    fullPath: ref.fullPath,
+                };
+            });
+        });
+}
+
+export function uploadScript(file: File) {
+    fire.storage.ref('/ProfileScripts/Template').put(file);
+}
+
+export function addScriptToTemplate(
+    templateId: string,
+    scriptName: string,
+    filename: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .set(
+            {
+                channels: {
+                    [scriptName]: filename,
+                },
+            },
+            { merge: true }
+        );
+}
+
+export function removeScriptFromTemplate(
+    templateId: string,
+    scriptName: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .set(
+            {
+                channels: {
+                    [scriptName]: firebase.firestore.FieldValue.delete(),
                 },
             },
             { merge: true }

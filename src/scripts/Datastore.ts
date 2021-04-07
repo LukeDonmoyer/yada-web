@@ -12,6 +12,7 @@ import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import loggerSlice from 'store/LoggerAction';
 import sitesSlice from 'store/SiteActions';
+import { Script } from '../store/FirestoreInterfaces';
 
 // AUTHENTICATION
 /**
@@ -231,4 +232,27 @@ export function updateEquipmentNotifications(
     notificationMap: any
 ) {
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
+}
+
+export function getScriptList(): Promise<Script[]> {
+    return implementation.getScriptList();
+}
+
+export function uploadScript(file: File) {
+    implementation.uploadScript(file);
+}
+
+export function addScriptToTemplate(
+    templateId: string,
+    scriptName: string,
+    filename: string
+) {
+    implementation.addScriptToTemplate(templateId, scriptName, filename);
+}
+
+export function removeScriptFromTemplate(
+    templateId: string,
+    scriptName: string
+) {
+    implementation.removeScriptFromTemplate(templateId, scriptName);
 }
