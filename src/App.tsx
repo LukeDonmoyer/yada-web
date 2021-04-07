@@ -98,7 +98,6 @@ function App() {
                                     >
                                         <Sites />
                                     </StaticNavItem>
-                                    {/* Route disabled because this component has not been created yet */}
                                     <StaticNavItem
                                         label={'Channel Templates'}
                                         route={'channel-templates'}
