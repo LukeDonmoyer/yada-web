@@ -20,6 +20,7 @@ import pencilIcon from '../../assets/icons/pencil.svg';
 import deleteIcon from '../../assets/icons/delete.svg';
 import addIcon from '../../assets/icons/plus.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
+import { isAlphabetical } from '../../scripts/DataValidation';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -38,8 +39,6 @@ export default function SiteEquipmentTab(): ReactElement {
         { id: 'good', label: 'good' },
         { id: 'bad', label: 'bad' },
     ];
-
-    let types: Any[] = [];
 
     function getAllLoggerData() {
         var allData: any[] = [];
@@ -225,6 +224,12 @@ export default function SiteEquipmentTab(): ReactElement {
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'name': {
+                if (isAlphabetical(info.value)) {
+                    alert(
+                        `Invalid equipment name: only alphabeitcal characters are allowed, reverting to old name`
+                    );
+                    return;
+                }
                 let oldName = rows[info.rowIndex].name;
                 let newName = info.value;
                 if (privilege !== 'User') {

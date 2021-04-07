@@ -28,6 +28,7 @@ import { ToggleSwitch } from 'components/Control/ToggleSwitch';
 import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
+import { isAlphabetical } from 'scripts/DataValidation';
 
 interface configTabProps {
     site: SiteObject;
@@ -108,6 +109,12 @@ export default function ConfigTab({
     });
 
     const updateField = (e: any) => {
+        if (e.target.id === 'name' && isAlphabetical(e.currentTarget.value)) {
+            alert(
+                'Invalid input: the name of a site must only contain alphabetical characters'
+            );
+            return;
+        }
         setConfigState({
             ...configState,
             [e.currentTarget.name]: e.currentTarget.value,
