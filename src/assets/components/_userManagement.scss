@@ -20,4 +20,13 @@
     .dataGrid {
         @include dataGrid;
     }
+
+    .phoneColumn {
+        @include editableTableField;
+    }
+
+    .tableEditable {
+        display: flex;
+        gap: 5px;
+    }
 }

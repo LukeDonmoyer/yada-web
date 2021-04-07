@@ -42,6 +42,24 @@
         margin-left: auto;
     }
 
+    .actions {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .nameColumn {
+        @include editableTableField;
+    }
+
+    .editableTable {
+        display: flex;
+        gap: 5px;
+    }
+
+    .deleteIcon,
+    .openIcon {
+        cursor: pointer;
+    }
     .title-button-flex {
         display: flex;
         h1,
