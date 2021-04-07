@@ -20,7 +20,7 @@ import pencilIcon from '../../assets/icons/pencil.svg';
 import deleteIcon from '../../assets/icons/delete.svg';
 import addIcon from '../../assets/icons/plus.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
-import { isAlphabetical } from '../../scripts/DataValidation';
+import { isValidName } from '../../scripts/DataValidation';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -224,7 +224,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'name': {
-                if (!isAlphabetical(info.value)) {
+                if (!isValidName(info.value)) {
                     alert(
                         `Invalid equipment name: only alphabeitcal characters are allowed, reverting to old name`
                     );
