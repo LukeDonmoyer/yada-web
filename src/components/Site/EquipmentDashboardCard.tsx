@@ -11,11 +11,10 @@ import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { interpolateHcl, quantize } from "d3-interpolate";
 
-export interface EquipmentDashboardCardProps{
-  channel: string,
-  channelType: string,
-  filter: string,
-  graphData: any[]
+export interface EquipmentDashboardCardProps {
+    channel: string;
+    channelType: string;
+    graphData: any[];
 }
 
 // Not sure if this is necessary, requires more discussion
@@ -25,7 +24,11 @@ function parseFilterToOneThird(filter: string): string {
   return `${num} ${filter.split(' ')[1]}`;
 }
 
-export default function DashboardCard({ channel, channelType, filter, graphData }: EquipmentDashboardCardProps): ReactElement {
+export default function DashboardCard({
+    channel,
+    channelType,
+    graphData,
+}: EquipmentDashboardCardProps): ReactElement {
 
     // Creates an array of colors of length three based on the given hex values
     const colors: string[] = quantize(interpolateHcl("#f4d3b4", "#d96c06"), 3);
