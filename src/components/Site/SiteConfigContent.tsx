@@ -109,7 +109,7 @@ export default function ConfigTab({
     });
 
     const updateField = (e: any) => {
-        if (e.target.id === 'name' && isAlphabetical(e.currentTarget.value)) {
+        if (e.target.id === 'name' && !isAlphabetical(e.currentTarget.value)) {
             alert(
                 'Invalid input: the name of a site must only contain alphabetical characters'
             );

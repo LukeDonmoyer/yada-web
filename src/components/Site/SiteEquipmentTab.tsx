@@ -224,7 +224,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'name': {
-                if (isAlphabetical(info.value)) {
+                if (!isAlphabetical(info.value)) {
                     alert(
                         `Invalid equipment name: only alphabeitcal characters are allowed, reverting to old name`
                     );

@@ -5,7 +5,7 @@
  */
 export function isAlphabetical(raw: string): boolean {
     // matches any aphabetical character uppercase or lowercase, and white space character
-    const expression = /[^a-z\s]/i;
+    const expression = /[a-z]/i;
     return expression.test(raw);
 }
 
