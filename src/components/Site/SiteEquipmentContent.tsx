@@ -111,9 +111,6 @@ export function SiteEquipmentContent({
     }
 
     function handleClickOutsideLoggerSelector(e: SyntheticEvent) {
-        //leave in to trace bug relating to e.target.className not existing
-        console.log(e);
-
         const target = e.target;
 
         //Only collapse the logger if we click on something other than the Add Logger button or the Logger Selector.
@@ -122,7 +119,8 @@ export function SiteEquipmentContent({
             !(
                 target?.className?.includes('addLogger') ||
                 target?.className?.includes('loggerSelector') ||
-                target?.className?.includes('loggerCard')
+                target?.className?.includes('loggerCard') ||
+                target?.className?.includes('text')
             )
         ) {
             setSelectorCollapsed(true);
