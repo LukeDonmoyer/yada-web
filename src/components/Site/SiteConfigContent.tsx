@@ -27,6 +27,7 @@ import { RootState } from 'store/rootReducer';
 import { ToggleSwitch } from 'components/Control/ToggleSwitch';
 import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 interface configTabProps {
     site: SiteObject;
@@ -122,61 +123,62 @@ export default function ConfigTab({
     return (
         <div className="siteConfigTab">
             <Form onSubmit={submitChanges}>
-                <FormGroup className="formGroup">
-                    <Label>Name</Label>
-                    <Input
-                        type="text"
-                        name="name"
-                        id="name"
-                        placeholder={configState.name}
-                        value={configState.name}
-                        onChange={updateField}
-                    />
-                </FormGroup>
-
-                <FormGroup className="formGroup">
-                    <Label>Address</Label>
-                    <Input
-                        type="text"
-                        name="address"
-                        id="address"
-                        placeholder={configState.address}
-                        value={configState.address}
-                        onChange={updateField}
-                    />
-                </FormGroup>
-
-                <FormGroup className="formGroup">
-                    <Label>Notes</Label>
-                    <Input
-                        type="textarea"
-                        name="notes"
-                        id="notes"
-                        className="text"
-                        placeholder={configState.notes}
-                        value={configState.notes}
-                        onChange={updateField}
-                    />
-                </FormGroup>
-
-                <div className="buttonContainer">
-                    <div className="pad"></div>
-                    <div className="buttons">
-                        <ReactButton type="submit" value="Submit">
-                            Save
-                        </ReactButton>
-                        <Button
-                            type={ButtonType.warningSecondary}
-                            text="Delete"
-                            onClick={() => {
-                                if (window.confirm('Delete this site')) {
-                                    history.push('/app/sites');
-                                    deleteSite(siteId);
-                                }
-                            }}
+                <PrivilegeAssert requiredPrivilege="Power">
+                    <FormGroup className="formGroup">
+                        <Label>Name</Label>
+                        <Input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder={configState.name}
+                            value={configState.name}
+                            onChange={updateField}
                         />
+                    </FormGroup>
+
+                    <FormGroup className="formGroup">
+                        <Label>Address</Label>
+                        <Input
+                            type="text"
+                            name="address"
+                            id="address"
+                            placeholder={configState.address}
+                            value={configState.address}
+                            onChange={updateField}
+                        />
+                    </FormGroup>
+
+                    <FormGroup className="formGroup">
+                        <Label>Notes</Label>
+                        <Input
+                            type="textarea"
+                            name="notes"
+                            id="notes"
+                            className="text"
+                            placeholder={configState.notes}
+                            value={configState.notes}
+                            onChange={updateField}
+                        />
+                    </FormGroup>
+                    <div className="buttonContainer">
+                        <div className="pad"></div>
+                        <div className="buttons">
+                            <ReactButton type="submit" value="Submit">
+                                Save
+                            </ReactButton>
+                            <Button
+                                type={ButtonType.warningSecondary}
+                                text="Delete"
+                                onClick={() => {
+                                    if (window.confirm('Delete this site')) {
+                                        history.push('/app/sites');
+                                        deleteSite(siteId);
+                                    }
+                                }}
+                            />
+                        </div>
                     </div>
-                </div>
+                </PrivilegeAssert>
 
                 <div className="notificationSection">
                     <h2>Equipment Notifications</h2>

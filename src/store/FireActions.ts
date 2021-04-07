@@ -11,19 +11,28 @@ export const logout_action = createAction('logout');
 export interface userUID {
     userUID: string | null | undefined;
 }
+
+export interface authPayload {
+    userUID: string | null | undefined;
+    privilege: string;
+}
+
 const initialState = {
     userUID: null,
-} as userUID;
+    privilege: 'User',
+} as authPayload;
 
 const authSlice = createSlice({
     name: 'authentication',
     initialState,
     reducers: {
-        login(state, action: PayloadAction<string | undefined>) {
-            state.userUID = action.payload;
+        login(state, action: PayloadAction<authPayload>) {
+            state.userUID = action.payload.userUID;
+            state.privilege = action.payload.privilege;
         },
         logout(state) {
             state.userUID = null;
+            state.privilege = 'User';
         },
     },
 });

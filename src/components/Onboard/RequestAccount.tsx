@@ -1,9 +1,9 @@
 /**
- * Request Account page component. 
- * 
+ * Request Account page component.
+ *
  * This component returns a page containing a form that allows the user to send a message
  * requesting an account, along with an email address, to the administrators/owners of the database.
- * 
+ *
  * Author: Brendan Ortmann
  */
 import { useState } from 'react';
@@ -18,7 +18,7 @@ export default function RequestAccount() {
 
     /**
      * Handles state changes on the page.
-     * @param func is the function which updates the associated stateful value.
+     * @param func function which updates the associated stateful value
      */
     function handleEvent(func: any) {
         return (event: any) => {

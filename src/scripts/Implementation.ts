@@ -9,6 +9,8 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import firebase from 'firebase';
+import authSlice, { authPayload } from 'store/FireActions';
 
 /**
  * -- REQUIRED --
@@ -77,6 +79,14 @@ export function initializeUsersListener() {
                 });
                 // call reducer to store each site
                 store.dispatch(updateUsersSlice.actions.updateUsers(users));
+                let userPayload = {
+                    userUID: fire.fireAuth.currentUser?.uid,
+                    privilege:
+                        users[fire.fireAuth.currentUser?.uid as string][
+                            'userGroup'
+                        ],
+                } as authPayload;
+                store.dispatch(authSlice.actions.login(userPayload));
             });
         } else {
             // listen only to current user document
@@ -86,8 +96,13 @@ export function initializeUsersListener() {
                 .onSnapshot((doc) => {
                     var users: any = {};
                     users[doc.id] = doc.data();
-                    // call reducer to store each site
+                    // call reducer to store each user
                     store.dispatch(updateUsersSlice.actions.updateUsers(users));
+                    let userPayload = {
+                        userUID: doc.id,
+                        privilege: users[doc.id]['userGroup'],
+                    } as authPayload;
+                    store.dispatch(authSlice.actions.login(userPayload));
                 });
         }
     });
@@ -128,6 +143,14 @@ export function initializeSitesListener() {
         var sites: any = {};
         querySnapshot.forEach((doc) => {
             sites[doc.id] = doc.data();
+            if ('lastViewedFaults' in doc.data()) {
+                sites[doc.id]['lastViewedFaults'] = sites[doc.id][
+                    'lastViewedFaults'
+                ]
+                    ?.toDate()
+                    .valueOf();
+                console.log(sites[doc.id]['lastViewedFaults']);
+            }
         });
         // call reducer to store each site
         store.dispatch(sitesSlice.actions.updateSites(sites));
@@ -305,29 +328,41 @@ export function getUserData(uid: string): Promise<any> {
  * @param newPassword
  * returns a promise resolved with nothing
  */
-export function changePassword(newPassword: string): Promise<any> | undefined {
-    return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
-        () => {
-            // Update successful.
-            return fire.fireStore
-                .collection('Users')
-                .doc(fire.fireAuth.currentUser?.uid)
-                .update({
-                    defaults: false,
-                })
-                .then(() => {
+export function changePassword(
+    currentPassword: string,
+    newPassword: string
+): Promise<any> | undefined {
+    return fire.fireAuth.currentUser
+        ?.reauthenticateWithCredential(
+            firebase.auth.EmailAuthProvider.credential(
+                fire.fireAuth?.currentUser.email as string,
+                currentPassword
+            )
+        )
+        .then((credential) => {
+            return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
+                () => {
+                    // Update successful.
+                    return fire.fireStore
+                        .collection('Users')
+                        .doc(fire.fireAuth.currentUser?.uid)
+                        .update({
+                            defaults: false,
+                        })
+                        .then(() => {
+                            return new Promise((resolve, reject) => {
+                                resolve(true);
+                            });
+                        });
+                },
+                (error) => {
+                    // An error happened.
                     return new Promise((resolve, reject) => {
-                        resolve(true);
+                        reject(error);
                     });
-                });
-        },
-        (error) => {
-            // An error happened.
-            return new Promise((resolve, reject) => {
-                reject(error);
-            });
-        }
-    );
+                }
+            );
+        });
 }
 
 /**
@@ -474,7 +509,10 @@ export function addLoggerToEquipment(
                 fire.fireStore
                     .collection('Loggers')
                     .doc(logger_uid)
-                    .set({ equipment: equipment_name, site: site_uid }, { merge: true });
+                    .set(
+                        { equipment: equipment_name, site: site_uid },
+                        { merge: true }
+                    );
 
                 console.log(
                     'Added logger "' +
@@ -750,4 +788,10 @@ export function deleteSite(siteId: string) {
                 console.log(doc.id);
             });
         });
+}
+
+export function updateSiteFaultsViewDate(siteId: string) {
+    fire.fireStore.collection('Sites').doc(siteId).update({
+        lastViewedFaults: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 }

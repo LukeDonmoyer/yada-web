@@ -18,6 +18,8 @@ import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
 import pencilIcon from '../../assets/icons/pencil.svg';
 import deleteIcon from '../../assets/icons/delete.svg';
+import addIcon from '../../assets/icons/plus.svg';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -28,6 +30,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const sites = useSelector((state: RootState) => state.sites);
     const loggers = useSelector((state: RootState) => state.loggers);
     const channelTemplates = useSelector((state: RootState) => state.templates);
+    const privilege = useSelector((state: RootState) => state.auth.privilege);
     const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
@@ -94,30 +97,24 @@ export default function SiteEquipmentTab(): ReactElement {
             key: unit.name,
             actions: (
                 <div className="actions">
-                    {/* <span
-                        className="deleteLink"
-                        onClick={() => {
-                            if (
-                                window.confirm(`Delete equipment: ${unit.name}`)
-                            ) {
-                                deleteEquipment(siteID, unit.name);
-                            }
-                        }}
-                    >
-                        delete
-                    </span> */}
-                    <img
-                        className="deleteIcon"
-                        src={deleteIcon}
-                        alt="delete"
-                        onClick={() => {
-                            if (
-                                window.confirm(`Delete equipment: ${unit.name}`)
-                            ) {
-                                deleteEquipment(siteID, unit.name);
-                            }
-                        }}
-                    />
+                    {privilege !== 'User' ? (
+                        <img
+                            className="deleteIcon"
+                            src={deleteIcon}
+                            alt="delete"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        `Delete equipment: ${unit.name}`
+                                    )
+                                ) {
+                                    deleteEquipment(siteID, unit.name);
+                                }
+                            }}
+                        />
+                    ) : (
+                        <></>
+                    )}
                     <img
                         className="openIcon"
                         src={chevron_right}
@@ -250,7 +247,9 @@ export default function SiteEquipmentTab(): ReactElement {
             case 'name': {
                 let oldName = rows[info.rowIndex].name;
                 let newName = info.value;
-                changeEquipmentName(siteID, oldName, newName);
+                if (privilege !== 'User') {
+                    changeEquipmentName(siteID, oldName, newName);
+                }
             }
         }
     };
@@ -262,13 +261,15 @@ export default function SiteEquipmentTab(): ReactElement {
     return (
         <div className="site-equipment">
             <div className="buttonBar">
-                <Button
-                    type={ButtonType.tableControl}
-                    text={'Create Equipment'}
-                    onClick={() => {
-                        handleNewEquipmentClick();
-                    }}
-                />
+                <PrivilegeAssert requiredPrivilege="Power">
+                    <Button
+                        type={ButtonType.tableControl}
+                        text={'Create Equipment'}
+                        onClick={() => {
+                            handleNewEquipmentClick();
+                        }}
+                    />
+                </PrivilegeAssert>
                 <CsvDownloadButton
                     headers={csvHeaders}
                     filename={`${sites[siteID].name}-all-data.csv`}

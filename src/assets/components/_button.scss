@@ -2,14 +2,12 @@
     width: fit-content;
     border-radius: 7px;
     text-align: center;
-    padding: 8px;
-    padding-left: 20px;
-    padding-right: 20px;
     user-select: none;
     margin-bottom: 5px;
     cursor: pointer;
     // margin-left: 0.25rem;
     margin-right: 0.25rem;
+    display: inline-block;
 }
 
 .right {
@@ -19,11 +17,23 @@
 .tableControl {
     background-color: $buttonLightOrange;
     color: $buttonDarkOrange;
+
+    .icon {
+        background-color: $buttonDarkOrange;
+    }
 }
 
 .warning {
-    background-color: $lightRed;
-    color: white;
+    background-color: $lightPink;
+    color: $lightRed;
+
+    .icon {
+        background-color: $lightRed;
+        img {
+            width: 26px;
+            height: 32px;
+        }
+    }
 }
 
 .warningSecondary {
@@ -39,4 +49,24 @@
 
 .save {
     @include filledPrimaryButton;
+}
+
+.text {
+    float: left;
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.icon {
+    float: left;
+    height: 100%;
+    border-radius: 7px;
+    padding-left: 7px;
+    padding-right: 7px;
+    img {
+        width: 20px;
+        height: 20px;
+        margin-top: 10px;
+    }
 }

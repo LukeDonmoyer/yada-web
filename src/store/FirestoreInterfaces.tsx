@@ -6,6 +6,7 @@ export interface SiteObject {
     equipmentUnits: EquipmentUnit[];
     name: string;
     notes: string;
+    lastViewedFaults?: Number;
 }
 
 export interface EquipmentUnit {
@@ -41,7 +42,7 @@ export interface Fault {
 }
 
 export interface ChannelTemplate {
-    channels: any[];
+    channels: Map<string, string>;
     modified: string;
     name: string;
     keys: Map<string, string>;
