@@ -16,6 +16,8 @@ import ReactDataGrid from '@inovua/reactdatagrid-community';
 import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
+import pencilIcon from '../../assets/icons/pencil.svg';
+import deleteIcon from '../../assets/icons/delete.svg';
 import addIcon from '../../assets/icons/plus.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
@@ -93,46 +95,87 @@ export default function SiteEquipmentTab(): ReactElement {
             health: unit.health,
             type: unit.type,
             key: unit.name,
-            open: (
-                <img
-                    className="openIcon"
-                    src={chevron_right}
-                    alt="open"
-                    onClick={() => {
-                        let parsedName = unit.name.replace(' ', '-');
-                        changeRedirect(
-                            `/app/sites/${siteID}/equipment/${parsedName}`
-                        );
-                    }}
-                />
-            ),
-            caution: (
-                <span
-                    className="deleteLink"
-                    onClick={() => {
-                        if (window.confirm(`Delete equipment: ${unit.name}`)) {
-                            deleteEquipment(siteID, unit.name);
-                        }
-                    }}
-                >
-                    delete
-                </span>
+            actions: (
+                <div className="actions">
+                    {privilege !== 'User' ? (
+                        <img
+                            className="deleteIcon"
+                            src={deleteIcon}
+                            alt="delete"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        `Delete equipment: ${unit.name}`
+                                    )
+                                ) {
+                                    deleteEquipment(siteID, unit.name);
+                                }
+                            }}
+                        />
+                    ) : (
+                        <></>
+                    )}
+                    <img
+                        className="openIcon"
+                        src={chevron_right}
+                        alt="open"
+                        onClick={() => {
+                            let parsedName = unit.name.replace(' ', '-');
+                            changeRedirect(
+                                `/app/sites/${siteID}/equipment/${parsedName}`
+                            );
+                        }}
+                    />
+                </div>
             ),
         };
     });
 
-    let columns: TypeColumn[] = [
-        {
-            name: 'open',
-            header: 'Open',
-            defaultFlex: 1,
-            editable: false,
+    const nameColumn = {
+        name: 'name',
+        header: 'Name',
+        defaultFlex: 9,
+        rendersInlineEditor: true,
+        render: ({ value }, { cellProps }) => {
+            let v = cellProps.editProps.inEdit
+                ? cellProps.editProps.value
+                : value;
+            return (
+                <div className="editableTable">
+                    <img src={pencilIcon} alt="editable" />
+                    <input
+                        className="nameColumn"
+                        type="text"
+                        autoFocus={cellProps.inEdit}
+                        value={v}
+                        onBlur={(e) => {
+                            cellProps.editProps.onComplete();
+                        }}
+                        onChange={cellProps.editProps.onChange}
+                        onFocus={() => cellProps.editProps.startEdit()}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Escape') {
+                                cellProps.editProps.onCancel(e);
+                            }
+                            if (e.key === 'Enter') {
+                                cellProps.editProps.onComplete(e);
+                            }
+                            if (e.key == 'Tab') {
+                                e.preventDefault();
+                                cellProps.editProps.onTabNavigation(
+                                    true,
+                                    e.shiftKey ? -1 : 1
+                                );
+                            }
+                        }}
+                    />
+                </div>
+            );
         },
-        {
-            name: 'name',
-            header: 'Name',
-            defaultFlex: 9,
-        },
+    };
+
+    const columns: TypeColumn[] = [
+        nameColumn,
         {
             name: 'health',
             header: 'Health',
@@ -155,16 +198,13 @@ export default function SiteEquipmentTab(): ReactElement {
             },
             editable: false,
         },
-    ];
-
-    if (privilege !== 'User') {
-        columns.push({
-            name: 'caution',
-            header: 'Caution',
+        {
+            name: 'actions',
+            header: 'Actions',
             defaultFlex: 2,
             editable: false,
-        });
-    }
+        },
+    ];
 
     const filters = [
         {
