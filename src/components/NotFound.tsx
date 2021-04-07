@@ -1,6 +1,6 @@
 /**
  * 404 Page Not Found component. Returned when user navigates to a route which does not exist in our application.
- * 
+ *
  * Author: Brendan Ortmann
  */
 

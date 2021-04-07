@@ -9,6 +9,7 @@ import updateUsersSlice from 'store/UserAction';
 import { adminAuth } from './FireAdmin';
 import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
+import firebase from 'firebase';
 import authSlice, { authPayload } from 'store/FireActions';
 
 /**
@@ -142,6 +143,14 @@ export function initializeSitesListener() {
         var sites: any = {};
         querySnapshot.forEach((doc) => {
             sites[doc.id] = doc.data();
+            if ('lastViewedFaults' in doc.data()) {
+                sites[doc.id]['lastViewedFaults'] = sites[doc.id][
+                    'lastViewedFaults'
+                ]
+                    ?.toDate()
+                    .valueOf();
+                console.log(sites[doc.id]['lastViewedFaults']);
+            }
         });
         // call reducer to store each site
         store.dispatch(sitesSlice.actions.updateSites(sites));
@@ -319,29 +328,41 @@ export function getUserData(uid: string): Promise<any> {
  * @param newPassword
  * returns a promise resolved with nothing
  */
-export function changePassword(newPassword: string): Promise<any> | undefined {
-    return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
-        () => {
-            // Update successful.
-            return fire.fireStore
-                .collection('Users')
-                .doc(fire.fireAuth.currentUser?.uid)
-                .update({
-                    defaults: false,
-                })
-                .then(() => {
+export function changePassword(
+    currentPassword: string,
+    newPassword: string
+): Promise<any> | undefined {
+    return fire.fireAuth.currentUser
+        ?.reauthenticateWithCredential(
+            firebase.auth.EmailAuthProvider.credential(
+                fire.fireAuth?.currentUser.email as string,
+                currentPassword
+            )
+        )
+        .then((credential) => {
+            return fire.fireAuth.currentUser?.updatePassword(newPassword).then(
+                () => {
+                    // Update successful.
+                    return fire.fireStore
+                        .collection('Users')
+                        .doc(fire.fireAuth.currentUser?.uid)
+                        .update({
+                            defaults: false,
+                        })
+                        .then(() => {
+                            return new Promise((resolve, reject) => {
+                                resolve(true);
+                            });
+                        });
+                },
+                (error) => {
+                    // An error happened.
                     return new Promise((resolve, reject) => {
-                        resolve(true);
+                        reject(error);
                     });
-                });
-        },
-        (error) => {
-            // An error happened.
-            return new Promise((resolve, reject) => {
-                reject(error);
-            });
-        }
-    );
+                }
+            );
+        });
 }
 
 /**
@@ -767,4 +788,10 @@ export function deleteSite(siteId: string) {
                 console.log(doc.id);
             });
         });
+}
+
+export function updateSiteFaultsViewDate(siteId: string) {
+    fire.fireStore.collection('Sites').doc(siteId).update({
+        lastViewedFaults: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 }

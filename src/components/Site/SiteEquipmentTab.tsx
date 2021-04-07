@@ -16,6 +16,7 @@ import ReactDataGrid from '@inovua/reactdatagrid-community';
 import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
+import addIcon from '../../assets/icons/plus.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
 //Default number of items to display per datagrid page.

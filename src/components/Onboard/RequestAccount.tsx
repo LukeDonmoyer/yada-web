@@ -1,9 +1,9 @@
 /**
- * Request Account page component. 
- * 
+ * Request Account page component.
+ *
  * This component returns a page containing a form that allows the user to send a message
  * requesting an account, along with an email address, to the administrators/owners of the database.
- * 
+ *
  * Author: Brendan Ortmann
  */
 import { useState } from 'react';

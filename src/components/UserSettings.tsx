@@ -18,12 +18,22 @@ function PasswordReset(): ReactElement {
     const uid = useSelector((state: RootState) => state.auth.userUID);
     const handleResetPassword = (event: any) => {
         event.preventDefault(); // prevents default form submission
-        const password1 = event.target[0].value;
-        const password2 = event.target[1].value;
+        const currentPassword = event.target[0].value;
+        const password1 = event.target[1].value;
+        const password2 = event.target[2].value;
         if (password1 !== password2) {
             alert('passwords must match');
         } else {
-            changePassword(password1);
+            changePassword(currentPassword, password1)?.then(
+                () => {
+                    alert('Your password has been changed');
+                },
+                () => {
+                    alert(
+                        'Your password change was not successful. If you do not remember your old password you will need to request a password reset email from the onboard page'
+                    );
+                }
+            );
         }
     };
 
@@ -32,7 +42,17 @@ function PasswordReset(): ReactElement {
             <div className="resetPasswordForm">
                 <form onSubmit={handleResetPassword}>
                     <FormGroup className="inputGroup">
-                        <Label for="password">password</Label>
+                        <Label for="currentPassword">Current password</Label>
+                        <Input
+                            required
+                            type="password"
+                            name="currentPassword"
+                            id="currentPassword"
+                            placeholder="currentPassword"
+                        />
+                    </FormGroup>
+                    <FormGroup className="inputGroup">
+                        <Label for="password">new password</Label>
                         <Input
                             required
                             type="password"
