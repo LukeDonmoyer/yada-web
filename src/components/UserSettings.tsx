@@ -17,6 +17,7 @@ import {
     updateUserDoc,
 } from 'scripts/Datastore';
 import { ToggleSwitch } from './Control/ToggleSwitch';
+import { isPhoneNumber } from 'scripts/DataValidation';
 
 /**
  * Generates password reset form and associated logic.
@@ -126,6 +127,12 @@ export default function Settings(): ReactElement {
 
     const submitChanges = (event: any) => {
         event.preventDefault();
+        if (!isPhoneNumber(newVals.phoneNumber)) {
+            alert(
+                'Invalid phone number syntax, please reformat. no changes were saved'
+            );
+            return;
+        }
         updateUserDoc(uid as string, newVals);
         alert('Changes saved!');
     };
