@@ -1,4 +1,8 @@
 /**
+ * User Settings component.
+ * 
+ * Provides interface for changing account and notification settings.
+ * 
  * Author: Brendan Ortmann
  */
 
@@ -14,8 +18,11 @@ import {
 } from 'scripts/Datastore';
 import { ToggleSwitch } from './Control/ToggleSwitch';
 
+/**
+ * Generates password reset form and associated logic.
+ * @returns ReactElement containing password reset form
+ */
 function PasswordReset(): ReactElement {
-    const uid = useSelector((state: RootState) => state.auth.userUID);
     const handleResetPassword = (event: any) => {
         event.preventDefault(); // prevents default form submission
         const currentPassword = event.target[0].value;
@@ -85,17 +92,15 @@ function PasswordReset(): ReactElement {
     );
 }
 
-/**
- *
- * @returns React element containing user settings
- */
 export default function Settings(): ReactElement {
+    // Current user info
     const uid = useSelector((state: RootState) => state.auth.userUID);
     const currentUser = useSelector(
         (state: RootState) => state.users[uid as string]
     );
     const [updatedUI, changeUpdatedUI] = useState(false);
 
+    // New settings values
     const [newVals, setNewVals] = useState({
         email: currentUser?.email ? currentUser?.email : '',
         phoneNumber: currentUser?.phoneNumber ? currentUser?.phoneNumber : '',
@@ -112,10 +117,10 @@ export default function Settings(): ReactElement {
         changeUpdatedUI(true);
     }
 
-    const updateField = (e: any) => {
+    const updateField = (event: any) => {
         setNewVals({
             ...newVals,
-            [e.target.name]: e.target.value,
+            [event.target.name]: event.target.value,
         });
     };
 
