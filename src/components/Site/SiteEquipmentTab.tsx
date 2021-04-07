@@ -75,25 +75,10 @@ export default function SiteEquipmentTab(): ReactElement {
 
     // creates rows
     const rows = sites[siteID]['equipmentUnits'].map((unit) => {
-        // Pushes select option for types filter
-        let typeFound = false;
-        types.forEach((type) => {
-            if (type.id === unit.type) {
-                typeFound = true;
-            }
-        });
-        if (!typeFound) {
-            types.push({
-                id: unit.type,
-                label: unit.type,
-            });
-        }
-
         // pushes row for table
         return {
             name: unit.name,
             health: unit.health,
-            type: unit.type,
             key: unit.name,
             actions: (
                 <div className="actions">
@@ -131,7 +116,7 @@ export default function SiteEquipmentTab(): ReactElement {
         };
     });
 
-    const nameColumn = {
+    const nameEditColumn = {
         name: 'name',
         header: 'Name',
         defaultFlex: 9,
@@ -174,8 +159,14 @@ export default function SiteEquipmentTab(): ReactElement {
         },
     };
 
-    const columns: TypeColumn[] = [
-        nameColumn,
+    const nameStaticColumn = {
+        name: 'name',
+        header: 'Name',
+        defaultFlex: 9,
+        editable: false,
+    };
+
+    let columns: TypeColumn[] = [
         {
             name: 'health',
             header: 'Health',
@@ -188,23 +179,18 @@ export default function SiteEquipmentTab(): ReactElement {
             editable: false,
         },
         {
-            name: 'type',
-            header: 'Type',
-            defaultFlex: 3,
-            filterEditor: SelectFilter,
-            filterEditorProps: {
-                placeholder: 'All',
-                dataSource: types,
-            },
-            editable: false,
-        },
-        {
             name: 'actions',
             header: 'Actions',
             defaultFlex: 2,
             editable: false,
         },
     ];
+
+    if (privilege === 'User') {
+        columns.unshift(nameStaticColumn);
+    } else {
+        columns.unshift(nameEditColumn);
+    }
 
     const filters = [
         {
@@ -215,12 +201,6 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'health',
-            operator: 'eq',
-            type: 'select',
-            value: null,
-        },
-        {
-            name: 'type',
             operator: 'eq',
             type: 'select',
             value: null,

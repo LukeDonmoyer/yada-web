@@ -65,7 +65,7 @@ export default function ChangePassword() {
                             type="password"
                             name="oldPassword"
                             id="oldPassword"
-                            placeholder="currentPassword"
+                            placeholder="current password"
                         />
                         <Input
                             required
