@@ -7,11 +7,6 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-/**
- * 404 component. Includes some links back to other pages.
- *
- * @constructor
- */
 export default function NotFound(): ReactElement {
     return (
         <div className="notFound h-screen">

@@ -136,7 +136,6 @@ export default function EquipmentDashboard({
                 <EquipmentDashboardCard
                     channel={channelName}
                     channelType={channelType}
-                    filter={filter}
                     graphData={getChannelDataFromLoggers(
                         channelName,
                         filter,

@@ -13,7 +13,6 @@ import { ResponsiveLine } from '@nivo/line';
 export interface EquipmentDashboardCardProps {
     channel: string;
     channelType: string;
-    filter: string;
     graphData: any[];
 }
 
@@ -27,7 +26,6 @@ function parseFilterToOneThird(filter: string): string {
 export default function DashboardCard({
     channel,
     channelType,
-    filter,
     graphData,
 }: EquipmentDashboardCardProps): ReactElement {
     // Count number of empty data arrays

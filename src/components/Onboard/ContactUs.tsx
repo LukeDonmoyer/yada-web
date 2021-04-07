@@ -18,7 +18,7 @@ export default function ContactUs() {
 
     /**
      * Handles state changes on the page.
-     * @param func is the function which updates the associated stateful value.
+     * @param func function which updates the associated stateful value.
      */
     function handleEvent(func: any) {
         return (event: any) => {
