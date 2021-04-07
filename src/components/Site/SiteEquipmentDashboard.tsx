@@ -72,9 +72,9 @@ function getChannelsFromLoggers(
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-        let template = channelTemplates[logger.channelTemplate].keys;
+        let template: Map<string, string> = channelTemplates[logger.channelTemplate].keys;
 
-        Object.entries(template).forEach((item) => {
+        Object.entries(template).forEach((item: [string, any]) => {
             const [key, value] = item;
             if (!channelsFromLoggers.has(key))
                 channelsFromLoggers.set(key, value);
@@ -117,9 +117,11 @@ export default function EquipmentDashboard({
     // Loggers and channel templates
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
-    let channelsOnUnit: Map<string, string> = getChannelsFromLoggers(
+    let channelsOnUnit: Map<string, string> = new Map([...getChannelsFromLoggers(
         loggersOnUnit,
         channelTemplates
+    )].sort(
+        (a, b) => String(a[0]).localeCompare(b[0]))
     );
     let dashboardCards: ReactElement[] = [];
 
