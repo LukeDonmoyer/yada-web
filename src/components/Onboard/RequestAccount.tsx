@@ -34,7 +34,7 @@ export default function RequestAccount() {
      * Adds an Email document to the Firestore database.
      * @param event
      */
-    const sendEmail = (event: any) => {
+    const sendEmail = () => {
         createEmailDocument(email, message, 'YADA Request Account');
         setDialog(true);
     };

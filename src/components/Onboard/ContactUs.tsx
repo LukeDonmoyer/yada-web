@@ -6,7 +6,7 @@
  *
  * Author: Brendan Ortmann
  */
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input } from 'reactstrap';
 import { createEmailDocument } from '../../scripts/Datastore';
 import { Redirect } from 'react-router-dom';
@@ -20,10 +20,10 @@ export default function ContactUs() {
      * Handles state changes on the page.
      * @param func function which updates the associated stateful value.
      */
-    function handleEvent(func: any) {
-        return (event: any) => {
+    function handleEvent(func: (event: string) => void) {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            func(event.target.value);
+            func(event.currentTarget.value);
         };
     }
 
