@@ -12,7 +12,7 @@ import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import loggerSlice from 'store/LoggerAction';
 import sitesSlice from 'store/SiteActions';
-import { Script } from '../store/FirestoreInterfaces';
+import { Channel, ChannelKeys, Script } from '../store/FirestoreInterfaces';
 
 // AUTHENTICATION
 /**
@@ -242,17 +242,19 @@ export function uploadScript(file: File) {
     implementation.uploadScript(file);
 }
 
-export function addScriptToTemplate(
-    templateId: string,
-    scriptName: string,
-    filename: string
-) {
-    implementation.addScriptToTemplate(templateId, scriptName, filename);
+export function addScriptToTemplate(templateId: string, channel: Channel) {
+    implementation.addScriptToTemplate(templateId, channel);
 }
 
-export function removeScriptFromTemplate(
+export function removeScriptFromTemplate(templateId: string, channel: Channel) {
+    implementation.removeScriptFromTemplate(templateId, channel);
+}
+
+export function updateKeyInChannel(
     templateId: string,
-    scriptName: string
+    channel: Channel,
+    key: string,
+    value: string
 ) {
-    implementation.removeScriptFromTemplate(templateId, scriptName);
+    implementation.updateKeyInChannel(templateId, channel, key, value);
 }

@@ -5,6 +5,8 @@
     left: 0;
     height: 100%;
     width: 100%;
+
+    z-index: 1000;
 }
 
 .modal {
@@ -22,6 +24,8 @@
 
     display: flex;
     flex-flow: column;
+
+    z-index: 1000;
 
     h2 {
         @include smallTitle;

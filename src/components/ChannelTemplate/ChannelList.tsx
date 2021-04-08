@@ -1,5 +1,9 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import { ChannelTemplate, Script } from '../../store/FirestoreInterfaces';
+import {
+    Channel,
+    ChannelTemplate,
+    Script,
+} from '../../store/FirestoreInterfaces';
 import {
     Dropdown,
     DropdownItem,
@@ -12,6 +16,7 @@ import {
     addScriptToTemplate,
     getScriptList,
     removeScriptFromTemplate,
+    updateKeyInChannel,
     uploadScript,
 } from '../../scripts/Datastore';
 
@@ -60,7 +65,11 @@ export default function ChannelList({
 
         if (!filename || !scriptName) return;
 
-        addScriptToTemplate(templateId, scriptName, filename);
+        addScriptToTemplate(templateId, {
+            name: scriptName,
+            script: filename,
+            keys: {},
+        });
     }
 
     function createDropDownItem(script: Script): ReactElement {
@@ -75,23 +84,14 @@ export default function ChannelList({
         );
     }
 
-    function createRows(channels: Map<string, string>) {
-        const rows: ReactElement[] = [];
-        let counter = 1;
-
-        for (let [key, value] of Object.entries(channels)) {
-            rows.push(
-                <ChannelRow
-                    name={key}
-                    scriptFile={value}
-                    keys={template.keys}
-                    index={counter++}
-                    templateId={templateId}
-                />
-            );
-        }
-
-        return rows;
+    function createRow(channel: Channel, index: number) {
+        return (
+            <ChannelRow
+                channel={channel}
+                index={index}
+                templateId={templateId}
+            />
+        );
     }
 
     return (
@@ -114,7 +114,8 @@ export default function ChannelList({
                     </div>
                 </div>
                 <div className={'scrollable'}>
-                    {createRows(template.channels)}
+                    {template.channels &&
+                        Object.values(template.channels).map(createRow)}
                 </div>
             </div>
             <Modal
@@ -224,23 +225,20 @@ export default function ChannelList({
 }
 
 interface ChannelRowProps {
-    name: string;
-    scriptFile: string;
+    channel: Channel;
     index: number;
-    keys: Map<string, string>;
     templateId: string;
 }
 
 function ChannelRow({
-    name,
-    scriptFile,
-    keys,
+    channel,
     index,
     templateId,
 }: ChannelRowProps): ReactElement {
     const [expanded, setExpanded] = useState(false);
+    const [addingValue, setAddingValue] = useState(false);
 
-    function createKeys(keys: Map<string, string>) {
+    function createKeys(keys: { [key: string]: string }) {
         const result: { name: string; type: string }[] = [];
         for (let [key, value] of Object.entries(keys)) {
             result.push({ name: key, type: value });
@@ -250,11 +248,41 @@ function ChannelRow({
     }
 
     function addValue() {
-        console.log('Add value');
+        updateKeyInChannel(templateId, channel, 'New Key', 'number');
     }
 
     return (
         <>
+            <Modal
+                show={addingValue}
+                onClickOutside={() => setAddingValue(false)}
+            >
+                <div className={'content'}>
+                    <div className={'inputSection'}>
+                        <div className={'horizontal'}>
+                            <h2 className={'marginAfter'}>Script File:</h2>
+                        </div>
+                    </div>
+                    <div className={'inputSection'}>
+                        <h2>Script Name:</h2>
+                    </div>
+                </div>
+                <div className={'modalButtons horizontal'}>
+                    <Button
+                        type={ButtonType.tableControl}
+                        text={'Done'}
+                        onClick={() => {
+                            addValue();
+                            setAddingValue(false);
+                        }}
+                    />
+                    <Button
+                        type={ButtonType.warning}
+                        text={'Cancel'}
+                        onClick={() => setAddingValue(false)}
+                    />
+                </div>
+            </Modal>
             <div className={`row ${index % 2 === 0 ? 'highlight' : ''}`}>
                 <div className={'column'}>
                     <div className={''}>
@@ -273,14 +301,16 @@ function ChannelRow({
                                 <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                             </svg>
                         )}
-                        {name}
+                        {channel.name}
                     </div>
                 </div>
-                <div className={'column'}>{scriptFile}</div>
+                <div className={'column'}>{channel.script}</div>
                 <svg
                     className={'delete'}
                     viewBox="0 0 24 24"
-                    onClick={() => removeScriptFromTemplate(templateId, name)}
+                    onClick={() =>
+                        removeScriptFromTemplate(templateId, channel)
+                    }
                 >
                     <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
                 </svg>
@@ -295,14 +325,14 @@ function ChannelRow({
                             <h2>Value Type</h2>
                         </div>
                     </div>
-                    {createKeys(keys).map(({ name, type }) => (
+                    {createKeys(channel.keys).map(({ name, type }) => (
                         <KeyType name={name} type={type} />
                     ))}
                     <div className={'row'}>
                         <svg
                             className={'plusButton'}
                             viewBox="0 0 24 24"
-                            onClick={addValue}
+                            onClick={() => setAddingValue(true)}
                         >
                             <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                         </svg>

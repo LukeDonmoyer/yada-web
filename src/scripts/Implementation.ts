@@ -2,7 +2,13 @@
  * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
-import { EquipmentUnit, Script, SiteObject } from 'store/FirestoreInterfaces';
+import {
+    Channel,
+    ChannelKeys,
+    EquipmentUnit,
+    Script,
+    SiteObject,
+} from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
@@ -704,37 +710,44 @@ export function uploadScript(file: File) {
     fire.storage.ref('/ProfileScripts/Template').put(file);
 }
 
-export function addScriptToTemplate(
-    templateId: string,
-    scriptName: string,
-    filename: string
-) {
+export function addScriptToTemplate(templateId: string, channel: Channel) {
     fire.fireStore
         .collection('ChannelTemplates')
         .doc(templateId)
         .set(
             {
                 channels: {
-                    [scriptName]: filename,
+                    [channel.name]: channel,
                 },
             },
             { merge: true }
         );
 }
 
-export function removeScriptFromTemplate(
-    templateId: string,
-    scriptName: string
-) {
+export function removeScriptFromTemplate(templateId: string, channel: Channel) {
     fire.fireStore
         .collection('ChannelTemplates')
         .doc(templateId)
         .set(
             {
                 channels: {
-                    [scriptName]: firebase.firestore.FieldValue.delete(),
+                    [channel.name]: firebase.firestore.FieldValue.delete(),
                 },
             },
             { merge: true }
         );
+}
+
+export function updateKeyInChannel(
+    templateId: string,
+    channel: Channel,
+    key: string,
+    value: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .update({
+            [`channels.${channel.name}.keys.${key}`]: value,
+        });
 }

@@ -68,24 +68,26 @@ export function LoggerTab({
 
     var csvHeaders: string[] = [];
 
-    for (const [key, value] of Object.entries(
-        channelTemplates[logger.channelTemplate].keys
+    for (const [_, channelValue] of Object.entries(
+        channelTemplates[logger.channelTemplate].channels
     )) {
-        if (key !== 'timestamp') {
-            columns.push({
-                name: key,
-                header: key,
-                defaultFlex: 1,
-            });
-            filters.push({
-                name: key,
-                operator: 'neq',
-                type: value,
-                value: '',
-            });
-        }
+        for (const [typeKey, typeValue] of Object.entries(channelValue)) {
+            if (typeKey !== 'timestamp') {
+                columns.push({
+                    name: typeKey,
+                    header: typeKey,
+                    defaultFlex: 1,
+                });
+                filters.push({
+                    name: typeKey,
+                    operator: 'neq',
+                    type: typeValue,
+                    value: '',
+                });
+            }
 
-        csvHeaders.push(key);
+            csvHeaders.push(typeKey);
+        }
     }
 
     let rows: any[] = [];
@@ -95,11 +97,13 @@ export function LoggerTab({
         row['id'] = index;
 
         //if we have any boolean values, stringify them
-        for (const [key, value] of Object.entries(
-            channelTemplates[logger.channelTemplate].keys
+        for (const [_, channelValue] of Object.entries(
+            channelTemplates[logger.channelTemplate].channels
         )) {
-            if (value === 'boolean') {
-                row[key] = JSON.stringify(row[key]);
+            for (const [typeKey, typeValue] of Object.entries(channelValue)) {
+                if (typeValue === 'boolean') {
+                    row[typeKey] = JSON.stringify(row[typeKey]);
+                }
             }
         }
 
