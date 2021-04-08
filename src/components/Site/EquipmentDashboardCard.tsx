@@ -30,9 +30,6 @@ export default function DashboardCard({
     graphData,
 }: EquipmentDashboardCardProps): ReactElement {
 
-    // Creates an array of colors of length three based on the given hex values
-    const colors: string[] = quantize(interpolateHcl("#f4d3b4", "#d96c06"), 3);
-
     // Specifies custom theme properties
     const themeProperties: {} = {
         textColor: "#4b4b4b",
@@ -89,7 +86,6 @@ export default function DashboardCard({
         <ResponsiveLine
           data={graphData}
           theme={themeProperties}
-          colors={colors}
           margin={{ top: 25, right: 60, bottom: 65, left: 60 }}
           xScale={{ type: 'time', format: '%m-%d-%Y-%H:%M:%S', useUTC: false, precision: 'second' }}
           xFormat="time:%m-%d-%Y-%H:%M:%S"
