@@ -108,33 +108,31 @@ function Onboard(props: RouteComponentProps) {
 
     return (
         <div className="onboard">
-            {!(currentUser === null || currentUser === undefined) ? (
-                <Redirect to={redirectDestination} />
-            ) : (
-                <div className="h-screen split md:grid md:grid-cols-2">
-                    <div className="leftSection  hidden md:block ">
-                        <div className="coloredBlock">
-                            <h1 className="w-full text-center">Company Name</h1>
-                            <AnimatedLogo />
+            <div className="floatingCard">
+                {!(currentUser === null || currentUser === undefined) ? (
+                    <Redirect to={redirectDestination} />
+                ) : (
+                    <>
+                        <div className="logoContainer"></div>
+                        <div className="mainContainer">
+                            <div className="navBar">
+                                <ul>
+                                    <AnimatedLogo />
+                                    <li>
+                                        <Link to="/contact-us">Contact Us</Link>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
+                                            Open Source Code
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <SignInForm />
                         </div>
-                    </div>
-                    <div className="rightSection onboard">
-                        <div className="">
-                            <ul>
-                                <li>
-                                    <Link to="/contact-us">Contact Us</Link>
-                                </li>
-                                <li>
-                                    <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
-                                        Open Source Code
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <SignInForm />
-                    </div>
-                </div>
-            )}
+                    </>
+                )}
+            </div>
         </div>
     );
 }
