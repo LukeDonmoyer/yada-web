@@ -72,7 +72,6 @@ export function StaticNavItem(props: StaticNavItemProp) {
 export default function StaticNavbar(props: navbarProps) {
     let location = useLocation();
     const { path } = useRouteMatch();
-
     let hasDynamicNavbar = new Map<string, boolean>();
 
     React.Children.map(props.children, (child) => {
@@ -104,6 +103,11 @@ export default function StaticNavbar(props: navbarProps) {
                         !hasDynamicNavbar.get(location.pathname)
                             ? 'roundAllCorners'
                             : 'roundLeftCorners'
+                    }
+                    ${
+                        location.pathname.startsWith('/app/dashboard')
+                            ? 'noCollapse'
+                            : ''
                     }`}
                 >
                     <div className={`navLinks`}>{props.children}</div>

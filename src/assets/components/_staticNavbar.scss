@@ -87,6 +87,18 @@
             padding-left: 15px;
             padding-right: 15px;
         }
+        .navTitle {
+            visibility: visible;
+            max-width: 350px;
+            transition: all 0.5s ease-in-out;
+            padding-left: 15px;
+            padding-right: 45px;
+            opacity: 1;
+        }
+        .roundLeftCorners {
+            transition: all 0.5s ease-in-out;
+            border-radius: 10px;
+        }
     }
 
     .navIcon {
