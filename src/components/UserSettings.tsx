@@ -1,8 +1,8 @@
 /**
  * User Settings component.
- * 
+ *
  * Provides interface for changing account and notification settings.
- * 
+ *
  * Author: Brendan Ortmann
  */
 
@@ -17,6 +17,7 @@ import {
     updateUserDoc,
 } from 'scripts/Datastore';
 import { ToggleSwitch } from './Control/ToggleSwitch';
+import { isPhoneNumber } from 'scripts/DataValidation';
 
 /**
  * Generates password reset form and associated logic.
@@ -55,11 +56,11 @@ function PasswordReset(): ReactElement {
                             type="password"
                             name="currentPassword"
                             id="currentPassword"
-                            placeholder="currentPassword"
+                            placeholder="current password"
                         />
                     </FormGroup>
                     <FormGroup className="inputGroup">
-                        <Label for="password">new password</Label>
+                        <Label for="password">New Password</Label>
                         <Input
                             required
                             type="password"
@@ -69,7 +70,7 @@ function PasswordReset(): ReactElement {
                         />
                     </FormGroup>
                     <FormGroup className="inputGroup">
-                        <Label for="confirmPassword">confirm password</Label>
+                        <Label for="confirmPassword">Confirm Password</Label>
                         <Input
                             required
                             type="password"
@@ -126,6 +127,12 @@ export default function Settings(): ReactElement {
 
     const submitChanges = (event: any) => {
         event.preventDefault();
+        if (!isPhoneNumber(newVals.phoneNumber)) {
+            alert(
+                'Invalid phone number syntax, please reformat. no changes were saved'
+            );
+            return;
+        }
         updateUserDoc(uid as string, newVals);
         alert('Changes saved!');
     };

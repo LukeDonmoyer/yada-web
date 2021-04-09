@@ -23,6 +23,7 @@ import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from './Control/Button';
 import pencilIcon from './../assets/icons/pencil.svg';
+import { isPhoneNumber } from '../scripts/DataValidation';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 12;
@@ -226,6 +227,10 @@ export default function UserManagement(): ReactElement {
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'phone': {
+                if (!isPhoneNumber(info.value)) {
+                    alert('This phone number syntax is not recognized');
+                    return;
+                }
                 editPhoneNumber(info.rowId, info.value);
                 break;
             }
