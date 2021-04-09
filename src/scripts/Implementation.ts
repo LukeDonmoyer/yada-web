@@ -432,6 +432,19 @@ export function deleteUser(userid: string) {
 }
 
 /**
+ * -- Required --
+ * Disables the currently logged in account
+ */
+export function disableAccount(): Promise<any> {
+    return fire.fireStore
+        .collection('Users')
+        .doc(fire.fireAuth.currentUser?.uid)
+        .update({
+            disabled: true,
+        });
+}
+
+/**
  * -- required --
  * registers the email and default password for user
  * todo: send emails with information
