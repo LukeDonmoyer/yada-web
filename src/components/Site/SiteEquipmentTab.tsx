@@ -16,6 +16,13 @@ import ReactDataGrid from '@inovua/reactdatagrid-community';
 import chevron_right from '../../assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
+import pencilIcon from '../../assets/icons/pencil.svg';
+import deleteIcon from '../../assets/icons/delete.svg';
+import addIcon from '../../assets/icons/plus.svg';
+import PrivilegeAssert from 'components/Control/PrivilegeAssert';
+
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 10;
 
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
@@ -23,6 +30,7 @@ export default function SiteEquipmentTab(): ReactElement {
     const sites = useSelector((state: RootState) => state.sites);
     const loggers = useSelector((state: RootState) => state.loggers);
     const channelTemplates = useSelector((state: RootState) => state.templates);
+    const privilege = useSelector((state: RootState) => state.auth.privilege);
     const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
@@ -32,12 +40,6 @@ export default function SiteEquipmentTab(): ReactElement {
     ];
 
     let types: Any[] = [];
-
-    const onCellClick = (event, cellProps) => {
-        const { data } = cellProps;
-        let parsedName = data.name.replace(' ', '-');
-        changeRedirect(`/app/sites/${siteID}/equipment/${parsedName}`);
-    };
 
     function getAllLoggerData() {
         var allData: any[] = [];
@@ -93,50 +95,90 @@ export default function SiteEquipmentTab(): ReactElement {
             health: unit.health,
             type: unit.type,
             key: unit.name,
-            open: (
-                <img
-                    className="openIcon"
-                    src={chevron_right}
-                    alt="open"
-                    onClick={() => {
-                        let parsedName = unit.name.replace(' ', '-');
-                        changeRedirect(
-                            `/app/sites/${siteID}/equipment/${parsedName}`
-                        );
-                    }}
-                />
-            ),
-            caution: (
-                <span
-                    className="deleteLink"
-                    onClick={() => {
-                        if (window.confirm(`Delete equipment: ${unit.name}`)) {
-                            // deleteUser(props.uid);
-                            deleteEquipment(siteID, unit.name);
-                        }
-                    }}
-                >
-                    delete
-                </span>
+            actions: (
+                <div className="actions">
+                    {privilege !== 'User' ? (
+                        <img
+                            className="deleteIcon"
+                            src={deleteIcon}
+                            alt="delete"
+                            onClick={() => {
+                                if (
+                                    window.confirm(
+                                        `Delete equipment: ${unit.name}`
+                                    )
+                                ) {
+                                    deleteEquipment(siteID, unit.name);
+                                }
+                            }}
+                        />
+                    ) : (
+                        <></>
+                    )}
+                    <img
+                        className="openIcon"
+                        src={chevron_right}
+                        alt="open"
+                        onClick={() => {
+                            let parsedName = unit.name.replace(' ', '-');
+                            changeRedirect(
+                                `/app/sites/${siteID}/equipment/${parsedName}`
+                            );
+                        }}
+                    />
+                </div>
             ),
         };
     });
 
+    const nameColumn = {
+        name: 'name',
+        header: 'Name',
+        defaultFlex: 9,
+        rendersInlineEditor: true,
+        render: ({ value }, { cellProps }) => {
+            let v = cellProps.editProps.inEdit
+                ? cellProps.editProps.value
+                : value;
+            return (
+                <div className="editableTable">
+                    <img src={pencilIcon} alt="editable" />
+                    <input
+                        className="nameColumn"
+                        type="text"
+                        autoFocus={cellProps.inEdit}
+                        value={v}
+                        onBlur={(e) => {
+                            cellProps.editProps.onComplete();
+                        }}
+                        onChange={cellProps.editProps.onChange}
+                        onFocus={() => cellProps.editProps.startEdit()}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Escape') {
+                                cellProps.editProps.onCancel(e);
+                            }
+                            if (e.key === 'Enter') {
+                                cellProps.editProps.onComplete(e);
+                            }
+                            if (e.key == 'Tab') {
+                                e.preventDefault();
+                                cellProps.editProps.onTabNavigation(
+                                    true,
+                                    e.shiftKey ? -1 : 1
+                                );
+                            }
+                        }}
+                    />
+                </div>
+            );
+        },
+    };
+
     const columns: TypeColumn[] = [
-        {
-            name: 'open',
-            header: 'open',
-            defaultFlex: 1,
-            editable: false,
-        },
-        {
-            name: 'name',
-            header: 'name',
-            defaultFlex: 9,
-        },
+        nameColumn,
         {
             name: 'health',
-            header: 'health',
+            header: 'Health',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -147,7 +189,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'type',
-            header: 'type',
+            header: 'Type',
             defaultFlex: 3,
             filterEditor: SelectFilter,
             filterEditorProps: {
@@ -157,8 +199,8 @@ export default function SiteEquipmentTab(): ReactElement {
             editable: false,
         },
         {
-            name: 'caution',
-            header: 'caution',
+            name: 'actions',
+            header: 'Actions',
             defaultFlex: 2,
             editable: false,
         },
@@ -205,7 +247,9 @@ export default function SiteEquipmentTab(): ReactElement {
             case 'name': {
                 let oldName = rows[info.rowIndex].name;
                 let newName = info.value;
-                changeEquipmentName(siteID, oldName, newName);
+                if (privilege !== 'User') {
+                    changeEquipmentName(siteID, oldName, newName);
+                }
             }
         }
     };
@@ -217,13 +261,15 @@ export default function SiteEquipmentTab(): ReactElement {
     return (
         <div className="site-equipment">
             <div className="buttonBar">
-                <Button
-                    type={ButtonType.tableControl}
-                    text={'create equipment'}
-                    onClick={() => {
-                        handleNewEquipmentClick();
-                    }}
-                />
+                <PrivilegeAssert requiredPrivilege="Power">
+                    <Button
+                        type={ButtonType.tableControl}
+                        text={'Create Equipment'}
+                        onClick={() => {
+                            handleNewEquipmentClick();
+                        }}
+                    />
+                </PrivilegeAssert>
                 <CsvDownloadButton
                     headers={csvHeaders}
                     filename={`${sites[siteID].name}-all-data.csv`}
@@ -237,6 +283,8 @@ export default function SiteEquipmentTab(): ReactElement {
                 defaultFilterValue={filters}
                 editable={true}
                 onEditComplete={onEditComplete}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </div>
     );

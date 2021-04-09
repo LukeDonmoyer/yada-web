@@ -20,7 +20,6 @@ export default function ChangePassword() {
     if (currentUser === null || currentUser === undefined) {
         // redirect flag redirects the user to the change password page after logging in
         return <AuthCheck />;
-        // history.push("/?redirect=changePassword");
     }
 
     /**
@@ -31,12 +30,13 @@ export default function ChangePassword() {
      */
     const handleResetPassword = (event: any) => {
         event.preventDefault(); // prevents default form submission
-        const password1 = event.target[0].value;
-        const password2 = event.target[1].value;
+        const currentPassword = event.target[0].value;
+        const password1 = event.target[1].value;
+        const password2 = event.target[2].value;
         if (password1 !== password2) {
             alert('passwords must match');
         } else {
-            changePassword(password1)?.then(
+            changePassword(currentPassword, password1)?.then(
                 () => {
                     getUserData(currentUser as string).then((userData) => {
                         // if the current user is the Owner, they are directed to the register users page, otherwise the dashboard
@@ -60,6 +60,13 @@ export default function ChangePassword() {
                 <div className="card">
                     <h1 className="text-center">Change Your Password</h1>
                     <form onSubmit={handleResetPassword}>
+                        <Input
+                            required
+                            type="password"
+                            name="oldPassword"
+                            id="oldPassword"
+                            placeholder="currentPassword"
+                        />
                         <Input
                             required
                             type="password"

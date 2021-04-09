@@ -12,6 +12,7 @@ export interface SiteObject {
     equipmentUnits: EquipmentUnit[];
     name: string;
     notes: string;
+    lastViewedFaults?: Number;
 }
 
 export interface EquipmentUnit {

@@ -14,6 +14,10 @@ import { Data } from 'react-csv/components/CommonPropTypes';
 import CsvDownloadButton from '../Control/CsvDownloadButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
+import { updateSiteFaultsViewDate } from 'scripts/Datastore';
+
+//Default number of items to display per datagrid page.
+const DEFAULT_PAGE_LIMIT = 9;
 
 window.moment = moment; // Needed for date filtering
 
@@ -26,6 +30,7 @@ interface FaultData {
 interface SiteFaultsTabProps {
     // The site to get faults from
     site: SiteObject;
+    siteId: string;
 }
 
 /**
@@ -36,6 +41,7 @@ interface SiteFaultsTabProps {
  */
 export default function SiteFaultsTab({
     site,
+    siteId,
 }: SiteFaultsTabProps): ReactElement {
     const [faults, setFaults] = useState<FaultData[] | null>(null);
     const loggers = useSelector((state: RootState) => state.loggers);
@@ -106,6 +112,10 @@ export default function SiteFaultsTab({
         getFaults().then(setFaults);
     }, [loggers, site]);
 
+    useEffect(() => {
+        updateSiteFaultsViewDate(siteId);
+    }, []);
+
     return (
         <>
             <CsvDownloadButton
@@ -126,6 +136,8 @@ export default function SiteFaultsTab({
                 defaultFilterValue={filters}
                 defaultSortInfo={[]}
                 loading={faults === null}
+                pagination={true}
+                defaultLimit={DEFAULT_PAGE_LIMIT}
             />
         </>
     );

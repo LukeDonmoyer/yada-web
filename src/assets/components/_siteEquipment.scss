@@ -41,4 +41,37 @@
         width: fit-content;
         margin-left: auto;
     }
+
+    .actions {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .nameColumn {
+        @include editableTableField;
+    }
+
+    .editableTable {
+        display: flex;
+        gap: 5px;
+    }
+
+    .deleteIcon,
+    .openIcon {
+        cursor: pointer;
+    }
+    .title-button-flex {
+        display: flex;
+        h1,
+        div {
+            flex: 1;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        height: fit-content;
+    }
 }

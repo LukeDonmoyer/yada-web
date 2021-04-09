@@ -21,6 +21,13 @@
     }
 }
 
+@mixin wideBlueInput {
+    @include wideInput;
+    &:required:valid {
+        border-bottom-color: $turqois;
+    }
+}
+
 @mixin smallInput {
     display: block;
     border-width: 2px;
@@ -46,4 +53,17 @@
 
 .userForms {
     height: 100%;
+}
+
+@mixin editableTableField {
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    background-color: lighten($lightGray, 5%);
+    width: 400px;
+
+    &:focus {
+        border-width: 1px;
+        border-color: $lightRed;
+        outline: none;
+    }
 }

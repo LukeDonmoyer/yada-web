@@ -26,6 +26,41 @@ export function registerAuthChangeCallback(callback: (userAuth: any) => void) {
 }
 
 /**
+ * Requires that the user have the appropriate privileges. If true, this resolves with 'true'. if false, this rejects with 'false'
+ * @param requiredPrivilege the privilege required to execute a function
+ * @returns promise resolving with true if the user has the correct privileges
+ */
+function requirePrivilegeLevel(requiredPrivilege: string): Promise<Boolean> {
+    // casts privilege string to a number
+    const castPrivilegeToNumber = (privilege: string) => {
+        switch (privilege) {
+            case 'Owner':
+                return 3;
+            case 'Admin':
+                return 2;
+            case 'Power':
+                return 1;
+            case 'User':
+                return 0;
+            default:
+                return -1;
+        }
+    };
+    return new Promise((resolve, reject) => {
+        return getUserPrivilege().then((privilege: string) => {
+            if (
+                castPrivilegeToNumber(privilege) >=
+                castPrivilegeToNumber(requiredPrivilege)
+            ) {
+                resolve(true);
+            } else {
+                reject(false);
+            }
+        });
+    });
+}
+
+/**
  * Fetches the privilege of the currently authenticated user.
  * Returns a promise that resolves with one of: ['Owner', 'Admin', 'Power', 'User']
  */
@@ -59,7 +94,9 @@ export function resetRedux() {
  * creates a new site in the datastore
  */
 export function createNewSite() {
-    implementation.createNewSite();
+    requirePrivilegeLevel('Power').then(implementation.createNewSite, () => {
+        console.error('Innapropriate permissions to create a site');
+    });
 }
 
 /**
@@ -68,7 +105,14 @@ export function createNewSite() {
  * @param equipmentName string
  */
 export function createNewEquipment(siteUID: string, equipmentName: string) {
-    implementation.createNewEquipment(siteUID, equipmentName);
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.createNewEquipment(siteUID, equipmentName);
+        },
+        () => {
+            console.error('Innapropriate permissions to create new equipment');
+        }
+    );
 }
 
 /**
@@ -76,7 +120,16 @@ export function createNewEquipment(siteUID: string, equipmentName: string) {
  * @param address
  */
 export function sendAuthorizationEmail(address: string) {
-    implementation.sendAuthorizationEmail(address);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.sendAuthorizationEmail(address);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to send authorization email'
+            );
+        }
+    );
 }
 
 /**
@@ -90,7 +143,14 @@ export function createEmailDocument(
     message: string,
     subject: string
 ) {
-    implementation.createEmailDocument(email, message, subject);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.createEmailDocument(email, message, subject);
+        },
+        () => {
+            console.error('Innapropriate permissions to create email document');
+        }
+    );
 }
 
 /**
@@ -104,7 +164,14 @@ export function createUserDocument(
     email: string,
     userGroup: string
 ) {
-    implementation.createUserDocument(uid, email, userGroup);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.createUserDocument(uid, email, userGroup);
+        },
+        () => {
+            console.error('Innapropriate permissions to create user document');
+        }
+    );
 }
 
 /**
@@ -142,8 +209,11 @@ export function getUserData(uid: string): Promise<any> {
  *
  * returns a promise that resolves with nothing
  */
-export function changePassword(newPassword: string): Promise<any> | undefined {
-    return implementation.changePassword(newPassword);
+export function changePassword(
+    currentPassword: string,
+    newPassword: string
+): Promise<any> | undefined {
+    return implementation.changePassword(currentPassword, newPassword);
 }
 
 /**
@@ -160,7 +230,16 @@ export function sendPasswordResetEmail(email: string) {
  * @param email string
  */
 export function editEmail(userID: string, email: string) {
-    implementation.editEmail(userID, email);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.editEmail(userID, email);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to edit another users email'
+            );
+        }
+    );
 }
 
 /**
@@ -169,7 +248,16 @@ export function editEmail(userID: string, email: string) {
  * @param number string
  */
 export function editPhoneNumber(userID: string, number: string) {
-    implementation.editPhoneNumber(userID, number);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.editPhoneNumber(userID, number);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to edit another users phone number'
+            );
+        }
+    );
 }
 
 /**
@@ -178,7 +266,16 @@ export function editPhoneNumber(userID: string, number: string) {
  * @param privilege string: one of ['Admin', 'Power', 'User']
  */
 export function editPrivilege(userID: string, privilege: string) {
-    implementation.editPrivilege(userID, privilege);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.editPrivilege(userID, privilege);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to edit another users privilege level'
+            );
+        }
+    );
 }
 
 /**
@@ -186,7 +283,14 @@ export function editPrivilege(userID: string, privilege: string) {
  * @param userID string
  */
 export function deleteUser(userID: string) {
-    implementation.deleteUser(userID);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.deleteUser(userID);
+        },
+        () => {
+            console.error('Innapropriate permissions to delete a user');
+        }
+    );
 }
 
 /**
@@ -194,7 +298,14 @@ export function deleteUser(userID: string) {
  * @param email string
  */
 export function registerUser(email: string) {
-    implementation.registerUser(email);
+    requirePrivilegeLevel('Admin').then(
+        () => {
+            implementation.registerUser(email);
+        },
+        () => {
+            console.error('Innapropriate permissions to register a user');
+        }
+    );
 }
 /**
  * updates the user document with the following settings
@@ -206,7 +317,14 @@ export function updateUserDoc(uid: string, newVals: any) {
 }
 
 export function deleteEquipment(siteID: string, name: string) {
-    implementation.deleteEquipment(siteID, name);
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.deleteEquipment(siteID, name);
+        },
+        () => {
+            console.error('Innapropriate permissions to delete equipment');
+        }
+    );
 }
 
 export function changeEquipmentName(
@@ -214,10 +332,28 @@ export function changeEquipmentName(
     oldName: string,
     newName: string
 ) {
-    implementation.changeEquipmentName(siteID, oldName, newName);
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.changeEquipmentName(siteID, oldName, newName);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to update the equipment name'
+            );
+        }
+    );
 }
 export function updateSiteConfig(siteId: string, siteConfig: any) {
-    implementation.updateSiteConfig(siteId, siteConfig);
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.updateSiteConfig(siteId, siteConfig);
+        },
+        () => {
+            console.error(
+                'Innapropriate permissions to update the site configuration'
+            );
+        }
+    );
 }
 
 /**
@@ -265,4 +401,33 @@ export function removeKeyFromChannel(
     key: string
 ) {
     implementation.removeKeyFromChannel(templateId, channel, key);
+}
+
+export function updateEquipmentNotification(
+    uid: string,
+    siteId: string,
+    equipmentName: string,
+    status: Boolean
+) {
+    implementation.updateEquipmentNotification(
+        uid,
+        siteId,
+        equipmentName,
+        status
+    );
+}
+
+export function deleteSite(siteId: string) {
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.deleteSite(siteId);
+        },
+        () => {
+            console.error('Innapropriate permissions to delete the site');
+        }
+    );
+}
+
+export function updateSiteFaultsViewDate(siteId: string) {
+    implementation.updateSiteFaultsViewDate(siteId);
 }

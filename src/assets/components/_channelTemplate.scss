@@ -83,6 +83,10 @@
 
     height: 100%;
 
+    /*input[type="text"] {
+        @include editableTableField;
+    }*/
+
     .fixedWidth > button {
         min-width: 132px;
     }

@@ -4,6 +4,9 @@ import { SiteObject } from '../../store/FirestoreInterfaces';
 import Statistic from './Statistic';
 import { Link } from 'react-router-dom';
 import SiteLatestFaultTable from './SiteLatestFaultTable';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/rootReducer';
+import logger from 'redux-logger';
 
 interface SiteCardProps {
     // The Site Object to get information from
@@ -26,6 +29,25 @@ export default function SiteCard({
 }: SiteCardProps): ReactElement {
     const sum = (x: number, y: number) => x + y;
 
+    const loggers = useSelector((state: RootState) => state.loggers);
+
+    function getFaultCount(site: SiteObject) {
+        var faultCount = 0;
+
+        //for each equipment in the site
+        site.equipmentUnits.forEach((unit) => {
+            //for each logger_uid on the equipment
+            unit.loggers.forEach((logger_uid) => {
+                //make sure the logger_uid is defined and not null
+                if(typeof logger_uid !== 'undefined' && logger_uid){
+                    faultCount += loggers[logger_uid]?.faults.length;
+                }                
+            });
+        });
+
+        return faultCount;
+    }
+
     return (
         <div className={'card'}>
             <div className={'site-information'}>
@@ -47,9 +69,7 @@ export default function SiteCard({
                 <div>
                     <Statistic
                         valueClassName={'fault-statistic'}
-                        value={site.equipmentUnits
-                            .map((site) => site.faults.length)
-                            .reduce(sum, 0)}
+                        value={getFaultCount(site)}
                         label={'Total faults'}
                     />
                 </div>
