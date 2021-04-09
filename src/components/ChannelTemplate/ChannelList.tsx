@@ -176,9 +176,9 @@ export default function ChannelList({
                                     type={'file'}
                                     name={'scriptFile'}
                                     id={'scriptFile'}
-                                    onClick={(event) => {
-                                        setFile(event.currentTarget.files?.[0]);
-                                    }}
+                                    onChange={(event) =>
+                                        setFile(event.currentTarget.files?.[0])
+                                    }
                                     hidden
                                 />
                                 <label
@@ -294,7 +294,10 @@ function ChannelRow({
                     </div>
                     <div className={'inputSection'}>
                         <h2>Type:</h2>
-                        <TypeDropdown onValueSelected={setKeyType} />
+                        <TypeDropdown
+                            value={'boolean'}
+                            onValueSelected={setKeyType}
+                        />
                     </div>
                 </div>
                 <div className={'modalButtons horizontal'}>
@@ -388,7 +391,12 @@ function KeyType({
                 <div>{name}</div>
             </div>
             <div className={'column'}>
-                <TypeDropdown value={type} onValueSelected={() => {}} />
+                <TypeDropdown
+                    value={type}
+                    onValueSelected={(value) =>
+                        updateKeyInChannel(templateId, channel, name, value)
+                    }
+                />
             </div>
             <svg
                 className={'delete'}

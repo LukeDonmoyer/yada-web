@@ -744,7 +744,7 @@ export function getScriptList(): Promise<Script[]> {
 }
 
 export function uploadScript(file: File) {
-    fire.storage.ref('/ProfileScripts/Template').put(file);
+    fire.storage.ref(`/ProfileScripts/Template/${file.name}`).put(file);
 }
 
 export function addScriptToTemplate(templateId: string, channel: Channel) {
