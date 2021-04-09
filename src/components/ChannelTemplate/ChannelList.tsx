@@ -15,6 +15,7 @@ import Modal from '../Control/Modal';
 import {
     addScriptToTemplate,
     getScriptList,
+    removeKeyFromChannel,
     removeScriptFromTemplate,
     updateKeyInChannel,
     uploadScript,
@@ -237,6 +238,8 @@ function ChannelRow({
 }: ChannelRowProps): ReactElement {
     const [expanded, setExpanded] = useState(false);
     const [addingValue, setAddingValue] = useState(false);
+    const [keyName, setKeyName] = useState<null | string>(null);
+    const [keyType, setKeyType] = useState<null | string>(null);
 
     function createKeys(keys: { [key: string]: string }) {
         const result: { name: string; type: string }[] = [];
@@ -247,57 +250,75 @@ function ChannelRow({
         return result;
     }
 
-    function addValue() {
-        updateKeyInChannel(templateId, channel, 'New Key', 'number');
+    function addValue(keyName: string, keyType: string) {
+        updateKeyInChannel(templateId, channel, keyName, keyType);
+    }
+
+    function handleModalDone() {
+        setAddingValue(false);
+
+        if (!keyName || !keyType) return;
+        addValue(keyName, keyType);
+    }
+
+    function openModal() {
+        setAddingValue(true);
+    }
+
+    function closeModal() {
+        setAddingValue(false);
+    }
+
+    function toggleExpanded() {
+        setExpanded(!expanded);
+    }
+
+    function setValueFromInput(
+        setter: (x: string) => void
+    ): (e: React.ChangeEvent<HTMLInputElement>) => void {
+        return (event) => setter(event.currentTarget.value);
     }
 
     return (
         <>
-            <Modal
-                show={addingValue}
-                onClickOutside={() => setAddingValue(false)}
-            >
+            <Modal show={addingValue} onClickOutside={closeModal}>
                 <div className={'content'}>
                     <div className={'inputSection'}>
-                        <div className={'horizontal'}>
-                            <h2 className={'marginAfter'}>Script File:</h2>
-                        </div>
+                        <h2>Key Name:</h2>
+                        <input
+                            type={'text'}
+                            name={'keyName'}
+                            id={'keyName'}
+                            onChange={setValueFromInput(setKeyName)}
+                        />
                     </div>
                     <div className={'inputSection'}>
-                        <h2>Script Name:</h2>
+                        <h2>Type:</h2>
+                        <TypeDropdown onValueSelected={setKeyType} />
                     </div>
                 </div>
                 <div className={'modalButtons horizontal'}>
                     <Button
                         type={ButtonType.tableControl}
                         text={'Done'}
-                        onClick={() => {
-                            addValue();
-                            setAddingValue(false);
-                        }}
+                        onClick={handleModalDone}
                     />
                     <Button
                         type={ButtonType.warning}
                         text={'Cancel'}
-                        onClick={() => setAddingValue(false)}
+                        onClick={closeModal}
                     />
                 </div>
             </Modal>
             <div className={`row ${index % 2 === 0 ? 'highlight' : ''}`}>
                 <div className={'column'}>
-                    <div className={''}>
+                    <div>
                         {expanded ? (
-                            <svg
-                                onClick={() => setExpanded(!expanded)}
-                                viewBox="0 0 24 24"
-                            >
+                            <svg onClick={toggleExpanded} viewBox="0 0 24 24">
                                 <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                             </svg>
                         ) : (
-                            <svg
-                                onClick={() => setExpanded(!expanded)}
-                                viewBox="0 0 24 24"
-                            >
+                            <svg onClick={toggleExpanded} viewBox="0 0 24 24">
                                 <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                             </svg>
                         )}
@@ -326,13 +347,18 @@ function ChannelRow({
                         </div>
                     </div>
                     {createKeys(channel.keys).map(({ name, type }) => (
-                        <KeyType name={name} type={type} />
+                        <KeyType
+                            templateId={templateId}
+                            channel={channel}
+                            name={name}
+                            type={type}
+                        />
                     ))}
                     <div className={'row'}>
                         <svg
                             className={'plusButton'}
                             viewBox="0 0 24 24"
-                            onClick={() => setAddingValue(true)}
+                            onClick={openModal}
                         >
                             <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
                         </svg>
@@ -344,48 +370,74 @@ function ChannelRow({
 }
 
 interface KeyTypeProps {
+    templateId: string;
+    channel: Channel;
     name: string;
     type: string;
 }
 
-function KeyType({ name, type }: KeyTypeProps): ReactElement {
-    const [dropDownOpen, setDropDownOpen] = useState(false);
-    const [selectedType, setSelectedType] = useState(type);
-
-    function createDropDownItem(name: string): ReactElement {
-        return (
-            <DropdownItem
-                onClick={() => {
-                    setSelectedType(name);
-                    //TODO: replace with setting channel type
-                }}
-            >
-                {name}
-            </DropdownItem>
-        );
-    }
-
+function KeyType({
+    templateId,
+    channel,
+    name,
+    type,
+}: KeyTypeProps): ReactElement {
     return (
         <div className={'row'}>
             <div className={'column'}>
                 <div>{name}</div>
             </div>
             <div className={'column'}>
-                <div className={'bootStrapStyles'}>
-                    <Dropdown
-                        className={'fixedWidth'}
-                        isOpen={dropDownOpen}
-                        toggle={() => setDropDownOpen(!dropDownOpen)}
-                    >
-                        <DropdownToggle caret>{selectedType}</DropdownToggle>
-                        <DropdownMenu>
-                            {['boolean', 'string', 'number', 'date'].map(
-                                createDropDownItem
-                            )}
-                        </DropdownMenu>
-                    </Dropdown>
-                </div>
+                <TypeDropdown value={type} onValueSelected={() => {}} />
             </div>
+            <svg
+                className={'delete'}
+                viewBox="0 0 24 24"
+                onClick={() => removeKeyFromChannel(templateId, channel, name)}
+            >
+                <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+            </svg>
+        </div>
+    );
+}
+
+interface TypeDropdownProps {
+    value?: string;
+    onValueSelected: (value: string) => void;
+}
+
+function TypeDropdown({
+    value,
+    onValueSelected,
+}: TypeDropdownProps): ReactElement {
+    const [dropDownOpen, setDropDownOpen] = useState(false);
+    const [selectedType, setSelectedType] = useState(value);
+
+    function selected(value: string): () => void {
+        return () => {
+            setSelectedType(value);
+            onValueSelected(value);
+        };
+    }
+
+    function createDropDownItem(name: string): ReactElement {
+        return <DropdownItem onClick={selected(name)}>{name}</DropdownItem>;
+    }
+
+    return (
+        <div className={'bootStrapStyles'}>
+            <Dropdown
+                className={'fixedWidth'}
+                isOpen={dropDownOpen}
+                toggle={() => setDropDownOpen(!dropDownOpen)}
+            >
+                <DropdownToggle caret>{selectedType}</DropdownToggle>
+                <DropdownMenu>
+                    {['boolean', 'string', 'number', 'date'].map(
+                        createDropDownItem
+                    )}
+                </DropdownMenu>
+            </Dropdown>
         </div>
     );
 }

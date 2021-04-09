@@ -751,3 +751,16 @@ export function updateKeyInChannel(
             [`channels.${channel.name}.keys.${key}`]: value,
         });
 }
+
+export function removeKeyFromChannel(
+    templateId: string,
+    channel: Channel,
+    key: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .update({
+            [`channels.${channel.name}.keys.${key}`]: firebase.firestore.FieldValue.delete(),
+        });
+}

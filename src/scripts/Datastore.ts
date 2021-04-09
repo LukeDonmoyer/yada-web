@@ -258,3 +258,11 @@ export function updateKeyInChannel(
 ) {
     implementation.updateKeyInChannel(templateId, channel, key, value);
 }
+
+export function removeKeyFromChannel(
+    templateId: string,
+    channel: Channel,
+    key: string
+) {
+    implementation.removeKeyFromChannel(templateId, channel, key);
+}

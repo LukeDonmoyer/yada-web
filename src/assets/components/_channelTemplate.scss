@@ -83,6 +83,10 @@
 
     height: 100%;
 
+    .fixedWidth > button {
+        min-width: 132px;
+    }
+
     h1 {
         @include mediumTitle;
         color: $darkNavbar;
@@ -167,10 +171,6 @@
             padding-bottom: 16px;
             max-width: fit-content;
             min-width: 700px;
-
-            .fixedWidth > button {
-                width: 132px;
-            }
 
             .plusButton {
                 @include svgButton;
