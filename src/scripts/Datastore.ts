@@ -18,6 +18,8 @@ import {
     ChannelTemplate,
     Script,
 } from '../store/FirestoreInterfaces';
+import moment from 'moment';
+import { MODIFIED_DATE_FORMAT } from '../components/ChannelTemplate/ChannelTemplates';
 
 // AUTHENTICATION
 /**
@@ -399,6 +401,10 @@ export function uploadScript(file: File) {
  */
 export function addScriptToTemplate(templateId: string, channel: Channel) {
     implementation.addScriptToTemplate(templateId, channel);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
 }
 
 /**
@@ -409,6 +415,10 @@ export function addScriptToTemplate(templateId: string, channel: Channel) {
  */
 export function removeScriptFromTemplate(templateId: string, channel: Channel) {
     implementation.removeScriptFromTemplate(templateId, channel);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
 }
 
 /**
@@ -426,6 +436,10 @@ export function updateKeyInChannel(
     value: string
 ) {
     implementation.updateKeyInChannel(templateId, channel, key, value);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
 }
 
 /**
@@ -441,12 +455,16 @@ export function removeKeyFromChannel(
     key: string
 ) {
     implementation.removeKeyFromChannel(templateId, channel, key);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
 }
 
 /**
  * Creates a new template and adds it to the database.
  *
- * @param channel The channel object to create.
+ * @param template The channel template object to create.
  */
 export function createNewTemplate(template: ChannelTemplate) {
     requirePrivilegeLevel('Power').then(
@@ -473,6 +491,10 @@ export function deleteTemplate(templateId: string) {
             console.error('Inappropriate permissions to remove a template');
         }
     );
+}
+
+export function updateTemplateModifiedDate(templateId: string, date: string) {
+    implementation.updateTemplateModifiedDate(templateId, date);
 }
 
 export function updateEquipmentNotification(

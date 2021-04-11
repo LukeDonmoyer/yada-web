@@ -16,6 +16,9 @@ import ChannelTemplateContent from './ChannelTemplateContent';
 import { createNewTemplate } from '../../scripts/Datastore';
 import Modal from '../Control/Modal';
 import Button, { ButtonType } from '../Control/Button';
+import moment from 'moment';
+
+export const MODIFIED_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSSSSS';
 
 /**
  * Main container component for channel template pages.
@@ -50,7 +53,7 @@ export default function ChannelTemplates() {
     function newTemplate() {
         createNewTemplate({
             channels: {},
-            modified: Date.now().toString(),
+            modified: moment().format(MODIFIED_DATE_FORMAT),
             name: newTemplateName,
         });
     }

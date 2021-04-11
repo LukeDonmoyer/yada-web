@@ -784,6 +784,12 @@ export function deleteTemplate(templateId: string) {
     fire.fireStore.collection('ChannelTemplates').doc(templateId).delete();
 }
 
+export function updateTemplateModifiedDate(templateId: string, date: string) {
+    fire.fireStore.collection('ChannelTemplates').doc(templateId).update({
+        modified: date,
+    });
+}
+
 export function updateKeyInChannel(
     templateId: string,
     channel: Channel,
