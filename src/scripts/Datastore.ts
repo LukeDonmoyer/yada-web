@@ -301,6 +301,14 @@ export function deleteUser(userID: string) {
 }
 
 /**
+ * -- Required --
+ * Disables the currently logged in account
+ */
+export function disableAccount(): Promise<any> {
+    return implementation.disableAccount();
+}
+
+/**
  * registers a user
  * @param email string
  */

@@ -87,6 +87,7 @@ function getChannelsFromLoggers(
         });
     }
 
+    console.log(channelsFromLoggers);
     return channelsFromLoggers;
 }
 
@@ -112,7 +113,6 @@ function getChannelDataFromLoggers(
             });
         }
     }
-
     return channelData;
 }
 

@@ -28,6 +28,7 @@ import { ToggleSwitch } from 'components/Control/ToggleSwitch';
 import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
+import { isValidName } from 'scripts/DataValidation';
 
 interface configTabProps {
     site: SiteObject;
@@ -108,6 +109,16 @@ export default function ConfigTab({
     });
 
     const updateField = (e: any) => {
+        if (e.target.id === 'name' && !isValidName(e.currentTarget.value)) {
+            if (e.currentTarget.value === '') {
+                alert('A blank name will not be accepted');
+            } else {
+                alert(
+                    'Invalid input: the name of a site must only contain alphabetical characters, numbers, spaces, and dashes'
+                );
+                return;
+            }
+        }
         setConfigState({
             ...configState,
             [e.currentTarget.name]: e.currentTarget.value,
@@ -116,6 +127,12 @@ export default function ConfigTab({
 
     const submitChanges = (e: any) => {
         e.preventDefault();
+        if (!isValidName(configState.name)) {
+            alert(
+                'Invalid input: the name of a site must only contain alphabetical characters, numbers, spaces, and dashes'
+            );
+            return;
+        }
         updateSiteConfig(siteId, configState);
         alert('Changes saved!');
     };

@@ -20,6 +20,7 @@ import pencilIcon from '../../assets/icons/pencil.svg';
 import deleteIcon from '../../assets/icons/delete.svg';
 import addIcon from '../../assets/icons/plus.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
+import { isValidName } from '../../scripts/DataValidation';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -38,8 +39,6 @@ export default function SiteEquipmentTab(): ReactElement {
         { id: 'good', label: 'good' },
         { id: 'bad', label: 'bad' },
     ];
-
-    let types: Any[] = [];
 
     function getAllLoggerData() {
         var allData: any[] = [];
@@ -75,25 +74,10 @@ export default function SiteEquipmentTab(): ReactElement {
 
     // creates rows
     const rows = sites[siteID]['equipmentUnits'].map((unit) => {
-        // Pushes select option for types filter
-        let typeFound = false;
-        types.forEach((type) => {
-            if (type.id === unit.type) {
-                typeFound = true;
-            }
-        });
-        if (!typeFound) {
-            types.push({
-                id: unit.type,
-                label: unit.type,
-            });
-        }
-
         // pushes row for table
         return {
             name: unit.name,
             health: unit.health,
-            type: unit.type,
             key: unit.name,
             actions: (
                 <div className="actions">
@@ -131,7 +115,7 @@ export default function SiteEquipmentTab(): ReactElement {
         };
     });
 
-    const nameColumn = {
+    const nameEditColumn = {
         name: 'name',
         header: 'Name',
         defaultFlex: 9,
@@ -174,8 +158,14 @@ export default function SiteEquipmentTab(): ReactElement {
         },
     };
 
-    const columns: TypeColumn[] = [
-        nameColumn,
+    const nameStaticColumn = {
+        name: 'name',
+        header: 'Name',
+        defaultFlex: 9,
+        editable: false,
+    };
+
+    let columns: TypeColumn[] = [
         {
             name: 'health',
             header: 'Health',
@@ -188,23 +178,18 @@ export default function SiteEquipmentTab(): ReactElement {
             editable: false,
         },
         {
-            name: 'type',
-            header: 'Type',
-            defaultFlex: 3,
-            filterEditor: SelectFilter,
-            filterEditorProps: {
-                placeholder: 'All',
-                dataSource: types,
-            },
-            editable: false,
-        },
-        {
             name: 'actions',
             header: 'Actions',
             defaultFlex: 2,
             editable: false,
         },
     ];
+
+    if (privilege === 'User') {
+        columns.unshift(nameStaticColumn);
+    } else {
+        columns.unshift(nameEditColumn);
+    }
 
     const filters = [
         {
@@ -215,12 +200,6 @@ export default function SiteEquipmentTab(): ReactElement {
         },
         {
             name: 'health',
-            operator: 'eq',
-            type: 'select',
-            value: null,
-        },
-        {
-            name: 'type',
             operator: 'eq',
             type: 'select',
             value: null,
@@ -245,6 +224,12 @@ export default function SiteEquipmentTab(): ReactElement {
     const onEditComplete = (info: TypeEditInfo) => {
         switch (info.columnId) {
             case 'name': {
+                if (!isValidName(info.value)) {
+                    alert(
+                        `Invalid equipment name: only alphabeitcal characters are allowed, reverting to old name`
+                    );
+                    return;
+                }
                 let oldName = rows[info.rowIndex].name;
                 let newName = info.value;
                 if (privilege !== 'User') {
