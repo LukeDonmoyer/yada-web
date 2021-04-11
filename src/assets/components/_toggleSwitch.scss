@@ -6,7 +6,7 @@
 
     .background {
         margin-top: $height * 0.1;
-        position: absolute;
+        position: relative;
         z-index: 1;
         background-color: $shadow;
         width: $width;
@@ -16,18 +16,20 @@
 
     .slider-on {
         margin-left: $height;
-        position: absolute;
+        position: relative;
         z-index: 2;
         background-color: $turqois;
         width: $height * 1.2;
         height: $height * 1.2;
         border-radius: ($height * 1.2) / 2;
         transition: background-color 0.2s, margin-left 0.2s;
+        top: -1.1rem;
     }
 
     .slider-off {
         margin-left: 0;
-        position: absolute;
+        top: -1.1rem;
+        position: relative;
         z-index: 2;
         background-color: $darkGray;
         width: $height * 1.2;
