@@ -132,7 +132,7 @@ export default function EquipmentDashboard({
 
     // Filter
     let [filterDropdown, setFilterDropdown] = useState(false);
-    let [filter, setFilter] = useState('1 month');
+    let [filter, setFilter] = useState('12 hours');
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
     // Generates the dashboard cards
