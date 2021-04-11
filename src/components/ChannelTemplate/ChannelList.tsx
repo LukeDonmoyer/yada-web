@@ -61,6 +61,12 @@ export default function ChannelList({
         setScriptType(event.currentTarget.value);
     };
 
+    function hideAddScriptModal() {
+        setAddingScript(false);
+        setScriptName(undefined);
+        setScriptType(UPLOAD_KEY);
+    }
+
     function addScript() {
         let filename = undefined;
 
@@ -218,13 +224,13 @@ export default function ChannelList({
                         text={'Done'}
                         onClick={() => {
                             addScript();
-                            setAddingScript(false);
+                            hideAddScriptModal();
                         }}
                     />
                     <Button
                         type={ButtonType.warning}
                         text={'Cancel'}
-                        onClick={() => setAddingScript(false)}
+                        onClick={hideAddScriptModal}
                     />
                 </div>
             </Modal>
