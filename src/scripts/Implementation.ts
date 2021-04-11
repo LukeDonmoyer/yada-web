@@ -780,6 +780,10 @@ export function createNewTemplate(template: ChannelTemplate) {
     fire.fireStore.collection('ChannelTemplates').add(template);
 }
 
+export function deleteTemplate(templateId: string) {
+    fire.fireStore.collection('ChannelTemplates').doc(templateId).delete();
+}
+
 export function updateKeyInChannel(
     templateId: string,
     channel: Channel,

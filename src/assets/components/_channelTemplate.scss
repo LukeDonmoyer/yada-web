@@ -83,6 +83,10 @@
 
     height: 100%;
 
+    .deleteButton > .button {
+        float: right;
+    }
+
     .fixedWidth > button {
         min-width: 132px;
     }
@@ -98,8 +102,6 @@
 
         border-radius: 8px;
         border: solid 1px $shadow;
-
-        margin-top: 32px;
         height: 100%;
 
         overflow: hidden;

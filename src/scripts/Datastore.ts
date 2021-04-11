@@ -454,7 +454,23 @@ export function createNewTemplate(template: ChannelTemplate) {
             implementation.createNewTemplate(template);
         },
         () => {
-            console.error('Inappropriate permissions to create a site');
+            console.error('Inappropriate permissions to create a template');
+        }
+    );
+}
+
+/**
+ * Removes the template with the specified id from the database.
+ *
+ * @param templateId The id of the template to remove.
+ */
+export function deleteTemplate(templateId: string) {
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.deleteTemplate(templateId);
+        },
+        () => {
+            console.error('Inappropriate permissions to remove a template');
         }
     );
 }
