@@ -13,7 +13,6 @@
     @include floatingCard;
     position: absolute;
     margin-top: 0;
-    z-index: 11;
 
     top: 50%;
     left: 50%;
@@ -27,6 +26,10 @@
     flex-flow: column;
 
     z-index: 1000;
+
+    input[type='text'] {
+        @include editableTableField;
+    }
 
     h2 {
         @include smallTitle;

@@ -5,6 +5,7 @@ import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
 import {
     Channel,
     ChannelKeys,
+    ChannelTemplate,
     EquipmentUnit,
     Script,
     SiteObject,
@@ -773,6 +774,10 @@ export function removeScriptFromTemplate(templateId: string, channel: Channel) {
             },
             { merge: true }
         );
+}
+
+export function createNewTemplate(template: ChannelTemplate) {
+    fire.fireStore.collection('ChannelTemplates').add(template);
 }
 
 export function updateKeyInChannel(

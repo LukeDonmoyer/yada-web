@@ -12,7 +12,12 @@ import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import loggerSlice from 'store/LoggerAction';
 import sitesSlice from 'store/SiteActions';
-import { Channel, ChannelKeys, Script } from '../store/FirestoreInterfaces';
+import {
+    Channel,
+    ChannelKeys,
+    ChannelTemplate,
+    Script,
+} from '../store/FirestoreInterfaces';
 
 // AUTHENTICATION
 /**
@@ -370,22 +375,50 @@ export function updateEquipmentNotifications(
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
 }
 
+/**
+ * Asynchronous function that returns an array of scripts
+ */
 export function getScriptList(): Promise<Script[]> {
     return implementation.getScriptList();
 }
 
+/**
+ * Uploads the specified file into the database
+ *
+ * @param file The file to upload
+ */
 export function uploadScript(file: File) {
     implementation.uploadScript(file);
 }
 
+/**
+ * Updates the specified channel object for the given template.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object containing the updated values.
+ */
 export function addScriptToTemplate(templateId: string, channel: Channel) {
     implementation.addScriptToTemplate(templateId, channel);
 }
 
+/**
+ * Removes the script from the given channel and the given template.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object containing the updated values.
+ */
 export function removeScriptFromTemplate(templateId: string, channel: Channel) {
     implementation.removeScriptFromTemplate(templateId, channel);
 }
 
+/**
+ * Updates the specified channel with the given key and key value.
+ *
+ * @param templateId The if of the template to update.
+ * @param channel The channel object to update.
+ * @param key The key to add or update.
+ * @param value The value to set.
+ */
 export function updateKeyInChannel(
     templateId: string,
     channel: Channel,
@@ -395,12 +428,35 @@ export function updateKeyInChannel(
     implementation.updateKeyInChannel(templateId, channel, key, value);
 }
 
+/**
+ * Removes the specified key from the specified channel.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object to update.
+ * @param key The key to remove.
+ */
 export function removeKeyFromChannel(
     templateId: string,
     channel: Channel,
     key: string
 ) {
     implementation.removeKeyFromChannel(templateId, channel, key);
+}
+
+/**
+ * Creates a new template and adds it to the database.
+ *
+ * @param channel The channel object to create.
+ */
+export function createNewTemplate(template: ChannelTemplate) {
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.createNewTemplate(template);
+        },
+        () => {
+            console.error('Inappropriate permissions to create a site');
+        }
+    );
 }
 
 export function updateEquipmentNotification(
