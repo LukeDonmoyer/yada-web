@@ -46,11 +46,13 @@ export default function AuthCheck(props: AuthCheckProps) {
             <div className="h-screen authCheck">
                 <div className="card">
                     <h1>Sign In</h1>
+                    {/* Shows additional message if provided in props */}
                     {props.additionalMessage ? (
                         <p>{props.additionalMessage}</p>
                     ) : (
                         <p></p>
                     )}
+                    {/* login form */}
                     <Form onSubmit={handleLogin}>
                         <Input
                             required

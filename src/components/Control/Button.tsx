@@ -31,7 +31,9 @@ export default function Button(props: ButtonProps) {
             className={`button ${props.type} ${props.align ? props.align : ''}`}
             onClick={props.onClick}
         >
+            {/* renders text */}
             <div className="text">{props.text}</div>
+            {/* renders icon if one was passed in */}
             {props.icon === undefined ? (
                 <></>
             ) : (

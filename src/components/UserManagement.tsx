@@ -3,6 +3,7 @@
  *
  * route: '/app/usermanagement'
  * purpose: page that will provide access to manage users
+ * this component only renders if you have 'Admin' or 'Owner' privileges
  */
 
 import {
@@ -92,6 +93,11 @@ interface accountControlsProps {
     email: string;
 }
 
+/**
+ * Renders delete button which disables a user account
+ * @param props
+ * @returns
+ */
 function AccountControls(props: accountControlsProps) {
     return (
         <div className={`accountControls`}>
@@ -113,10 +119,12 @@ function AccountControls(props: accountControlsProps) {
  * renders user management table
  */
 export default function UserManagement(): ReactElement {
+    // true if use has access to this component
     const [authorized, setAuthorization] = useState(false);
     const users = useSelector((state: RootState) => state.users);
     const userID = useSelector((state: RootState) => state.auth.userUID);
 
+    // checks if user has authorization to use this component
     getUserPrivilege().then((privilege) => {
         if (privilege === 'Owner' || privilege === 'Admin') {
             setAuthorization(true);
@@ -132,6 +140,7 @@ export default function UserManagement(): ReactElement {
         registerUser(result as string);
     }
 
+    // editable phone number input field
     const phoneNumberColumn = {
         name: 'phone',
         header: 'Phone Number',
@@ -175,6 +184,7 @@ export default function UserManagement(): ReactElement {
         },
     };
 
+    // columns in the table
     const columns = [
         {
             name: 'email',
@@ -264,6 +274,7 @@ export default function UserManagement(): ReactElement {
                     />
                 </>
             ) : (
+                // shows sign in component to change to an account with proper privileges
                 <AuthCheck
                     additionalMessage={
                         'You do not have proper authentication for this page. Please log in as an admin, or contact your admin for access.'
