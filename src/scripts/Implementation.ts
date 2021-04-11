@@ -2,7 +2,14 @@
  * implementation of datastore functionality. All functions must be completed for the app to function. Functions marked as 'REQUIRED' need to be implemented, and must accept the specified arguments and return the specified return values. Any auxiliary functions may be written as necessary
  */
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
-import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
+import {
+    Channel,
+    ChannelKeys,
+    ChannelTemplate,
+    EquipmentUnit,
+    Script,
+    SiteObject,
+} from 'store/FirestoreInterfaces';
 import sitesSlice from 'store/SiteActions';
 import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
@@ -734,6 +741,93 @@ export function updateEquipmentNotifications(
             },
             { merge: true }
         );
+}
+
+export function getScriptList(): Promise<Script[]> {
+    return fire.storage
+        .ref('/ProfileScripts/Template')
+        .listAll()
+        .then((result) => {
+            return result.items.map((ref) => {
+                return {
+                    name: ref.name,
+                    fullPath: ref.fullPath,
+                };
+            });
+        });
+}
+
+export function uploadScript(file: File) {
+    fire.storage.ref(`/ProfileScripts/Template/${file.name}`).put(file);
+}
+
+export function addScriptToTemplate(templateId: string, channel: Channel) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .set(
+            {
+                channels: {
+                    [channel.name]: channel,
+                },
+            },
+            { merge: true }
+        );
+}
+
+export function removeScriptFromTemplate(templateId: string, channel: Channel) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .set(
+            {
+                channels: {
+                    [channel.name]: firebase.firestore.FieldValue.delete(),
+                },
+            },
+            { merge: true }
+        );
+}
+
+export function createNewTemplate(template: ChannelTemplate) {
+    fire.fireStore.collection('ChannelTemplates').add(template);
+}
+
+export function deleteTemplate(templateId: string) {
+    fire.fireStore.collection('ChannelTemplates').doc(templateId).delete();
+}
+
+export function updateTemplateModifiedDate(templateId: string, date: string) {
+    fire.fireStore.collection('ChannelTemplates').doc(templateId).update({
+        modified: date,
+    });
+}
+
+export function updateKeyInChannel(
+    templateId: string,
+    channel: Channel,
+    key: string,
+    value: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .update({
+            [`channels.${channel.name}.keys.${key}`]: value,
+        });
+}
+
+export function removeKeyFromChannel(
+    templateId: string,
+    channel: Channel,
+    key: string
+) {
+    fire.fireStore
+        .collection('ChannelTemplates')
+        .doc(templateId)
+        .update({
+            [`channels.${channel.name}.keys.${key}`]: firebase.firestore.FieldValue.delete(),
+        });
 }
 
 export function updateEquipmentNotification(

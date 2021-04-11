@@ -12,6 +12,14 @@ import store from 'store/store';
 import updateUsersSlice from 'store/UserAction';
 import loggerSlice from 'store/LoggerAction';
 import sitesSlice from 'store/SiteActions';
+import {
+    Channel,
+    ChannelKeys,
+    ChannelTemplate,
+    Script,
+} from '../store/FirestoreInterfaces';
+import moment from 'moment';
+import { MODIFIED_DATE_FORMAT } from '../components/ChannelTemplate/ChannelTemplates';
 
 // AUTHENTICATION
 /**
@@ -375,6 +383,126 @@ export function updateEquipmentNotifications(
     notificationMap: any
 ) {
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
+}
+
+/**
+ * Asynchronous function that returns an array of scripts
+ */
+export function getScriptList(): Promise<Script[]> {
+    return implementation.getScriptList();
+}
+
+/**
+ * Uploads the specified file into the database
+ *
+ * @param file The file to upload
+ */
+export function uploadScript(file: File) {
+    implementation.uploadScript(file);
+}
+
+/**
+ * Updates the specified channel object for the given template.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object containing the updated values.
+ */
+export function addScriptToTemplate(templateId: string, channel: Channel) {
+    implementation.addScriptToTemplate(templateId, channel);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
+}
+
+/**
+ * Removes the script from the given channel and the given template.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object containing the updated values.
+ */
+export function removeScriptFromTemplate(templateId: string, channel: Channel) {
+    implementation.removeScriptFromTemplate(templateId, channel);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
+}
+
+/**
+ * Updates the specified channel with the given key and key value.
+ *
+ * @param templateId The if of the template to update.
+ * @param channel The channel object to update.
+ * @param key The key to add or update.
+ * @param value The value to set.
+ */
+export function updateKeyInChannel(
+    templateId: string,
+    channel: Channel,
+    key: string,
+    value: string
+) {
+    implementation.updateKeyInChannel(templateId, channel, key, value);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
+}
+
+/**
+ * Removes the specified key from the specified channel.
+ *
+ * @param templateId The id of the template to update.
+ * @param channel The channel object to update.
+ * @param key The key to remove.
+ */
+export function removeKeyFromChannel(
+    templateId: string,
+    channel: Channel,
+    key: string
+) {
+    implementation.removeKeyFromChannel(templateId, channel, key);
+    updateTemplateModifiedDate(
+        templateId,
+        moment().format(MODIFIED_DATE_FORMAT)
+    );
+}
+
+/**
+ * Creates a new template and adds it to the database.
+ *
+ * @param template The channel template object to create.
+ */
+export function createNewTemplate(template: ChannelTemplate) {
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.createNewTemplate(template);
+        },
+        () => {
+            console.error('Inappropriate permissions to create a template');
+        }
+    );
+}
+
+/**
+ * Removes the template with the specified id from the database.
+ *
+ * @param templateId The id of the template to remove.
+ */
+export function deleteTemplate(templateId: string) {
+    requirePrivilegeLevel('Power').then(
+        () => {
+            implementation.deleteTemplate(templateId);
+        },
+        () => {
+            console.error('Inappropriate permissions to remove a template');
+        }
+    );
+}
+
+export function updateTemplateModifiedDate(templateId: string, date: string) {
+    implementation.updateTemplateModifiedDate(templateId, date);
 }
 
 export function updateEquipmentNotification(
