@@ -1,6 +1,12 @@
+export interface Script {
+    name: string;
+    fullPath: string;
+}
+
 export interface SiteCollection {
     [key: string]: SiteObject;
 }
+
 export interface SiteObject {
     address: string;
     equipmentUnits: EquipmentUnit[];
@@ -42,10 +48,19 @@ export interface Fault {
 }
 
 export interface ChannelTemplate {
-    channels: Map<string, string>;
+    channels: { [key: string]: Channel };
     modified: string;
     name: string;
-    keys: Map<string, string>;
+}
+
+export interface Channel {
+    name: string;
+    script: string;
+    keys: ChannelKeys;
+}
+
+export interface ChannelKeys {
+    [key: string]: string;
 }
 
 export interface ChannelTemplateCollection {
