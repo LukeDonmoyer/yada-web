@@ -72,23 +72,22 @@ export function LoggerTab({
 
     var csvHeaders: string[] = [];
 
+    csvHeaders.push('timestamp');
     for (const [_, channelValue] of Object.entries(
         channelTemplates[logger.channelTemplate].channels
     )) {
-        for (const [typeKey, typeValue] of Object.entries(channelValue)) {
-            if (typeKey !== 'timestamp') {
-                columns.push({
-                    name: typeKey,
-                    header: typeKey,
-                    defaultFlex: 1,
-                });
-                filters.push({
-                    name: typeKey,
-                    operator: 'neq',
-                    type: typeValue,
-                    value: '',
-                });
-            }
+        for (const [typeKey, typeValue] of Object.entries(channelValue.keys)) {
+            columns.push({
+                name: typeKey,
+                header: typeKey,
+                defaultFlex: 1,
+            });
+            filters.push({
+                name: typeKey,
+                operator: 'neq',
+                type: typeValue,
+                value: '',
+            });
 
             csvHeaders.push(typeKey);
         }
@@ -104,7 +103,9 @@ export function LoggerTab({
         for (const [_, channelValue] of Object.entries(
             channelTemplates[logger.channelTemplate].channels
         )) {
-            for (const [typeKey, typeValue] of Object.entries(channelValue)) {
+            for (const [typeKey, typeValue] of Object.entries(
+                channelValue.keys
+            )) {
                 if (typeValue === 'boolean') {
                     row[typeKey] = JSON.stringify(row[typeKey]);
                 }
