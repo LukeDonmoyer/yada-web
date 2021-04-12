@@ -72,24 +72,25 @@ export function LoggerTab({
 
     var csvHeaders: string[] = [];
 
-    for (const [key, value] of Object.entries(
-        channelTemplates[logger.channelTemplate].keys
+    csvHeaders.push('timestamp');
+    for (const [_, channelValue] of Object.entries(
+        channelTemplates[logger.channelTemplate].channels
     )) {
-        if (key !== 'timestamp') {
+        for (const [typeKey, typeValue] of Object.entries(channelValue.keys)) {
             columns.push({
-                name: key,
-                header: key,
+                name: typeKey,
+                header: typeKey,
                 defaultFlex: 1,
             });
             filters.push({
-                name: key,
+                name: typeKey,
                 operator: 'neq',
-                type: value,
+                type: typeValue,
                 value: '',
             });
-        }
 
-        csvHeaders.push(key);
+            csvHeaders.push(typeKey);
+        }
     }
 
     let rows: any[] = [];
@@ -99,11 +100,15 @@ export function LoggerTab({
         row['id'] = index;
 
         //if we have any boolean values, stringify them
-        for (const [key, value] of Object.entries(
-            channelTemplates[logger.channelTemplate].keys
+        for (const [_, channelValue] of Object.entries(
+            channelTemplates[logger.channelTemplate].channels
         )) {
-            if (value === 'boolean') {
-                row[key] = JSON.stringify(row[key]);
+            for (const [typeKey, typeValue] of Object.entries(
+                channelValue.keys
+            )) {
+                if (typeValue === 'boolean') {
+                    row[typeKey] = JSON.stringify(row[typeKey]);
+                }
             }
         }
 

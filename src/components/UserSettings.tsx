@@ -1,8 +1,8 @@
 /**
  * User Settings component.
- * 
+ *
  * Provides interface for changing account and notification settings.
- * 
+ *
  * Author: Brendan Ortmann
  */
 
@@ -13,10 +13,12 @@ import { RootState } from 'store/rootReducer';
 import {
     changePassword,
     deleteUser,
+    disableAccount,
     fireAuthSignOut,
     updateUserDoc,
 } from 'scripts/Datastore';
 import { ToggleSwitch } from './Control/ToggleSwitch';
+import { isPhoneNumber } from 'scripts/DataValidation';
 
 /**
  * Generates password reset form and associated logic.
@@ -46,47 +48,54 @@ function PasswordReset(): ReactElement {
 
     return (
         <div className="userSettings">
-            <div className="resetPasswordForm">
-                <form onSubmit={handleResetPassword}>
-                    <FormGroup className="inputGroup">
-                        <Label for="currentPassword">Current password</Label>
-                        <Input
-                            required
-                            type="password"
-                            name="currentPassword"
-                            id="currentPassword"
-                            placeholder="currentPassword"
-                        />
-                    </FormGroup>
-                    <FormGroup className="inputGroup">
-                        <Label for="password">new password</Label>
-                        <Input
-                            required
-                            type="password"
-                            name="password"
-                            id="password"
-                            placeholder="new password"
-                        />
-                    </FormGroup>
-                    <FormGroup className="inputGroup">
-                        <Label for="confirmPassword">confirm password</Label>
-                        <Input
-                            required
-                            type="password"
-                            name="confirmPassword"
-                            id="confirmPassword"
-                            placeholder="confirm password"
-                        />
-                    </FormGroup>
-                    <div className="buttonsContainer">
-                        <div className="pad"></div>
-                        <div className="buttons">
-                            <Button type="submit" value="Submit">
-                                Submit
-                            </Button>
+            <div className="floatingSection">
+                <h1>Change Password</h1>
+                <div className="resetPasswordForm">
+                    <form onSubmit={handleResetPassword}>
+                        <FormGroup className="inputGroup">
+                            <Label for="currentPassword">
+                                Current password
+                            </Label>
+                            <Input
+                                required
+                                type="password"
+                                name="currentPassword"
+                                id="currentPassword"
+                                placeholder="current password"
+                            />
+                        </FormGroup>
+                        <FormGroup className="inputGroup">
+                            <Label for="password">New Password</Label>
+                            <Input
+                                required
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="new password"
+                            />
+                        </FormGroup>
+                        <FormGroup className="inputGroup">
+                            <Label for="confirmPassword">
+                                Confirm Password
+                            </Label>
+                            <Input
+                                required
+                                type="password"
+                                name="confirmPassword"
+                                id="confirmPassword"
+                                placeholder="confirm password"
+                            />
+                        </FormGroup>
+                        <div className="buttonsContainer">
+                            <div className="pad"></div>
+                            <div className="buttons">
+                                <Button type="submit" value="Submit">
+                                    Submit
+                                </Button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     );
@@ -126,6 +135,12 @@ export default function Settings(): ReactElement {
 
     const submitChanges = (event: any) => {
         event.preventDefault();
+        if (!isPhoneNumber(newVals.phoneNumber)) {
+            alert(
+                'Invalid phone number syntax, please reformat. no changes were saved'
+            );
+            return;
+        }
         updateUserDoc(uid as string, newVals);
         alert('Changes saved!');
     };
@@ -140,121 +155,103 @@ export default function Settings(): ReactElement {
             'Do you really wish to delete your account?'
         );
         if (deleteAccount) {
-            deleteUser(uid as string);
-            alert('Account deleted.');
-            fireAuthSignOut();
+            disableAccount().then(() => {
+                alert('Account deleted.');
+                fireAuthSignOut();
+            });
         }
     };
 
     return (
         <div className="userSettings">
-            <h1>User Settings</h1>
-            <div className="formContainer">
-                <div className="left">
-                    <Form onSubmit={submitChanges}>
-                        <div>
-                            <FormGroup className="inputGroup">
-                                <Label for="email">Email</Label>
-                                <Input
-                                    required
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder={currentUser?.email}
-                                    value={newVals.email}
-                                    onChange={updateField}
-                                />
-                            </FormGroup>
-                            <FormGroup className="inputGroup">
-                                <Label for="phoneNumber">Phone Number</Label>
-                                <Input
-                                    required
-                                    type="tel"
-                                    name="phoneNumber"
-                                    id="phoneNumber"
-                                    placeholder={newVals.phoneNumber}
-                                    value={newVals.phoneNumber}
-                                    onChange={updateField}
-                                />
-                            </FormGroup>
-                        </div>
+            <div className="floatingSection">
+                <h1>Notification Settings</h1>
+                <FormGroup check className="checkGroup">
+                    <Label for="emailNotifications" check>
+                        Email Notifications
+                    </Label>
+                    <div className="checkBoxContainer">
+                        <ToggleSwitch
+                            enabledDefault={
+                                currentUser?.emailNotifications ?? true
+                            } // this field is ignored by the toggle switch component because we are passing in the enabled state
+                            enabled={currentUser?.emailNotifications ?? true}
+                            onEnable={() => {
+                                toggleNotification('emailNotifications', true);
+                            }}
+                            onDisable={() => {
+                                toggleNotification('emailNotifications', false);
+                            }}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup check className="checkGroup">
+                    <Label for="smsNotifications" check>
+                        SMS Notifications
+                    </Label>
 
-                        <div className="buttonsContainer">
-                            <div className="pad"></div>
-                            <div className="buttons">
-                                <Button className="primaryBtn">
-                                    Save Changes
-                                </Button>
-                                <Button
-                                    onClick={deleteAccount}
-                                    className="deleteBtn"
-                                >
-                                    Delete Account
-                                </Button>
-                            </div>
-                        </div>
-
-                        <FormGroup check className="checkGroup">
-                            <Label for="emailNotifications" check>
-                                Email Notifications
-                            </Label>
-                            <div className="checkBoxContainer">
-                                <ToggleSwitch
-                                    enabledDefault={
-                                        currentUser?.emailNotifications ?? true
-                                    } // this field is ignored by the toggle switch component because we are passing in the enabled state
-                                    enabled={
-                                        currentUser?.emailNotifications ?? true
-                                    }
-                                    onEnable={() => {
-                                        toggleNotification(
-                                            'emailNotifications',
-                                            true
-                                        );
-                                    }}
-                                    onDisable={() => {
-                                        toggleNotification(
-                                            'emailNotifications',
-                                            false
-                                        );
-                                    }}
-                                />
-                            </div>
-                        </FormGroup>
-                        <FormGroup check className="checkGroup">
-                            <Label for="smsNotifications" check>
-                                SMS Notifications
-                            </Label>
-
-                            <div className="checkBoxContainer">
-                                <ToggleSwitch
-                                    enabledDefault={
-                                        currentUser?.smsNotifications ?? true
-                                    } // this field is ignored since we are passing in the enabled state
-                                    enabled={
-                                        currentUser?.smsNotifications ?? true
-                                    }
-                                    onEnable={() => {
-                                        toggleNotification(
-                                            'smsNotifications',
-                                            true
-                                        );
-                                    }}
-                                    onDisable={() => {
-                                        toggleNotification(
-                                            'smsNotifications',
-                                            false
-                                        );
-                                    }}
-                                />
-                            </div>
-                        </FormGroup>
-                    </Form>
-                </div>
-                <div className="right">
-                    <PasswordReset />
-                </div>
+                    <div className="checkBoxContainer">
+                        <ToggleSwitch
+                            enabledDefault={
+                                currentUser?.smsNotifications ?? true
+                            } // this field is ignored since we are passing in the enabled state
+                            enabled={currentUser?.smsNotifications ?? true}
+                            onEnable={() => {
+                                toggleNotification('smsNotifications', true);
+                            }}
+                            onDisable={() => {
+                                toggleNotification('smsNotifications', false);
+                            }}
+                        />
+                    </div>
+                </FormGroup>
             </div>
+            <div className="floatingSection">
+                <h1>Contact settings</h1>
+                <Form onSubmit={submitChanges}>
+                    <div>
+                        <FormGroup className="inputGroup">
+                            <Label for="email">Email</Label>
+                            <Input
+                                required
+                                type="email"
+                                name="email"
+                                id="email"
+                                placeholder={currentUser?.email}
+                                value={newVals.email}
+                                onChange={updateField}
+                            />
+                        </FormGroup>
+                        <FormGroup className="inputGroup">
+                            <Label for="phoneNumber">Phone Number</Label>
+                            <Input
+                                required
+                                type="tel"
+                                name="phoneNumber"
+                                id="phoneNumber"
+                                placeholder={newVals.phoneNumber}
+                                value={newVals.phoneNumber}
+                                onChange={updateField}
+                            />
+                        </FormGroup>
+                    </div>
+
+                    <div className="buttonsContainer">
+                        <div className="pad"></div>
+                        <div className="buttons">
+                            <Button className="primaryBtn">Save Changes</Button>
+                            <Button
+                                onClick={deleteAccount}
+                                className="deleteBtn"
+                            >
+                                Delete Account
+                            </Button>
+                        </div>
+                    </div>
+                </Form>
+            </div>
+
+            <PasswordReset />
         </div>
     );
 }

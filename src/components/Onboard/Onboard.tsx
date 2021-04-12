@@ -18,9 +18,16 @@ import {
 import AnimatedLogo from './AnimatedLogo';
 
 import { RootState } from '../../store/rootReducer';
+import Modal from 'components/Control/Modal';
+import { ButtonType, default as CustomButton } from 'components/Control/Button';
 
+// renders sign in form
 function SignInForm() {
+    // text input in the email field
     const [email, updateEmail] = useState('');
+    // boolean that shows the information modal
+    const [showModal, setShowModal] = useState(false);
+
     const handleLogin = (event: any) => {
         event.preventDefault();
         const email = event.target[0].value;
@@ -29,13 +36,44 @@ function SignInForm() {
     };
 
     function passwordResetHandler() {
-        if (window.confirm(`send password reset email to ${email}`)) {
-            sendPasswordResetEmail(email);
-        }
+        // shows confirmation modal
+        setShowModal(true);
     }
 
     return (
         <div className="onboardForm">
+            {/* informational modal that confirms the password reset */}
+            <Modal show={showModal}>
+                <div className={`modalContent`}>
+                    <h1>Password Reset</h1>
+                    <p>
+                        {email === ''
+                            ? 'Please enter your email into the email field that you would like us to reset.'
+                            : `Send password reset email to "${email}"`}
+                    </p>
+                    <div className={'modalButtons'}>
+                        <CustomButton
+                            type={ButtonType.warningSecondary}
+                            text={'cancel'}
+                            onClick={() => {
+                                setShowModal(false);
+                            }}
+                        />
+                        {email !== '' ? (
+                            <CustomButton
+                                onClick={() => {
+                                    setShowModal(false);
+                                    sendPasswordResetEmail(email);
+                                }}
+                                type={ButtonType.save}
+                                text={'send'}
+                            />
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                </div>
+            </Modal>
             <h1>Sign In</h1>
             <p>
                 Sign in with your pre-assigned credentials. Request an account
@@ -108,33 +146,31 @@ function Onboard(props: RouteComponentProps) {
 
     return (
         <div className="onboard">
-            {!(currentUser === null || currentUser === undefined) ? (
-                <Redirect to={redirectDestination} />
-            ) : (
-                <div className="h-screen split md:grid md:grid-cols-2">
-                    <div className="leftSection  hidden md:block ">
-                        <div className="coloredBlock">
-                            <h1 className="w-full text-center">Company Name</h1>
-                            <AnimatedLogo />
+            <div className="floatingCard">
+                {!(currentUser === null || currentUser === undefined) ? (
+                    <Redirect to={redirectDestination} />
+                ) : (
+                    <>
+                        <div className="logoContainer"></div>
+                        <div className="mainContainer">
+                            <div className="navBar">
+                                <ul>
+                                    <AnimatedLogo />
+                                    <li>
+                                        <Link to="/contact-us">Contact Us</Link>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
+                                            Open Source Code
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <SignInForm />
                         </div>
-                    </div>
-                    <div className="rightSection onboard">
-                        <div className="">
-                            <ul>
-                                <li>
-                                    <Link to="/contact-us">Contact Us</Link>
-                                </li>
-                                <li>
-                                    <a href="https://github.com/Yet-Another-Data-Aggregator/yada-web">
-                                        Open Source Code
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <SignInForm />
-                    </div>
-                </div>
-            )}
+                    </>
+                )}
+            </div>
         </div>
     );
 }

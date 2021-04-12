@@ -20,6 +20,7 @@ const firebaseConfig = {
 var fireInstance = firebase.initializeApp(firebaseConfig);
 export var fireStore = fireInstance.firestore();
 export var fireAuth = firebase.auth();
+export var storage = firebase.storage();
 
 // useful firestore functions that will be used later in development
 export function fireIncrement(val: number) {

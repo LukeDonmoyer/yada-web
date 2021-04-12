@@ -6,23 +6,32 @@ This project is an HVAC system management, analysis, and fault detection applica
 
 ## Features
 
-{to be completed}
-
-## Table of Contents
-
-{to be completed}
+- Register pi units conencted to HVAC units to push data to our server
+- Configure Sites of HVAC units 
+- Configure loggers associated with each HVAC unit
+- Write custom python scripts to run on the hvac units that logs data. These python scripts can be edited and will update automatically on the pi.
+- View live and historical data from the hvac units 
+- Download data from any site, hvac unit, and equipment
+- Receive fault notifications
+- Manage users who have access to the webapp
 
 # Installation
 
-{to be completed with textual overview, accompanying video, and cross referencing wiki pages}
+- Clone the repo
+- Implement datastore queries
+- Implement email & sms handling
+- Deploy to a server
 
-# Usage
+In depth details on the installation procedure can be found in the wiki
 
-{to be completed with textual overview, accompanying video, and cross referencing wiki pages}
 
 ## Contributing
 
-{to be completed}
+This repository will not be maintained past April 2021. Any contributions are welcome. 
+
+### Recommended contributions
+
+- Change firestore datastore implementation to sync only portions of data from loggers/equipments to reduce memory footprint
 
 ## Credits
 
@@ -30,4 +39,4 @@ This project is an HVAC system management, analysis, and fault detection applica
 
 ## License
 
-{to be completed}
+unliscenced as of right now

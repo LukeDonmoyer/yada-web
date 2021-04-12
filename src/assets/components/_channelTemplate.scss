@@ -11,26 +11,67 @@
 }
 
 .modal {
-    h2 {
-        @include smallTitle;
+    .inputSection {
+        margin-bottom: 16px;
     }
 
-    .content {
-        justify-content: flex-start;
-        margin: 32px 32px 16px 32px;
+    label {
+        margin: auto 0;
     }
 
-    .horizontal {
-        @include horizontalLayout;
+    input[type='radio'] {
+        appearance: none;
+
+        margin: auto 4px;
+
+        width: 20px;
+        height: 20px;
+
+        border-radius: 50%;
+        border: 2px solid $turqois;
+
+        background: $offWhite;
+
+        transition: 0.2s all linear;
+
+        cursor: pointer;
+
+        &:checked {
+            border: 10px solid $turqois;
+
+            cursor: pointer;
+        }
+
+        &:focus {
+            outline: none;
+        }
     }
 
-    .modalButtons {
-        justify-content: flex-end;
-        margin: 16px 32px 32px 32px;
+    .marginAfter {
+        margin-right: 16px;
     }
 
-    svg {
-        @include svgButton;
+    .uploadButton {
+        display: inline;
+        cursor: pointer;
+
+        margin: 4px 0 0 8px;
+
+        svg {
+            fill: $darkGray;
+        }
+
+        &:hover {
+            color: $buttonDarkOrange;
+
+            svg {
+                fill: $buttonDarkOrange;
+            }
+        }
+    }
+
+    .scriptName {
+        margin: 4px 0 0 8px;
     }
 }
 
@@ -41,6 +82,14 @@
     margin: 0 16px;
 
     height: 100%;
+
+    .deleteButton > .button {
+        float: right;
+    }
+
+    .fixedWidth > button {
+        min-width: 132px;
+    }
 
     h1 {
         @include mediumTitle;
@@ -53,8 +102,6 @@
 
         border-radius: 8px;
         border: solid 1px $shadow;
-
-        margin-top: 32px;
         height: 100%;
 
         overflow: hidden;
@@ -126,10 +173,6 @@
             padding-bottom: 16px;
             max-width: fit-content;
             min-width: 700px;
-
-            .fixedWidth > button {
-                width: 132px;
-            }
 
             .plusButton {
                 @include svgButton;

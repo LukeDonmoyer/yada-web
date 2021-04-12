@@ -41,6 +41,7 @@ interface StaticNavItemProp {
  * @param props
  */
 export function StaticNavItem(props: StaticNavItemProp) {
+    // used to match the route
     let currentRoute = useLocation();
     const { url } = useRouteMatch();
 
@@ -51,6 +52,7 @@ export function StaticNavItem(props: StaticNavItemProp) {
         <Link to={`${url}/${props.route}`}>
             <div
                 className={`navItem ${
+                    // renders active highlight
                     currentRoute.pathname.startsWith(`${url}/${props.route}`)
                         ? 'active'
                         : 'inactive'
@@ -70,9 +72,9 @@ export function StaticNavItem(props: StaticNavItemProp) {
  * @param props
  */
 export default function StaticNavbar(props: navbarProps) {
+    // matches location
     let location = useLocation();
     const { path } = useRouteMatch();
-
     let hasDynamicNavbar = new Map<string, boolean>();
 
     React.Children.map(props.children, (child) => {
@@ -85,6 +87,7 @@ export default function StaticNavbar(props: navbarProps) {
             );
     });
 
+    // generates routes for a child
     function createRoute(child: ReactElement) {
         return (
             <Route path={`${path}/${child.props.route}`}>
@@ -97,6 +100,7 @@ export default function StaticNavbar(props: navbarProps) {
         <>
             <div className="staticNavbar">
                 <div
+                    // styles navbar dynamically based on route and props
                     className={`navPadding ${
                         !props.autoCollapse ? 'noCollapse' : ''
                     } ${
@@ -104,6 +108,11 @@ export default function StaticNavbar(props: navbarProps) {
                         !hasDynamicNavbar.get(location.pathname)
                             ? 'roundAllCorners'
                             : 'roundLeftCorners'
+                    }
+                    ${
+                        location.pathname.startsWith('/app/dashboard')
+                            ? 'noCollapse'
+                            : ''
                     }`}
                 >
                     <div className={`navLinks`}>{props.children}</div>
@@ -118,6 +127,7 @@ export default function StaticNavbar(props: navbarProps) {
                     </div>
                 </div>
             </div>
+            {/* renders children routes */}
             <div className="staticRoutes">
                 {React.Children.map(props.children, createRoute)}
             </div>
