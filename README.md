@@ -15,9 +15,17 @@ This project is an HVAC system management, analysis, and fault detection applica
 - Receive fault notifications
 - Manage users who have access to the webapp
 
+## File structure breakdown
+- src/assets/components: css styles for every component. Future refactoring to use scoped css inside the component files would be more ideal
+- src/assets/designLangauge: css styles commonly re-used by components
+- src/components: stores all the tyepscript components for the webapp. Files in this directory are further broken down into directories of similar components.
+- src/scripts: contains datastore scripts.
+- src/store: contains redux scripts.
+
 # Installation
 
 - Clone the repo
+- install dependencies with yarn or npm
 - Implement datastore queries
 - Implement email & sms handling
 - Deploy to a server
@@ -32,11 +40,3 @@ This repository will not be maintained past April 2021. Any contributions are we
 ### Recommended contributions
 
 - Change firestore datastore implementation to sync only portions of data from loggers/equipments to reduce memory footprint
-
-## Credits
-
-{to be completed}
-
-## License
-
-unliscenced as of right now
