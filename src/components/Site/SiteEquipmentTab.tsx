@@ -43,10 +43,12 @@ export default function SiteEquipmentTab(): ReactElement {
 
     // Computes the status type for the given logger
     const computeStatus = (logger: LoggerObject) => {
-        const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1]["timestamp"]);
-        const difference: number = new Date().getDay() - loggerTime.getDay();
 
         if (!logger.status) return statuses[0].label;
+        if (logger.data.length === 0) return statuses[2].label;
+
+        const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1].timestamp);
+        const difference: number = new Date().getDay() - loggerTime.getDay();
 
         return difference > 1 ? statuses[1].label : statuses[2].label;
     }
@@ -293,6 +295,7 @@ export default function SiteEquipmentTab(): ReactElement {
                 />
             </div>
             <ReactDataGrid
+                rowHeight={null}
                 className={'dataGrid'}
                 columns={columns}
                 dataSource={rows}
