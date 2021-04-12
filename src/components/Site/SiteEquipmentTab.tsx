@@ -62,7 +62,7 @@ export default function SiteEquipmentTab(): ReactElement {
 
             if (logger)
                 loggerStatuses.push(
-                    <li>{logger.name}: {computeStatus(logger)}</li>
+                    <li>{logger.name !== "" ? logger.name : "<logger.name>"}: <b>{computeStatus(logger)}</b></li>
                 );     
         });
 
