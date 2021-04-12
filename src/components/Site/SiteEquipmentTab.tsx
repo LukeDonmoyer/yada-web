@@ -295,6 +295,7 @@ export default function SiteEquipmentTab(): ReactElement {
                 />
             </div>
             <ReactDataGrid
+                rowHeight={null}
                 className={'dataGrid'}
                 columns={columns}
                 dataSource={rows}
