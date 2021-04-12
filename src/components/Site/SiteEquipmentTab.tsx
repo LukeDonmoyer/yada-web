@@ -81,12 +81,17 @@ export default function SiteEquipmentTab(): ReactElement {
         sites[siteID].equipmentUnits.forEach((unit) => {
             //for each logger uid on the equipment
             unit.loggers.forEach((logger_uid) => {
-                //add headers for csv
-                for (const [key] of Object.entries(
-                    channelTemplates[loggers[logger_uid].channelTemplate].keys
+                //for each channel on the template
+                for (const [channelName, channelData] of Object.entries(
+                    channelTemplates[loggers[logger_uid].channelTemplate]
+                        .channels
                 )) {
-                    if (!csvHeaders.includes(key)) {
-                        csvHeaders.push(key);
+                    //for each value key in the channel
+                    for (const [key] of Object.entries(channelData.keys)) {
+                        //add headers for csv
+                        if (!csvHeaders.includes(key)) {
+                            csvHeaders.push(key);
+                        }
                     }
                 }
 
