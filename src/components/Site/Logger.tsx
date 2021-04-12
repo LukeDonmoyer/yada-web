@@ -73,27 +73,32 @@ export function LoggerTab({
     var csvHeaders: string[] = [];
 
     csvHeaders.push('timestamp');
-if(logger.channelTemplate && typeof logger.channelTemplate != 'undefined'){
-    for (const [_, channelValue] of Object.entries(
-        channelTemplates[logger.channelTemplate].channels
-    )) {
-        for (const [typeKey, typeValue] of Object.entries(channelValue.keys)) {
-            columns.push({
-                name: typeKey,
-                header: typeKey,
-                defaultFlex: 1,
-            });
-            filters.push({
-                name: typeKey,
-                operator: 'neq',
-                type: typeValue,
-                value: '',
-            });
+    if (
+        logger.channelTemplate &&
+        typeof logger.channelTemplate != 'undefined'
+    ) {
+        for (const [_, channelValue] of Object.entries(
+            channelTemplates[logger.channelTemplate].channels
+        )) {
+            for (const [typeKey, typeValue] of Object.entries(
+                channelValue.keys
+            )) {
+                columns.push({
+                    name: typeKey,
+                    header: typeKey,
+                    defaultFlex: 1,
+                });
+                filters.push({
+                    name: typeKey,
+                    operator: 'neq',
+                    type: typeValue,
+                    value: '',
+                });
 
-            csvHeaders.push(typeKey);
+                csvHeaders.push(typeKey);
+            }
         }
     }
-}
 
     let rows: any[] = [];
 
@@ -187,7 +192,11 @@ export function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
 
     return (
         <div className="loggerSelector">
-            <h1>Select Logger</h1>
+            {loggerCard.length > 0 ? (
+                <h1>Select Logger</h1>
+            ) : (
+                <h1>No unassigned loggers</h1>
+            )}
 
             {loggerCard}
         </div>
