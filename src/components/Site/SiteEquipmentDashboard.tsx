@@ -213,11 +213,13 @@ export default function EquipmentDashboard({
                 </Dropdown>
                 <CsvDownloadButton
                     headers={csvHeaders}
-                    filename={`${
-                        unit?.name ?? ''
-                    }_${new Date()
-                        .toLocaleDateString()
-                        .replace(/\//g, '-')}.csv`}
+                    filename={
+                        `${
+                            unit?.name ?? ''
+                        }_${new Date()
+                            .toLocaleDateString()
+                            .replace(/\//g, '-')}.csv`
+                    }
                     createData={() =>
                         aggregateDataFromLoggers(
                             loggersOnUnit,

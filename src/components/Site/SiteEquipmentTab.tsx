@@ -1,5 +1,4 @@
 // @ts-nocheck
-import SelectFilter from '@inovua/reactdatagrid-community/SelectFilter';
 import { TypeColumn } from '@inovua/reactdatagrid-community/types';
 import Button, { ButtonType } from 'components/Control/Button';
 import React, { ReactElement, useState } from 'react';
@@ -13,14 +12,15 @@ import {
 import { RootState } from 'store/rootReducer';
 import '@inovua/reactdatagrid-community/index.css';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
-import chevron_right from '../../assets/icons/chevron_right.svg';
+import chevron_right from 'assets/icons/chevron_right.svg';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { Data } from 'react-csv/components/CommonPropTypes';
-import pencilIcon from '../../assets/icons/pencil.svg';
-import deleteIcon from '../../assets/icons/delete.svg';
-import addIcon from '../../assets/icons/plus.svg';
+import pencilIcon from 'assets/icons/pencil.svg';
+import deleteIcon from 'assets/icons/delete.svg';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
-import { isValidName } from '../../scripts/DataValidation';
+import { isValidName } from 'scripts/DataValidation';
+import { EquipmentUnit, LoggerObject } from 'store/FirestoreInterfaces';
+import { timestampToDate } from 'scripts/DataTransformer';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
@@ -36,11 +36,42 @@ export default function SiteEquipmentTab(): ReactElement {
     const [redirect, changeRedirect] = useState('');
 
     const statuses = [
-        { id: 'good', label: 'good' },
-        { id: 'bad', label: 'bad' },
+        { id: 'disabled', label: 'DISABLED'},
+        { id: 'active', label: 'ACTIVE'},
+        { id: 'inactive', label: 'INACTIVE'},
     ];
 
-    function getAllLoggerData() {
+    // Computes the status type for the given logger
+    const computeStatus = (logger: LoggerObject) => {
+        const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1]["timestamp"]);
+        const difference: number = new Date().getDay() - loggerTime.getDay();
+
+        if (!logger.status) return statuses[0].label;
+
+        return difference > 1 ? statuses[1].label : statuses[2].label;
+    }
+
+    // Creates list of logger statuses for given equipment unit
+    const loggerStatus = (unit: EquipmentUnit) => {
+        let loggerStatuses: ReactElement[] = [];
+            
+        unit.loggers.forEach((loggerId: string) => {
+            let logger: LoggerObject = loggers[loggerId];
+
+            if (logger)
+                loggerStatuses.push(
+                    <li> • {logger.name}: {computeStatus(logger)}</li>
+                );     
+        });
+
+        return loggerStatuses;
+    }
+
+    /**
+     * Aggregates data from all loggers into a single object.
+     * @returns {any[]} all the data in an array
+     */
+    function getAllLoggerData(): any[] {
         var allData: any[] = [];
 
         //add the header for logger id
@@ -77,7 +108,7 @@ export default function SiteEquipmentTab(): ReactElement {
         // pushes row for table
         return {
             name: unit.name,
-            health: unit.health,
+            status: loggerStatus(unit),
             key: unit.name,
             actions: (
                 <div className="actions">
@@ -115,6 +146,7 @@ export default function SiteEquipmentTab(): ReactElement {
         };
     });
 
+    // Defines name editing column, used if user has Power/Admin/Owner privileges
     const nameEditColumn = {
         name: 'name',
         header: 'Name',
@@ -132,23 +164,23 @@ export default function SiteEquipmentTab(): ReactElement {
                         type="text"
                         autoFocus={cellProps.inEdit}
                         value={v}
-                        onBlur={(e) => {
+                        onBlur={() => {
                             cellProps.editProps.onComplete();
                         }}
                         onChange={cellProps.editProps.onChange}
                         onFocus={() => cellProps.editProps.startEdit()}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Escape') {
-                                cellProps.editProps.onCancel(e);
+                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                            if (event.key === 'Escape') {
+                                cellProps.editProps.onCancel(event);
                             }
-                            if (e.key === 'Enter') {
-                                cellProps.editProps.onComplete(e);
+                            if (event.key === 'Enter') {
+                                cellProps.editProps.onComplete(event);
                             }
-                            if (e.key == 'Tab') {
-                                e.preventDefault();
+                            if (event.key == 'Tab') {
+                                event.preventDefault();
                                 cellProps.editProps.onTabNavigation(
                                     true,
-                                    e.shiftKey ? -1 : 1
+                                    event.shiftKey ? -1 : 1
                                 );
                             }
                         }}
@@ -158,6 +190,7 @@ export default function SiteEquipmentTab(): ReactElement {
         },
     };
 
+    // If user has normal positions, simply display the name
     const nameStaticColumn = {
         name: 'name',
         header: 'Name',
@@ -165,16 +198,12 @@ export default function SiteEquipmentTab(): ReactElement {
         editable: false,
     };
 
+    // Other column definitions
     let columns: TypeColumn[] = [
         {
-            name: 'health',
-            header: 'Health',
+            name: 'status',
+            header: 'Status',
             defaultFlex: 3,
-            filterEditor: SelectFilter,
-            filterEditorProps: {
-                placeholder: 'All',
-                dataSource: statuses,
-            },
             editable: false,
         },
         {
@@ -185,12 +214,14 @@ export default function SiteEquipmentTab(): ReactElement {
         },
     ];
 
+    // Determines if user sees editable name column or static name column
     if (privilege === 'User') {
         columns.unshift(nameStaticColumn);
     } else {
         columns.unshift(nameEditColumn);
     }
 
+    // Default filter values
     const filters = [
         {
             name: 'name',
@@ -198,15 +229,12 @@ export default function SiteEquipmentTab(): ReactElement {
             type: 'string',
             value: '',
         },
-        {
-            name: 'health',
-            operator: 'eq',
-            type: 'select',
-            value: null,
-        },
     ];
 
-    function handleNewEquipmentClick() {
+    /**
+     * Creates a new equipment row in the data grid with default values.
+     */
+    function handleNewEquipmentClick(): void {
         let baseName = 'New Equipment ';
         let nameNum = 0;
 
@@ -221,20 +249,18 @@ export default function SiteEquipmentTab(): ReactElement {
         createNewEquipment(siteID, baseName + String(nameNum));
     }
 
+    // Handles name edit completion
     const onEditComplete = (info: TypeEditInfo) => {
-        switch (info.columnId) {
-            case 'name': {
-                if (!isValidName(info.value)) {
-                    alert(
-                        `Invalid equipment name: only alphabeitcal characters are allowed, reverting to old name`
-                    );
-                    return;
-                }
-                let oldName = rows[info.rowIndex].name;
-                let newName = info.value;
-                if (privilege !== 'User') {
-                    changeEquipmentName(siteID, oldName, newName);
-                }
+        if (info.columnId === 'name'){
+            if (!isValidName(info.value)) {
+                alert(
+                    `Invalid equipment name: only alphabetical characters are allowed, reverting to old name`
+                );
+                return;
+            }
+            
+            if (privilege !== 'User') {
+                changeEquipmentName(siteID, rows[info.rowIndex].name, info.value);
             }
         }
     };
