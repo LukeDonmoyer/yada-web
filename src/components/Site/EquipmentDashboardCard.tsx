@@ -97,7 +97,7 @@ export default function DashboardCard({
           }}
           axisBottom={{
               format: '%H:%M',
-              tickValues: 'every 1 minute',
+              tickValues: 'every 30 minutes',
               orient: 'bottom',
               tickSize: 10,
               tickPadding: 5,
