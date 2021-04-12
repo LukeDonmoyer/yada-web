@@ -73,6 +73,7 @@ export function LoggerTab({
     var csvHeaders: string[] = [];
 
     csvHeaders.push('timestamp');
+if(logger.channelTemplate && typeof logger.channelTemplate != 'undefined'){
     for (const [_, channelValue] of Object.entries(
         channelTemplates[logger.channelTemplate].channels
     )) {
@@ -92,6 +93,7 @@ export function LoggerTab({
             csvHeaders.push(typeKey);
         }
     }
+}
 
     let rows: any[] = [];
 
