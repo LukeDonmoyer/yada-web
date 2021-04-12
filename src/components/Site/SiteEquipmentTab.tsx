@@ -44,7 +44,7 @@ export default function SiteEquipmentTab(): ReactElement {
     // Computes the status type for the given logger
     const computeStatus = (logger: LoggerObject) => {
 
-        if (!logger.status) return statuses[0].label;
+        if (!logger.collectingData) return statuses[0].label;
         if (logger.data.length === 0) return statuses[2].label;
 
         const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1].timestamp);
