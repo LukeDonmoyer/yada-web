@@ -16,13 +16,20 @@ interface dynamicNavLink {
     blockLinkRender?: boolean;
 }
 
+/**
+ * Renders navigation link
+ * @param props
+ * @returns
+ */
 export function DynamicNavLink(props: dynamicNavLink) {
     let currentRoute = useLocation();
     const { url } = useRouteMatch();
 
+    // Determines if this link is active
     let match =
         currentRoute.pathname.split(url)[1].split('/')[1] === props.route;
 
+    // used for default routes that shouldn't be rendered
     if (props.blockLinkRender) {
         return <></>;
     }
@@ -52,6 +59,11 @@ interface DynamicNavBarProps {
     children: ReactElement | ReactElement[];
 }
 
+/**
+ * Renders dynamic navbar. This navbar contains a title, an action button, and a list of children links which direct to nested routes
+ * @param props
+ * @returns
+ */
 export default function DynamicNavbar(props: DynamicNavBarProps) {
     const { path } = useRouteMatch();
     const privilege = useSelector((state: RootState) => state.auth.privilege);
