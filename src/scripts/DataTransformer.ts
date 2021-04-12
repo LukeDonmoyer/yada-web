@@ -50,24 +50,34 @@ export function parseFilterString(filter: string): Date {
 
 /**
  * Checks if @param timestamp is greater than time given by @param filter.
- * @param timestamp string containing date and time in format specified 
- *        by @var timeParser
- * @param filter Date object specifying the time we're checking against
- * @returns boolean result of comparison
+ * @param {string} timestamp string containing date and time in format specified 
+ *        by DB
+ * @param {Date} filter Date object specifying the time we're checking against
+ * @returns {boolean} result of comparison
  */
 export function filterByDate(timestamp: string, filter: Date): boolean {
-    let timeParser = timeParse('%m-%d-%Y-%H:%M:%S'); // Should probably make this string a global constant somewhere
-    let parsedTime = timeParser(timestamp)?.getTime() ?? new Date().getTime();
+    return timestampToDate(timestamp).getTime() > filter.getTime();
+}
 
-    return parsedTime > filter.getTime();
+/**
+ * Converts @param timestamp (in format specified by logger data as in DB) to
+ * a @type {Date} object.
+ * @param {string} timestamp string containing date and time in format specified
+ *        by DB
+ * @returns {Date} Date object from parsed timestamp or a new Date object if the
+ *          parsed result is null
+ */
+export function timestampToDate(timestamp: string): Date {
+    let timeParser = timeParse('%m-%d-%Y-%H:%M:%S'); // Should probably make this string a global constant somewhere
+    return timeParser(timestamp) ?? new Date();
 }
 
 /**
  * Transforms a single data point into the format required by Nivo
- * @param data object containing channel names mapped to values
- * @param channelName the channel we're filtering by
- * @param filter the date we're filtering by
- * @returns object containing the filtered data in the format expected by Nivo
+ * @param {object} data object containing channel names mapped to values
+ * @param {string} channelName the channel we're filtering by
+ * @param {Date} filter the date we're filtering by
+ * @returns {object} object containing the filtered data in the format expected by Nivo
  */
 function transformDataPoint(
     data: {
@@ -91,9 +101,9 @@ function transformDataPoint(
 
 /**
  * Transforms an array of data objects into the format required by Nivo, filtered by a particular channel
- * @param data array of data objects
- * @param channelName the channel we're filtering by
- * @returns array of data objects in the format required by Nivo filtered by @param channelName
+ * @param {any[]} data array of data objects
+ * @param {string} channelName the channel we're filtering by
+ * @returns {any[]} array of data objects in the format required by Nivo filtered by channelName
  */
 export default function dataToNivoFormat(
     data: any[],
@@ -119,10 +129,10 @@ export default function dataToNivoFormat(
  * Gets all data associated with loggers in @param loggers, applies the
  * filter specified by @param filter, and returns an array containing
  * the data.
- * @param loggers array of Logger objects from which to pull data
- * @param filter (optional) Date object specifying the time period of data to
+ * @param {LoggerObject[]} loggers array of Logger objects from which to pull data
+ * @param {Date} filter (optional) Date object specifying the time period of data to
  *        pull from
- * @returns array of objects containing the data and the logger each piece
+ * @returns {any[]} array of objects containing the data and the logger each piece
  *          of data was pulled from
  */
 export function aggregateDataFromLoggers(
