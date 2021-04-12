@@ -259,7 +259,6 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
                             onDisable={disableDataCollection}
                         />
                     </div>
-                    <h3>Logger uptime: {logger.uptime}</h3>
                     <div className="control">
                         <h2>Template:</h2>
                         <div className="bootStrapStyles dropdown">
