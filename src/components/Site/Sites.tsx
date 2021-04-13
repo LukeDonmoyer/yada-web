@@ -28,12 +28,12 @@ export default function Sites() {
     const [newSiteName, setNewSiteName] = useState<string>('');
     const [showSiteModal, setShowSiteModal] = useState(false);
 
-    // Shows the modal for creating new template
+    // Shows the modal for creating new site
     function showModal(): void {
         setShowSiteModal(true);
     }
 
-    // Hides the modal fro creating new template.
+    // Hides the modal fro creating new site
     function hideModal(): void {
         setNewSiteName('');
         setShowSiteModal(false);
@@ -47,7 +47,7 @@ export default function Sites() {
         hideModal();
     }
 
-    // This function creates a new template
+    // This function creates a new site
     function newSite() {
         createNewSite(newSiteName);
     }
