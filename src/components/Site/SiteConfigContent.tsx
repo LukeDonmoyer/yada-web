@@ -108,9 +108,9 @@ export default function ConfigTab({
         address: site.address,
     });
 
-    const updateField = (e: any) => {
-        if (e.target.id === 'name' && !isValidName(e.currentTarget.value)) {
-            if (e.currentTarget.value === '') {
+    const updateField = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.id === 'name' && !isValidName(event.currentTarget.value)) {
+            if (event.currentTarget.value === '') {
                 alert('A blank name will not be accepted');
             } else {
                 alert(
@@ -121,12 +121,12 @@ export default function ConfigTab({
         }
         setConfigState({
             ...configState,
-            [e.currentTarget.name]: e.currentTarget.value,
+            [event.currentTarget.name]: event.currentTarget.value,
         });
     };
 
-    const submitChanges = (e: any) => {
-        e.preventDefault();
+    const submitChanges = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (!isValidName(configState.name)) {
             alert(
                 'Invalid input: the name of a site must only contain alphabetical characters, numbers, spaces, and dashes'

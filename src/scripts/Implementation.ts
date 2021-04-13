@@ -636,7 +636,7 @@ export function removeLoggerFromEquipment(
  * @param siteId
  * @param siteConfig
  */
-export function updateSiteConfig(siteId: string, siteConfig: any) {
+export function updateSiteConfig(siteId: string, siteConfig: object) {
     fire.fireStore
         .collection('Sites')
         .doc(siteId)
@@ -728,7 +728,7 @@ export function changeEquipmentName(
 export function updateEquipmentNotifications(
     uid: string,
     siteId: string,
-    notificationMap: any
+    notificationMap: object
 ) {
     fire.fireStore
         .collection('Users')

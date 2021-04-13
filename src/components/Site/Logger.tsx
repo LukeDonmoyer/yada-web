@@ -52,7 +52,7 @@ export function LoggerTab({
         setGridRef,
     ] = useState<MutableRefObject<TypeComputedProps | null> | null>(null);
 
-    const columns: any[] = [
+    const columns: object[] = [
         {
             name: 'timestamp',
             header: 'Timestamp',
@@ -102,7 +102,7 @@ export function LoggerTab({
 
     let rows: any[] = [];
 
-    logger.data.forEach((dataPoint, index) => {
+    logger.data.forEach((dataPoint: any, index: number) => {
         var row = Object.assign({}, dataPoint);
         row['id'] = index;
 
@@ -167,7 +167,7 @@ export function LoggerSelector({ siteId, unitName }: LoggerSelectorProps) {
         (state: RootState) => state.loggers
     );
 
-    var loggerCard: any = [];
+    var loggerCard: ReactElement[] = [];
 
     for (const [id, loggerData] of Object.entries(loggers)) {
         const data = loggerData as LoggerObject;
@@ -219,7 +219,7 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
 
     const channelTemplates = useSelector((state: RootState) => state.templates);
 
-    var templateDropdownItems: any = [];
+    var templateDropdownItems: ReactElement[] = [];
 
     for (const [id, data] of Object.entries(channelTemplates)) {
         const template = data as ChannelTemplate;
