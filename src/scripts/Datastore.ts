@@ -100,8 +100,8 @@ export function resetRedux() {
 /**
  * creates a new site in the datastore
  */
-export function createNewSite() {
-    requirePrivilegeLevel('Power').then(implementation.createNewSite, () => {
+export function createNewSite(name: string) {
+    requirePrivilegeLevel('Power').then(implementation.createNewSite(name), () => {
         console.error('Innapropriate permissions to create a site');
     });
 }
