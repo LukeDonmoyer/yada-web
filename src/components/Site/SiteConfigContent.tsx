@@ -109,7 +109,7 @@ export default function ConfigTab({
     });
 
     const updateField = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.id === 'name' && !isValidName(event.currentTarget.value)) {
+        if (event.currentTarget.id === 'name' && !isValidName(event.currentTarget.value)) {
             if (event.currentTarget.value === '') {
                 alert('A blank name will not be accepted');
             } else {
