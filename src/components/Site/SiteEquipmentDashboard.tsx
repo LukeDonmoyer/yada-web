@@ -72,6 +72,11 @@ function getChannelsFromLoggers(
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
+
+        if (logger.channelTemplate === ""){
+            continue;
+        }
+
         let template = channelTemplates[logger.channelTemplate];
         Object.entries(template.channels).forEach((channel) => {
             const [_, channelValue] = channel;
