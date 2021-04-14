@@ -186,22 +186,22 @@ export function initializeLoggersListener() {
  * -- Required --
  * creates a new site document in the datastore
  */
-export function createNewSite() {
-    fire.fireStore
-        .collection('Sites')
-        .add({
-            name: 'new site',
-            notes: '',
-            address: '',
-            userNotifications: {},
-            equipmentUnits: [],
-        })
-        .then(() => {
-            console.log('Document successfully written!');
-        })
-        .catch((error) => {
-            console.error('Error writing document: ', error);
-        });
+export function createNewSite(name: string) {
+    return () => fire.fireStore
+                    .collection('Sites')
+                    .add({
+                        name: name,
+                        notes: '',
+                        address: '',
+                        userNotifications: {},
+                        equipmentUnits: [],
+                    })
+                    .then(() => {
+                        console.log('Document successfully written!');
+                    })
+                    .catch((error) => {
+                        console.error('Error writing document: ', error);
+                    });
 }
 
 /**
