@@ -17,7 +17,7 @@ import {
     ChannelKeys,
     ChannelTemplate,
     Script,
-} from '../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import moment from 'moment';
 import { MODIFIED_DATE_FORMAT } from '../components/ChannelTemplate/ChannelTemplates';
 

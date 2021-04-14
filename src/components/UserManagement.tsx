@@ -13,8 +13,8 @@ import {
     editPrivilege,
     getUserPrivilege,
     registerUser,
-} from '../scripts/Datastore';
-import AuthCheck from './Control/AuthCheck';
+} from 'scripts/Datastore';
+import AuthCheck from 'components/Control/AuthCheck';
 import { ReactElement, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
@@ -22,9 +22,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { User } from 'store/FirestoreInterfaces';
 import { TypeEditInfo } from '@inovua/reactdatagrid-community/types';
-import Button, { ButtonType } from './Control/Button';
-import pencilIcon from './../assets/icons/pencil.svg';
-import { isPhoneNumber } from '../scripts/DataValidation';
+import Button, { ButtonType } from 'components/Control/Button';
+import pencilIcon from 'assets/icons/pencil.svg';
+import { isPhoneNumber } from 'scripts/DataValidation';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 12;

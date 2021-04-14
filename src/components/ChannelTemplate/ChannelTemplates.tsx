@@ -8,14 +8,14 @@
 
 import React, { ReactElement, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import DynamicNavbar, { DynamicNavLink } from '../Control/DynamicNavbar';
+import DynamicNavbar, { DynamicNavLink } from 'components/Control/DynamicNavbar';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
-import { ChannelTemplate } from '../../store/FirestoreInterfaces';
-import ChannelTemplateContent from './ChannelTemplateContent';
-import { createNewTemplate } from '../../scripts/Datastore';
-import Modal from '../Control/Modal';
-import Button, { ButtonType } from '../Control/Button';
+import { RootState } from 'store/rootReducer';
+import { ChannelTemplate } from 'store/FirestoreInterfaces';
+import ChannelTemplateContent from 'components/ChannelTemplate/ChannelTemplateContent';
+import { createNewTemplate } from 'scripts/Datastore';
+import Modal from 'components/Control/Modal';
+import Button, { ButtonType } from 'components/Control/Button';
 import moment from 'moment';
 
 export const MODIFIED_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss.SSSSSS';

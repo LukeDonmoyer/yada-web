@@ -5,15 +5,15 @@ import {
     EquipmentUnit,
     Fault,
     SiteObject,
-} from '../../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 
 import moment from 'moment';
 import { TypeComputedProps } from '@inovua/reactdatagrid-community/types';
 import { Data } from 'react-csv/components/CommonPropTypes';
-import CsvDownloadButton from '../Control/CsvDownloadButton';
+import CsvDownloadButton from 'components/Control/CsvDownloadButton';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import { RootState } from 'store/rootReducer';
 import { updateSiteFaultsViewDate } from 'scripts/Datastore';
 
 //Default number of items to display per datagrid page.

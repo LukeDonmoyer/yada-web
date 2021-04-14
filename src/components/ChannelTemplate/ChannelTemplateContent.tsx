@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
-import { ChannelTemplate } from '../../store/FirestoreInterfaces';
+import { ChannelTemplate } from 'store/FirestoreInterfaces';
 import ChannelList from './ChannelList';
-import Button, { ButtonType } from '../Control/Button';
-import { deleteTemplate } from '../../scripts/Datastore';
+import Button, { ButtonType } from 'components/Control/Button';
+import { deleteTemplate } from 'scripts/Datastore';
 
 interface ChannelTemplateContentProps {
     // The template object to get data from.

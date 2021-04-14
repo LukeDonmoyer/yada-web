@@ -6,13 +6,13 @@
  * purpose: page that will provide access to manage sites
  */
 
-import { createNewSite } from '../../scripts/Datastore';
+import { createNewSite } from 'scripts/Datastore';
 import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { SiteObject } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
-import DynamicNavbar, { DynamicNavLink } from '../Control/DynamicNavbar';
+import DynamicNavbar, { DynamicNavLink } from 'components/Control/DynamicNavbar';
 import SiteEquipment from './SiteEquipment';
 import { SiteContent } from './SiteContent';
 

@@ -1,13 +1,13 @@
-import { Channel } from '../../store/FirestoreInterfaces';
+import { Channel } from 'store/FirestoreInterfaces';
 import React, { ReactElement, useState } from 'react';
 import {
     removeScriptFromTemplate,
     updateKeyInChannel,
-} from '../../scripts/Datastore';
-import Modal from '../Control/Modal';
-import Button, { ButtonType } from '../Control/Button';
-import TypeDropdown from './TypeDropdown';
-import KeyType from './KeyType';
+} from 'scripts/Datastore';
+import Modal from 'components/Control/Modal';
+import Button, { ButtonType } from 'components/Control/Button';
+import TypeDropdown from 'components/ChannelTemplate/TypeDropdown';
+import KeyType from 'components/ChannelTemplate/KeyType';
 
 interface ChannelRowProps {
     // The channel to display.

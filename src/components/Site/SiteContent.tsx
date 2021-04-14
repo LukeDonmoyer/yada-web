@@ -1,6 +1,6 @@
-import { SiteObject } from '../../store/FirestoreInterfaces';
+import { SiteObject } from 'store/FirestoreInterfaces';
 import React, { ReactElement } from 'react';
-import TabView, { TabViewItem } from '../Control/TabView';
+import TabView, { TabViewItem } from 'components/Control/TabView';
 import SiteEquipmentTab from './SiteEquipmentTab';
 import SiteFaultsTab from './SiteFaultsTab';
 import ConfigTab from './SiteConfigContent';

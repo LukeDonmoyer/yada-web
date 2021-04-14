@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
-import DynamicNavbar, { DynamicNavLink } from '../Control/DynamicNavbar';
+import { RootState } from 'store/rootReducer';
+import DynamicNavbar, { DynamicNavLink } from 'components/Control/DynamicNavbar';
 import { useParams } from 'react-router-dom';
-import { EquipmentUnit, SiteObject } from '../../store/FirestoreInterfaces';
+import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import { SiteEquipmentContent } from './SiteEquipmentContent';
 import { createNewEquipment } from 'scripts/Datastore';
 

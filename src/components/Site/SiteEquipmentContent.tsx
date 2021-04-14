@@ -2,16 +2,16 @@ import {
     EquipmentUnit,
     LoggerCollection,
     LoggerObject,
-} from '../../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import React, { ReactElement, SyntheticEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { SiteEquipmentBackButton } from './SiteEquipmentBackButton';
-import TabView, { TabViewItem } from '../Control/TabView';
+import TabView, { TabViewItem } from 'components/Control/TabView';
 import { LoggerSelector, LoggerTab } from './Logger';
 import EquipmentDashboard from './SiteEquipmentDashboard';
-import Button, { ButtonType } from '../Control/Button';
-import bellIcon from '../../assets/icons/Bell.png';
+import Button, { ButtonType } from 'components/Control/Button';
+import bellIcon from 'assets/icons/Bell.png';
 import { Link } from 'react-router-dom';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 
