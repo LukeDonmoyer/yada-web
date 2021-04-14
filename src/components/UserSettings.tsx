@@ -27,9 +27,9 @@ import { isPhoneNumber } from 'scripts/DataValidation';
 function PasswordReset(): ReactElement {
     const handleResetPassword = (event: any) => {
         event.preventDefault(); // prevents default form submission
-        const currentPassword = event.target[0].value;
-        const password1 = event.target[1].value;
-        const password2 = event.target[2].value;
+        const currentPassword = event.currentTarget[0].value;
+        const password1 = event.currentTarget[1].value;
+        const password2 = event.currentTarget[2].value;
         if (password1 !== password2) {
             alert('passwords must match');
         } else {
@@ -129,7 +129,7 @@ export default function Settings(): ReactElement {
     const updateField = (event: any) => {
         setNewVals({
             ...newVals,
-            [event.target.name]: event.target.value,
+            [event.currentTarget.name]: event.currentTarget.value,
         });
     };
 

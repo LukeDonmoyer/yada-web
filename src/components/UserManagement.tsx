@@ -15,7 +15,7 @@ import {
     registerUser,
 } from '../scripts/Datastore';
 import AuthCheck from './Control/AuthCheck';
-import { ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import ReactDataGrid from '@inovua/reactdatagrid-community';
 import '@inovua/reactdatagrid-community/index.css';
 import { useSelector } from 'react-redux';
@@ -158,23 +158,23 @@ export default function UserManagement(): ReactElement {
                         type="text"
                         autoFocus={cellProps.inEdit}
                         value={v}
-                        onBlur={(e) => {
+                        onBlur={() => {
                             cellProps.editProps.onComplete();
                         }}
                         onChange={cellProps.editProps.onChange}
                         onFocus={() => cellProps.editProps.startEdit()}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Escape') {
-                                cellProps.editProps.onCancel(e);
+                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+                            if (event.key === 'Escape') {
+                                cellProps.editProps.onCancel(event);
                             }
-                            if (e.key === 'Enter') {
-                                cellProps.editProps.onComplete(e);
+                            if (event.key === 'Enter') {
+                                cellProps.editProps.onComplete(event);
                             }
-                            if (e.key == 'Tab') {
-                                e.preventDefault();
+                            if (event.key == 'Tab') {
+                                event.preventDefault();
                                 cellProps.editProps.onTabNavigation(
                                     true,
-                                    e.shiftKey ? -1 : 1
+                                    event.shiftKey ? -1 : 1
                                 );
                             }
                         }}

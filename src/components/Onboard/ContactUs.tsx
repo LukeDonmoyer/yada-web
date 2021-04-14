@@ -26,10 +26,10 @@ export default function ContactUs() {
      * Handles state changes on the page.
      * @param func function which updates the associated stateful value.
      */
-    function handleEvent(func: any) {
-        return (event: any) => {
+    function handleEvent(func: (event: string) => void) {
+        return (event: React.ChangeEvent<HTMLInputElement>) => {
             event.preventDefault();
-            func(event.target.value);
+            func(event.currentTarget.value);
         };
     }
 
@@ -37,7 +37,7 @@ export default function ContactUs() {
      * Adds an Email document to the Firestore database.
      * @param event
      */
-    const sendEmail = (event: any) => {
+    const sendEmail = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         createEmailDocument(email, message, 'YADA Contact Us');
         setDialog(true);
