@@ -1,9 +1,9 @@
-import { Channel } from '../../store/FirestoreInterfaces';
+import { Channel } from 'store/FirestoreInterfaces';
 import React, { ReactElement } from 'react';
 import {
     removeKeyFromChannel,
     updateKeyInChannel,
-} from '../../scripts/Datastore';
+} from 'scripts/Datastore';
 import TypeDropdown from './TypeDropdown';
 
 interface KeyTypeProps {

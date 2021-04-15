@@ -12,10 +12,10 @@ import {
     Label,
     Button as ReactButton,
 } from 'reactstrap';
-import Button, { ButtonType } from '../Control/Button';
+import Button, { ButtonType } from 'components/Control/Button';
 
-// import '../../assets/styles.scss';
-// import '../../assets/bootstrap.scss';
+// import 'assets/styles.scss';
+// import 'assets/bootstrap.scss';
 import {
     updateSiteConfig,
     updateEquipmentNotification,

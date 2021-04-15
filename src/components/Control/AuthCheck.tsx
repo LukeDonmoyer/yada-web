@@ -8,7 +8,7 @@ import { Button, Form, Input } from 'reactstrap';
 import {
     sendPasswordResetEmail,
     signInWithEmail,
-} from '../../scripts/Datastore';
+} from 'scripts/Datastore';
 import { Animated } from 'react-animated-css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';

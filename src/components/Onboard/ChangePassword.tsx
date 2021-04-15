@@ -7,8 +7,8 @@ import { changePassword, getUserData } from 'scripts/Datastore';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Input } from 'reactstrap';
-import { RootState } from '../../store/rootReducer';
-import AuthCheck from '../Control/AuthCheck';
+import { RootState } from 'store/rootReducer';
+import AuthCheck from 'components/Control/AuthCheck';
 import { Animated } from 'react-animated-css';
 
 export default function ChangePassword() {

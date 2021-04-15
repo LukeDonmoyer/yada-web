@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { SiteObject } from '../../store/FirestoreInterfaces';
+import { SiteObject } from 'store/FirestoreInterfaces';
 import Statistic from './Statistic';
 import { Link } from 'react-router-dom';
 import SiteLatestFaultTable from './SiteLatestFaultTable';

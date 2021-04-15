@@ -2,7 +2,7 @@ import { Data, Headers } from 'react-csv/components/CommonPropTypes';
 import { ReactElement, useRef, useState } from 'react';
 import { CSVLink } from 'react-csv';
 import Button, { ButtonType } from './Button';
-import downloadIcon from '../../assets/icons/download.svg';
+import downloadIcon from 'assets/icons/download.svg';
 
 interface CsvDownloadButtonProps {
     // Label for the button

@@ -25,6 +25,27 @@ import { timestampToDate } from 'scripts/DataTransformer';
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 10;
 
+const statuses = [
+    { id: 'disabled', label: 'DISABLED'},
+    { id: 'active', label: 'ACTIVE'},
+    { id: 'inactive', label: 'INACTIVE'},
+];
+
+/**
+ * Computes the "status" of the given logger based on when data was last received.
+ * @param {LoggerObject} logger for which to compute the status
+ * @returns {string} string indicating the status of the logger
+ */
+export function computeLoggerStatus(logger: LoggerObject): string {
+    if (!logger.collectingData) return statuses[0].label;
+    if (logger.data.length === 0) return statuses[2].label;
+
+    const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1].timestamp);
+    const difference: number = new Date().getDay() - loggerTime.getDay();
+
+    return difference > 1 ? statuses[1].label : statuses[2].label;
+}
+
 export default function SiteEquipmentTab(): ReactElement {
     const location = useLocation();
     const siteID = location.pathname.split('/')[3];
@@ -35,24 +56,6 @@ export default function SiteEquipmentTab(): ReactElement {
     const csvHeaders: string[] = [];
     const [redirect, changeRedirect] = useState('');
 
-    const statuses = [
-        { id: 'disabled', label: 'DISABLED'},
-        { id: 'active', label: 'ACTIVE'},
-        { id: 'inactive', label: 'INACTIVE'},
-    ];
-
-    // Computes the status type for the given logger
-    const computeStatus = (logger: LoggerObject) => {
-
-        if (!logger.collectingData) return statuses[0].label;
-        if (logger.data.length === 0) return statuses[2].label;
-
-        const loggerTime: Date = timestampToDate(logger.data[logger.data.length-1].timestamp);
-        const difference: number = new Date().getDay() - loggerTime.getDay();
-
-        return difference > 1 ? statuses[1].label : statuses[2].label;
-    }
-
     // Creates list of logger statuses for given equipment unit
     const loggerStatus = (unit: EquipmentUnit) => {
         let loggerStatuses: ReactElement[] = [];
@@ -62,7 +65,7 @@ export default function SiteEquipmentTab(): ReactElement {
 
             if (logger)
                 loggerStatuses.push(
-                    <li>{logger.name !== "" ? logger.name : "<logger.name>"}: <b>{computeStatus(logger)}</b></li>
+                    <li>{logger.name !== "" ? logger.name : "<logger.name>"}: <b>{computeLoggerStatus(logger)}</b></li>
                 );     
         });
 
