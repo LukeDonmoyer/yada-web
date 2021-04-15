@@ -54,7 +54,7 @@ interface DynamicNavBarProps {
     // title to render
     title: string;
     // callback to perform on button click
-    buttonAction: any;
+    buttonAction: React.MouseEventHandler<HTMLDivElement>;
     // children links to render
     children: ReactElement | ReactElement[];
 }
@@ -66,7 +66,6 @@ interface DynamicNavBarProps {
  */
 export default function DynamicNavbar(props: DynamicNavBarProps) {
     const { path } = useRouteMatch();
-    const privilege = useSelector((state: RootState) => state.auth.privilege);
 
     // creates route for the component passed into it
     function createRoute(child: ReactElement) {

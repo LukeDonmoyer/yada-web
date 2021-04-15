@@ -100,8 +100,8 @@ export function resetRedux() {
 /**
  * creates a new site in the datastore
  */
-export function createNewSite() {
-    requirePrivilegeLevel('Power').then(implementation.createNewSite, () => {
+export function createNewSite(name: string) {
+    requirePrivilegeLevel('Power').then(implementation.createNewSite(name), () => {
         console.error('Innapropriate permissions to create a site');
     });
 }
@@ -358,7 +358,7 @@ export function changeEquipmentName(
         }
     );
 }
-export function updateSiteConfig(siteId: string, siteConfig: any) {
+export function updateSiteConfig(siteId: string, siteConfig: object) {
     requirePrivilegeLevel('Power').then(
         () => {
             implementation.updateSiteConfig(siteId, siteConfig);
@@ -380,7 +380,7 @@ export function updateSiteConfig(siteId: string, siteConfig: any) {
 export function updateEquipmentNotifications(
     uid: string,
     siteId: string,
-    notificationMap: any
+    notificationMap: object
 ) {
     implementation.updateEquipmentNotifications(uid, siteId, notificationMap);
 }

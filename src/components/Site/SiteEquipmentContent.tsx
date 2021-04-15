@@ -53,7 +53,7 @@ export function SiteEquipmentContent({
         (state: RootState) => state.loggers
     );
 
-    var loggerTabs: any = [];
+    var loggerTabs: ReactElement[] = [];
 
     // Dashboard tab
     loggerTabs.push(

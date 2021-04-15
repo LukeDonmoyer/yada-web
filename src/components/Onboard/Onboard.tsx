@@ -30,8 +30,8 @@ function SignInForm() {
 
     const handleLogin = (event: any) => {
         event.preventDefault();
-        const email = event.target[0].value;
-        const password = event.target[1].value;
+        const email = event.currentTarget[0].value;
+        const password = event.currentTarget[1].value;
         signInWithEmail(email, password);
     };
 
@@ -87,7 +87,7 @@ function SignInForm() {
                     id="email"
                     placeholder="email"
                     onChange={(event) => {
-                        updateEmail(event.target.value);
+                        updateEmail(event.currentTarget.value);
                     }}
                 />
                 <Input
