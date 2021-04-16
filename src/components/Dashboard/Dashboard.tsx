@@ -7,7 +7,7 @@
  */
 
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import { RootState } from 'store/rootReducer';
 import React, { ReactElement, useState } from 'react';
 import SearchBar from './SearchBar';
 import SiteCard from './SiteCard';
@@ -15,7 +15,7 @@ import {
     Fault,
     SiteCollection,
     SiteObject,
-} from '../../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import moment from 'moment';
 
 /**

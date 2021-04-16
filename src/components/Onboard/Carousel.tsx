@@ -13,7 +13,7 @@ import {
     CarouselIndicators,
     CarouselCaption,
 } from 'reactstrap';
-import '../assets/bootstrap.scss';
+import 'assets/bootstrap.scss';
 
 /**
  * Images and alt-text for carousel

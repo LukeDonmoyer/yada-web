@@ -13,11 +13,11 @@ import {
     signInWithEmail,
     getUserData,
     sendPasswordResetEmail,
-} from '../../scripts/Datastore';
+} from 'scripts/Datastore';
 
 import AnimatedLogo from './AnimatedLogo';
 
-import { RootState } from '../../store/rootReducer';
+import { RootState } from 'store/rootReducer';
 import Modal from 'components/Control/Modal';
 import { ButtonType, default as CustomButton } from 'components/Control/Button';
 

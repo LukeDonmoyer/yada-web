@@ -2,10 +2,10 @@ import {
     EquipmentUnit,
     Fault,
     SiteObject,
-} from '../../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/rootReducer';
+import { RootState } from 'store/rootReducer';
 import Skeleton from 'react-loading-skeleton';
 
 interface FaultData {

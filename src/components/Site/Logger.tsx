@@ -26,6 +26,7 @@ import {
     LoggerObject,
 } from 'store/FirestoreInterfaces';
 import { RootState } from 'store/rootReducer';
+import { computeLoggerStatus } from 'components/Site/SiteEquipmentTab';
 
 //Default number of items to display per datagrid page.
 const DEFAULT_PAGE_LIMIT = 9;
@@ -254,7 +255,7 @@ export function LoggerInfo({ logger, logger_uid }: LoggerInfoProps) {
             <div className="info">
                 <LoggerInfoItem
                     label="Status"
-                    value={logger.status ? 'active' : 'inactive'}
+                    value={computeLoggerStatus(logger)}
                 />
                 <LoggerInfoItem label="IP" value={logger.ip || '<unknown>'} />
                 <LoggerInfoItem label="MAC" value={logger.mac || '<unknown>'} />

@@ -3,15 +3,15 @@ import {
     Channel,
     ChannelTemplate,
     Script,
-} from '../../store/FirestoreInterfaces';
+} from 'store/FirestoreInterfaces';
 import {
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
 } from 'reactstrap';
-import Button, { ButtonType } from '../Control/Button';
-import Modal from '../Control/Modal';
+import Button, { ButtonType } from 'components/Control/Button';
+import Modal from 'components/Control/Modal';
 import {
     addScriptToTemplate,
     getScriptList,
@@ -19,8 +19,8 @@ import {
     removeScriptFromTemplate,
     updateKeyInChannel,
     uploadScript,
-} from '../../scripts/Datastore';
-import ChannelRow from './ChannelRow';
+} from 'scripts/Datastore';
+import ChannelRow from 'components/ChannelTemplate/ChannelRow';
 
 interface ChannelListProps {
     // The template object to get data from.

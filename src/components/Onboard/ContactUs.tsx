@@ -8,12 +8,12 @@
  */
 import React, { useState } from 'react';
 import { Button, Form, Input } from 'reactstrap';
-import { createEmailDocument } from '../../scripts/Datastore';
+import { createEmailDocument } from 'scripts/Datastore';
 import { Redirect } from 'react-router-dom';
-import CustomButton, { ButtonType } from '../Control/Button';
+import CustomButton, { ButtonType } from 'components/Control/Button';
 
-import "../../assets/styles.scss";
-import "../../assets/bootstrap.scss";
+import "assets/styles.scss";
+import "assets/bootstrap.scss";
 import Modal from 'components/Control/Modal';
 
 export default function ContactUs() {

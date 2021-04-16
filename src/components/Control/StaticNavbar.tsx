@@ -4,7 +4,7 @@
  * creates navbar component that can be developed further to implement both levels of the dynamic side navbar
  */
 
-import { fireAuthSignOut } from '../../scripts/Datastore';
+import { fireAuthSignOut } from 'scripts/Datastore';
 import React, { ReactElement } from 'react';
 import { Link, Route, useLocation, useRouteMatch } from 'react-router-dom';
 
