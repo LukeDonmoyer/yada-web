@@ -10,24 +10,20 @@
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
 import { interpolateHcl, quantize } from "d3-interpolate";
+import { Filter } from "scripts/DataTransformer";
 
 export interface EquipmentDashboardCardProps {
     channel: string;
     channelType: string;
     graphData: any[];
-}
-
-// Not sure if this is necessary, requires more discussion
-function parseFilterToOneThird(filter: string): string {
-  let num: number = Math.ceil(parseInt(filter.charAt(0)) / 3);
-
-  return `${num} ${filter.split(' ')[1]}`;
+    filter: Filter;
 }
 
 export default function DashboardCard({
     channel,
     channelType,
     graphData,
+    filter
 }: EquipmentDashboardCardProps): ReactElement {
 
     // Specifies custom theme properties
@@ -58,16 +54,8 @@ export default function DashboardCard({
         }
     }
 
-  // Count number of empty data arrays
-  // TODO: Refactor this to not be trash
-  let dataEmpty: number = 0;
-  graphData.forEach((d: any) => {
-    if(d.data.length == 0)
-      dataEmpty++;
-  });
-
   // If all data arrays are empty, return a message indicating this to the user
-  if (dataEmpty == graphData.length)
+  if (graphData.length === 0)
     return (
       <div className="card">
         <h2>{channel}</h2>
@@ -96,8 +84,8 @@ export default function DashboardCard({
               reverse: false 
           }}
           axisBottom={{
-              format: '%H:%M',
-              tickValues: 'every 30 minutes',
+              format: filter.format,
+              tickValues: filter.tickValues,
               orient: 'bottom',
               tickSize: 10,
               tickPadding: 5,
