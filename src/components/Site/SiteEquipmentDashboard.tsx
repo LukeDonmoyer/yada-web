@@ -73,7 +73,7 @@ function getChannelsFromLoggers(
 
     for (const logger of loggers) {
 
-        if (logger.channelTemplate === ""){
+        if (!logger.channelTemplate || !channelTemplates[logger.channelTemplate]){
             continue;
         }
 
@@ -142,7 +142,7 @@ export default function EquipmentDashboard({
 
     // Generates the dashboard cards
     channelsOnUnit.forEach((channelType: string, channelName: string) => {
-        if (!(channelName === 'timestamp'))
+        if (channelName !== 'timestamp')
             // Prevent timestamp graph
             dashboardCards.push(
                 <EquipmentDashboardCard
