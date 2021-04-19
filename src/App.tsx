@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import 'assets/tailwind.css';
 import 'assets/styles.scss';
 import Onboard from './components/Onboard/Onboard';
@@ -26,7 +26,6 @@ import settingsIcon from 'assets/icons/settings.svg';
 import usersIcon from 'assets/icons/accountManagement.svg';
 import hvacIcon from 'assets/icons/hvac.svg';
 import {
-    getUserData,
     getUserPrivilege,
     initializeListeners,
     registerAuthChangeCallback,

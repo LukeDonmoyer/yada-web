@@ -9,7 +9,6 @@
 
 import React, { ReactElement } from "react";
 import { ResponsiveLine } from "@nivo/line";
-import { interpolateHcl, quantize } from "d3-interpolate";
 
 export interface EquipmentDashboardCardProps {
     channel: string;

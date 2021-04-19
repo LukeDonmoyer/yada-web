@@ -9,10 +9,8 @@
  * @todo Remove points if timescale is large enough, refactor filter to use useRef, refactor dropdown to not be garbo
  */
 
-import Button, { ButtonType } from 'components/Control/Button';
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
-import { ReactElement, useRef, useState } from 'react';
-import { CSVLink } from 'react-csv';
+import { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,

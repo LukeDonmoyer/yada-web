@@ -170,7 +170,7 @@ export default function UserManagement(): ReactElement {
                             if (event.key === 'Enter') {
                                 cellProps.editProps.onComplete(event);
                             }
-                            if (event.key == 'Tab') {
+                            if (event.key === 'Tab') {
                                 event.preventDefault();
                                 cellProps.editProps.onTabNavigation(
                                     true,
