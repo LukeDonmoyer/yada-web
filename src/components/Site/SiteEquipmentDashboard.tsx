@@ -17,7 +17,8 @@ import {
     DropdownToggle,
 } from 'reactstrap';
 import dataToNivoFormat, {
-    aggregateDataFromLoggers, Filter,
+    aggregateDataFromLoggers,
+    Filter,
 } from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
@@ -67,8 +68,10 @@ function getChannelsFromLoggers(
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-
-        if (logger.channelTemplate === ""){
+        if (
+            !logger.channelTemplate ||
+            !channelTemplates[logger.channelTemplate]
+        ) {
             continue;
         }
 
@@ -108,7 +111,7 @@ function getChannelDataFromLoggers(
     for (const logger of loggers) {
         if (logger.data.some((d: any) => d.hasOwnProperty(channel))) {
             let data: any[] = dataToNivoFormat(logger.data, channel, filter);
-            
+
             if (data.length !== 0)
                 channelData.push({
                     id: logger.name,
@@ -128,7 +131,8 @@ export default function EquipmentDashboard({
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
     let channelsOnUnit: Map<string, string> = new Map(
-        [ // Sorts channels alphabetically
+        [
+            // Sorts channels alphabetically
             ...getChannelsFromLoggers(loggersOnUnit, channelTemplates),
         ].sort((a, b) => String(a[0]).localeCompare(b[0]))
     );
@@ -141,8 +145,8 @@ export default function EquipmentDashboard({
 
     // Generates the dashboard cards
     channelsOnUnit.forEach((channelType: string, channelName: string) => {
-        // Prevent timestamp graph
-        if (!(channelName === 'timestamp'))
+        if (channelName !== 'timestamp')
+            // Prevent timestamp graph
             dashboardCards.push(
                 <EquipmentDashboardCard
                     channel={channelName}
@@ -171,7 +175,7 @@ export default function EquipmentDashboard({
                 {filter.getName()}
             </DropdownItem>
         );
-    }
+    };
 
     return (
         <div className="equipmentDashboard">
@@ -203,22 +207,22 @@ export default function EquipmentDashboard({
                         }}
                     >
                         <DropdownItem header>Time Interval</DropdownItem>
-                            {Object.values(Filter).map(dropdownItem)}
+                        {Object.values(Filter).map(dropdownItem)}
                         <DropdownItem divider />
-                        <DropdownItem onClick={() => setFilter(Filter.HOURS_12)}>
+                        <DropdownItem
+                            onClick={() => setFilter(Filter.HOURS_12)}
+                        >
                             Clear filter
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 <CsvDownloadButton
                     headers={csvHeaders}
-                    filename={
-                        `${
-                            unit?.name ?? ''
-                        }_${new Date()
-                            .toLocaleDateString()
-                            .replace(/\//g, '-')}.csv`
-                    }
+                    filename={`${
+                        unit?.name ?? ''
+                    }_${new Date()
+                        .toLocaleDateString()
+                        .replace(/\//g, '-')}.csv`}
                     createData={() =>
                         aggregateDataFromLoggers(
                             loggersOnUnit,
