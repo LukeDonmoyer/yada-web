@@ -1,9 +1,5 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import {
-    Channel,
-    ChannelTemplate,
-    Script,
-} from 'store/FirestoreInterfaces';
+import { Channel, ChannelTemplate, Script } from 'store/FirestoreInterfaces';
 import {
     Dropdown,
     DropdownItem,
@@ -104,6 +100,7 @@ export default function ChannelList({
                 channel={channel}
                 index={index}
                 templateId={templateId}
+                key={index}
             />
         );
     }

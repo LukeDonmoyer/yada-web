@@ -34,7 +34,11 @@ export default function TypeDropdown({
     }
 
     function createDropDownItem(name: string): ReactElement {
-        return <DropdownItem onClick={selected(name)}>{name}</DropdownItem>;
+        return (
+            <DropdownItem onClick={selected(name)} key={name}>
+                {name}
+            </DropdownItem>
+        );
     }
 
     return (

@@ -18,6 +18,7 @@ import updateLoggersSlice from 'store/LoggerAction';
 import * as fire from './FireConfig';
 import firebase from 'firebase';
 import authSlice, { authPayload } from 'store/FireActions';
+import { rejects } from 'node:assert';
 
 /**
  * -- REQUIRED --
@@ -187,21 +188,22 @@ export function initializeLoggersListener() {
  * creates a new site document in the datastore
  */
 export function createNewSite(name: string) {
-    return () => fire.fireStore
-                    .collection('Sites')
-                    .add({
-                        name: name,
-                        notes: '',
-                        address: '',
-                        userNotifications: {},
-                        equipmentUnits: [],
-                    })
-                    .then(() => {
-                        console.log('Document successfully written!');
-                    })
-                    .catch((error) => {
-                        console.error('Error writing document: ', error);
-                    });
+    return () =>
+        fire.fireStore
+            .collection('Sites')
+            .add({
+                name: name,
+                notes: '',
+                address: '',
+                userNotifications: {},
+                equipmentUnits: [],
+            })
+            .then(() => {
+                console.log('Document successfully written!');
+            })
+            .catch((error) => {
+                console.error('Error writing document: ', error);
+            });
 }
 
 /**
@@ -793,8 +795,32 @@ export function createNewTemplate(template: ChannelTemplate) {
     fire.fireStore.collection('ChannelTemplates').add(template);
 }
 
+/**
+ * Checks if a template is in use. Returns a promise that resolves if the template is not in use, and rejects if it is in use
+ */
 export function deleteTemplate(templateId: string) {
     fire.fireStore.collection('ChannelTemplates').doc(templateId).delete();
+}
+
+export function isTemplateFree(templateId: string): Promise<any> {
+    return fire.fireStore
+        .collection('Loggers')
+        .get()
+        .then((collection) => {
+            return new Promise((resolve, reject) => {
+                let loggers: string[] = [];
+                collection.forEach((doc) => {
+                    if (doc.data().channelTemplate == templateId) {
+                        loggers.push(` ${doc.data().name} ,`);
+                    }
+                });
+                if (loggers.length === 0) {
+                    resolve(true);
+                } else {
+                    reject(loggers);
+                }
+            });
+        });
 }
 
 export function updateTemplateModifiedDate(templateId: string, date: string) {

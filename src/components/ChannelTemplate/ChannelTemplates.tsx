@@ -1,6 +1,5 @@
 /**
  * Dashboard component
- * author: Shaun Jorstad
  *
  * route: '/app/channel-templates'
  * purpose: page that will provide access to manage channel templates
@@ -8,7 +7,9 @@
 
 import React, { ReactElement, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import DynamicNavbar, { DynamicNavLink } from 'components/Control/DynamicNavbar';
+import DynamicNavbar, {
+    DynamicNavLink,
+} from 'components/Control/DynamicNavbar';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { ChannelTemplate } from 'store/FirestoreInterfaces';
