@@ -4,48 +4,57 @@
  * Author: Brendan Ortmann
  */
 
+import DateFilter from '@inovua/reactdatagrid-community/DateFilter';
 import { timeParse } from 'd3-time-format';
 import _ from 'lodash';
+import moment from 'moment';
 import { LoggerObject } from 'store/FirestoreInterfaces';
 
-/**
- * Creates a new Date object based on specified filter
- *
- * TODO: Refactor this to not be trash
- *
- * @param filter is the string containing what we want to filter by
- * @returns a Date object set based on @param filter
- */
-export function parseFilterString(filter: string): Date {
-    let timeVal: Date = new Date();
+/** Class representing a filter. */
+export class Filter {
+    amount: number;
+    unit: moment.unitOfTime.Diff;
+    tickValues: string;
+    format: string;
 
-    switch (filter) {
-        case '5 minutes':
-            timeVal.setMinutes(timeVal.getMinutes() - 5);
-            break;
-        case '15 minutes':
-            timeVal.setMinutes(timeVal.getMinutes() - 15);
-            break;
-        case '1 hour':
-            timeVal.setHours(timeVal.getHours() - 1);
-            break;
-        case '6 hours':
-            timeVal.setHours(timeVal.getHours() - 6);
-            break;
-        case '12 hours':
-            timeVal.setHours(timeVal.getHours() - 12);
-            break;
-        case '1 day':
-            timeVal.setDate(timeVal.getDate() - 1);
-            break;
-        case '1 month':
-            timeVal.setMonth(timeVal.getMonth() - 1);
-            break;
-        default:
-            break;
+    /**
+     * Creates a new Filter
+     * @param {number} amount - the number of units before now
+     * @param {moment.unitOfTime.Diff} unit - the unit of time
+     * @param {string} tickValues - specifies how many ticks to show on the Nivo graph
+     * @param {string} format - the format of the tick values on the Nivo graph
+     */
+    constructor(amount: number, unit: moment.unitOfTime.Diff, tickValues: string, format: string) {
+        this.amount = amount;
+        this.unit = unit;
+        this.tickValues = tickValues;
+        this.format = format;
     }
 
-    return timeVal;
+    static MINUTES_5 = new Filter(5, "minutes", "every 1 minute", '%H:%M');
+    static MINUTES_15 = new Filter(15, "minutes", "every 3 minutes", '%H:%M');
+    static HOURS_1 = new Filter(1, "hour", "every 10 minutes", '%H:%M');
+    static HOURS_6 = new Filter(6, "hours", "every 1 hours", '%H:%M');
+    static HOURS_12 = new Filter(12, "hours", "every 2 hours", '%H:%M');
+    static DAYS_1 = new Filter(1, "days", "every 4 hours", '%H:%M');
+    static MONTHS_1 = new Filter(1, "month", "every 1 week", '%m/%d');
+    static MONTHS_12 = new Filter(12, "months", "every 1 month", '%Y/%m');
+
+    /**
+     * Get the difference between then (defined by amount and unit) and now.
+     * @returns {Date} The date object specifying how far back from now to filter.
+     */
+    getTimeDiff(): Date {
+        return moment().subtract(this.amount, this.unit).toDate();
+    }
+    
+    /**
+     * Get the "name" of this filter.
+     * @returns {string} The amount of units.
+     */
+    getName(): string {
+        return `${this.amount} ${this.unit}`
+    }
 }
 
 /**
@@ -108,7 +117,7 @@ function transformDataPoint(
 export default function dataToNivoFormat(
     data: any[],
     channelName: string,
-    filter: string
+    filter: Filter
 ): any[] {
     let transformedData: any[] = [];
 
@@ -116,7 +125,7 @@ export default function dataToNivoFormat(
         let dataPoint = transformDataPoint(
             d,
             channelName,
-            parseFilterString(filter)
+            filter.getTimeDiff()
         );
 
         if (!_.isEmpty(dataPoint)) transformedData.push(dataPoint);
@@ -137,7 +146,7 @@ export default function dataToNivoFormat(
  */
 export function aggregateDataFromLoggers(
     loggers: LoggerObject[],
-    filter: Date = new Date(0)
+    filter: Date
 ): any[] {
     let data: any[] = [];
 
