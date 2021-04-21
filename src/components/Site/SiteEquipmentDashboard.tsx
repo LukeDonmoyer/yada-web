@@ -5,8 +5,6 @@
  * and a download button to download the filtered data as a CSV file.
  *
  * @author Brendan Ortmann
- *
- * @todo Remove points if timescale is large enough, refactor filter to use useRef, refactor dropdown to not be garbo
  */
 
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
@@ -20,7 +18,7 @@ import {
 } from 'reactstrap';
 import dataToNivoFormat, {
     aggregateDataFromLoggers,
-    parseFilterString,
+    Filter,
 } from 'scripts/DataTransformer';
 import {
     ChannelTemplateCollection,
@@ -70,8 +68,10 @@ function getChannelsFromLoggers(
     let channelsFromLoggers: Map<string, string> = new Map<string, string>();
 
     for (const logger of loggers) {
-
-        if (logger.channelTemplate === ""){
+        if (
+            !logger.channelTemplate ||
+            !channelTemplates[logger.channelTemplate]
+        ) {
             continue;
         }
 
@@ -103,19 +103,23 @@ function getChannelsFromLoggers(
  */
 function getChannelDataFromLoggers(
     channel: string,
-    filter: string,
+    filter: Filter,
     loggers: LoggerObject[]
 ): any[] {
     let channelData: any[] = [];
 
     for (const logger of loggers) {
         if (logger.data.some((d: any) => d.hasOwnProperty(channel))) {
-            channelData.push({
-                id: logger.name,
-                data: dataToNivoFormat(logger.data, channel, filter),
-            });
+            let data: any[] = dataToNivoFormat(logger.data, channel, filter);
+
+            if (data.length !== 0)
+                channelData.push({
+                    id: logger.name,
+                    data: data,
+                });
         }
     }
+
     return channelData;
 }
 
@@ -123,29 +127,31 @@ export default function EquipmentDashboard({
     loggers,
     unit,
 }: EquipmentDashboardProps): ReactElement {
-    // Loggers and channel templates
+    // Logger and channel template variables
     let channelTemplates = useSelector((state: RootState) => state.templates);
     let loggersOnUnit: LoggerObject[] = getLoggersOnUnit(loggers, unit);
     let channelsOnUnit: Map<string, string> = new Map(
         [
+            // Sorts channels alphabetically
             ...getChannelsFromLoggers(loggersOnUnit, channelTemplates),
         ].sort((a, b) => String(a[0]).localeCompare(b[0]))
     );
     let dashboardCards: ReactElement[] = [];
 
-    // Filter
+    // Filter variables
     let [filterDropdown, setFilterDropdown] = useState(false);
-    let [filter, setFilter] = useState('12 hours');
+    let [filter, setFilter] = useState(Filter.HOURS_12);
     const toggleFilterDropdown = () => setFilterDropdown(!filterDropdown);
 
     // Generates the dashboard cards
     channelsOnUnit.forEach((channelType: string, channelName: string) => {
-        if (!(channelName === 'timestamp'))
+        if (channelName !== 'timestamp')
             // Prevent timestamp graph
             dashboardCards.push(
                 <EquipmentDashboardCard
                     channel={channelName}
                     channelType={channelType}
+                    filter={filter}
                     graphData={getChannelDataFromLoggers(
                         channelName,
                         filter,
@@ -161,6 +167,15 @@ export default function EquipmentDashboard({
         .filter((element: string) => element !== 'timestamp')
         .sort();
     csvHeaders.splice(0, 0, 'logger', 'timestamp');
+
+    // Function to generate dropdown items dynamically
+    const dropdownItem = (filter: Filter) => {
+        return (
+            <DropdownItem onClick={() => setFilter(filter)}>
+                {filter.getName()}
+            </DropdownItem>
+        );
+    };
 
     return (
         <div className="equipmentDashboard">
@@ -192,46 +207,26 @@ export default function EquipmentDashboard({
                         }}
                     >
                         <DropdownItem header>Time Interval</DropdownItem>
-                        <DropdownItem onClick={() => setFilter('5 minutes')}>
-                            5 minutes
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('15 minutes')}>
-                            15 minutes
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('1 hour')}>
-                            1 hour
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('6 hours')}>
-                            6 hours
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('12 hours')}>
-                            12 hours
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('1 day')}>
-                            1 day
-                        </DropdownItem>
-                        <DropdownItem onClick={() => setFilter('1 month')}>
-                            1 month
-                        </DropdownItem>
+                        {Object.values(Filter).map(dropdownItem)}
                         <DropdownItem divider />
-                        <DropdownItem onClick={() => setFilter('1 month')}>
+                        <DropdownItem
+                            onClick={() => setFilter(Filter.HOURS_12)}
+                        >
                             Clear filter
                         </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
                 <CsvDownloadButton
                     headers={csvHeaders}
-                    filename={
-                        `${
-                            unit?.name ?? ''
-                        }_${new Date()
-                            .toLocaleDateString()
-                            .replace(/\//g, '-')}.csv`
-                    }
+                    filename={`${
+                        unit?.name ?? ''
+                    }_${new Date()
+                        .toLocaleDateString()
+                        .replace(/\//g, '-')}.csv`}
                     createData={() =>
                         aggregateDataFromLoggers(
                             loggersOnUnit,
-                            parseFilterString(filter)
+                            filter.getTimeDiff()
                         )
                     }
                 />

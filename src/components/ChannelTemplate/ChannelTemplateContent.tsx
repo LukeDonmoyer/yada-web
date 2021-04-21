@@ -3,6 +3,7 @@ import { ChannelTemplate } from 'store/FirestoreInterfaces';
 import ChannelList from './ChannelList';
 import Button, { ButtonType } from 'components/Control/Button';
 import { deleteTemplate } from 'scripts/Datastore';
+import { isTemplateFree } from 'scripts/Datastore';
 
 interface ChannelTemplateContentProps {
     // The template object to get data from.
@@ -23,7 +24,18 @@ export default function ChannelTemplateContent({
                 <Button
                     type={ButtonType.warning}
                     text={'Delete Template'}
-                    onClick={() => deleteTemplate(templateId)}
+                    onClick={() => {
+                        isTemplateFree(templateId).then(
+                            () => {
+                                deleteTemplate(templateId);
+                            },
+                            (loggers) => {
+                                alert(
+                                    `Template is in use. Please remove from: ${loggers}`
+                                );
+                            }
+                        );
+                    }}
                 />
             </div>
             <ChannelList template={template} templateId={templateId} />

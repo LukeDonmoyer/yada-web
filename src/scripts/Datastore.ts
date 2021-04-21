@@ -100,9 +100,12 @@ export function resetRedux() {
  * creates a new site in the datastore
  */
 export function createNewSite(name: string) {
-    requirePrivilegeLevel('Power').then(implementation.createNewSite(name), () => {
-        console.error('Innapropriate permissions to create a site');
-    });
+    requirePrivilegeLevel('Power').then(
+        implementation.createNewSite(name),
+        () => {
+            console.error('Innapropriate permissions to create a site');
+        }
+    );
 }
 
 /**
@@ -498,6 +501,13 @@ export function deleteTemplate(templateId: string) {
             console.error('Inappropriate permissions to remove a template');
         }
     );
+}
+
+/**
+ * Checks if a template is in use. Returns a promise that resolves if the template is not in use, and rejects if it is in use
+ */
+export function isTemplateFree(templateId: string): Promise<any> {
+    return implementation.isTemplateFree(templateId);
 }
 
 export function updateTemplateModifiedDate(templateId: string, date: string) {

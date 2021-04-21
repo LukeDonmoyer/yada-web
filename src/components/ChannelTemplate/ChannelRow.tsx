@@ -149,6 +149,7 @@ export default function ChannelRow({
                             channel={channel}
                             name={name}
                             type={type}
+                            key={name}
                         />
                     ))}
                     <div className={'row'}>
