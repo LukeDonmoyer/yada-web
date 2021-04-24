@@ -4,7 +4,6 @@
 import updateChannelTemplatesSlice from 'store/ChannelTemplateActions';
 import {
     Channel,
-    ChannelKeys,
     ChannelTemplate,
     EquipmentUnit,
     Script,
@@ -665,7 +664,7 @@ export function deleteEquipment(siteID: string, name: string) {
         .then((doc) => {
             if (doc.exists) {
                 let data = doc.data();
-                let equipment = data?.equipmentUnits.filter((unit: any) => {
+                let equipment = data?.equipmentUnits.filter((unit: EquipmentUnit) => {
                     if (unit.name === name) {
                         unit.loggers.forEach((loggerID: string) => {
                             fire.fireStore

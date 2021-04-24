@@ -4,7 +4,7 @@
  * Author: Brendan Ortmann
  */
 
-import React, { FormEvent, ReactElement, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import {
     Form,
     FormGroup,
@@ -25,7 +25,6 @@ import { EquipmentUnit, SiteObject } from 'store/FirestoreInterfaces';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import { ToggleSwitch } from 'components/Control/ToggleSwitch';
-import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import PrivilegeAssert from 'components/Control/PrivilegeAssert';
 import { isValidName } from 'scripts/DataValidation';

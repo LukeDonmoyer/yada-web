@@ -20,7 +20,6 @@ const firebaseConfig = {
 };
 
 let adminInstance = firebase.initializeApp(firebaseConfig, 'secondary');
-let adminStore = adminInstance.firestore();
 export var adminAuth = adminInstance.auth();
 
 /**
@@ -36,7 +35,7 @@ export function registerUser(userEmail: string): Promise<any> {
             return adminAuth
                 .createUserWithEmailAndPassword(userEmail, 'yadaDefault')
                 .then((user) => {
-                    return new Promise((resolve, reject) => {
+                    return new Promise((resolve) => {
                         resolve(user);
                     });
                 });

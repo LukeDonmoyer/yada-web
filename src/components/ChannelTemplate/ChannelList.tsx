@@ -11,9 +11,6 @@ import Modal from 'components/Control/Modal';
 import {
     addScriptToTemplate,
     getScriptList,
-    removeKeyFromChannel,
-    removeScriptFromTemplate,
-    updateKeyInChannel,
     uploadScript,
 } from 'scripts/Datastore';
 import ChannelRow from 'components/ChannelTemplate/ChannelRow';

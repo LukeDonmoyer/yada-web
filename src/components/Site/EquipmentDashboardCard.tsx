@@ -7,10 +7,9 @@
  * Author: Brendan Ortmann
  */
 
-import React, { ReactElement } from 'react';
-import { ResponsiveLine } from '@nivo/line';
-import { interpolateHcl, quantize } from 'd3-interpolate';
-import { Filter } from 'scripts/DataTransformer';
+import React, { ReactElement } from "react";
+import { ResponsiveLine } from "@nivo/line";
+import { Filter } from "scripts/DataTransformer";
 
 export interface EquipmentDashboardCardProps {
     channel: string;

@@ -8,7 +8,7 @@
  */
 
 import CsvDownloadButton from 'components/Control/CsvDownloadButton';
-import { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
     Dropdown,

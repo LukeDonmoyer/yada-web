@@ -2,9 +2,7 @@
  * Second tier navbar
  */
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, Route, useLocation, useRouteMatch } from 'react-router-dom';
-import { RootState } from 'store/rootReducer';
 import PrivilegeAssert from './PrivilegeAssert';
 interface dynamicNavLink {
     // route this link directs to

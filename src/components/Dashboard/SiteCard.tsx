@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import SiteLatestFaultTable from './SiteLatestFaultTable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
-import logger from 'redux-logger';
 
 interface SiteCardProps {
     // The Site Object to get information from

@@ -6,13 +6,12 @@
  * Author: Brendan Ortmann
  */
 
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/rootReducer';
 import {
     changePassword,
-    deleteUser,
     disableAccount,
     fireAuthSignOut,
     updateUserDoc,

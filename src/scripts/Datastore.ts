@@ -14,7 +14,6 @@ import loggerSlice from 'store/LoggerAction';
 import sitesSlice from 'store/SiteActions';
 import {
     Channel,
-    ChannelKeys,
     ChannelTemplate,
     Script,
 } from 'store/FirestoreInterfaces';

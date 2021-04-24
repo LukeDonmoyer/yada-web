@@ -12,7 +12,6 @@ import React, { ReactElement, useState } from 'react';
 import SearchBar from './SearchBar';
 import SiteCard from './SiteCard';
 import {
-    Fault,
     SiteCollection,
     SiteObject,
 } from 'store/FirestoreInterfaces';
