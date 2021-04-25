@@ -2,7 +2,7 @@
 
 # yada-web
 
-This project is an HVAC system management, analysis, and fault detection application. This repo is the React powered front end dashboard for the aggregated data. The accompanying repo that powers the HVAC loggers can be found here {to be implemented}. Currently similar platforms are extremely expensive. This is not an all inclusive HVAC dashboard solution, the features are listed below.
+This project is an HVAC system management, analysis, and fault detection application. This repo is the React powered front end dashboard for the aggregated data. The accompanying repo that powers the HVAC loggers can be found here [here](https://github.com/Yet-Another-Data-Aggregator/yada-logger). Currently similar platforms are extremely expensive. This is not an all inclusive HVAC dashboard solution, the features are listed below.
 
 ## Features
 
@@ -35,8 +35,5 @@ In depth details on the installation procedure can be found in the wiki
 
 ## Contributing
 
-This repository will not be maintained past April 2021. Any contributions are welcome. 
+This repository will not be maintained past April 2021. Any contributions are welcome including additional datastore implementations. 
 
-### Recommended contributions
-
-- Change firestore datastore implementation to sync only portions of data from loggers/equipments to reduce memory footprint
