@@ -38,9 +38,9 @@ export default function SiteCard({
             //for each logger_uid on the equipment
             unit.loggers.forEach((logger_uid) => {
                 //make sure the logger_uid is defined and not null
-                if(typeof logger_uid !== 'undefined' && logger_uid){
-                    faultCount += loggers[logger_uid]?.faults.length;
-                }                
+                if (typeof logger_uid !== 'undefined' && logger_uid) {
+                    faultCount += loggers[logger_uid]?.faults.length ?? 0;
+                }
             });
         });
 
